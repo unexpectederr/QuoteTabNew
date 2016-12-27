@@ -1,5 +1,6 @@
 package digitalbath.dashboard;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -26,6 +27,8 @@ import com.xgc1986.parallaxPagerTransformer.ParallaxPagerTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import digitalbath.authors.Authors;
 import digitalbath.quotetabnew.R;
 import helpers.AppController;
 import models.dashboard.DashboardData;
@@ -116,7 +119,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                         Glide.with(Dashboard.this).load(R.drawable.dot_selected).into((ImageView) dotsCont.getChildAt(i));
                     else
                         Glide.with(Dashboard.this).load(R.drawable.dot_unselected).into((ImageView) dotsCont.getChildAt(i));
-
                 }
             }
 
@@ -127,13 +129,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     private void getDashboardData() {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AppController.ENDPOINT)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        QuoteTabApi api = retrofit.create(QuoteTabApi.class);
-        Call<DashboardData> call = api.getDashboardData();
+        Call<DashboardData> call = QuoteTabApi.quoteTabApi.getDashboardData();
 
         call.enqueue(new Callback<DashboardData>() {
             @Override
@@ -151,7 +147,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     private void initializePopularAuthors(List<PopularAuthor> popularAuthorsList) {
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.popular_authors);
-
         mRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -200,17 +195,12 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_authors) {
+            Intent i = new Intent(Dashboard.this, Authors.class);
+            startActivity(i);
+        } else if (id == R.id.nav_topics) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_topQuotes) {
 
         }
 
