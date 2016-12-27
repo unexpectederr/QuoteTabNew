@@ -1,8 +1,7 @@
 package digitalbath.authors;
 
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -32,7 +31,7 @@ public class Authors extends AppCompatActivity {
             @Override
             public void onResponse(Call<models.Authors.Authors> call, Response<models.Authors.Authors> response) {
                 ArrayList<Results> authorsList = new ArrayList<>();
-                for (int i = 0; i < response.body().getPopularAuthors().size(); i++){
+                for (int i = 0; i < response.body().getPopularAuthors().size(); i++) {
                     authorsList.addAll(response.body().getPopularAuthors().get(i).getResults());
                 }
                 AuthorsRecyclerViewAdapter adapter = new AuthorsRecyclerViewAdapter(authorsList);
@@ -44,8 +43,5 @@ public class Authors extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 }

@@ -33,16 +33,18 @@ public class AuthorsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         TextView authorName;
         ImageView authorImage;
 
-        public ViewHolderItem(View itemView) {
+        ViewHolderItem(View itemView) {
             super(itemView);
             authorName = (TextView) itemView.findViewById(R.id.author_name);
             authorImage = (ImageView) itemView.findViewById(R.id.author_image);
             for (int i = 0; i < mDataset.size(); i++) {
                 namesList.add(mDataset.get(i).getFields().getName().get(0));
-                //Uvijek mi bude null pointer ovdje!!!
-                //if (mDataset.get(i).getFields().getImageUrl().get(0) != null) {
-                    //imagesList.add(mDataset.get(i).getFields().getImageUrl().get(0));
-                //}
+                if (mDataset.get(i).getFields().getImageUrl() != null) {
+                    imagesList.add(mDataset.get(i).getFields().getImageUrl().get(0));
+                } else {
+                    //Postaviti neku defaultnu sliku kad nema slike autora
+                    imagesList.add(mDataset.get(0).getFields().getImageUrl().get(0));
+                }
             }
         }
     }
@@ -72,7 +74,7 @@ public class AuthorsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
         if (holder instanceof ViewHolderItem) {
             ((ViewHolderItem) holder).authorName.setText(namesList.get(position));
-            //Glide.with(((ViewHolderItem) holder).authorImage.getContext()).load(AppController.IMAGES_URL + imagesList.get(position)).into(((ViewHolderItem) holder).authorImage);
+            Glide.with(((ViewHolderItem) holder).authorImage.getContext()).load(AppController.IMAGES_URL + imagesList.get(position)).into(((ViewHolderItem) holder).authorImage);
         }
     }
 
