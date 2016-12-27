@@ -42,7 +42,7 @@ public class AuthorsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 if (mDataset.get(i).getFields().getImageUrl() != null) {
                     imagesList.add(mDataset.get(i).getFields().getImageUrl().get(0));
                 } else {
-                    //Postaviti neku defaultnu sliku kad nema slike autora
+                    //Postaviti neku defaultnu sliku kad nema slike autora, sad je muhamed ali xD
                     imagesList.add(mDataset.get(0).getFields().getImageUrl().get(0));
                 }
             }
@@ -61,7 +61,7 @@ public class AuthorsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
         //Ovo je planirano za header view
         if (viewType == TYPE_HEADER) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.authors_recyclerview_list_item, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.authors_recyclerview_list_header, parent, false);
             return new ViewHolderItem(v);
         } else {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.authors_recyclerview_list_item, parent, false);

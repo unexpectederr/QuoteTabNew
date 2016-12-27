@@ -24,7 +24,7 @@ public class Authors extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authors);
 
-        authorsRecyclerView = (RecyclerView) findViewById(R.id.AuthorsRecyclerview);
+        authorsRecyclerView = (RecyclerView) findViewById(R.id.authors_recyclerView);
         authorsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         QuoteTabApi.quoteTabApi.getAuthors().enqueue(new Callback<models.Authors.Authors>() {
