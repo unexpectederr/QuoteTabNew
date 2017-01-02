@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import adapters.AuthorsRecyclerViewAdapter;
+import adapters.AuthorsAdapter;
 import digitalbath.quotetabnew.R;
 import models.Authors.Results;
 import networking.QuoteTabApi;
@@ -32,9 +32,16 @@ public class Authors extends AppCompatActivity {
             public void onResponse(Call<models.Authors.Authors> call, Response<models.Authors.Authors> response) {
                 ArrayList<Results> authorsList = new ArrayList<>();
                 for (int i = 0; i < response.body().getPopularAuthors().size(); i++) {
+                    Results result = new Results();
+                    result.setIsHeader(true);
+                    result.setLetter(response.body().getPopularAuthors().get(i).getReferences().getLetter());
+                    authorsList.add(result);
                     authorsList.addAll(response.body().getPopularAuthors().get(i).getResults());
+                    for (int j = (authorsList.size() - 12); j < authorsList.size(); j++) {
+                        authorsList.get(j).setSectionFirstPosition(authorsList.size() - 12);
+                    }
                 }
-                AuthorsRecyclerViewAdapter adapter = new AuthorsRecyclerViewAdapter(authorsList);
+                AuthorsAdapter adapter = new AuthorsAdapter(authorsList);
                 authorsRecyclerView.setAdapter(adapter);
             }
 

@@ -9,6 +9,11 @@ import java.util.ArrayList;
 public class Authors {
 
     private ArrayList<Author> popularAuthors;
+    private ArrayList<String> lettersFilters;
+
+    public ArrayList<String> getLettersFilters() {
+        return lettersFilters;
+    }
 
     public ArrayList<Author> getPopularAuthors() {
         return popularAuthors;

@@ -18,6 +18,7 @@ public class Fields {
 
     private ArrayList<String> imageUrl;
         private ArrayList<Integer> quotesCount;
+
     public ArrayList<String> getAuthorId() {
         return authorId;
     }

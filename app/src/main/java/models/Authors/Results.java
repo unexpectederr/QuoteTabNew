@@ -19,6 +19,33 @@ public class Results {
     private String id;
 
     private Fields fields;
+    private boolean isHeader;
+    private int sectionFirstPosition;
+    private String letter;
+
+    public void setLetter(String letter) {
+        this.letter = letter;
+    }
+
+    public String getLetter() {
+        return letter;
+    }
+
+    public int getSectionFirstPosition() {
+        return sectionFirstPosition;
+    }
+
+    public void setSectionFirstPosition(int sectionFirstPosition) {
+        this.sectionFirstPosition = sectionFirstPosition;
+    }
+
+    public boolean isHeader() {
+        return isHeader;
+    }
+
+    public void setIsHeader(boolean header) {
+        isHeader = header;
+    }
 
     public Fields getFields() {
         return fields;

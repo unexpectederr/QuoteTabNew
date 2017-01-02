@@ -9,6 +9,11 @@ import java.util.ArrayList;
 public class Author {
 
     private ArrayList<Results> results;
+    private References references;
+
+    public References getReferences() {
+        return references;
+    }
 
     public ArrayList<Results> getResults() {
         return results;
