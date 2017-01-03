@@ -1,6 +1,6 @@
 package networking;
 
-import models.Authors.Authors;
+import models.authors.Authors;
 import models.dashboard.DashboardData;
 import retrofit2.Call;
 import retrofit2.Retrofit;

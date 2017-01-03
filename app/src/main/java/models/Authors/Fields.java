@@ -1,4 +1,4 @@
-package models.Authors;
+package models.authors;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -11,13 +11,12 @@ public class Fields {
 
     private ArrayList<String> name;
     private ArrayList<String> authorId;
+    private ArrayList<String> imageUrl;
+    private ArrayList<Integer> quotesCount;
 
     @SerializedName("profession.name")
-    private
-    ArrayList<String> professionName;
+    private ArrayList<String> professionName;
 
-    private ArrayList<String> imageUrl;
-        private ArrayList<Integer> quotesCount;
 
     public ArrayList<String> getAuthorId() {
         return authorId;

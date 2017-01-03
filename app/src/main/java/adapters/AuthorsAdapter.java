@@ -1,102 +1,112 @@
 package adapters;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-import com.tonicartos.superslim.GridSLM;
-import com.tonicartos.superslim.LayoutManager;
-import com.tonicartos.superslim.LinearSLM;
-
-import java.util.ArrayList;
-
+import org.zakariya.stickyheaders.SectioningAdapter;
 import digitalbath.quotetabnew.R;
 import helpers.AppController;
-import models.Authors.Results;
+import models.authors.Authors;
 
 /**
  * Created by Spaja on 26-Dec-16.
  */
 
-public class AuthorsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AuthorsAdapter extends SectioningAdapter {
 
-    private ArrayList<Results> mDataset;
-    private static final int TYPE_ITEM = 0;
-    private static final int TYPE_HEADER = 1;
+    private Authors mDataset;
+    private int numberOfSections;
+    private int numberOfItems;
 
-    public AuthorsAdapter(ArrayList<Results> mDataSet) {
+    public AuthorsAdapter(Authors mDataSet) {
+        numberOfSections = mDataSet.getPopularAuthors().size();
+        for (int i = 0; i < mDataSet.getPopularAuthors().size(); i++) {
+            numberOfItems = mDataSet.getPopularAuthors().get(i).getResults().size();
+        }
         this.mDataset = mDataSet;
     }
 
-    private class ViewHolderItem extends RecyclerView.ViewHolder {
+    private class ItemViewHolder extends SectioningAdapter.ItemViewHolder {
 
         TextView authorName;
         ImageView authorImage;
 
-        ViewHolderItem(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
             authorName = (TextView) itemView.findViewById(R.id.author_name);
             authorImage = (ImageView) itemView.findViewById(R.id.author_image);
         }
-
-        void setLayoutParams(LayoutManager.LayoutParams params) {
-            itemView.setLayoutParams(params);
-        }
-
-        LayoutManager.LayoutParams getLayoutParams() {
-            return LayoutManager.LayoutParams.from(itemView.getLayoutParams());
-        }
     }
 
-    private class ViewHolderHeader extends RecyclerView.ViewHolder {
+    private class HeaderViewHolder extends SectioningAdapter.HeaderViewHolder {
 
         TextView header;
 
-        public ViewHolderHeader(View itemView) {
+        HeaderViewHolder(View itemView) {
             super(itemView);
             header = (TextView) itemView.findViewById(R.id.header);
         }
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v;
-        if (viewType == TYPE_HEADER) {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.authors_recyclerview_list_header, parent, false);
-        } else {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.authors_recyclerview_list_item, parent, false);
+    public int getNumberOfSections() {
+        return numberOfSections;
+    }
+
+    @Override
+    public int getNumberOfItemsInSection(int sectionIndex) {
+        return numberOfItems;
+    }
+
+    @Override
+    public boolean doesSectionHaveHeader(int sectionIndex) {
+        return true;
+    }
+
+    @Override
+    public boolean doesSectionHaveFooter(int sectionIndex) {
+        return false;
+    }
+
+    @Override
+    public ItemViewHolder onCreateItemViewHolder(ViewGroup parent, int itemType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v = inflater.inflate(R.layout.authors_recyclerview_list_item, parent, false);
+        return new ItemViewHolder(v);
+    }
+
+    @Override
+    public HeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent, int headerType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v = inflater.inflate(R.layout.authors_recyclerview_list_header, parent, false);
+        return new HeaderViewHolder(v);
+    }
+
+    @Override
+    public void onBindItemViewHolder(SectioningAdapter.ItemViewHolder viewHolder, int sectionIndex, int itemIndex, int itemType) {
+        ItemViewHolder ivh = (ItemViewHolder) viewHolder;
+        if (!mDataset.getPopularAuthors().get(sectionIndex).getResults().get(itemIndex).isHeader()) {
+            ivh.authorName.setText(mDataset.getPopularAuthors().get(sectionIndex).getResults().get(itemIndex).getFields().getName().get(0));
+            if (mDataset.getPopularAuthors().get(sectionIndex).getResults().get(itemIndex).getFields().getImageUrl() != null) {
+                Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
+                        .load(AppController.IMAGES_URL + mDataset.getPopularAuthors().get(sectionIndex).getResults().get(itemIndex).getFields().getImageUrl().get(0))
+                        .placeholder(R.drawable.avatar)
+                        .into(((ItemViewHolder) viewHolder).authorImage);
+            } else {
+                Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
+                        .load(R.drawable.avatar)
+                        .into(((ItemViewHolder) viewHolder).authorImage);
+            }
         }
-        return new ViewHolderItem(v);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        if (mDataset.get(position).getFields().getImageUrl() != null) {
-            ((ViewHolderItem) holder).authorName.setText(mDataset.get(position).getFields().getName().get(0));
-            Glide.with(((ViewHolderItem) holder).authorImage.getContext())
-                    .load(AppController.IMAGES_URL + mDataset.get(position).getFields().getImageUrl().get(0))
-                    .placeholder(R.drawable.avatar)
-                    .into(((ViewHolderItem) holder).authorImage);
-            final LayoutManager.LayoutParams params = ((ViewHolderItem) holder).getLayoutParams();
-            params.setSlm(GridSLM.ID);
-            params.headerDisplay = LayoutManager.LayoutParams.HEADER_STICKY;
-            params.setFirstPosition(mDataset.get(position).getSectionFirstPosition());
-            ((ViewHolderItem) holder).setLayoutParams(params);
-        }
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return mDataset.get(position).isHeader() ? TYPE_HEADER : TYPE_ITEM;
-    }
-
-    @Override
-    public int getItemCount() {
-        return mDataset.size();
+    public void onBindHeaderViewHolder(SectioningAdapter.HeaderViewHolder viewHolder, int sectionIndex, int headerType) {
+        HeaderViewHolder hvh = (HeaderViewHolder) viewHolder;
+        hvh.itemView.setBackgroundColor(0x55ffffff);
+        hvh.header.setText(mDataset.getPopularAuthors().get(sectionIndex).getReferences().getLetter());
     }
 }
