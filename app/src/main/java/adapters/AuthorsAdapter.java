@@ -5,8 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
+
 import org.zakariya.stickyheaders.SectioningAdapter;
+
 import digitalbath.quotetabnew.R;
 import helpers.AppController;
 import models.authors.Authors;
@@ -19,12 +22,12 @@ public class AuthorsAdapter extends SectioningAdapter {
 
     private Authors mDataset;
     private int numberOfSections;
-    private int numberOfItems;
+    private int numberOfItemsInSection;
 
     public AuthorsAdapter(Authors mDataSet) {
         numberOfSections = mDataSet.getPopularAuthors().size();
         for (int i = 0; i < mDataSet.getPopularAuthors().size(); i++) {
-            numberOfItems = mDataSet.getPopularAuthors().get(i).getResults().size();
+            numberOfItemsInSection = mDataSet.getPopularAuthors().get(i).getResults().size();
         }
         this.mDataset = mDataSet;
     }
@@ -58,7 +61,7 @@ public class AuthorsAdapter extends SectioningAdapter {
 
     @Override
     public int getNumberOfItemsInSection(int sectionIndex) {
-        return numberOfItems;
+        return numberOfItemsInSection;
     }
 
     @Override
@@ -88,18 +91,17 @@ public class AuthorsAdapter extends SectioningAdapter {
     @Override
     public void onBindItemViewHolder(SectioningAdapter.ItemViewHolder viewHolder, int sectionIndex, int itemIndex, int itemType) {
         ItemViewHolder ivh = (ItemViewHolder) viewHolder;
-        if (!mDataset.getPopularAuthors().get(sectionIndex).getResults().get(itemIndex).isHeader()) {
-            ivh.authorName.setText(mDataset.getPopularAuthors().get(sectionIndex).getResults().get(itemIndex).getFields().getName().get(0));
-            if (mDataset.getPopularAuthors().get(sectionIndex).getResults().get(itemIndex).getFields().getImageUrl() != null) {
-                Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
-                        .load(AppController.IMAGES_URL + mDataset.getPopularAuthors().get(sectionIndex).getResults().get(itemIndex).getFields().getImageUrl().get(0))
-                        .placeholder(R.drawable.avatar)
-                        .into(((ItemViewHolder) viewHolder).authorImage);
-            } else {
-                Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
-                        .load(R.drawable.avatar)
-                        .into(((ItemViewHolder) viewHolder).authorImage);
-            }
+
+        ivh.authorName.setText(mDataset.getPopularAuthors().get(sectionIndex).getResults().get(itemIndex).getFields().getName().get(0));
+        if (mDataset.getPopularAuthors().get(sectionIndex).getResults().get(itemIndex).getFields().getImageUrl() != null) {
+            Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
+                    .load(AppController.IMAGES_URL + mDataset.getPopularAuthors().get(sectionIndex).getResults().get(itemIndex).getFields().getImageUrl().get(0))
+                    .placeholder(R.drawable.avatar)
+                    .into(((ItemViewHolder) viewHolder).authorImage);
+        } else {
+            Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
+                    .load(R.drawable.avatar)
+                    .into(((ItemViewHolder) viewHolder).authorImage);
         }
     }
 
