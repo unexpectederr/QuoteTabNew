@@ -1,4 +1,4 @@
-package models.Authors;
+package models.authors;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -22,7 +22,10 @@ public class Fields {
     }
 
     public String getImageUrl() {
-        return imageUrl.get(0);
+        if (imageUrl != null)
+            return imageUrl.get(0);
+        else
+            return "";
     }
 
     public String getName() {

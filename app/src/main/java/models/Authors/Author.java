@@ -1,4 +1,4 @@
-package models.Authors;
+package models.authors;
 
 import com.google.gson.annotations.SerializedName;
 

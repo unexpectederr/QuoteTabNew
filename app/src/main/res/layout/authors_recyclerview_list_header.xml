@@ -1,7 +1,8 @@
 <TextView
-    android:id="@+id/name"
+    android:id="@+id/header"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:textColor="@color/colorPrimary"
-    android:gravity="center"/>
+    android:gravity="center"
+    android:textAllCaps="true"/>

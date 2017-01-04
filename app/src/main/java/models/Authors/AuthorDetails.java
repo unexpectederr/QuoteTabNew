@@ -1,8 +1,7 @@
-package models.Authors;
+package models.authors;
 
 import com.google.gson.annotations.SerializedName;
 
-import models.Authors.Fields;
 
 /**
  * Created by Spaja on 26-Dec-16.

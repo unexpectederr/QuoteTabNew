@@ -1,4 +1,4 @@
-package models.Authors;
+package models.authors;
 
 /**
  * Created by Spaja on 27-Dec-16.
