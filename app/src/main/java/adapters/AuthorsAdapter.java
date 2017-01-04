@@ -90,6 +90,7 @@ public class AuthorsAdapter extends SectioningAdapter {
 
     @Override
     public void onBindItemViewHolder(SectioningAdapter.ItemViewHolder viewHolder, int sectionIndex, int itemIndex, int itemType) {
+
         ItemViewHolder ivh = (ItemViewHolder) viewHolder;
 
         ivh.authorName.setText(mDataset.getPopularAuthors().get(sectionIndex).getResults().get(itemIndex).getFields().getName().get(0));
