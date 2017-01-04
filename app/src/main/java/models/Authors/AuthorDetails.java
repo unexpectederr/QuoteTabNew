@@ -7,7 +7,7 @@ import models.Authors.Fields;
 /**
  * Created by Spaja on 26-Dec-16.
  */
-public class Results {
+public class AuthorDetails {
 
     @SerializedName("_index")
     private String index;
