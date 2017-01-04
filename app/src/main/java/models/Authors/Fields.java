@@ -11,32 +11,30 @@ public class Fields {
 
     private ArrayList<String> name;
     private ArrayList<String> authorId;
+    private ArrayList<Integer> quotesCount;
+    private ArrayList<String> imageUrl;
 
     @SerializedName("profession.name")
-    private
-    ArrayList<String> professionName;
+    private ArrayList<String> professionName;
 
-    private ArrayList<String> imageUrl;
-        private ArrayList<Integer> quotesCount;
-
-    public ArrayList<String> getAuthorId() {
-        return authorId;
+    public String getAuthorId() {
+        return authorId.get(0);
     }
 
-    public ArrayList<String> getImageUrl() {
-        return imageUrl;
+    public String getImageUrl() {
+        return imageUrl.get(0);
     }
 
-    public ArrayList<String> getName() {
-        return name;
+    public String getName() {
+        return name.get(0);
     }
 
-    public ArrayList<String> getProfessionName() {
-        return professionName;
+    public String getProfessionName() {
+        return professionName.get(0);
     }
 
-    public ArrayList<Integer> getQuotesCount() {
-        return quotesCount;
+    public int getQuotesCount() {
+        return quotesCount.get(0);
     }
 }
 

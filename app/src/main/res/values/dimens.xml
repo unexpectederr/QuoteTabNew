@@ -19,5 +19,6 @@
     <dimen name="dot_dimen">9dp</dimen>
     <dimen name="dot_margin">6dp</dimen>
 
+    <dimen name="grid_column_width">96dp</dimen>
 
 </resources>

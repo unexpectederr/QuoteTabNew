@@ -1,5 +1,7 @@
 package models.Authors;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 /**
@@ -8,14 +10,17 @@ import java.util.ArrayList;
 
 public class Author {
 
-    private ArrayList<Results> results;
+    @SerializedName("results")
+    private ArrayList<AuthorDetails> authors;
+
+    @SerializedName("references")
     private References references;
 
     public References getReferences() {
         return references;
     }
 
-    public ArrayList<Results> getResults() {
-        return results;
+    public ArrayList<AuthorDetails> getAuthors() {
+        return authors;
     }
 }

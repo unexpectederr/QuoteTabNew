@@ -1,6 +1,6 @@
 package networking;
 
-import models.Authors.Authors;
+import models.Authors.PopularAuthors;
 import models.dashboard.DashboardData;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -19,7 +19,7 @@ public interface QuoteTabApi {
     Call<DashboardData> getDashboardData();
 
     @GET("api/v1.0/authors")
-            Call<Authors> getAuthors();
+            Call<PopularAuthors> getAuthors();
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(ENDPOINT)

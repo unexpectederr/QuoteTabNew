@@ -1,5 +1,7 @@
 package models.Authors;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 /**
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 
 public class PopularAuthors {
 
+    @SerializedName("popularAuthors")
     private ArrayList<Author> popularAuthors;
 
     public ArrayList<Author> getPopularAuthors() {
