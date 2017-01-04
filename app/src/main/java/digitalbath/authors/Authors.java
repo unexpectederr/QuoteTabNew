@@ -3,9 +3,13 @@ package digitalbath.authors;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
+
 import adapters.AuthorsAdapter;
 import digitalbath.quotetabnew.R;
+
+import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
+
+import models.authors.PopularAuthors;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,15 +27,15 @@ public class Authors extends AppCompatActivity {
         authorsRecyclerView = (RecyclerView) findViewById(R.id.authors_recyclerView);
         authorsRecyclerView.setLayoutManager(new StickyHeaderLayoutManager());
 
-        QuoteTabApi.quoteTabApi.getAuthors().enqueue(new Callback<models.authors.Authors>() {
+        QuoteTabApi.quoteTabApi.getAuthors().enqueue(new Callback<PopularAuthors>() {
             @Override
-            public void onResponse(Call<models.authors.Authors> call, Response<models.authors.Authors> response) {
+            public void onResponse(Call<PopularAuthors> call, Response<PopularAuthors> response) {
                 AuthorsAdapter adapter = new AuthorsAdapter(response.body());
                 authorsRecyclerView.setAdapter(adapter);
             }
 
             @Override
-            public void onFailure(Call<models.authors.Authors> call, Throwable t) {
+            public void onFailure(Call<PopularAuthors> call, Throwable t) {
 
             }
         });
