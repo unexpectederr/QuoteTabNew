@@ -1,7 +1,6 @@
 package digitalbath.dashboard;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,10 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -30,7 +25,6 @@ import java.util.List;
 
 import digitalbath.authors.Authors;
 import digitalbath.quotetabnew.R;
-import helpers.AppController;
 import models.dashboard.DashboardData;
 import models.dashboard.DashboardItem;
 import models.dashboard.PopularAuthor;
@@ -38,8 +32,6 @@ import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

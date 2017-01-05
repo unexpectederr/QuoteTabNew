@@ -3,12 +3,9 @@ package digitalbath.authors;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-
 import adapters.AuthorsAdapter;
 import digitalbath.quotetabnew.R;
-
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
-
 import models.authors.PopularAuthors;
 import networking.QuoteTabApi;
 import retrofit2.Call;
@@ -30,7 +27,7 @@ public class Authors extends AppCompatActivity {
         QuoteTabApi.quoteTabApi.getAuthors().enqueue(new Callback<PopularAuthors>() {
             @Override
             public void onResponse(Call<PopularAuthors> call, Response<PopularAuthors> response) {
-                AuthorsAdapter adapter = new AuthorsAdapter(response.body());
+                AuthorsAdapter adapter = new AuthorsAdapter(response.body(), Authors.this);
                 authorsRecyclerView.setAdapter(adapter);
             }
 

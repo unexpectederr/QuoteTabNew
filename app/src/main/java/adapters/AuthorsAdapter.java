@@ -1,31 +1,35 @@
 package adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import digitalbath.quotetabnew.R;
 import com.bumptech.glide.Glide;
 import org.zakariya.stickyheaders.SectioningAdapter;
+import digitalbath.quotetabnew.R;
 import helpers.AppController;
 import models.authors.PopularAuthors;
+import digitalbath.authors.AuthorDetails;
 
 /**
  * Created by Spaja on 26-Dec-16.
  */
-
 
 public class AuthorsAdapter extends SectioningAdapter {
 
     private PopularAuthors mDataSet;
     private int numberOfSections;
     private int numberOfItemsInSection;
+    private Context context;
 
-    public AuthorsAdapter(PopularAuthors mDataSet) {
+    public AuthorsAdapter(PopularAuthors mDataSet, Context context) {
+
+        this.context = context;
 
         numberOfSections = mDataSet.getPopularAuthors().size();
-
         for (int i = 0; i < mDataSet.getPopularAuthors().size(); i++) {
             numberOfItemsInSection = mDataSet.getPopularAuthors().get(i).getAuthors().size();
         }
@@ -97,15 +101,17 @@ public class AuthorsAdapter extends SectioningAdapter {
         ItemViewHolder ivh = (ItemViewHolder) viewHolder;
 
         ivh.authorName.setText(mDataSet.getPopularAuthors().get(sectionIndex).getAuthors()
-                .get(itemIndex).getFields().getName());
+                .get(itemIndex).getAuthorFields().getName());
 
         Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
                     .load(AppController.IMAGES_URL + mDataSet.getPopularAuthors()
-                            .get(sectionIndex).getAuthors().get(itemIndex).getFields().getImageUrl())
+                            .get(sectionIndex).getAuthors().get(itemIndex).getAuthorFields().getImageUrl())
                     .placeholder(R.drawable.avatar)
                     .error(R.drawable.avatar)
                     .into(((ItemViewHolder) viewHolder).authorImage);
 
+        ivh.itemView.setOnClickListener(new OnAuthorClickListener(mDataSet.getPopularAuthors()
+                .get(sectionIndex).getAuthors().get(itemIndex).getId()));
     }
 
     @Override
@@ -117,4 +123,19 @@ public class AuthorsAdapter extends SectioningAdapter {
         hvh.header.setText(mDataSet.getPopularAuthors().get(sectionIndex).getReferences().getLetter());
     }
 
+    private class OnAuthorClickListener implements View.OnClickListener{
+
+        String authorID;
+
+        OnAuthorClickListener(String authorID) {
+            this.authorID = authorID;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent i = new Intent(context, AuthorDetails.class);
+            i.putExtra("AUTHOR_ID", authorID);
+            context.startActivity(i);
+        }
+    }
 }

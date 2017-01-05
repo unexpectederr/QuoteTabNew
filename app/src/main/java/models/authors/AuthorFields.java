@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by Spaja on 26-Dec-16.
  */
-public class Fields {
+public class AuthorFields {
 
     private ArrayList<String> name;
     private ArrayList<String> authorId;
