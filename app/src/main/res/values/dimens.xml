@@ -20,5 +20,7 @@
     <dimen name="dot_margin">6dp</dimen>
 
     <dimen name="grid_column_width">96dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 
 </resources>
