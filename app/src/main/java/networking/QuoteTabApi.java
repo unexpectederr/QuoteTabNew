@@ -1,11 +1,13 @@
 package networking;
 
 import models.authors.PopularAuthors;
+import models.authors.Quotes;
 import models.dashboard.DashboardData;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * Created by unexpected_err on 17/10/2016.
@@ -20,6 +22,9 @@ public interface QuoteTabApi {
 
     @GET("api/v1.0/authors")
     Call<PopularAuthors> getAuthors();
+
+    @GET("api/v1.0/quotes/{authorID}")
+            Call<Quotes> getQuotes(@Path("authorID") String authorID);
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(ENDPOINT)

@@ -12,10 +12,10 @@ public class AuthorDetails {
     private String id;
 
     @SerializedName("fields")
-    private Fields fields;
+    private AuthorFields authorFields;
 
-    public Fields getFields() {
-        return fields;
+    public AuthorFields getAuthorFields() {
+        return authorFields;
     }
 
     public String getId() {
