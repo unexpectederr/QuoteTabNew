@@ -11,7 +11,14 @@ import java.util.ArrayList;
 public class Quotes {
 
     @SerializedName("quotes")
-    ArrayList<Quote> quotes;
+    private ArrayList<Quote> quotes;
+
+    @SerializedName("authorDetails")
+    private AuthorDetailsFromQuote authorDetailsFromQuote;
+
+    public AuthorDetailsFromQuote getAuthorDetailsFromQuote() {
+        return authorDetailsFromQuote;
+    }
 
     public ArrayList<Quote> getQuotes() {
         return quotes;
