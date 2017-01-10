@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Quote {
 
     @SerializedName("fields")
-    QuoteFields quoteDetails;
+    private QuoteFields quoteDetails;
 
     public QuoteFields getQuoteDetails() {
         return quoteDetails;

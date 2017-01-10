@@ -111,9 +111,7 @@ public class AuthorsAdapter extends SectioningAdapter {
                     .into(((ItemViewHolder) viewHolder).authorImage);
 
         ivh.itemView.setOnClickListener(new OnAuthorClickListener(mDataSet.getPopularAuthors()
-                .get(sectionIndex).getAuthors().get(itemIndex).getId(), mDataSet.getPopularAuthors()
-                .get(sectionIndex).getAuthors().get(itemIndex).getAuthorFields().getName(),
-                mDataSet.getPopularAuthors().get(sectionIndex).getAuthors().get(itemIndex).getAuthorFields().getImageUrl()));
+                .get(sectionIndex).getAuthors().get(itemIndex).getId()));
     }
 
     @Override
@@ -128,21 +126,15 @@ public class AuthorsAdapter extends SectioningAdapter {
     private class OnAuthorClickListener implements View.OnClickListener{
 
         String authorID;
-        String authorName;
-        String authorImage;
 
-        OnAuthorClickListener(String authorID, String authorName, String authorImage) {
+        OnAuthorClickListener(String authorID) {
             this.authorID = authorID;
-            this.authorName = authorName;
-            this.authorImage = authorImage;
         }
 
         @Override
         public void onClick(View v) {
             Intent i = new Intent(context, AuthorDetails.class);
             i.putExtra("AUTHOR_ID", authorID);
-            i.putExtra("AUTHOR_NAME", authorName);
-            i.putExtra("AUTHOR_IMAGE", authorImage);
             context.startActivity(i);
         }
     }

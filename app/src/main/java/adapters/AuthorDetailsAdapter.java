@@ -81,7 +81,6 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
                     .into(((ViewHolderImage) holder).quoteImageTypeTwo);
 
             ((ViewHolderImage) holder).shareImage.setOnClickListener(new OnShareClickListener());
-
             ((ViewHolderImage) holder).favoriteImage.setOnClickListener(new OnFavoriteClickListener());
 
         } else if (holder instanceof ViewHolderText) {

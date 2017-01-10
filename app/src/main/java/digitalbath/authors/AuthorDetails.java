@@ -11,9 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+
+import org.w3c.dom.Text;
 
 import adapters.AuthorDetailsAdapter;
 import digitalbath.quotetabnew.R;
@@ -31,6 +34,7 @@ public class AuthorDetails extends AppCompatActivity {
     ImageView toolbarAuthorImage;
     CollapsingToolbarLayout collapsingToolbarLayout;
     Toolbar toolbar;
+    TextView bornIn, country, profession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +50,26 @@ public class AuthorDetails extends AppCompatActivity {
 
         authorDetailsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         authorID = getIntent().getStringExtra("AUTHOR_ID");
-        authorName = getIntent().getStringExtra("AUTHOR_NAME");
-        authorImageUrl = getIntent().getStringExtra("AUTHOR_IMAGE");
 
-        collapsingToolbarLayout.setTitle(authorName);
-        Glide.with(this).load(AppController.IMAGES_URL + authorImageUrl).error(R.drawable.avatar).into(toolbarAuthorImage);
 
         QuoteTabApi.quoteTabApi.getQuotes("by-" + authorID).enqueue(new Callback<Quotes>() {
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
+
                 AuthorDetailsAdapter adapter = new AuthorDetailsAdapter(response.body(), AuthorDetails.this);
                 authorDetailsRecyclerView.setAdapter(adapter);
+
+                authorName = response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getAuthorName();
+                collapsingToolbarLayout.setTitle(authorName);
+
+                authorImageUrl = response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getAuthorImageUrl();
+                Glide.with(AuthorDetails.this).load(AppController.IMAGES_URL + authorImageUrl)
+                        .error(R.drawable.avatar).into(toolbarAuthorImage);
+
+                bornIn.setText(response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getBirthplace());
+                profession.setText(response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote()
+                        .getProfession().getProfessionName());
+                country.setText(response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getCountry());
             }
 
             @Override
@@ -72,6 +85,9 @@ public class AuthorDetails extends AppCompatActivity {
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         toolbarAuthorImage = (ImageView) findViewById(R.id.toolbar_author_image);
         authorDetailsRecyclerView = (RecyclerView) findViewById(R.id.author_details_recyclerView);
+        bornIn = (TextView) findViewById(R.id.born_in);
+        profession = (TextView) findViewById(R.id.profession);
+        country = (TextView) findViewById(R.id.country);
     }
 
     public boolean onSupportNavigateUp() {

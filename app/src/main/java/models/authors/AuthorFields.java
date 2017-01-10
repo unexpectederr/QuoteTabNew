@@ -14,6 +14,7 @@ public class AuthorFields {
     private ArrayList<Integer> quotesCount;
     private ArrayList<String> imageUrl;
 
+
     @SerializedName("profession.name")
     private ArrayList<String> professionName;
 
