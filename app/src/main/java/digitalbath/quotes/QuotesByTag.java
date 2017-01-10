@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 
 import adapters.QuotesByTagAdapter;
 import digitalbath.quotetabnew.R;
+import helpers.AppHelper;
+import helpers.Constants;
 import models.authors.Quotes;
 import networking.QuoteTabApi;
 import retrofit2.Call;
@@ -24,7 +26,8 @@ public class QuotesByTag extends AppCompatActivity {
 
         quotesByTagRecycler = (RecyclerView) findViewById(R.id.quotesByTagRecycler);
         quotesByTagRecycler.setLayoutManager(new LinearLayoutManager(this));
-        String TAG = getIntent().getStringExtra("QUOTE_TAG");
+
+        String TAG = getIntent().getStringExtra(Constants.QUOTE_TAG);
 
         QuoteTabApi.quoteTabApi.getQuotesByTag(TAG).enqueue(new Callback<Quotes>() {
             @Override
@@ -35,7 +38,7 @@ public class QuotesByTag extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Quotes> call, Throwable t) {
-                int i = 9;
+                AppHelper.showToast(getResources().getString(R.string.toast_error_message), QuotesByTag.this);
             }
         });
     }

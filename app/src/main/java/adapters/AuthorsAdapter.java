@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
@@ -12,8 +14,10 @@ import org.zakariya.stickyheaders.SectioningAdapter;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
 import helpers.AppController;
+import helpers.AppHelper;
 import models.authors.PopularAuthors;
 import digitalbath.authors.AuthorDetails;
 
@@ -27,6 +31,7 @@ public class AuthorsAdapter extends SectioningAdapter {
     private int numberOfSections;
     private int numberOfItemsInSection;
     private Context context;
+    private int lastPosition = -1;
 
     public AuthorsAdapter(PopularAuthors mDataSet, Context context) {
 
@@ -42,12 +47,12 @@ public class AuthorsAdapter extends SectioningAdapter {
     private class ItemViewHolder extends SectioningAdapter.ItemViewHolder {
 
         TextView authorName;
-        ImageView authorImage;
+        CircleImageView authorImage;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             authorName = (TextView) itemView.findViewById(R.id.author_name);
-            authorImage = (ImageView) itemView.findViewById(R.id.author_image);
+            authorImage = (CircleImageView) itemView.findViewById(R.id.author_image);
         }
     }
 
@@ -115,6 +120,16 @@ public class AuthorsAdapter extends SectioningAdapter {
 
         ivh.itemView.setOnClickListener(new OnAuthorClickListener(mDataSet.getPopularAuthors()
                 .get(sectionIndex).getAuthors().get(itemIndex).getId()));
+        setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
+    }
+
+    private void setAnimation(View viewToAnimate, int position) {
+
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.abc_slide_in_bottom);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     @Override

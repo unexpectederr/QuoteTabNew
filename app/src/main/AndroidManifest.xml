@@ -26,11 +26,6 @@
         </activity>
         <activity android:name="digitalbath.authors.AuthorDetails">
         </activity>
-        <activity
-            android:name="digitalbath.authors.ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme">
-        </activity>
         <activity android:name="digitalbath.quotes.QuotesByTag">
         </activity>
     </application>
