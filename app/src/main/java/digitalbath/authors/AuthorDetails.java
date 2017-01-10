@@ -52,7 +52,7 @@ public class AuthorDetails extends AppCompatActivity {
         authorID = getIntent().getStringExtra("AUTHOR_ID");
 
 
-        QuoteTabApi.quoteTabApi.getQuotes("by-" + authorID).enqueue(new Callback<Quotes>() {
+        QuoteTabApi.quoteTabApi.getQuotes(authorID).enqueue(new Callback<Quotes>() {
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 

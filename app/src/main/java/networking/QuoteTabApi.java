@@ -23,8 +23,11 @@ public interface QuoteTabApi {
     @GET("api/v1.0/authors")
     Call<PopularAuthors> getAuthors();
 
-    @GET("api/v1.0/quotes/{authorID}")
-            Call<Quotes> getQuotes(@Path("authorID") String authorID);
+    @GET("api/v1.0/quotes/by-{authorID}")
+    Call<Quotes> getQuotes(@Path("authorID") String authorID);
+
+    @GET("api/v1.0/quotes/about-{tag}")
+    Call<Quotes> getQuotesByTag(@Path("tag") String quoteTag);
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(ENDPOINT)

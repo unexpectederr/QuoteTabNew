@@ -34,10 +34,17 @@ public class QuoteFields {
     @SerializedName("photoId")
     private String photoId;
 
+    @SerializedName("categories")
+    private ArrayList<String> categories;
+
     private String thumbnailUrl;
 
     public String getPhotoId() {
         return photoId;
+    }
+
+    public String getCategories() {
+        return categories.get(0);
     }
 
     public String getThumbnailUrl() {

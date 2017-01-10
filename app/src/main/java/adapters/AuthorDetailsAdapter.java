@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
+
+import org.w3c.dom.Text;
+
+import digitalbath.quotes.QuotesByTag;
 import digitalbath.quotetabnew.R;
 import helpers.AppController;
+import helpers.OnFavoriteClickListener;
+import helpers.OnShareClickListener;
+import helpers.OnTagClickListener;
 import models.authors.Quotes;
 
 /**
@@ -35,12 +43,16 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView quoteText;
         ImageView shareText;
         ImageView favoriteText;
+        TextView quoteTag, quoteTag2, quoteTag3;
 
         ViewHolderText(View itemView) {
             super(itemView);
             quoteText = (TextView) itemView.findViewById(R.id.quoteText);
             shareText = (ImageView) itemView.findViewById(R.id.share_icon_text);
             favoriteText = (ImageView) itemView.findViewById(R.id.ic_favorite_text);
+            quoteTag = (TextView) itemView.findViewById(R.id.quoteTag);
+            quoteTag2 = (TextView) itemView.findViewById(R.id.quoteTag2);
+            quoteTag3 = (TextView) itemView.findViewById(R.id.quoteTag3);
         }
     }
 
@@ -80,13 +92,18 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
                     .error(R.drawable.avatar)
                     .into(((ViewHolderImage) holder).quoteImageTypeTwo);
 
-            ((ViewHolderImage) holder).shareImage.setOnClickListener(new OnShareClickListener());
-            ((ViewHolderImage) holder).favoriteImage.setOnClickListener(new OnFavoriteClickListener());
+            ((ViewHolderImage) holder).shareImage.setOnClickListener(new OnShareClickListener(context));
+            ((ViewHolderImage) holder).favoriteImage.setOnClickListener(new OnFavoriteClickListener(context));
 
         } else if (holder instanceof ViewHolderText) {
+
             ((ViewHolderText) holder).quoteText.setText(mDataSet.getQuotes().get(position).getQuoteDetails().getQuoteText());
-            ((ViewHolderText) holder).shareText.setOnClickListener(new OnShareClickListener());
-            ((ViewHolderText) holder).favoriteText.setOnClickListener(new OnFavoriteClickListener());
+            ((ViewHolderText) holder).shareText.setOnClickListener(new helpers.OnShareClickListener(context));
+            ((ViewHolderText) holder).favoriteText.setOnClickListener(new OnFavoriteClickListener(context));
+            String[] tags = mDataSet.getQuotes().get(position).getQuoteDetails().getCategories().split(" ");
+            ((ViewHolderText) holder).quoteTag.setText(tags[0]);
+            ((ViewHolderText) holder).quoteTag.setOnClickListener(
+                    new OnTagClickListener(context, ((ViewHolderText) holder).quoteTag.getText().toString()));
         }
     }
 
@@ -102,21 +119,21 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
         return mDataSet.getQuotes().size();
     }
 
-    //Class for handling quote share clicksa
-    private class OnShareClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(context, "Share this quote", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    //Class for handling quote favorite clicks
-    private class OnFavoriteClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(context, "Favorite this quote", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    //Class for handling quote share clicks
+//    private class OnShareClickListener implements View.OnClickListener {
+//
+//        @Override
+//        public void onClick(View v) {
+//            Toast.makeText(context, "Share this quote", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//    //Class for handling quote favorite clicks
+//    private class OnFavoriteClickListener implements View.OnClickListener {
+//
+//        @Override
+//        public void onClick(View v) {
+//            Toast.makeText(context, "Favorite this quote", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 }
