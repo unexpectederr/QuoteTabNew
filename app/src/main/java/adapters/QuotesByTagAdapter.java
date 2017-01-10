@@ -34,7 +34,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
         TextView quoteText;
         ImageView shareText;
         ImageView favoriteText;
-        TextView quoteTag;
+        TextView quoteTag, quoteTag2, quoteTag3;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -43,6 +43,8 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             shareText = (ImageView) itemView.findViewById(R.id.share_icon_text);
             favoriteText = (ImageView) itemView.findViewById(R.id.ic_favorite_text);
             quoteTag = (TextView) itemView.findViewById(R.id.quoteTag);
+            quoteTag2 = (TextView) itemView.findViewById(R.id.quoteTag2);
+            quoteTag3 = (TextView) itemView.findViewById(R.id.quoteTag3);
         }
     }
 
@@ -57,7 +59,9 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
         holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
         holder.shareText.setOnClickListener(new OnShareClickListener(context));
         holder.favoriteText.setOnClickListener(new OnFavoriteClickListener(context));
-        holder.quoteTag.setText(mDataSet.get(position).getQuoteDetails().getCategories().split(" ")[0]);
+        String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
+
+        holder.quoteTag.setText(tags[0]);
     }
 
     @Override

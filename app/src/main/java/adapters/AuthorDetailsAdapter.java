@@ -18,6 +18,7 @@ import digitalbath.quotetabnew.R;
 import helpers.AppController;
 import helpers.OnFavoriteClickListener;
 import helpers.OnShareClickListener;
+import helpers.OnTagClickListener;
 import models.authors.Quotes;
 
 /**
@@ -42,7 +43,7 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView quoteText;
         ImageView shareText;
         ImageView favoriteText;
-        TextView quoteTag;
+        TextView quoteTag, quoteTag2, quoteTag3;
 
         ViewHolderText(View itemView) {
             super(itemView);
@@ -50,6 +51,8 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
             shareText = (ImageView) itemView.findViewById(R.id.share_icon_text);
             favoriteText = (ImageView) itemView.findViewById(R.id.ic_favorite_text);
             quoteTag = (TextView) itemView.findViewById(R.id.quoteTag);
+            quoteTag2 = (TextView) itemView.findViewById(R.id.quoteTag2);
+            quoteTag3 = (TextView) itemView.findViewById(R.id.quoteTag3);
         }
     }
 
@@ -96,15 +99,10 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((ViewHolderText) holder).quoteText.setText(mDataSet.getQuotes().get(position).getQuoteDetails().getQuoteText());
             ((ViewHolderText) holder).shareText.setOnClickListener(new helpers.OnShareClickListener(context));
             ((ViewHolderText) holder).favoriteText.setOnClickListener(new OnFavoriteClickListener(context));
-            ((ViewHolderText) holder).quoteTag.setText(mDataSet.getQuotes().get(position).getQuoteDetails().getCategories().split(" ") [0]);
-            ((ViewHolderText) holder).quoteTag.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(context, QuotesByTag.class);
-                    i.putExtra("QUOTE_TAG", ((ViewHolderText) holder).quoteTag.getText().toString());
-                    context.startActivity(i);
-                }
-            });
+            String[] tags = mDataSet.getQuotes().get(position).getQuoteDetails().getCategories().split(" ");
+            ((ViewHolderText) holder).quoteTag.setText(tags[0]);
+            ((ViewHolderText) holder).quoteTag.setOnClickListener(
+                    new OnTagClickListener(context, ((ViewHolderText) holder).quoteTag.getText().toString()));
         }
     }
 
