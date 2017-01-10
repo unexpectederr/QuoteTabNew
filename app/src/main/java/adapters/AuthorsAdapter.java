@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import org.zakariya.stickyheaders.SectioningAdapter;
+
+import java.util.ArrayList;
+
 import digitalbath.quotetabnew.R;
 import helpers.AppController;
 import models.authors.PopularAuthors;
@@ -31,7 +34,7 @@ public class AuthorsAdapter extends SectioningAdapter {
 
         numberOfSections = mDataSet.getPopularAuthors().size();
         for (int i = 0; i < mDataSet.getPopularAuthors().size(); i++) {
-            numberOfItemsInSection = mDataSet.getPopularAuthors().get(i).getAuthors().size();
+            numberOfItemsInSection = mDataSet.getPopularAuthors().get(i).getAuthors().size();;
         }
         this.mDataSet = mDataSet;
     }
