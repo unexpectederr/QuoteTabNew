@@ -96,6 +96,7 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((ViewHolderImage) holder).favoriteImage.setOnClickListener(new OnFavoriteClickListener(context));
 
         } else if (holder instanceof ViewHolderText) {
+
             ((ViewHolderText) holder).quoteText.setText(mDataSet.getQuotes().get(position).getQuoteDetails().getQuoteText());
             ((ViewHolderText) holder).shareText.setOnClickListener(new helpers.OnShareClickListener(context));
             ((ViewHolderText) holder).favoriteText.setOnClickListener(new OnFavoriteClickListener(context));

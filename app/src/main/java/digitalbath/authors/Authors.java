@@ -3,9 +3,16 @@ package digitalbath.authors;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+
 import adapters.AuthorsAdapter;
+import digitalbath.quotes.QuotesByTag;
 import digitalbath.quotetabnew.R;
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
+
+import helpers.AppHelper;
 import models.authors.PopularAuthors;
 import networking.QuoteTabApi;
 import retrofit2.Call;
@@ -33,7 +40,7 @@ public class Authors extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<PopularAuthors> call, Throwable t) {
-
+                AppHelper.showToast(getResources().getString(R.string.toast_error_message), Authors.this);
             }
         });
     }
