@@ -14,6 +14,7 @@ import org.zakariya.stickyheaders.SectioningAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
 import helpers.AppController;
+import helpers.Constants;
 import models.authors.PopularAuthors;
 import digitalbath.authors.AuthorDetails;
 
@@ -145,7 +146,7 @@ public class AuthorsAdapter extends SectioningAdapter {
         @Override
         public void onClick(View v) {
             Intent i = new Intent(context, AuthorDetails.class);
-            i.putExtra("AUTHOR_ID", authorID);
+            i.putExtra(Constants.AUTHOR_ID, authorID);
             context.startActivity(i);
         }
     }

@@ -45,41 +45,16 @@
             android:layout_alignBottom="@+id/quoteText"
             android:layout_toLeftOf="@+id/share_icon_text"/>
 
-        <TextView
-            android:id="@+id/quoteTag"
-            android:background="@drawable/button_outline"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_alignParentRight="true"
-            android:padding="2dp"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="12dp"
-            android:layout_width="wrap_content"
-            tools:text="inspirational"
-            android:textColor="@color/cardview_light_background"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/quoteTag2"
-            android:background="@drawable/button_outline"
-            android:layout_toLeftOf="@+id/quoteTag"
-            android:padding="2dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            tools:text="inspirational"
-            android:textColor="@color/cardview_light_background"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/quoteTag3"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/button_outline"
-            android:padding="2dp"
-            android:layout_width="wrap_content"
-            tools:text="inspirational"
-            android:textColor="@color/cardview_light_background"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/quoteTag2"
-            android:layout_toStartOf="@+id/quoteTag2"/>
+            android:gravity="right"
+            android:layout_marginTop="12dp"
+            android:layout_height="50dp"
+            android:id="@+id/quote_tags"
+            android:orientation="horizontal">
+        </LinearLayout>
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
