@@ -127,22 +127,4 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemCount() {
         return mDataSet.getQuotes().size();
     }
-
-//    //Class for handling quote share clicks
-//    private class OnShareClickListener implements View.OnClickListener {
-//
-//        @Override
-//        public void onClick(View v) {
-//            Toast.makeText(context, "Share this quote", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//    //Class for handling quote favorite clicks
-//    private class OnFavoriteClickListener implements View.OnClickListener {
-//
-//        @Override
-//        public void onClick(View v) {
-//            Toast.makeText(context, "Favorite this quote", Toast.LENGTH_SHORT).show();
-//        }
-//    }
 }
