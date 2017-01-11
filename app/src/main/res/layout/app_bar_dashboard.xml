@@ -38,4 +38,18 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/splash_screen"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:layout_height="200dp"
+            android:id="@+id/logo"
+            android:layout_width="200dp"
+            android:layout_centerInParent="true"
+            android:paddingBottom="30dp"/>
+    </RelativeLayout>
+
 </RelativeLayout>

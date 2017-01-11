@@ -2,6 +2,7 @@ package digitalbath.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -13,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,6 +27,7 @@ import java.util.List;
 
 import digitalbath.authors.Authors;
 import digitalbath.quotetabnew.R;
+import helpers.AppHelper;
 import models.dashboard.DashboardData;
 import models.dashboard.DashboardItem;
 import models.dashboard.PopularAuthor;
@@ -62,8 +65,24 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        RelativeLayout splashScreen = (RelativeLayout) findViewById(R.id.splash_screen);
+        ImageView logo = (ImageView) findViewById(R.id.logo);
+        Glide.with(Dashboard.this).load(R.drawable.splash).into(logo);
+        hideSplashScreen(splashScreen);
+
         initializeDashboard();
 
+    }
+
+    private void hideSplashScreen(final RelativeLayout splashScreen) {
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                splashScreen.setVisibility(View.GONE);
+                splashScreen.startAnimation(AppHelper.getAnimationDown(Dashboard.this));
+            }
+        }, 2000);
     }
 
     private void initializeDashboard() {
