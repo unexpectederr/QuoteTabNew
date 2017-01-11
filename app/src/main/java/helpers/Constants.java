@@ -7,4 +7,5 @@ package helpers;
 public class Constants {
 
     public static final String QUOTE_TAG = "QUOTE_TAG";
+    public static final String AUTHOR_ID = "AUTHOR_ID";
 }

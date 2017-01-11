@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import org.zakariya.stickyheaders.SectioningAdapter;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
 import helpers.AppController;
-import helpers.AppHelper;
+import helpers.Constants;
 import models.authors.PopularAuthors;
 import digitalbath.authors.AuthorDetails;
 
@@ -39,7 +38,7 @@ public class AuthorsAdapter extends SectioningAdapter {
 
         numberOfSections = mDataSet.getPopularAuthors().size();
         for (int i = 0; i < mDataSet.getPopularAuthors().size(); i++) {
-            numberOfItemsInSection = mDataSet.getPopularAuthors().get(i).getAuthors().size();;
+            numberOfItemsInSection = mDataSet.getPopularAuthors().get(i).getAuthors().size();
         }
         this.mDataSet = mDataSet;
     }
@@ -152,7 +151,7 @@ public class AuthorsAdapter extends SectioningAdapter {
         @Override
         public void onClick(View v) {
             Intent i = new Intent(context, AuthorDetails.class);
-            i.putExtra("AUTHOR_ID", authorID);
+            i.putExtra(Constants.AUTHOR_ID, authorID);
             context.startActivity(i);
         }
     }

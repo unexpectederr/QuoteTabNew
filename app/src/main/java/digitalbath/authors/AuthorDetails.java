@@ -21,6 +21,7 @@ import org.w3c.dom.Text;
 import adapters.AuthorDetailsAdapter;
 import digitalbath.quotetabnew.R;
 import helpers.AppController;
+import helpers.Constants;
 import models.authors.Quotes;
 import networking.QuoteTabApi;
 import retrofit2.Call;
@@ -49,7 +50,7 @@ public class AuthorDetails extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         authorDetailsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        authorID = getIntent().getStringExtra("AUTHOR_ID");
+        authorID = getIntent().getStringExtra(Constants.AUTHOR_ID);
 
 
         QuoteTabApi.quoteTabApi.getQuotes(authorID).enqueue(new Callback<Quotes>() {

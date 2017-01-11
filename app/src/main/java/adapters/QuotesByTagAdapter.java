@@ -2,17 +2,20 @@ package adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import digitalbath.quotetabnew.R;
-import helpers.OnFavoriteClickListener;
-import helpers.OnShareClickListener;
+import listeners.OnFavoriteClickListener;
+import listeners.OnShareClickListener;
+import listeners.OnTagClickListener;
 import models.authors.Quote;
 
 /**
@@ -34,7 +37,8 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
         TextView quoteText;
         ImageView shareText;
         ImageView favoriteText;
-        TextView quoteTag, quoteTag2, quoteTag3;
+        LinearLayout quoteTags;
+        TextView quoteTag;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -42,9 +46,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             quoteText = (TextView) itemView.findViewById(R.id.quoteText);
             shareText = (ImageView) itemView.findViewById(R.id.share_icon_text);
             favoriteText = (ImageView) itemView.findViewById(R.id.ic_favorite_text);
-            quoteTag = (TextView) itemView.findViewById(R.id.quoteTag);
-            quoteTag2 = (TextView) itemView.findViewById(R.id.quoteTag2);
-            quoteTag3 = (TextView) itemView.findViewById(R.id.quoteTag3);
+            quoteTags = (LinearLayout) itemView.findViewById(R.id.quote_tags);
         }
     }
 
@@ -61,7 +63,21 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
         holder.favoriteText.setOnClickListener(new OnFavoriteClickListener(context));
         String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 
-        holder.quoteTag.setText(tags[0]);
+        for (int i = 0; i < tags.length; i++){
+            if (i < 3) {
+                holder.quoteTag = new TextView(context);
+                holder.quoteTag.setBackgroundResource(R.drawable.button_outline);
+                holder.quoteTag.setText(tags[i]);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                params.setMarginEnd(12);
+                holder.quoteTag.setLayoutParams(params);
+                holder.quoteTag.setGravity(Gravity.CENTER);
+                holder.quoteTag.setTextColor(context.getResources().getColor(R.color.cardview_light_background));
+                holder.quoteTag.setPadding(12, 0, 12, 5);
+                holder.quoteTags.addView(holder.quoteTag);
+                holder.quoteTag.setOnClickListener(new OnTagClickListener(context, holder.quoteTag.getText().toString()));
+            }
+        }
     }
 
     @Override

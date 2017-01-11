@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_authors"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="digitalbath.authors.Authors">
 
-    <android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/authors_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_marginTop="25dp"
+        android:background="@color/colorPrimaryDark"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    </android.support.v7.widget.Toolbar>
+
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/authors_recyclerView"
-        android:layout_marginTop="25dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
 
-</FrameLayout>
+</LinearLayout>

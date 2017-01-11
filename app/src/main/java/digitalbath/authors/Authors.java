@@ -3,6 +3,8 @@ package digitalbath.authors;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -28,6 +30,10 @@ public class Authors extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authors);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.authors_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         authorsRecyclerView = (RecyclerView) findViewById(R.id.authors_recyclerView);
         authorsRecyclerView.setLayoutManager(new StickyHeaderLayoutManager());
 
@@ -43,5 +49,11 @@ public class Authors extends AppCompatActivity {
                 AppHelper.showToast(getResources().getString(R.string.toast_error_message), Authors.this);
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
