@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Created by unexpected_err on 17/10/2016.
  */
 
-public class Author {
+public class AuthorGroup {
 
     @SerializedName("results")
     private ArrayList<AuthorDetails> authors;
@@ -22,5 +22,13 @@ public class Author {
 
     public ArrayList<AuthorDetails> getAuthors() {
         return authors;
+    }
+
+    public void setAuthors(ArrayList<AuthorDetails> authors) {
+        this.authors = authors;
+    }
+
+    public void setReferences(References references) {
+        this.references = references;
     }
 }

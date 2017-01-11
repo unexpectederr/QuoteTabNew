@@ -7,17 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import org.zakariya.stickyheaders.SectioningAdapter;
 
-import java.util.ArrayList;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
 import helpers.AppController;
-import helpers.AppHelper;
 import models.authors.PopularAuthors;
 import digitalbath.authors.AuthorDetails;
 
@@ -29,19 +25,16 @@ public class AuthorsAdapter extends SectioningAdapter {
 
     private PopularAuthors mDataSet;
     private int numberOfSections;
-    private int numberOfItemsInSection;
     private Context context;
     private int lastPosition = -1;
 
-    public AuthorsAdapter(PopularAuthors mDataSet, Context context) {
+    public AuthorsAdapter(PopularAuthors dataSet, Context context) {
 
         this.context = context;
+        this.mDataSet = dataSet;
 
-        numberOfSections = mDataSet.getPopularAuthors().size();
-        for (int i = 0; i < mDataSet.getPopularAuthors().size(); i++) {
-            numberOfItemsInSection = mDataSet.getPopularAuthors().get(i).getAuthors().size();;
-        }
-        this.mDataSet = mDataSet;
+        numberOfSections = mDataSet.getAuthorGroup().size();
+
     }
 
     private class ItemViewHolder extends SectioningAdapter.ItemViewHolder {
@@ -73,7 +66,7 @@ public class AuthorsAdapter extends SectioningAdapter {
 
     @Override
     public int getNumberOfItemsInSection(int sectionIndex) {
-        return numberOfItemsInSection;
+        return mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().size();
     }
 
     @Override
@@ -108,17 +101,17 @@ public class AuthorsAdapter extends SectioningAdapter {
 
         ItemViewHolder ivh = (ItemViewHolder) viewHolder;
 
-        ivh.authorName.setText(mDataSet.getPopularAuthors().get(sectionIndex).getAuthors()
+        ivh.authorName.setText(mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
                 .get(itemIndex).getAuthorFields().getName());
 
         Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
-                    .load(AppController.IMAGES_URL + mDataSet.getPopularAuthors()
+                    .load(AppController.IMAGES_URL + mDataSet.getAuthorGroup()
                             .get(sectionIndex).getAuthors().get(itemIndex).getAuthorFields().getImageUrl())
                     .placeholder(R.drawable.avatar)
                     .error(R.drawable.avatar)
                     .into(((ItemViewHolder) viewHolder).authorImage);
 
-        ivh.itemView.setOnClickListener(new OnAuthorClickListener(mDataSet.getPopularAuthors()
+        ivh.itemView.setOnClickListener(new OnAuthorClickListener(mDataSet.getAuthorGroup()
                 .get(sectionIndex).getAuthors().get(itemIndex).getId()));
         setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
     }
@@ -138,7 +131,7 @@ public class AuthorsAdapter extends SectioningAdapter {
 
         HeaderViewHolder hvh = (HeaderViewHolder) viewHolder;
         hvh.itemView.setBackgroundColor(0x55ffffff);
-        hvh.header.setText(mDataSet.getPopularAuthors().get(sectionIndex).getReferences().getLetter());
+        hvh.header.setText(mDataSet.getAuthorGroup().get(sectionIndex).getReferences().getLetter());
     }
 
     private class OnAuthorClickListener implements View.OnClickListener{

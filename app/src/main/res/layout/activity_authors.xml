@@ -1,17 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_authors"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="digitalbath.authors.Authors">
+    android:fitsSystemWindows="true"
+    tools:context="digitalbath.authors.AuthorDetails">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:minHeight="?actionBarSize"
+            app:layout_collapseMode="pin"
+            android:paddingTop="25dp"
+            android:layout_height="81dp"
+            android:gravity="right">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/search_edit_text"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/search_icon"
+                    android:hint="Search author"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:layout_height="40dp"
+                    app:srcCompat="@drawable/ic_search"
+                    android:id="@+id/search_icon"
+                    android:layout_weight="1"
+                    android:layout_centerVertical="true"
+                    android:layout_width="40dp"
+                    android:padding="7dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"/>
+
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/authors_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/authors_recyclerView"
-        android:layout_marginTop="25dp">
+        android:fitsSystemWindows="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginTop="-25dp">
     </android.support.v7.widget.RecyclerView>
 
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

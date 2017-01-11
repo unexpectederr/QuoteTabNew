@@ -11,8 +11,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import digitalbath.quotetabnew.R;
-import helpers.OnFavoriteClickListener;
-import helpers.OnShareClickListener;
+import listeners.OnFavoriteClickListener;
+import listeners.OnShareClickListener;
 import models.authors.Quote;
 
 /**

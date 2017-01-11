@@ -1,24 +1,20 @@
 package adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 
-import org.w3c.dom.Text;
-
-import digitalbath.quotes.QuotesByTag;
 import digitalbath.quotetabnew.R;
 import helpers.AppController;
-import helpers.OnFavoriteClickListener;
-import helpers.OnShareClickListener;
-import helpers.OnTagClickListener;
+import listeners.OnFavoriteClickListener;
+import listeners.OnShareClickListener;
+import listeners.OnTagClickListener;
 import models.authors.Quotes;
 
 /**
@@ -98,7 +94,7 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else if (holder instanceof ViewHolderText) {
 
             ((ViewHolderText) holder).quoteText.setText(mDataSet.getQuotes().get(position).getQuoteDetails().getQuoteText());
-            ((ViewHolderText) holder).shareText.setOnClickListener(new helpers.OnShareClickListener(context));
+            ((ViewHolderText) holder).shareText.setOnClickListener(new OnShareClickListener(context));
             ((ViewHolderText) holder).favoriteText.setOnClickListener(new OnFavoriteClickListener(context));
             String[] tags = mDataSet.getQuotes().get(position).getQuoteDetails().getCategories().split(" ");
             ((ViewHolderText) holder).quoteTag.setText(tags[0]);

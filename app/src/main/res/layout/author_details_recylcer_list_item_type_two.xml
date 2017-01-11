@@ -33,7 +33,7 @@
 
         <ImageView
             android:id="@+id/ic_favorite_image"
-            android:src="@mipmap/favorite_icon"
+            android:src="@drawable/ic_favorite_empty"
             android:layout_marginRight="12dp"
             android:layout_marginBottom="12dp"
             android:layout_width="27dp"

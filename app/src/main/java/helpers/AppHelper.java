@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,5 +34,13 @@ public class AppHelper {
         toast.setView(layout);
         toast.show();
 
+    }
+
+    public static Animation getAnimationUp(Context context) {
+        return AnimationUtils.loadAnimation(context, R.anim.abc_grow_fade_in_from_bottom);
+    }
+
+    public static Animation getAnimationDown(Context context) {
+        return AnimationUtils.loadAnimation(context, R.anim.abc_shrink_fade_out_from_bottom);
     }
 }

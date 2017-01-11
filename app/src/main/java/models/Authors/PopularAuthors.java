@@ -10,10 +10,13 @@ import java.util.ArrayList;
 public class PopularAuthors {
 
     @SerializedName("popularAuthors")
-    private ArrayList<Author> popularAuthors;
+    private ArrayList<AuthorGroup> authorGroup;
 
-    public ArrayList<Author> getPopularAuthors() {
-        return popularAuthors;
+    public ArrayList<AuthorGroup> getAuthorGroup() {
+        return authorGroup;
     }
 
+    public void setAuthorGroup(ArrayList<AuthorGroup> authorGroup) {
+        this.authorGroup = authorGroup;
+    }
 }

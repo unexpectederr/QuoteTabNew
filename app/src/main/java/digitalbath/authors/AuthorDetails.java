@@ -51,7 +51,6 @@ public class AuthorDetails extends AppCompatActivity {
         authorDetailsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         authorID = getIntent().getStringExtra("AUTHOR_ID");
 
-
         QuoteTabApi.quoteTabApi.getQuotes(authorID).enqueue(new Callback<Quotes>() {
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {

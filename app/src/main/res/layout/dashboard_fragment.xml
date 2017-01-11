@@ -71,13 +71,13 @@
             android:layout_margin="5dp">
 
             <ImageView
-                app:srcCompat="@drawable/ic_share_white_36dp"
+                app:srcCompat="@drawable/ic_menu_share"
                 android:id="@+id/imageView3"
                 android:layout_marginRight="8dp"
                 android:layout_width="27dp"
                 android:layout_height="27dp"/>
             <ImageView
-                app:srcCompat="@drawable/ic_favorite_white_36dp"
+                app:srcCompat="@drawable/ic_favorite"
                 android:id="@+id/imageVieww3"
                 android:layout_marginLeft="8dp"
                 android:layout_height="27dp"
