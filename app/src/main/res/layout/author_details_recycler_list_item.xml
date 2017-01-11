@@ -45,7 +45,7 @@
             android:layout_toLeftOf="@+id/share_icon_text"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_alignParentRight="true"
             android:layout_marginRight="12dp"
             android:gravity="right"
@@ -53,6 +53,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/quote_tags"
             android:orientation="horizontal">
+
         </LinearLayout>
 
     </RelativeLayout>
