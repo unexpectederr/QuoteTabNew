@@ -13,11 +13,11 @@ import helpers.AppHelper;
 
 public class OnSearchIconClickListener implements View.OnClickListener {
 
-    EditText mSearchEditText;
-    Context mContext;
+    private EditText mSearchEditText;
+    private Context mContext;
 
     public OnSearchIconClickListener(EditText searchEditText, Context context) {
-        mSearchEditText =searchEditText;
+        mSearchEditText = searchEditText;
         mContext = context;
     }
 

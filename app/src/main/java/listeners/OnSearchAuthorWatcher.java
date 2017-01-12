@@ -23,10 +23,10 @@ import models.authors.PopularAuthors;
 
 public class OnSearchAuthorWatcher implements TextWatcher {
 
-    PopularAuthors mDataSet;
-    RecyclerView mRecyclerView;
-    ImageView mSearchIcon;
-    Context mContext;
+    private PopularAuthors mDataSet;
+    private RecyclerView mRecyclerView;
+    private ImageView mSearchIcon;
+    private Context mContext;
 
     public OnSearchAuthorWatcher(PopularAuthors dataSet, RecyclerView recyclerView,
                                  ImageView searchIcon, Context context) {
