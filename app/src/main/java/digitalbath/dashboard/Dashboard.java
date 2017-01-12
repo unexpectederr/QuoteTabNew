@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -80,9 +81,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             @Override
             public void run() {
                 splashScreen.setVisibility(View.GONE);
-                splashScreen.startAnimation(AppHelper.getAnimationDown(Dashboard.this));
+                AlphaAnimation alpha = new AlphaAnimation(1, 0);
+                alpha.setDuration(400);
+                splashScreen.startAnimation(alpha);
             }
-        }, 2000);
+        }, 1200);
     }
 
     private void initializeDashboard() {

@@ -42,7 +42,6 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView shareText;
         ImageView favoriteText;
         LinearLayout quoteTags;
-        TextView quoteTag;
 
         ViewHolderText(View itemView) {
             super(itemView);
@@ -71,10 +70,12 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == TYPE_TEXT) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.author_details_recycler_list_item, parent, false);
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.author_details_recycler_list_item, parent, false);
             return new ViewHolderText(v);
         } else {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.author_details_recylcer_list_item_type_two, parent, false);
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.author_details_recylcer_list_item_type_two, parent, false);
             return new ViewHolderImage(v);
         }
     }
@@ -97,21 +98,30 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((ViewHolderText) holder).quoteText.setText(mDataSet.getQuotes().get(position).getQuoteDetails().getQuoteText());
             ((ViewHolderText) holder).shareText.setOnClickListener(new OnShareClickListener(context));
             ((ViewHolderText) holder).favoriteText.setOnClickListener(new OnFavoriteClickListener(context));
+
             String[] tags = mDataSet.getQuotes().get(position).getQuoteDetails().getCategories().split(" ");
+
+            ((ViewHolderText) holder).quoteTags.removeAllViews();
+
             for (int i = 0; i < tags.length; i++) {
-                if (i < 3) {
-                    ((ViewHolderText) holder).quoteTag = new TextView(context);
-                    ((ViewHolderText) holder).quoteTag.setBackgroundResource(R.drawable.button_outline);
-                    ((ViewHolderText) holder).quoteTag.setText(tags[i]);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    params.setMarginEnd(12);
-                    ((ViewHolderText) holder).quoteTag.setLayoutParams(params);
-                    ((ViewHolderText) holder).quoteTag.setGravity(Gravity.CENTER);
-                    ((ViewHolderText) holder).quoteTag.setTextColor(context.getResources().getColor(R.color.cardview_light_background));
-                    ((ViewHolderText) holder).quoteTag.setPadding(12, 0, 12, 5);
-                    ((ViewHolderText) holder).quoteTags.addView(((ViewHolderText) holder).quoteTag);
-                    ((ViewHolderText) holder).quoteTag.setOnClickListener(new OnTagClickListener(context, ((ViewHolderText) holder).quoteTag.getText().toString()));
-                }
+
+                TextView quoteTag = new TextView(context);
+                quoteTag.setBackgroundResource(R.drawable.button_outline);
+                quoteTag.setText(tags[i]);
+                quoteTag.setPadding(30, 20, 30, 20);
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                params.setMarginEnd(12);
+
+                quoteTag.setLayoutParams(params);
+                quoteTag.setGravity(Gravity.CENTER);
+                quoteTag.setTextColor(context.getResources().getColor(R.color.main_text_color_dark));
+                quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i]));
+
+                ((ViewHolderText) holder).quoteTags.addView(quoteTag);
             }
         }
     }

@@ -12,11 +12,11 @@ import com.bumptech.glide.Glide;
 import org.zakariya.stickyheaders.SectioningAdapter;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import digitalbath.authors.AuthorDetails;
 import digitalbath.quotetabnew.R;
 import helpers.AppController;
 import helpers.Constants;
 import models.authors.PopularAuthors;
-import digitalbath.authors.AuthorDetails;
 
 /**
  * Created by Spaja on 26-Dec-16.

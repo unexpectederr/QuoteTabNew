@@ -5,14 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context="digitalbath.authors.AuthorDetails">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -20,8 +18,7 @@
             android:layout_width="match_parent"
             android:minHeight="?actionBarSize"
             app:layout_collapseMode="pin"
-            android:paddingTop="25dp"
-            android:layout_height="81dp"
+            android:layout_height="?actionBarSize"
             android:gravity="right">
 
             <RelativeLayout
@@ -66,7 +63,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginTop="-25dp">
+        >
     </android.support.v7.widget.RecyclerView>
 
 </android.support.design.widget.CoordinatorLayout>
