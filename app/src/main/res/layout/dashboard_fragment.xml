@@ -56,11 +56,13 @@
             android:gravity="center"
             />
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:srcCompat="@drawable/avatar"
-            android:id="@+id/imageView2"
+            app:civ_border_width="3dp"
+            app:civ_border_color="@color/main_color_light"
+            android:id="@+id/author_image"
             android:layout_margin="15dp"/>
 
         <LinearLayout
@@ -73,15 +75,15 @@
             <ImageView
                 app:srcCompat="@drawable/ic_menu_share"
                 android:id="@+id/imageView3"
-                android:layout_marginRight="8dp"
-                android:layout_width="27dp"
-                android:layout_height="27dp"/>
+                android:layout_marginRight="9dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
             <ImageView
                 app:srcCompat="@drawable/ic_favorite"
                 android:id="@+id/imageVieww3"
-                android:layout_marginLeft="8dp"
-                android:layout_height="27dp"
-                android:layout_width="27dp"/>
+                android:layout_marginLeft="9dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
         </LinearLayout>
     </LinearLayout>
 
