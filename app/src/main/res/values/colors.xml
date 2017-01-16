@@ -5,7 +5,9 @@
   <color name="colorAccent">#ff0099cc</color>
 
   <color name="main_text_color_dark">#515151</color>
-  <color name="main_text_color_light">#fff</color>
+  <color name="main_text_color_light">#ffffff</color>
+  <color name="light_gray">#ababab</color>
+  <color name="light_gray_with_tr">#a6ababab</color>
 
   <color name="edit_text_toolbar_underline">#80cce6</color>
 

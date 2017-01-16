@@ -106,7 +106,7 @@ public class AuthorsAdapter extends SectioningAdapter {
                 .get(itemIndex).getAuthorFields().getName());
 
         Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
-                    .load(AppController.IMAGES_URL + mDataSet.getAuthorGroup()
+                    .load(Constants.IMAGES_URL + mDataSet.getAuthorGroup()
                             .get(sectionIndex).getAuthors().get(itemIndex).getAuthorFields().getImageUrl())
                     .placeholder(R.drawable.avatar)
                     .error(R.drawable.avatar)

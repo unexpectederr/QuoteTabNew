@@ -10,14 +10,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
 import adapters.AuthorDetailsAdapter;
+import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
+import helpers.AppHelper;
 import helpers.Constants;
+import models.authors.AuthorFieldsFromQuote;
 import models.authors.Quotes;
 import networking.QuoteTabApi;
 import retrofit2.Call;
@@ -34,37 +37,44 @@ public class AuthorDetails extends AppCompatActivity
     private boolean mIsTheTitleVisible          = false;
     private boolean mIsTheTitleContainerVisible = true;
 
-    private LinearLayout mTitleContainer;
+    private RelativeLayout mTitleContainer;
     private TextView mTitle;
     private AppBarLayout mAppBarLayout;
     private Toolbar mToolbar;
-    ImageView toolbarAuthorImage;
-    RecyclerView authorDetailsRecyclerView;
+
+    RecyclerView quotesRecycler;
+    CircleImageView authorImage;
+    TextView authorTitle, authorTagLine;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_author_details_1);
+        setContentView(R.layout.activity_author_details);
 
         initializeVariables();
 
-        authorDetailsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         String authorID = getIntent().getStringExtra(Constants.AUTHOR_ID);
 
-        QuoteTabApi.quoteTabApi.getQuotes(authorID).enqueue(new Callback<Quotes>() {
+        QuoteTabApi.quoteTabApi.getQuotes("a").enqueue(new Callback<Quotes>() {
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
+                quotesRecycler.setLayoutManager(new LinearLayoutManager(AuthorDetails.this));
                 AuthorDetailsAdapter adapter = new AuthorDetailsAdapter(response.body(), AuthorDetails.this);
-                authorDetailsRecyclerView.setAdapter(adapter);
+                quotesRecycler.setAdapter(adapter);
 
-                //authorName = response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getAuthorName();
-                //collapsingToolbarLayout.setTitle(authorName);
+                AuthorFieldsFromQuote detailsFromQuote = response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote();
 
-                //authorImageUrl = response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getAuthorImageUrl();
-                Glide.with(AuthorDetails.this).load("https://lh3.googleusercontent.com/-NnaUBvaHFeQ/VYa2yvBGIxI/AAAAAAAAdhY/qSpaK9ubPWY/w2048-h1152/4K-Wallpaper-Pack-Smartphone-Tablet-Android-Apple-Notebook-Windows-21.jpg")
-                        .error(R.drawable.avatar).into(toolbarAuthorImage);
+                mTitle.setText(detailsFromQuote.getAuthorName());
+                authorTitle.setText(detailsFromQuote.getAuthorName());
+                authorTagLine.setText(detailsFromQuote.getProfession().getProfessionName() + " - "
+                        + detailsFromQuote.getBirthplace());
+
+                Glide.with(AuthorDetails.this)
+                        .load(Constants.IMAGES_URL + detailsFromQuote.getAuthorImageUrl())
+                        .placeholder(R.drawable.avatar)
+                        .error(R.drawable.avatar).into(authorImage);
 
                 /*bornIn.setText(response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getBirthplace());
                 profession.setText(response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote()
@@ -87,20 +97,29 @@ public class AuthorDetails extends AppCompatActivity
 
         mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         mTitle = (TextView) findViewById(R.id.main_textview_title);
-        mTitleContainer = (LinearLayout) findViewById(R.id.main_linearlayout_title);
+        mTitleContainer = (RelativeLayout) findViewById(R.id.main_linearlayout_title);
         mAppBarLayout = (AppBarLayout) findViewById(R.id.main_appbar);
+        quotesRecycler = (RecyclerView) findViewById(R.id.author_details_recyclerView);
 
-        //collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        toolbarAuthorImage = (ImageView) findViewById(R.id.cover_image);
-        authorDetailsRecyclerView = (RecyclerView) findViewById(R.id.author_details_recyclerView);
+        ImageView coverImage = (ImageView) findViewById(R.id.cover_image);
+        Glide.with(AuthorDetails.this).load("https://lh3.googleusercontent.com/-NnaUBvaHFeQ/VYa2yvBGIxI/AAAAAAAAdhY/qSpaK9ubPWY/w2048-h1152/4K-Wallpaper-Pack-Smartphone-Tablet-Android-Apple-Notebook-Windows-21.jpg")
+                .error(R.drawable.avatar).into(coverImage);
+
+        authorTitle = (TextView) findViewById(R.id.author_name);
+        authorTagLine = (TextView) findViewById(R.id.author_tagline);
+        authorImage = (CircleImageView) findViewById(R.id.author_image);
+
         /*bornIn = (TextView) findViewById(R.id.born_in);
         profession = (TextView) findViewById(R.id.profession);
         country = (TextView) findViewById(R.id.country);*/
+
+
     }
 
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {
+
         int maxScroll = appBarLayout.getTotalScrollRange();
         float percentage = (float) Math.abs(offset) / (float) maxScroll;
 
@@ -109,6 +128,7 @@ public class AuthorDetails extends AppCompatActivity
     }
 
     private void handleToolbarTitleVisibility(float percentage) {
+
         if (percentage >= PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR) {
 
             if(!mIsTheTitleVisible) {
@@ -130,6 +150,7 @@ public class AuthorDetails extends AppCompatActivity
     }
 
     private void handleAlphaOnTitle(float percentage) {
+
         if (percentage >= PERCENTAGE_TO_HIDE_TITLE_DETAILS) {
             if(mIsTheTitleContainerVisible) {
                 startAlphaAnimation(mTitleContainer, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
@@ -146,6 +167,7 @@ public class AuthorDetails extends AppCompatActivity
     }
 
     public static void startAlphaAnimation (View v, long duration, int visibility) {
+
         AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
                 ? new AlphaAnimation(0f, 1f)
                 : new AlphaAnimation(1f, 0f);

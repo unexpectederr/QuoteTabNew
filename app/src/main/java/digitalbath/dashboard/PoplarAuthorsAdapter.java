@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 import digitalbath.quotetabnew.R;
 import helpers.AppController;
+import helpers.Constants;
 import models.dashboard.PopularAuthor;
 
 
@@ -79,15 +80,15 @@ public class PoplarAuthorsAdapter extends RecyclerView.Adapter<PoplarAuthorsAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         holder.mName1.setText(mDataSet.get(position + increment).getName());
-        Glide.with(mContext).load(AppController.IMAGES_URL +
+        Glide.with(mContext).load(Constants.IMAGES_URL +
                 mDataSet.get(position + increment).getImageUrl()).into(holder.mImage1);
 
         holder.mName2.setText(mDataSet.get(position + 1 + increment).getName());
-        Glide.with(mContext).load(AppController.IMAGES_URL +
+        Glide.with(mContext).load(Constants.IMAGES_URL +
                 mDataSet.get(position+ 1 + increment).getImageUrl()).into(holder.mImage2);
 
         holder.mName3.setText(mDataSet.get(position + 2 + increment).getName());
-        Glide.with(mContext).load(AppController.IMAGES_URL +
+        Glide.with(mContext).load(Constants.IMAGES_URL +
                 mDataSet.get(position + 2 + increment).getImageUrl()).into(holder.mImage3);
 
         increment += 2;
