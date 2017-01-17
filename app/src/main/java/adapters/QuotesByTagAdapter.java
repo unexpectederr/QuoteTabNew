@@ -13,6 +13,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import digitalbath.quotetabnew.R;
+import helpers.AppHelper;
+import helpers.Constants;
 import listeners.OnFavoriteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
@@ -38,7 +40,6 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
         ImageView shareText;
         ImageView favoriteText;
         LinearLayout quoteTags;
-        TextView quoteTag;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -63,19 +64,30 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
         holder.favoriteText.setOnClickListener(new OnFavoriteClickListener(context));
         String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 
-        for (int i = 0; i < tags.length; i++){
-            if (i < 3) {
-                holder.quoteTag = new TextView(context);
-                holder.quoteTag.setBackgroundResource(R.drawable.button_outline);
-                holder.quoteTag.setText(tags[i]);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        holder.quoteTags.removeAllViews();
+
+        for (int i = 0; i < tags.length; i++) {
+
+            if (i < Constants.MAX_NUMBER_OF_QUOTES) {
+
+                TextView quoteTag = new TextView(context);
+                quoteTag.setBackgroundResource(R.drawable.button_outline);
+                quoteTag.setText(tags[i]);
+                quoteTag.setPadding(30, 15, 30, 15);
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT));
+
                 params.setMarginEnd(12);
-                holder.quoteTag.setLayoutParams(params);
-                holder.quoteTag.setGravity(Gravity.CENTER);
-                holder.quoteTag.setTextColor(context.getResources().getColor(R.color.cardview_light_background));
-                holder.quoteTag.setPadding(12, 0, 12, 5);
-                holder.quoteTags.addView(holder.quoteTag);
-                holder.quoteTag.setOnClickListener(new OnTagClickListener(context, holder.quoteTag.getText().toString()));
+
+                quoteTag.setLayoutParams(params);
+                quoteTag.setGravity(Gravity.CENTER);
+                quoteTag.setTextColor(context.getResources().getColor(R.color.light_gray));
+                quoteTag.setTypeface(AppHelper.getRalewayLigt(context));
+                quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i]));
+
+                holder.quoteTags.addView(quoteTag);
             }
         }
     }

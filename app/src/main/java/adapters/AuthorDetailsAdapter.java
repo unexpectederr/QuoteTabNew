@@ -1,6 +1,8 @@
 package adapters;
 
 import android.content.Context;
+import android.media.Image;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -59,7 +61,6 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
             quoteTags = (LinearLayout) itemView.findViewById(R.id.quote_tags);
             quotesLeft = (ImageView) itemView.findViewById(R.id.quotes_left);
             quotesRight = (ImageView) itemView.findViewById(R.id.quotes_right);
-
         }
     }
 
@@ -70,7 +71,6 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 .inflate(R.layout.author_details_recycler_list_item, parent, false);
 
         return new ViewHolderCard(v);
-
     }
 
     @Override

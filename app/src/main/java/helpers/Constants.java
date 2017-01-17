@@ -8,6 +8,7 @@ public class Constants {
 
     public static final String IMAGES_URL = "https://qt.azureedge.net/resources/authors-images-large/";
     public static final String COVER_IMAGES_URL = "http://cdn.quotetab.com/rawphotos/raw_";
+    public static final String CATEGORIES_IMAGES_URL = "https://qt.azureedge.net/resources/categories-images-large/";
 
     public static final int NUMBER_OF_COVERS = 2493;
 

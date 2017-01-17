@@ -30,6 +30,7 @@ import java.util.List;
 
 import digitalbath.authors.Authors;
 import digitalbath.quotetabnew.R;
+import digitalbath.topics.Topics;
 import helpers.AppHelper;
 import models.dashboard.DashboardData;
 import models.dashboard.DashboardItem;
@@ -206,6 +207,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             Intent i = new Intent(Dashboard.this, Authors.class);
             startActivity(i);
         } else if (id == R.id.nav_topics) {
+            Intent i = new Intent(Dashboard.this, Topics.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_topQuotes) {
 
