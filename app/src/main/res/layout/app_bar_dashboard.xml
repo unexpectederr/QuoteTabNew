@@ -19,24 +19,15 @@
         android:layout_marginTop="25dp"
         app:theme="@style/ToolbarTheme"/>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:gravity="left|center"
-        android:id="@+id/dots_cont"
+    <com.liangfeizc.RubberIndicator
+        android:id="@+id/rubber"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_height="60dp">
-
-        <ImageView
-            android:layout_width="@dimen/dot_dimen"
-            android:layout_height="@dimen/dot_dimen"
-            app:srcCompat="@drawable/dot_selected"
-            android:id="@+id/imageView10"
-            android:paddingLeft="20dp"
-            android:layout_marginLeft="@dimen/dot_margin"/>
-
-    </LinearLayout>
+        android:layout_margin="10dp"
+        app:largeCircleColor="@color/main_color_light"
+        app:smallCircleColor="@color/light_gray_with_tr"
+        android:layout_width="130dp"
+        android:layout_height="22dp"
+        android:alpha="0.8"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

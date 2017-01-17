@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
+import helpers.AppHelper;
 import models.dashboard.DashboardItem;
 
 public class DashboardFragment extends Fragment {
@@ -51,7 +53,11 @@ public class DashboardFragment extends Fragment {
         ImageView imageView = (android.widget.ImageView) view.findViewById(R.id.backdrop);
         Glide.with(this).load(mItem.getImageUrl()).centerCrop().into(imageView);
 
+        CircleImageView authorImage = (CircleImageView) view.findViewById(R.id.author_image);
+        Glide.with(this).load(R.drawable.avatar).error(R.drawable.avatar).into(authorImage);
+
         TextView quote = (TextView) view.findViewById(R.id.quote);
+        quote.setTypeface(AppHelper.getRalewayLigt(getContext()));
         quote.setText(mItem.getQuote());
 
         TextView author = (TextView) view.findViewById(R.id.author);

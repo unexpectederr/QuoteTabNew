@@ -44,8 +44,8 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             super(itemView);
 
             quoteText = (TextView) itemView.findViewById(R.id.quoteText);
-            shareText = (ImageView) itemView.findViewById(R.id.share_icon_text);
-            favoriteText = (ImageView) itemView.findViewById(R.id.ic_favorite_text);
+            shareText = (ImageView) itemView.findViewById(R.id.share_icon);
+            favoriteText = (ImageView) itemView.findViewById(R.id.favorite_icon);
             quoteTags = (LinearLayout) itemView.findViewById(R.id.quote_tags);
         }
     }

@@ -12,8 +12,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/card_image"
+            android:scaleType="centerCrop"
+            android:layout_alignBottom="@+id/qwe"
+            android:layout_alignParentTop="true"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/qwe"
+            android:background="@android:color/black"
+            android:id="@+id/hgc"
+            android:layout_alignParentTop="true"
+            android:alpha="0.6">
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/quotes_left"
+            android:alpha="0.1"
+            android:layout_below="@+id/tags_scroll_view"
+            android:layout_marginLeft="-45dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="-15dp"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/quotes_right"
+            android:alpha="0.1"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="-45dp"
+            android:layout_above="@+id/qwe"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="-15dp"
+            android:visibility="gone"/>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -21,18 +61,20 @@
             android:overScrollMode="always"
             android:scrollbars="none"
             android:id="@+id/tags_scroll_view"
-            android:layout_marginBottom="5dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="12dp"
-                android:gravity="right"
+                android:layout_alignParentRight="false"
                 android:layout_marginTop="12dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/quote_tags"
                 android:orientation="horizontal"
-                android:layout_gravity="right">
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal">
             </LinearLayout>
 
         </HorizontalScrollView>
@@ -43,11 +85,18 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:background="@android:color/white"
-            android:textColor="@color/main_text_color_dark"
+            android:textColor="@color/main_color_light"
             android:layout_below="@+id/tags_scroll_view"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vehicula sem a malesuada rhoncus. Pellentesque ut dolor a dui porttitor porta lacinia non libero. Nunc volutpat arcu quis quam convallis molestie. Etiam ac tristique sem, id commodo justo. Phasellus congue tincidunt lectus, at dignissim ligula maximus eu. Quisque interdum nunc eget tellus bibendum suscipit. "
-            android:layout_margin="20dp"/>
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vehicula sem a malesuada rhoncus. Pellentesque ut dolor a dui porttitor "
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="19sp"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="50dp"
+            android:lineSpacingExtra="5sp"
+            android:textStyle="normal|bold"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -55,33 +104,33 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/quoteText"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:id="@+id/qwe">
 
             <ImageView
                 android:src="@drawable/ic_menu_share"
-                android:id="@+id/share_icon_text"
+                android:id="@+id/share_icon"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="12dp"
                 android:tint="@color/cardview_shadow_start_color"
-                android:layout_alignBottom="@+id/quoteText"
                 android:layout_alignRight="@+id/quoteText"
                 android:layout_weight="1"
-                android:layout_width="22dp"
-                android:layout_height="22dp"/>
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
 
             <ImageView
-                android:id="@+id/ic_favorite_text"
+                android:id="@+id/favorite_icon"
                 android:src="@drawable/ic_favorite_empty"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="12dp"
                 android:tint="@color/cardview_shadow_start_color"
-                android:layout_alignBottom="@+id/quoteText"
-                android:layout_toLeftOf="@+id/share_icon_text"
+                android:layout_toLeftOf="@+id/share_icon"
                 android:layout_weight="1"
-                android:layout_width="22dp"
-                android:layout_height="22dp"/>
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
         </LinearLayout>
 
     </RelativeLayout>
+
 </android.support.v7.widget.CardView>
 

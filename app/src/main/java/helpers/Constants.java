@@ -6,7 +6,13 @@ package helpers;
 
 public class Constants {
 
+    public static final String IMAGES_URL = "https://qt.azureedge.net/resources/authors-images-large/";
+    public static final String COVER_IMAGES_URL = "http://cdn.quotetab.com/rawphotos/raw_";
+
+    public static final int NUMBER_OF_COVERS = 2493;
+
     public static final String QUOTE_TAG = "QUOTE_TAG";
     public static final String AUTHOR_ID = "AUTHOR_ID";
 
+    public static final int MAX_NUMBER_OF_QUOTES = 4;
 }

@@ -1,6 +1,7 @@
 package helpers;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,5 +43,17 @@ public class AppHelper {
 
     public static Animation getAnimationDown(Context context) {
         return AnimationUtils.loadAnimation(context, R.anim.abc_shrink_fade_out_from_bottom);
+    }
+
+    public static Typeface getRalewayLigt(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "raleway_light.ttf");
+    }
+
+    public static Typeface getRalewayRegular(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "raleway_regular.ttf");
+    }
+
+    public static Typeface getRalewayBold(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "raleway_bold.ttf");
     }
 }

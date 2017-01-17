@@ -19,8 +19,10 @@ import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.liangfeizc.RubberIndicator;
 import com.xgc1986.parallaxPagerTransformer.ParallaxPagerTransformer;
 
 import java.util.ArrayList;
@@ -38,6 +40,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    int rubberOldPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,19 +110,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), items);
         mPager.setAdapter(mPagerAdapter);
 
-        final LinearLayout dotsCont = (LinearLayout) findViewById(R.id.dots_cont);
-
-        for (int i = 1; items.size() > i; i++) {
-
-            ImageView image = new ImageView(this);
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.dot_dimen),
-                    (int) getResources().getDimension(R.dimen.dot_dimen));
-            lp.leftMargin = (int) getResources().getDimension(R.dimen.dot_margin);
-            image.setLayoutParams(lp);
-            image.setImageDrawable(getResources().getDrawable(R.drawable.dot_unselected));
-            dotsCont.addView(image);
-
-        }
+        final RubberIndicator mRubberIndicator = (RubberIndicator) findViewById(R.id.rubber);
+        mRubberIndicator.setCount(items.size(), 0);
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -127,13 +120,12 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             @Override
             public void onPageSelected(int position) {
 
-                for (int i = 0; i < dotsCont.getChildCount(); i++) {
+                if (position > rubberOldPosition)
+                    mRubberIndicator.moveToRight();
+                else
+                    mRubberIndicator.moveToLeft();
 
-                    if (i == position)
-                        Glide.with(Dashboard.this).load(R.drawable.dot_selected).into((ImageView) dotsCont.getChildAt(i));
-                    else
-                        Glide.with(Dashboard.this).load(R.drawable.dot_unselected).into((ImageView) dotsCont.getChildAt(i));
-                }
+                rubberOldPosition = position;
             }
 
             @Override
@@ -149,6 +141,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             @Override
             public void onResponse(Call<DashboardData> call, Response<DashboardData> response) {
                 //initializePopularAuthors(response.body().getPopularAuthorsList());
+                int asd = 9;
             }
 
             @Override
