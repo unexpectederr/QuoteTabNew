@@ -42,10 +42,10 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.google.code.gson:gson:2.6.2'
-    compile 'com.xgc1986.android:parallaxpagertransformer:1.0.4'
     compile 'org.zakariya.stickyheaders:stickyheaders:0.7.6'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.github.LyndonChin:AndroidRubberIndicator:ea734614d3'
+    compile 'com.yayandroid:ParallaxRecyclerView:1.1'
 
     testCompile 'junit:junit:4.12'
 }

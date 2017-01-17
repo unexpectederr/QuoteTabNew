@@ -73,7 +73,9 @@
 
                 </RelativeLayout>
             </FrameLayout>
+
         </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -129,7 +131,7 @@
         app:civ_border_width="2dp"
         app:civ_border_color="@color/main_color_light"
         app:finalYPosition="2dp"
-        app:layout_behavior="helpers.AvatarImageBehavior"
+        app:layout_behavior="helpers.other.AvatarImageBehavior"
         app:startHeight="2dp"
         app:startToolbarPosition="2dp"
         app:startXPosition="2dp"

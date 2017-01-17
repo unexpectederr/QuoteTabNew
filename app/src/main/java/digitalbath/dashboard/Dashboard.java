@@ -17,21 +17,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.liangfeizc.RubberIndicator;
-import com.xgc1986.parallaxPagerTransformer.ParallaxPagerTransformer;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import digitalbath.authors.Authors;
 import digitalbath.quotetabnew.R;
 import digitalbath.topics.Topics;
-import helpers.AppHelper;
+import helpers.other.ParallaxPageTransformer;
 import models.dashboard.DashboardData;
 import models.dashboard.DashboardItem;
 import models.dashboard.PopularAuthor;
@@ -106,8 +102,17 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         items.add(new DashboardItem("Sleep is that golden chain that ties health and our bodies together.", "Thomas Dekker", "http://www.planwallpaper.com/static/images/6768666-1080p-wallpapers.jpg"));
 
         ViewPager mPager = (ViewPager) findViewById(R.id.view_pager);
-        mPager.setPageTransformer(false, new ParallaxPagerTransformer(R.id.backdrop));
         mPager.setOffscreenPageLimit(6);
+
+        ParallaxPageTransformer pageTransformer = new ParallaxPageTransformer()
+                .addViewToParallax(new ParallaxPageTransformer.ParallaxTransformInformation(R.id.quote, 1.2f, 1.9f))
+                .addViewToParallax(new ParallaxPageTransformer.ParallaxTransformInformation(R.id.author, 0.6f, 1.7f))
+                .addViewToParallax(new ParallaxPageTransformer.ParallaxTransformInformation(R.id.author_image, 0.3f, 1.5f))
+                .addViewToParallax(new ParallaxPageTransformer.ParallaxTransformInformation(R.id.action_buttons_cont, 0.7f, 1.3f))
+                .addViewToParallax(new ParallaxPageTransformer.ParallaxTransformInformation(R.id.backdrop, -1.8f, -1.8f));
+
+        mPager.setPageTransformer(true, pageTransformer);
+
         DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), items);
         mPager.setAdapter(mPagerAdapter);
 

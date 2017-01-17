@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-        android:name="helpers.AppController"
+        android:name="helpers.main.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="digitalbath.authors.AuthorDetails"
+            android:name="digitalbath.quotes.QuotesByAuthor"
             android:label="@string/app_name"
             android:theme="@style/AppThemeNormal">
             <intent-filter>
@@ -54,7 +54,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="digitalbath.topics.Topics">
+        <activity
+            android:name="digitalbath.topics.Topics"
             android:label="@string/app_name"
             android:theme="@style/AppThemeNormal">
             <intent-filter>

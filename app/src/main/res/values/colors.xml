@@ -6,6 +6,7 @@
 
   <color name="main_color_dark">#515151</color>
   <color name="main_color_light">#ffffff</color>
+  <color name="light_gray_ultra">#d7d7d7</color>
   <color name="light_gray">#ababab</color>
   <color name="light_gray_with_tr">#a6ababab</color>
 

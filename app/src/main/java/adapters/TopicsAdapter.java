@@ -6,8 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.yayandroid.parallaxrecyclerview.ParallaxViewHolder;
+
 import java.util.ArrayList;
 import digitalbath.quotetabnew.R;
+import helpers.main.Constants;
 import listeners.OnTagClickListener;
 import models.topics.Topic;
 
@@ -26,9 +31,14 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
         this.mDataSet = mDataSet;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends ParallaxViewHolder {
 
         TextView topicName;
+
+        @Override
+        public int getParallaxImageId() {
+            return R.id.background_image;
+        }
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -39,15 +49,25 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.topics_recycler_list_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.topics_recycler_list_item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
+        Glide.with(holder.itemView.getContext())
+                .load(Constants.COVER_IMAGES_URL + mDataSet.get(position).getTopicId() + ".jpg")
+                .error(R.drawable.avatar)
+                .into(holder.getBackgroundImage());
+
         holder.topicName.setText(mDataSet.get(position).getSource().getTopicName());
-        holder.itemView.setOnClickListener(new OnTagClickListener(context, holder.topicName.getText().toString().toLowerCase()));
+
+        holder.itemView.setOnClickListener(new OnTagClickListener(
+                context, holder.topicName.getText().toString().toLowerCase()));
+
+        holder.getBackgroundImage().reuse();
     }
 
     @Override

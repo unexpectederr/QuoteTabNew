@@ -13,8 +13,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import digitalbath.quotetabnew.R;
-import helpers.AppHelper;
-import helpers.Constants;
+import helpers.main.AppHelper;
+import helpers.main.Constants;
 import listeners.OnFavoriteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
@@ -53,7 +53,8 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.author_details_recycler_list_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.quote_recycler_list_item, parent, false);
         return new QuotesByTagAdapter.ViewHolder(v);
     }
 
@@ -71,7 +72,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             if (i < Constants.MAX_NUMBER_OF_QUOTES) {
 
                 TextView quoteTag = new TextView(context);
-                quoteTag.setBackgroundResource(R.drawable.button_outline);
+                quoteTag.setBackgroundResource(R.drawable.background_outline);
                 quoteTag.setText(tags[i]);
                 quoteTag.setPadding(30, 15, 30, 15);
 

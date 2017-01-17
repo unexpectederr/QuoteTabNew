@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.view.View;
 
 import digitalbath.quotes.QuotesByTag;
-import helpers.Constants;
+import helpers.main.Constants;
 
 /**
  * Created by Spaja on 10-Jan-17.

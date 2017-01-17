@@ -10,8 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import java.util.List;
 import digitalbath.quotetabnew.R;
-import helpers.AppController;
-import helpers.Constants;
+import helpers.main.Constants;
 import models.dashboard.PopularAuthor;
 
 

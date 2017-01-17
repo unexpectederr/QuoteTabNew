@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import adapters.AuthorsAdapter;
 import digitalbath.quotetabnew.R;
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
-import helpers.AppHelper;
+import helpers.main.AppHelper;
 import listeners.OnSearchAuthorWatcher;
 import listeners.OnSearchIconClickListener;
 import models.authors.PopularAuthors;
