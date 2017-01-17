@@ -56,7 +56,7 @@ public class AuthorDetails extends AppCompatActivity
 
         String authorID = getIntent().getStringExtra(Constants.AUTHOR_ID);
 
-        QuoteTabApi.quoteTabApi.getQuotes("a").enqueue(new Callback<Quotes>() {
+        QuoteTabApi.quoteTabApi.getQuotes(authorID).enqueue(new Callback<Quotes>() {
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
@@ -74,7 +74,8 @@ public class AuthorDetails extends AppCompatActivity
                 Glide.with(AuthorDetails.this)
                         .load(Constants.IMAGES_URL + detailsFromQuote.getAuthorImageUrl())
                         .placeholder(R.drawable.avatar)
-                        .error(R.drawable.avatar).into(authorImage);
+                        .error(R.drawable.avatar)
+                        .into(authorImage);
 
                 /*bornIn.setText(response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getBirthplace());
                 profession.setText(response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote()
