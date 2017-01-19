@@ -3,6 +3,7 @@ package networking;
 import models.authors.PopularAuthors;
 import models.authors.Quotes;
 import models.dashboard.DashboardData;
+import models.topics.Topic;
 import models.topics.Topics;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -30,8 +31,11 @@ public interface QuoteTabApi {
     @GET("api/v1.0/quotes/about-{tag}")
     Call<Quotes> getQuotesByTag(@Path("tag") String quoteTag);
 
-    @GET("api/v1.0/topics/")
+    @GET("api/v1.0/topics")
     Call<Topics> getTopics();
+
+    @GET("api/v1.0/topics/{page}")
+    Call<Topics> getTopics(@Path("page") int page);
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(ENDPOINT)
