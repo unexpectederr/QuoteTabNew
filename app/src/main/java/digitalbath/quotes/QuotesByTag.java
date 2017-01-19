@@ -9,7 +9,7 @@ import adapters.QuotesByTagAdapter;
 import digitalbath.quotetabnew.R;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
-import models.authors.Quotes;
+import models.quotes.Quotes;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;

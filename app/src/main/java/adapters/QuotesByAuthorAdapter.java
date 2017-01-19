@@ -20,7 +20,7 @@ import helpers.main.Constants;
 import listeners.OnFavoriteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
-import models.authors.Quotes;
+import models.quotes.Quotes;
 
 /**
  * Created by Spaja on 05-Jan-17.

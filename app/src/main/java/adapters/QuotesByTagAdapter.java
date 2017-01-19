@@ -18,7 +18,7 @@ import helpers.main.Constants;
 import listeners.OnFavoriteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
-import models.authors.Quote;
+import models.quotes.Quote;
 
 /**
  * Created by Spaja on 10-Jan-17.
@@ -60,35 +60,37 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
-        holder.shareText.setOnClickListener(new OnShareClickListener(context));
-        holder.favoriteText.setOnClickListener(new OnFavoriteClickListener(context));
-        String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
+        if (mDataSet.get(position).getQuoteDetails() != null) {
+            holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
+            holder.shareText.setOnClickListener(new OnShareClickListener(context));
+            holder.favoriteText.setOnClickListener(new OnFavoriteClickListener(context));
+            String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 
-        holder.quoteTags.removeAllViews();
+            holder.quoteTags.removeAllViews();
 
-        for (int i = 0; i < tags.length; i++) {
+            for (int i = 0; i < tags.length; i++) {
 
-            if (i < Constants.MAX_NUMBER_OF_QUOTES) {
+                if (i < Constants.MAX_NUMBER_OF_QUOTES) {
 
-                TextView quoteTag = new TextView(context);
-                quoteTag.setBackgroundResource(R.drawable.background_outline);
-                quoteTag.setText(tags[i]);
-                quoteTag.setPadding(30, 15, 30, 15);
+                    TextView quoteTag = new TextView(context);
+                    quoteTag.setBackgroundResource(R.drawable.background_outline);
+                    quoteTag.setText(tags[i]);
+                    quoteTag.setPadding(30, 15, 30, 15);
 
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT));
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                params.setMarginEnd(12);
+                    params.setMarginEnd(12);
 
-                quoteTag.setLayoutParams(params);
-                quoteTag.setGravity(Gravity.CENTER);
-                quoteTag.setTextColor(context.getResources().getColor(R.color.light_gray));
-                quoteTag.setTypeface(AppHelper.getRalewayLigt(context));
-                quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i]));
+                    quoteTag.setLayoutParams(params);
+                    quoteTag.setGravity(Gravity.CENTER);
+                    quoteTag.setTextColor(context.getResources().getColor(R.color.light_gray));
+                    quoteTag.setTypeface(AppHelper.getRalewayLigt(context));
+                    quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i]));
 
-                holder.quoteTags.addView(quoteTag);
+                    holder.quoteTags.addView(quoteTag);
+                }
             }
         }
     }
@@ -96,5 +98,10 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
     @Override
     public int getItemCount() {
         return mDataSet.size();
+    }
+
+    public void addQuotes(ArrayList<Quote> topQuotes) {
+        mDataSet.addAll(topQuotes);
+        notifyItemRangeInserted(mDataSet.size() - topQuotes.size(), topQuotes.size());
     }
 }

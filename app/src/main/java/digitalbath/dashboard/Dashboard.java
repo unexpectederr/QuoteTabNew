@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import digitalbath.authors.Authors;
+import digitalbath.quotes.TopQuotes;
 import digitalbath.quotetabnew.R;
 import digitalbath.topics.Topics;
 import helpers.other.ParallaxPageTransformer;
@@ -219,7 +220,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             startActivity(i);
 
         } else if (id == R.id.nav_topQuotes) {
-
+            Intent i = new Intent(Dashboard.this, TopQuotes.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

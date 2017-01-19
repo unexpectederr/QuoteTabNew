@@ -6,10 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.yayandroid.parallaxrecyclerview.ParallaxViewHolder;
-
 import java.util.ArrayList;
 import digitalbath.quotetabnew.R;
 import helpers.main.Constants;
@@ -47,15 +45,16 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
         }
     }
 
+
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TopicsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.topics_recycler_list_item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(TopicsAdapter.ViewHolder holder, int position) {
 
         Glide.with(holder.itemView.getContext())
                 .load(Constants.COVER_IMAGES_URL + mDataSet.get(position).getTopicId() + ".jpg")
@@ -74,4 +73,10 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
     public int getItemCount() {
         return mDataSet.size();
     }
+
+    public void addTopics(ArrayList<Topic> topics) {
+        mDataSet.addAll(topics);
+        notifyItemRangeInserted(mDataSet.size() - topics.size(), topics.size());
+    }
+
 }
