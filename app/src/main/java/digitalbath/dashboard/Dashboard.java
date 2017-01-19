@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.liangfeizc.RubberIndicator;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         initializeContent();
 
         getDashboardData();
+
+        FirebaseMessaging.getInstance().subscribeToTopic("quote-of-the-day");
 
     }
 

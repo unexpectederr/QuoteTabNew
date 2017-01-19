@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "126083422463",
+    "firebase_url": "https://quotetabnew.firebaseio.com",
+    "project_id": "quotetabnew",
+    "storage_bucket": "quotetabnew.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126083422463:android:77f278edf1435dc3",
+        "android_client_info": {
+          "package_name": "digitalbath.quotetabnew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126083422463-ajrbtmiu870u5p2pg69g953adjj45ghc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "digitalbath.quotetabnew",
+            "certificate_hash": "FD4BF3754F8513AB928F647E4E2813507C4A0AC8"
+          }
+        },
+        {
+          "client_id": "126083422463-5sigogt6iuhoa4vqdmj7h6ehlsh6jpge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfLjp4bCuwEOsDsB4QEe2LwxMszW0XdCk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126083422463-5sigogt6iuhoa4vqdmj7h6ehlsh6jpge.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
