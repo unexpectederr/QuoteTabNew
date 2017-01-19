@@ -20,7 +20,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
 import helpers.main.Constants;
 import models.authors.AuthorFieldsFromQuote;
-import models.authors.Quotes;
+import models.quotes.Quotes;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;

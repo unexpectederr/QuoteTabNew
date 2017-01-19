@@ -1,8 +1,10 @@
-package models.authors;
+package models.quotes;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+
+import models.authors.AuthorDetailsFromQuote;
 
 /**
  * Created by Spaja on 05-Jan-17.

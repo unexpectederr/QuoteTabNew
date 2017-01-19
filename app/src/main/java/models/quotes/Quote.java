@@ -1,4 +1,4 @@
-package models.authors;
+package models.quotes;
 
 import com.google.gson.annotations.SerializedName;
 
