@@ -12,10 +12,10 @@ import com.bumptech.glide.Glide;
 import org.zakariya.stickyheaders.SectioningAdapter;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import digitalbath.authors.AuthorDetails;
+import digitalbath.quotes.QuotesByAuthor;
 import digitalbath.quotetabnew.R;
-import helpers.AppController;
-import helpers.Constants;
+import helpers.main.Constants;
+import models.authors.AuthorFields;
 import models.authors.PopularAuthors;
 
 /**
@@ -41,11 +41,13 @@ public class AuthorsAdapter extends SectioningAdapter {
     private class ItemViewHolder extends SectioningAdapter.ItemViewHolder {
 
         TextView authorName;
+        TextView authorInfo;
         CircleImageView authorImage;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             authorName = (TextView) itemView.findViewById(R.id.author_name);
+            authorInfo = (TextView) itemView.findViewById(R.id.author_info);
             authorImage = (CircleImageView) itemView.findViewById(R.id.author_image);
         }
     }
@@ -102,18 +104,23 @@ public class AuthorsAdapter extends SectioningAdapter {
 
         ItemViewHolder ivh = (ItemViewHolder) viewHolder;
 
-        ivh.authorName.setText(mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
-                .get(itemIndex).getAuthorFields().getName());
+        AuthorFields authorFields = mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
+                .get(itemIndex).getAuthorFields();
+
+        ivh.authorName.setText(authorFields.getName());
+
+        ivh.authorInfo.setText(authorFields.getProfessionName() + " - "
+                + authorFields.getQuotesCount() + " quotes");
 
         Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
-                    .load(Constants.IMAGES_URL + mDataSet.getAuthorGroup()
-                            .get(sectionIndex).getAuthors().get(itemIndex).getAuthorFields().getImageUrl())
+                    .load(Constants.IMAGES_URL + authorFields.getImageUrl())
                     .placeholder(R.drawable.avatar)
                     .error(R.drawable.avatar)
                     .into(((ItemViewHolder) viewHolder).authorImage);
 
         ivh.itemView.setOnClickListener(new OnAuthorClickListener(mDataSet.getAuthorGroup()
                 .get(sectionIndex).getAuthors().get(itemIndex).getId()));
+
         setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
     }
 
@@ -145,7 +152,7 @@ public class AuthorsAdapter extends SectioningAdapter {
 
         @Override
         public void onClick(View v) {
-            Intent i = new Intent(context, AuthorDetails.class);
+            Intent i = new Intent(context, QuotesByAuthor.class);
             i.putExtra(Constants.AUTHOR_ID, authorID);
             context.startActivity(i);
         }

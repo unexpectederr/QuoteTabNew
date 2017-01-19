@@ -1,4 +1,4 @@
-package digitalbath.authors;
+package digitalbath.quotes;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,11 +15,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import adapters.AuthorDetailsAdapter;
+import adapters.QuotesByAuthorAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
-import helpers.AppHelper;
-import helpers.Constants;
+import helpers.main.Constants;
 import models.authors.AuthorFieldsFromQuote;
 import models.authors.Quotes;
 import networking.QuoteTabApi;
@@ -27,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AuthorDetails extends AppCompatActivity
+public class QuotesByAuthor extends AppCompatActivity
         implements AppBarLayout.OnOffsetChangedListener {
 
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR  = 0.9f;
@@ -50,7 +49,7 @@ public class AuthorDetails extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_author_details);
+        setContentView(R.layout.activity_quotes_by_author);
 
         initializeVariables();
 
@@ -60,8 +59,8 @@ public class AuthorDetails extends AppCompatActivity
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
-                quotesRecycler.setLayoutManager(new LinearLayoutManager(AuthorDetails.this));
-                AuthorDetailsAdapter adapter = new AuthorDetailsAdapter(response.body(), AuthorDetails.this);
+                quotesRecycler.setLayoutManager(new LinearLayoutManager(QuotesByAuthor.this));
+                QuotesByAuthorAdapter adapter = new QuotesByAuthorAdapter(response.body(), QuotesByAuthor.this);
                 quotesRecycler.setAdapter(adapter);
 
                 AuthorFieldsFromQuote detailsFromQuote = response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote();
@@ -71,7 +70,7 @@ public class AuthorDetails extends AppCompatActivity
                 authorTagLine.setText(detailsFromQuote.getProfession().getProfessionName() + " - "
                         + detailsFromQuote.getBirthplace());
 
-                Glide.with(AuthorDetails.this)
+                Glide.with(QuotesByAuthor.this)
                         .load(Constants.IMAGES_URL + detailsFromQuote.getAuthorImageUrl())
                         .placeholder(R.drawable.avatar)
                         .error(R.drawable.avatar)
@@ -103,7 +102,7 @@ public class AuthorDetails extends AppCompatActivity
         quotesRecycler = (RecyclerView) findViewById(R.id.author_details_recyclerView);
 
         ImageView coverImage = (ImageView) findViewById(R.id.cover_image);
-        Glide.with(AuthorDetails.this).load("https://lh3.googleusercontent.com/-NnaUBvaHFeQ/VYa2yvBGIxI/AAAAAAAAdhY/qSpaK9ubPWY/w2048-h1152/4K-Wallpaper-Pack-Smartphone-Tablet-Android-Apple-Notebook-Windows-21.jpg")
+        Glide.with(QuotesByAuthor.this).load("https://lh3.googleusercontent.com/-NnaUBvaHFeQ/VYa2yvBGIxI/AAAAAAAAdhY/qSpaK9ubPWY/w2048-h1152/4K-Wallpaper-Pack-Smartphone-Tablet-Android-Apple-Notebook-Windows-21.jpg")
                 .error(R.drawable.avatar).into(coverImage);
 
         authorTitle = (TextView) findViewById(R.id.author_name);

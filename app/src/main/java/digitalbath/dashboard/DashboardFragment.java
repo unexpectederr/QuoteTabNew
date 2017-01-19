@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
-import helpers.AppHelper;
+import helpers.main.AppHelper;
 import models.dashboard.DashboardItem;
 
 public class DashboardFragment extends Fragment {

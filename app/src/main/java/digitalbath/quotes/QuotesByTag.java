@@ -7,8 +7,8 @@ import android.support.v7.widget.RecyclerView;
 
 import adapters.QuotesByTagAdapter;
 import digitalbath.quotetabnew.R;
-import helpers.AppHelper;
-import helpers.Constants;
+import helpers.main.AppHelper;
+import helpers.main.Constants;
 import models.authors.Quotes;
 import networking.QuoteTabApi;
 import retrofit2.Call;

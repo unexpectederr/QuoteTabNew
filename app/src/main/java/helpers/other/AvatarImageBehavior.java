@@ -1,4 +1,4 @@
-package helpers;
+package helpers.other;
 
  import android.content.Context;
  import android.content.res.TypedArray;

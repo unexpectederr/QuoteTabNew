@@ -1,4 +1,4 @@
-package helpers;
+package helpers.main;
 
 import android.content.Context;
 import android.graphics.Typeface;

@@ -1,4 +1,4 @@
-package helpers;
+package helpers.main;
 
 /**
  * Created by unexpected_err on 11/01/2017.

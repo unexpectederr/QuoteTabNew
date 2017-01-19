@@ -4,8 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.EditText;
 
-import digitalbath.authors.Authors;
-import helpers.AppHelper;
+import helpers.main.AppHelper;
 
 /**
  * Created by unexpected_err on 11/01/2017.

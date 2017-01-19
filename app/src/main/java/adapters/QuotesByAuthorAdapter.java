@@ -1,8 +1,6 @@
 package adapters;
 
 import android.content.Context;
-import android.media.Image;
-import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,11 +14,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.Random;
-
 import digitalbath.quotetabnew.R;
-import helpers.AppHelper;
-import helpers.Constants;
+import helpers.main.AppHelper;
+import helpers.main.Constants;
 import listeners.OnFavoriteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
@@ -30,13 +26,13 @@ import models.authors.Quotes;
  * Created by Spaja on 05-Jan-17.
  */
 
-public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class QuotesByAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Quotes mDataSet;
     private Context context;
     private int lastPosition = -1;
 
-    public AuthorDetailsAdapter(Quotes mDataSet, Context context) {
+    public QuotesByAuthorAdapter(Quotes mDataSet, Context context) {
         this.mDataSet = mDataSet;
         this.context = context;
         setHasStableIds(true);
@@ -68,7 +64,7 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.author_details_recycler_list_item, parent, false);
+                .inflate(R.layout.quote_recycler_list_item, parent, false);
 
         return new ViewHolderCard(v);
     }
@@ -103,7 +99,7 @@ public class AuthorDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (i < Constants.MAX_NUMBER_OF_QUOTES) {
 
                 TextView quoteTag = new TextView(context);
-                quoteTag.setBackgroundResource(R.drawable.button_outline);
+                quoteTag.setBackgroundResource(R.drawable.background_outline);
                 quoteTag.setText(tags[i]);
                 quoteTag.setPadding(30, 15, 30, 15);
 
