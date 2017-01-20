@@ -76,7 +76,7 @@ public class AppController extends Application {
 
     public static int getBitmapIndex() {
 
-        int index = 0;
+        int index;
 
         index = bitmapIndexes.get(0);
         bitmapIndexes.remove(0);

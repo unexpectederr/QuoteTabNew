@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import adapters.QuotesByTagAdapter;
 import adapters.TopicsAdapter;
@@ -22,6 +24,7 @@ public class TopQuotes extends AppCompatActivity {
     int totalItemCount;
     int pastVisibleItems;
     QuotesByTagAdapter adapter;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class TopQuotes extends AppCompatActivity {
         final RecyclerView topQuotesRecycler = (RecyclerView) findViewById(R.id.top_quotes_recycler);
         final LinearLayoutManager manager = new LinearLayoutManager(this);
         topQuotesRecycler.setLayoutManager(manager);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         loadTopQuotes(topQuotesRecycler);
 
@@ -45,6 +49,7 @@ public class TopQuotes extends AppCompatActivity {
                     if (!loading) {
                         if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                             loading = true;
+                            progressBar.setVisibility(View.VISIBLE);
                             loadTopQuotes(topQuotesRecycler, page);
                             page++;
                         }
@@ -80,6 +85,7 @@ public class TopQuotes extends AppCompatActivity {
             public void onResponse(Call<models.quotes.TopQuotes> call, Response<models.quotes.TopQuotes> response) {
                 adapter.addQuotes(response.body().getQuotes());
                 loading = false;
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

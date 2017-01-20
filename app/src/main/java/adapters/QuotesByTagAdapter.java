@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import digitalbath.quotetabnew.R;
+import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import listeners.OnFavoriteClickListener;
@@ -40,6 +41,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
         ImageView shareText;
         ImageView favoriteText;
         LinearLayout quoteTags;
+        ImageView cardImage;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -48,6 +50,8 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             shareText = (ImageView) itemView.findViewById(R.id.share_icon);
             favoriteText = (ImageView) itemView.findViewById(R.id.favorite_icon);
             quoteTags = (LinearLayout) itemView.findViewById(R.id.quote_tags);
+            cardImage = (ImageView) itemView.findViewById(R.id.card_image);
+
         }
     }
 
@@ -61,6 +65,12 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (mDataSet.get(position).getQuoteDetails() != null) {
+
+            if (mDataSet.get(position).getImageId() == 0)
+                mDataSet.get(position).setImageId(AppController.getBitmapIndex());
+
+            AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
+                    holder.cardImage, false);
             holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
             holder.shareText.setOnClickListener(new OnShareClickListener(context));
             holder.favoriteText.setOnClickListener(new OnFavoriteClickListener(context));

@@ -72,6 +72,7 @@ public class QuotesByAuthor extends AppCompatActivity
 
                 Glide.with(QuotesByAuthor.this)
                         .load(Constants.IMAGES_URL + detailsFromQuote.getAuthorImageUrl())
+                        .dontAnimate()
                         .placeholder(R.drawable.avatar)
                         .error(R.drawable.avatar)
                         .into(authorImage);

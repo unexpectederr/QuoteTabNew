@@ -113,7 +113,7 @@ public class AuthorsAdapter extends SectioningAdapter {
                 + authorFields.getQuotesCount() + " quotes");
 
         Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
-                    .load(Constants.IMAGES_URL + authorFields.getImageUrl())
+                    .load(Constants.IMAGES_URL + authorFields.getImageUrl()).dontAnimate()
                     .placeholder(R.drawable.avatar)
                     .error(R.drawable.avatar)
                     .into(((ItemViewHolder) viewHolder).authorImage);

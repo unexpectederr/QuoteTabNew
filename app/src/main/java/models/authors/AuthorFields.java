@@ -34,7 +34,11 @@ public class AuthorFields {
     }
 
     public String getProfessionName() {
-        return professionName.get(0);
+        if (professionName != null) {
+            return professionName.get(0);
+        } else {
+            return "Unknown";
+        }
     }
 
     public int getQuotesCount() {
