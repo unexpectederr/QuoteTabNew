@@ -12,9 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import digitalbath.quotetabnew.R;
+import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import listeners.OnFavoriteClickListener;
@@ -72,10 +71,11 @@ public class QuotesByAuthorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
-        Glide.with(((ViewHolderCard) holder).cardImage.getContext())
-                .load(Constants.COVER_IMAGES_URL + mDataSet.getQuotes().get(position).getQuoteId() + ".jpg")
-                .error(R.drawable.avatar)
-                .into(((ViewHolderCard) holder).cardImage);
+        if (mDataSet.getQuotes().get(position).getImageId() == 0)
+            mDataSet.getQuotes().get(position).setImageId(AppController.getBitmapIndex());
+
+        AppController.loadImageIntoView(context, mDataSet.getQuotes().get(position).getImageId(),
+                ((ViewHolderCard) holder).cardImage, false);
 
        /* Glide.with(((ViewHolderCard) holder).quotesLeft.getContext())
                 .load(R.drawable.quotation_marks_left)

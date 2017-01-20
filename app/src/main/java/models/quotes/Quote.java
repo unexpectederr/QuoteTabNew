@@ -11,7 +11,7 @@ import helpers.main.Constants;
  */
 public class Quote {
 
-    int quoteId = new Random().nextInt(Constants.NUMBER_OF_COVERS);
+    int imageId;
 
     @SerializedName("fields")
     private QuoteFields quoteDetails;
@@ -20,7 +20,11 @@ public class Quote {
         return quoteDetails;
     }
 
-    public int getQuoteId() {
-        return quoteId;
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 }

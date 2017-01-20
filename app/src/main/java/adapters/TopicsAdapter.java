@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.yayandroid.parallaxrecyclerview.ParallaxViewHolder;
 import java.util.ArrayList;
 import digitalbath.quotetabnew.R;
+import helpers.main.AppController;
 import helpers.main.Constants;
 import listeners.OnTagClickListener;
 import models.topics.Topic;
@@ -56,10 +57,11 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
     @Override
     public void onBindViewHolder(TopicsAdapter.ViewHolder holder, int position) {
 
-        Glide.with(holder.itemView.getContext())
-                .load(Constants.COVER_IMAGES_URL + mDataSet.get(position).getTopicId() + ".jpg")
-                .error(R.drawable.avatar)
-                .into(holder.getBackgroundImage());
+        if (mDataSet.get(position).getImageId() == 0)
+            mDataSet.get(position).setImageId(AppController.getBitmapIndex());
+
+        AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
+                holder.getBackgroundImage(), false);
 
         holder.topicName.setText(mDataSet.get(position).getSource().getTopicName());
 
@@ -72,6 +74,11 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return mDataSet.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     public void addTopics(ArrayList<Topic> topics) {
