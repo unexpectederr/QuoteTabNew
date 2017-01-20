@@ -13,7 +13,9 @@ import com.bumptech.glide.Glide;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
+import helpers.main.AppController;
 import helpers.main.AppHelper;
+import helpers.main.Constants;
 import models.dashboard.DashboardItem;
 
 public class DashboardFragment extends Fragment {
@@ -50,18 +52,23 @@ public class DashboardFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.dashboard_fragment, container, false);
 
-        ImageView imageView = (android.widget.ImageView) view.findViewById(R.id.backdrop);
-        Glide.with(this).load(mItem.getImageUrl()).centerCrop().into(imageView);
+        ImageView cardImage = (android.widget.ImageView) view.findViewById(R.id.backdrop);
+
+        AppController.loadImageIntoView(getContext(), mItem.getDashItemId(), cardImage, true);
 
         CircleImageView authorImage = (CircleImageView) view.findViewById(R.id.author_image);
-        Glide.with(this).load(R.drawable.avatar).error(R.drawable.avatar).into(authorImage);
+        Glide.with(getContext())
+                .load(Constants.IMAGES_URL + mItem.getAuthorId() + ".jpg")
+                .placeholder(R.drawable.avatar)
+                .error(R.drawable.avatar)
+                .into(authorImage);
 
         TextView quote = (TextView) view.findViewById(R.id.quote);
         quote.setTypeface(AppHelper.getRalewayLigt(getContext()));
         quote.setText(mItem.getQuote());
 
         TextView author = (TextView) view.findViewById(R.id.author);
-        author.setText("- " + mItem.getAuthor() + " -");
+        author.setText("- " + mItem.getAuthor() + "-");
 
         return view;
     }

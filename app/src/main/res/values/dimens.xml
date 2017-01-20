@@ -16,6 +16,9 @@
     <dimen name="dashboard_list_item_medium">160dp</dimen>
     <dimen name="dashboard_list_item_large">240dp</dimen>
 
+    <dimen name="rubber_dot_width">15dp</dimen>
+    <dimen name="rubber_dot_height">22dp</dimen>
+    <dimen name="rubber_margin">10dp</dimen>
     <dimen name="dot_dimen">9dp</dimen>
     <dimen name="dot_margin">6dp</dimen>
 

@@ -1,13 +1,23 @@
 package models.dashboard;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 
 public class DashboardData {
 
-    List<PopularAuthor> popularAuthorsList;
+    @SerializedName("popularAuthorsList")
+    List<PopularAuthor> popularAuthors;
 
-    public List<PopularAuthor> getPopularAuthorsList() {
-        return popularAuthorsList;
+    @SerializedName("topPhotos")
+    List<TopPhotos> topPhotos;
+
+    public List<PopularAuthor> getPopularAuthors() {
+        return popularAuthors;
+    }
+
+    public List<TopPhotos> getTopPhotos() {
+        return topPhotos;
     }
 }

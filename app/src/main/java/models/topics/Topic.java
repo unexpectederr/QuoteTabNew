@@ -11,7 +11,7 @@ import helpers.main.Constants;
  */
 public class Topic {
 
-    int topicId = new Random().nextInt(Constants.NUMBER_OF_COVERS);
+    int imageId;
 
     @SerializedName("_source")
     private Source source;
@@ -20,7 +20,11 @@ public class Topic {
         return source;
     }
 
-    public int getTopicId() {
-        return topicId;
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 }

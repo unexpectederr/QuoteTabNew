@@ -48,7 +48,7 @@ public class Topics extends AppCompatActivity {
                     if (!loading) {
                         if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                             loading = true;
-                            loadMoreTopics(page, topicsRecycler);
+                            loadMoreTopics(page);
                             page++;
                         }
                     }
@@ -63,6 +63,7 @@ public class Topics extends AppCompatActivity {
     }
 
     private void loadTopics(final ParallaxRecyclerView topicsRecycler) {
+
         QuoteTabApi.quoteTabApi.getTopics().enqueue(new Callback<models.topics.Topics>() {
             @Override
             public void onResponse(Call<models.topics.Topics> call, Response<models.topics.Topics> response) {
@@ -77,7 +78,8 @@ public class Topics extends AppCompatActivity {
         });
     }
 
-    private void loadMoreTopics(int page, final ParallaxRecyclerView topicsRecycler) {
+    private void loadMoreTopics(int page) {
+
         QuoteTabApi.quoteTabApi.getTopics(page).enqueue(new Callback<models.topics.Topics>() {
             @Override
             public void onResponse(Call<models.topics.Topics> call, Response<models.topics.Topics> response) {
