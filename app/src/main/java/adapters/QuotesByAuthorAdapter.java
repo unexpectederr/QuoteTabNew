@@ -47,6 +47,7 @@ public class QuotesByAuthorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ImageView quotesLeft;
         ImageView quotesRight;
 
+
         ViewHolderCard(View itemView) {
             super(itemView);
             quoteText = (TextView) itemView.findViewById(R.id.quoteText);

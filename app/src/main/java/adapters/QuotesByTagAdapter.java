@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,12 +11,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
+import digitalbath.quotes.QuotesByAuthor;
 import digitalbath.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
+import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
@@ -42,6 +47,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
         ImageView favoriteText;
         LinearLayout quoteTags;
         ImageView cardImage;
+        TextView authorName;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -51,6 +57,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             favoriteText = (ImageView) itemView.findViewById(R.id.favorite_icon);
             quoteTags = (LinearLayout) itemView.findViewById(R.id.quote_tags);
             cardImage = (ImageView) itemView.findViewById(R.id.card_image);
+            authorName = (TextView) itemView.findViewById(R.id.card_author_name);
 
         }
     }
@@ -63,7 +70,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         if (mDataSet.get(position).getQuoteDetails() != null) {
 
             if (mDataSet.get(position).getImageId() == 0)
@@ -72,6 +79,9 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
                     holder.cardImage, false);
             holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
+            holder.authorName.setText("- " + mDataSet.get(position).getQuoteDetails().getAuthorName() + " -");
+            holder.authorName.setOnClickListener(new OnAuthorClickListener(context, mDataSet.get(position)
+                    .getQuoteDetails().getAuthorId()));
             holder.shareText.setOnClickListener(new OnShareClickListener(context));
             holder.favoriteText.setOnClickListener(new OnFavoriteClickListener(context));
             String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");

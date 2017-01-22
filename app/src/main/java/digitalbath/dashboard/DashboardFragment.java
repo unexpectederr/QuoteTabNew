@@ -16,6 +16,7 @@ import digitalbath.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
+import listeners.OnAuthorClickListener;
 import models.dashboard.DashboardItem;
 
 public class DashboardFragment extends Fragment {
@@ -59,9 +60,11 @@ public class DashboardFragment extends Fragment {
         CircleImageView authorImage = (CircleImageView) view.findViewById(R.id.author_image);
         Glide.with(getContext())
                 .load(Constants.IMAGES_URL + mItem.getAuthorId() + ".jpg")
+                .dontAnimate()
                 .placeholder(R.drawable.avatar)
                 .error(R.drawable.avatar)
                 .into(authorImage);
+        authorImage.setOnClickListener(new OnAuthorClickListener(authorImage.getContext(), mItem.getAuthorId()));
 
         TextView quote = (TextView) view.findViewById(R.id.quote);
         quote.setTypeface(AppHelper.getRalewayLigt(getContext()));
@@ -69,6 +72,7 @@ public class DashboardFragment extends Fragment {
 
         TextView author = (TextView) view.findViewById(R.id.author);
         author.setText("- " + mItem.getAuthor() + "-");
+        author.setOnClickListener(new OnAuthorClickListener(author.getContext(), mItem.getAuthorId()));
 
         return view;
     }

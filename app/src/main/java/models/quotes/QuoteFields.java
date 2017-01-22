@@ -10,6 +10,10 @@ import java.util.ArrayList;
 
 public class QuoteFields {
 
+
+    @SerializedName("author.authorId")
+    private ArrayList<String> authorId;
+
     @SerializedName("author.imageUrl")
     private ArrayList<String> authorImageUrl;
 
@@ -38,6 +42,10 @@ public class QuoteFields {
     private ArrayList<String> categories;
 
     private String thumbnailUrl;
+
+    public String getAuthorId() {
+        return authorId.get(0);
+    }
 
     public String getPhotoId() {
         return photoId;
