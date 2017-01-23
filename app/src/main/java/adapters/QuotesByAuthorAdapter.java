@@ -88,7 +88,9 @@ public class QuotesByAuthorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         ((ViewHolderCard) holder).quoteText.setText(mDataSet.getQuotes().get(position).getQuoteDetails().getQuoteText());
         ((ViewHolderCard) holder).quoteText.setTypeface(AppHelper.getRalewayLigt(((ViewHolderCard) holder).cardImage.getContext()));
-        ((ViewHolderCard) holder).shareIcon.setOnClickListener(new OnShareClickListener(context));
+        ((ViewHolderCard) holder).shareIcon.setOnClickListener(new OnShareClickListener(context,
+                ((ViewHolderCard) holder).quoteText.getText().toString(),
+                mDataSet.getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getAuthorName()));
         ((ViewHolderCard) holder).favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context));
 
         String[] tags = mDataSet.getQuotes().get(position).getQuoteDetails().getCategories().split(" ");

@@ -82,7 +82,9 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             holder.authorName.setText("- " + mDataSet.get(position).getQuoteDetails().getAuthorName() + " -");
             holder.authorName.setOnClickListener(new OnAuthorClickListener(context, mDataSet.get(position)
                     .getQuoteDetails().getAuthorId()));
-            holder.shareText.setOnClickListener(new OnShareClickListener(context));
+            holder.shareText.setOnClickListener(new OnShareClickListener(context,
+                    holder.quoteText.getText().toString(),
+                    mDataSet.get(position).getQuoteDetails().getAuthorName()));
             holder.favoriteText.setOnClickListener(new OnFavoriteClickListener(context));
             String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 

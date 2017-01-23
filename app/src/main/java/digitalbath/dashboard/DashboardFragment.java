@@ -3,6 +3,7 @@ package digitalbath.dashboard;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import listeners.OnAuthorClickListener;
+import listeners.OnShareClickListener;
 import models.dashboard.DashboardItem;
 
 public class DashboardFragment extends Fragment {
@@ -26,6 +28,7 @@ public class DashboardFragment extends Fragment {
 
     private DashboardItem mItem;
     private int mPage;
+
     public static DashboardFragment getNewInstance(int page, DashboardItem item) {
 
         Bundle args = new Bundle();
@@ -73,6 +76,9 @@ public class DashboardFragment extends Fragment {
         TextView author = (TextView) view.findViewById(R.id.author);
         author.setText("- " + mItem.getAuthor() + "-");
         author.setOnClickListener(new OnAuthorClickListener(author.getContext(), mItem.getAuthorId()));
+
+        ImageView share = (ImageView) view.findViewById(R.id.dashboard_share);
+        share.setOnClickListener(new OnShareClickListener(share.getContext(), mItem.getQuote(), mItem.getAuthor()));
 
         return view;
     }
