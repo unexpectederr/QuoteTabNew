@@ -2,13 +2,14 @@ package models.quotes;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Spaja on 05-Jan-17.
  */
 
-public class QuoteFields {
+public class QuoteFields implements Serializable{
 
 
     @SerializedName("author.authorId")

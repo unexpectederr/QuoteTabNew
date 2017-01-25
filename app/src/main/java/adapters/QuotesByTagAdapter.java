@@ -48,16 +48,17 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
         LinearLayout quoteTags;
         ImageView cardImage;
         TextView authorName;
+        ImageView favoriteIcon;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             quoteText = (TextView) itemView.findViewById(R.id.quoteText);
             shareText = (ImageView) itemView.findViewById(R.id.share_icon);
-            favoriteText = (ImageView) itemView.findViewById(R.id.favorite_icon);
             quoteTags = (LinearLayout) itemView.findViewById(R.id.quote_tags);
             cardImage = (ImageView) itemView.findViewById(R.id.card_image);
             authorName = (TextView) itemView.findViewById(R.id.card_author_name);
+            favoriteIcon = (ImageView) itemView.findViewById(R.id.favorite_icon);
 
         }
     }
@@ -76,6 +77,11 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             if (mDataSet.get(position).getImageId() == 0)
                 mDataSet.get(position).setImageId(AppController.getBitmapIndex());
 
+            if (mDataSet.get(position).isFavorite()){
+                holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
+            } else {
+                holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+            }
             AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
                     holder.cardImage, false);
             holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
@@ -85,7 +91,8 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             holder.shareText.setOnClickListener(new OnShareClickListener(context,
                     holder.quoteText.getText().toString(),
                     mDataSet.get(position).getQuoteDetails().getAuthorName()));
-            holder.favoriteText.setOnClickListener(new OnFavoriteClickListener(context));
+            holder.favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context,
+                    mDataSet.get(position), holder.favoriteIcon));
             String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 
             holder.quoteTags.removeAllViews();

@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Random;
 
 import digitalbath.authors.Authors;
+import digitalbath.quotes.FavoriteQuotes;
 import digitalbath.quotes.TopQuotes;
 import digitalbath.quotetabnew.R;
 import digitalbath.topics.Topics;
@@ -139,7 +140,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             public void onResponse(Call<DashboardData> call, Response<DashboardData> response) {
 
                 ArrayList<DashboardItem> items = new ArrayList<>();
-
                 for (int i = 0; response.body().getTopPhotos().size() > i; i++) {
 
                     Source source = response.body().getTopPhotos().get(i).getSource();
@@ -250,6 +250,9 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         } else if (id == R.id.nav_topQuotes) {
             Intent i = new Intent(Dashboard.this, TopQuotes.class);
+            startActivity(i);
+        } else if (id == R.id.nav_send){
+            Intent i = new Intent(Dashboard.this, FavoriteQuotes.class);
             startActivity(i);
         }
 
