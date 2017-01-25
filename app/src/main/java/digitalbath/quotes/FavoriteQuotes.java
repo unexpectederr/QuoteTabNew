@@ -14,6 +14,8 @@ import models.quotes.Quote;
 
 public class FavoriteQuotes extends AppCompatActivity {
 
+    public ArrayList<Quote> favoriteQuotes;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +24,6 @@ public class FavoriteQuotes extends AppCompatActivity {
         RecyclerView favoritesRecycler = (RecyclerView) findViewById(R.id.favorite_quotes_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         favoritesRecycler.setLayoutManager(llm);
-
-        ArrayList<Quote> favoriteQuotes;
 
         favoriteQuotes = ReadAndWriteToFile.readFromFile(this);
 

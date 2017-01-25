@@ -18,23 +18,32 @@ import models.quotes.Quote;
 
 public class ReadAndWriteToFile {
 
-    public static ArrayList<Quote> quotes = new ArrayList<>();
 
-    public static void writeToFile(Context context, Quote quote) throws IOException, ClassNotFoundException {
+    public static void writeToFile(Context context, Quote quote) {
 
-        quotes.addAll(readFromFile(context));
-        if (quote.isFavorite())
-            quotes.add(quote);
-        else
-            quotes.remove(quote);
-        FileOutputStream fos = context.openFileOutput(Constants.FILE_NAME, Context.MODE_PRIVATE);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(quotes);
-        oos.close();
+        ArrayList<Quote> quotes = readFromFile(context);
+
+        for (int i = 0; i < quotes.size(); i++) {
+
+            if (quote.isFavorite() && !quotes.get(i).getQuoteDetails().getQuoteId().equals(quote.getQuoteDetails().getQuoteId()))
+                quotes.add(quote);
+            else
+                quotes.remove(quote);
+        }
+
+        try {
+            FileOutputStream fos = context.openFileOutput(Constants.FILE_NAME, Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(quotes);
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static ArrayList<Quote> readFromFile(Context context) {
         FileInputStream fis;
+        ArrayList<Quote> quotes = new ArrayList<>();
         try {
             fis = context.openFileInput(Constants.FILE_NAME);
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -45,5 +54,4 @@ public class ReadAndWriteToFile {
         }
         return quotes;
     }
-
 }

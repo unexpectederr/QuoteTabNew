@@ -74,7 +74,6 @@ public class TopQuotes extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {
-
             }
         });
     }

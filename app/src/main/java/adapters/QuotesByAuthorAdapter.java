@@ -12,13 +12,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+
 import digitalbath.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
+import helpers.other.ReadAndWriteToFile;
 import listeners.OnFavoriteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
+import models.quotes.Quote;
 import models.quotes.Quotes;
 
 /**
@@ -93,6 +99,17 @@ public class QuotesByAuthorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 mDataSet.getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getAuthorName()));
         ((ViewHolderCard) holder).favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context,
                 mDataSet.getQuotes().get(position), ((ViewHolderCard) holder).favoriteIcon));
+
+        ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.readFromFile(context);
+
+        for (int i = 0; i < favoriteQuotes.size(); i++) {
+            if (mDataSet.getQuotes().get(position).getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).
+                    getQuoteDetails().getQuoteId())) {
+                ((ViewHolderCard) holder).favoriteIcon.setImageResource(R.drawable.ic_favorite);
+            } else {
+                ((ViewHolderCard) holder).favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+            }
+        }
 
         String[] tags = mDataSet.getQuotes().get(position).getQuoteDetails().getCategories().split(" ");
 

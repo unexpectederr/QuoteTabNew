@@ -2,6 +2,7 @@ package adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.RequiresPermission;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.w3c.dom.Text;
 
@@ -20,6 +23,7 @@ import digitalbath.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
+import helpers.other.ReadAndWriteToFile;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteClickListener;
 import listeners.OnShareClickListener;
@@ -44,7 +48,6 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
 
         TextView quoteText;
         ImageView shareText;
-        ImageView favoriteText;
         LinearLayout quoteTags;
         ImageView cardImage;
         TextView authorName;
@@ -77,11 +80,17 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             if (mDataSet.get(position).getImageId() == 0)
                 mDataSet.get(position).setImageId(AppController.getBitmapIndex());
 
-            if (mDataSet.get(position).isFavorite()){
-                holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
-            } else {
-                holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+            ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.readFromFile(context);
+
+            for (int i = 0; i < favoriteQuotes.size(); i++){
+                if (mDataSet.get(position).getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).
+                        getQuoteDetails().getQuoteId())){
+                    holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
+                }else {
+                    holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+                }
             }
+
             AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
                     holder.cardImage, false);
             holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());

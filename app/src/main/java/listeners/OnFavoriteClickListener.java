@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.IOException;
 
 import digitalbath.quotetabnew.R;
@@ -18,7 +20,7 @@ public class OnFavoriteClickListener implements View.OnClickListener {
 
     private Context context;
     private Quote quote;
-    ImageView favoriteIcon;
+    private ImageView favoriteIcon;
 
     public OnFavoriteClickListener(Context context, Quote quote, ImageView favoriteIcon) {
 
@@ -29,18 +31,14 @@ public class OnFavoriteClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        try {
-            if (quote.isFavorite()) {
-                quote.setFavorite(false);
-                favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
-            } else {
-                quote.setFavorite(true);
-                favoriteIcon.setImageResource(R.drawable.ic_favorite);
-            }
-            ReadAndWriteToFile.writeToFile(context, quote);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        if (quote.isFavorite()) {
+            quote.setFavorite(false);
+            favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+        } else {
+            quote.setFavorite(true);
+            favoriteIcon.setImageResource(R.drawable.ic_favorite);
         }
+        ReadAndWriteToFile.writeToFile(context, quote);
     }
 }
 

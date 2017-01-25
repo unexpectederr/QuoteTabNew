@@ -44,6 +44,13 @@ public class QuoteFields implements Serializable{
 
     private String thumbnailUrl;
 
+    @SerializedName("quoteId")
+    private ArrayList<String> quoteId;
+
+    public String getQuoteId() {
+         return quoteId.get(0);
+    }
+
     public String getAuthorId() {
         return authorId.get(0);
     }
