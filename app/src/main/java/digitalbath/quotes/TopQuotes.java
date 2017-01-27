@@ -42,15 +42,18 @@ public class TopQuotes extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
                 if (dy > 0) {
+
                     visibleItemCount = manager.getChildCount();
                     totalItemCount = manager.getItemCount();
                     pastVisibleItems = manager.findFirstVisibleItemPosition();
+
                     if (!loading) {
-                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                        if ((visibleItemCount + pastVisibleItems) >= (totalItemCount - 3)) {
                             loading = true;
                             progressBar.setVisibility(View.VISIBLE);
-                            loadTopQuotes(topQuotesRecycler, page);
+                            loadTopQuotes(page);
                             page++;
                         }
                     }
@@ -68,30 +71,30 @@ public class TopQuotes extends AppCompatActivity {
         QuoteTabApi.quoteTabApi.getTopQuotes().enqueue(new Callback<models.quotes.TopQuotes>() {
             @Override
             public void onResponse(Call<models.quotes.TopQuotes> call, Response<models.quotes.TopQuotes> response) {
+
                 adapter = new QuotesByTagAdapter(TopQuotes.this, response.body().getQuotes());
                 topQuotesRecycler.setAdapter(adapter);
+
             }
 
             @Override
-            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {
-
-            }
+            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {}
         });
     }
 
-    private void loadTopQuotes(final RecyclerView topQuotesRecycler, int page) {
+    private void loadTopQuotes(int page) {
         QuoteTabApi.quoteTabApi.getTopQuotes(page).enqueue(new Callback<models.quotes.TopQuotes>() {
             @Override
             public void onResponse(Call<models.quotes.TopQuotes> call, Response<models.quotes.TopQuotes> response) {
+
                 adapter.addQuotes(response.body().getQuotes());
                 loading = false;
                 progressBar.setVisibility(View.GONE);
+
             }
 
             @Override
-            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {
-
-            }
+            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {}
         });
     }
 }
