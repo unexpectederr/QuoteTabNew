@@ -1,6 +1,7 @@
 package helpers.other;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -19,16 +20,21 @@ import models.quotes.Quote;
 public class ReadAndWriteToFile {
 
 
-    public static void writeToFile(Context context, Quote quote) {
+    public static void addFavoriteQuotes(Context context, Quote quote, int position, RecyclerView.Adapter adapter) {
 
-        ArrayList<Quote> quotes = readFromFile(context);
+        ArrayList<Quote> quotes = getFavoriteQuotes(context);
 
-        for (int i = 0; i < quotes.size(); i++) {
+        if (quotes.size() != 0) {
 
-            if (quote.isFavorite() && !quotes.get(i).getQuoteDetails().getQuoteId().equals(quote.getQuoteDetails().getQuoteId()))
+            if (quote.isFavorite()) {
                 quotes.add(quote);
-            else
-                quotes.remove(quote);
+                adapter.notifyItemInserted(position);
+            } else {
+                quotes.remove(position);
+                adapter.notifyItemRemoved(position);
+            }
+        } else {
+            quotes.add(quote);
         }
 
         try {
@@ -41,7 +47,7 @@ public class ReadAndWriteToFile {
         }
     }
 
-    public static ArrayList<Quote> readFromFile(Context context) {
+    public static ArrayList<Quote> getFavoriteQuotes(Context context) {
         FileInputStream fis;
         ArrayList<Quote> quotes = new ArrayList<>();
         try {

@@ -1,8 +1,6 @@
 package adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.RequiresPermission;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,13 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-import digitalbath.quotes.QuotesByAuthor;
 import digitalbath.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
@@ -80,15 +73,22 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             if (mDataSet.get(position).getImageId() == 0)
                 mDataSet.get(position).setImageId(AppController.getBitmapIndex());
 
-            ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.readFromFile(context);
+            ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(context);
 
-            for (int i = 0; i < favoriteQuotes.size(); i++){
-                if (mDataSet.get(position).getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).
-                        getQuoteDetails().getQuoteId())){
-                    holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
-                }else {
-                    holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+            if (favoriteQuotes.size() != 0) {
+                for (int i = 0; i < favoriteQuotes.size(); i++) {
+                    if (mDataSet.get(position).getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).
+                            getQuoteDetails().getQuoteId())) {
+                        holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
+                        mDataSet.get(position).setFavorite(true);
+                        break;
+                    } else {
+                        holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+                        mDataSet.get(position).setFavorite(false);
+                    }
                 }
+            } else {
+                holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
             }
 
             AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
@@ -101,7 +101,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
                     holder.quoteText.getText().toString(),
                     mDataSet.get(position).getQuoteDetails().getAuthorName()));
             holder.favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context,
-                    mDataSet.get(position), holder.favoriteIcon));
+                    mDataSet.get(position), holder.favoriteIcon, position, new QuotesByTagAdapter(context, mDataSet)));
             String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 
             holder.quoteTags.removeAllViews();

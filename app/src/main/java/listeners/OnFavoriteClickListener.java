@@ -1,13 +1,12 @@
 package listeners;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-
-import java.io.IOException;
-
+import adapters.QuotesByTagAdapter;
+import digitalbath.quotes.QuotesByTag;
 import digitalbath.quotetabnew.R;
 import helpers.other.ReadAndWriteToFile;
 import models.quotes.Quote;
@@ -21,12 +20,16 @@ public class OnFavoriteClickListener implements View.OnClickListener {
     private Context context;
     private Quote quote;
     private ImageView favoriteIcon;
+    private int position;
+    private RecyclerView.Adapter adapter;
 
-    public OnFavoriteClickListener(Context context, Quote quote, ImageView favoriteIcon) {
+    public OnFavoriteClickListener(Context context, Quote quote, ImageView favoriteIcon, int position, RecyclerView.Adapter adapter) {
 
         this.context = context;
         this.quote = quote;
         this.favoriteIcon = favoriteIcon;
+        this.position = position;
+        this.adapter = adapter;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class OnFavoriteClickListener implements View.OnClickListener {
             quote.setFavorite(true);
             favoriteIcon.setImageResource(R.drawable.ic_favorite);
         }
-        ReadAndWriteToFile.writeToFile(context, quote);
+        ReadAndWriteToFile.addFavoriteQuotes(context, quote, position, adapter);
     }
 }
 

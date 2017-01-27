@@ -15,17 +15,18 @@ import models.quotes.Quote;
 public class FavoriteQuotes extends AppCompatActivity {
 
     public ArrayList<Quote> favoriteQuotes;
+    public RecyclerView favoritesRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_quotes);
 
-        RecyclerView favoritesRecycler = (RecyclerView) findViewById(R.id.favorite_quotes_recycler);
+        favoritesRecycler = (RecyclerView) findViewById(R.id.favorite_quotes_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         favoritesRecycler.setLayoutManager(llm);
 
-        favoriteQuotes = ReadAndWriteToFile.readFromFile(this);
+        favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
 
         QuotesByTagAdapter adapter = new QuotesByTagAdapter(this, favoriteQuotes);
 
