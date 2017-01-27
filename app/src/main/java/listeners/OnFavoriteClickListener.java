@@ -1,8 +1,15 @@
 package listeners;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ImageView;
+
+import adapters.QuotesByTagAdapter;
+import digitalbath.quotes.QuotesByTag;
+import digitalbath.quotetabnew.R;
+import helpers.other.ReadAndWriteToFile;
+import models.quotes.Quote;
 
 /**
  * Created by Spaja on 10-Jan-17.
@@ -11,13 +18,30 @@ import android.widget.Toast;
 public class OnFavoriteClickListener implements View.OnClickListener {
 
     private Context context;
+    private Quote quote;
+    private ImageView favoriteIcon;
+    private int position;
+    private RecyclerView.Adapter adapter;
 
-    public OnFavoriteClickListener(Context context) {
+    public OnFavoriteClickListener(Context context, Quote quote, ImageView favoriteIcon, int position, RecyclerView.Adapter adapter) {
+
         this.context = context;
+        this.quote = quote;
+        this.favoriteIcon = favoriteIcon;
+        this.position = position;
+        this.adapter = adapter;
     }
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(context, "Favorite this quote", Toast.LENGTH_SHORT).show();
+        if (quote.isFavorite()) {
+            quote.setFavorite(false);
+            favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+        } else {
+            quote.setFavorite(true);
+            favoriteIcon.setImageResource(R.drawable.ic_favorite);
+        }
+        ReadAndWriteToFile.addFavoriteQuotes(context, quote, position, adapter);
     }
 }
+

@@ -12,13 +12,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import digitalbath.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
+import helpers.other.ReadAndWriteToFile;
 import listeners.OnFavoriteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
+import models.quotes.Quote;
 import models.quotes.Quotes;
 
 /**
@@ -91,7 +95,27 @@ public class QuotesByAuthorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ((ViewHolderCard) holder).shareIcon.setOnClickListener(new OnShareClickListener(context,
                 ((ViewHolderCard) holder).quoteText.getText().toString(),
                 mDataSet.getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getAuthorName()));
-        ((ViewHolderCard) holder).favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context));
+        ((ViewHolderCard) holder).favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context,
+                mDataSet.getQuotes().get(position), ((ViewHolderCard) holder).favoriteIcon, position,
+                new QuotesByAuthorAdapter(mDataSet,context)));
+
+        ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(context);
+
+        if (favoriteQuotes.size() != 0) {
+            for (int i = 0; i < favoriteQuotes.size(); i++) {
+                if (mDataSet.getQuotes().get(position).getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).
+                        getQuoteDetails().getQuoteId())) {
+                    mDataSet.getQuotes().get(position).setFavorite(true);
+                    ((ViewHolderCard) holder).favoriteIcon.setImageResource(R.drawable.ic_favorite);
+                    break;
+                } else {
+                    ((ViewHolderCard) holder).favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+                    mDataSet.getQuotes().get(position).setFavorite(false);
+                }
+            }
+        } else {
+            ((ViewHolderCard) holder).favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+        }
 
         String[] tags = mDataSet.getQuotes().get(position).getQuoteDetails().getCategories().split(" ");
 

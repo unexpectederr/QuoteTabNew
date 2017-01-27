@@ -17,7 +17,6 @@ import retrofit2.Response;
 
 public class TopQuotes extends AppCompatActivity {
 
-
     private int page = 2;
     private boolean loading = false;
     int visibleItemCount;
@@ -79,6 +78,7 @@ public class TopQuotes extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {}
+
         });
     }
 

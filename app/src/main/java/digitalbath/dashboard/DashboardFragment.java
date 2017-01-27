@@ -1,6 +1,8 @@
 package digitalbath.dashboard;
 
+import android.media.Image;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
@@ -12,14 +14,19 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
+import helpers.other.ReadAndWriteToFile;
 import listeners.OnAuthorClickListener;
+import listeners.OnFavoriteClickListener;
 import listeners.OnShareClickListener;
 import models.dashboard.DashboardItem;
+import models.quotes.Quote;
 
 public class DashboardFragment extends Fragment {
 
@@ -79,6 +86,10 @@ public class DashboardFragment extends Fragment {
 
         ImageView share = (ImageView) view.findViewById(R.id.dashboard_share);
         share.setOnClickListener(new OnShareClickListener(share.getContext(), mItem.getQuote(), mItem.getAuthor()));
+
+        //Potrebno proslijediti quote u fragment ili na neki slican nacin proslijediti parametre u OnFavoriteClickListener
+        ImageView favorite = (ImageView) view.findViewById(R.id.dashboard_favorite);
+        //favorite.setOnClickListener(new OnFavoriteClickListener(favorite.getContext(), Quote));
 
         return view;
     }

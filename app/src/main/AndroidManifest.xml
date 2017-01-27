@@ -83,7 +83,6 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name="digitalbath.quotes.TopQuotes"
             android:label="@string/app_name"
@@ -94,7 +93,8 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-
+        <activity android:name="digitalbath.quotes.FavoriteQuotes">
+        </activity>
     </application>
 
 </manifest>

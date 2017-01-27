@@ -1,7 +1,6 @@
 package adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,15 +10,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-import digitalbath.quotes.QuotesByAuthor;
 import digitalbath.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
+import helpers.other.ReadAndWriteToFile;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteClickListener;
 import listeners.OnShareClickListener;
@@ -44,20 +41,20 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
 
         TextView quoteText;
         ImageView shareText;
-        ImageView favoriteText;
         LinearLayout quoteTags;
         ImageView cardImage;
         TextView authorName;
+        ImageView favoriteIcon;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             quoteText = (TextView) itemView.findViewById(R.id.quoteText);
             shareText = (ImageView) itemView.findViewById(R.id.share_icon);
-            favoriteText = (ImageView) itemView.findViewById(R.id.favorite_icon);
             quoteTags = (LinearLayout) itemView.findViewById(R.id.quote_tags);
             cardImage = (ImageView) itemView.findViewById(R.id.card_image);
             authorName = (TextView) itemView.findViewById(R.id.card_author_name);
+            favoriteIcon = (ImageView) itemView.findViewById(R.id.favorite_icon);
 
         }
     }
@@ -76,6 +73,24 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             if (mDataSet.get(position).getImageId() == 0)
                 mDataSet.get(position).setImageId(AppController.getBitmapIndex());
 
+            ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(context);
+
+            if (favoriteQuotes.size() != 0) {
+                for (int i = 0; i < favoriteQuotes.size(); i++) {
+                    if (mDataSet.get(position).getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).
+                            getQuoteDetails().getQuoteId())) {
+                        holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
+                        mDataSet.get(position).setFavorite(true);
+                        break;
+                    } else {
+                        holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+                        mDataSet.get(position).setFavorite(false);
+                    }
+                }
+            } else {
+                holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+            }
+
             AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
                     holder.cardImage, false);
             holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
@@ -85,7 +100,8 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             holder.shareText.setOnClickListener(new OnShareClickListener(context,
                     holder.quoteText.getText().toString(),
                     mDataSet.get(position).getQuoteDetails().getAuthorName()));
-            holder.favoriteText.setOnClickListener(new OnFavoriteClickListener(context));
+            holder.favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context,
+                    mDataSet.get(position), holder.favoriteIcon, position, new QuotesByTagAdapter(context, mDataSet)));
             String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 
             holder.quoteTags.removeAllViews();

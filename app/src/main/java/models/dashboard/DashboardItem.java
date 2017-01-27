@@ -6,7 +6,7 @@ import java.util.Random;
 import helpers.main.Constants;
 
 
-public class DashboardItem implements Serializable{
+public class DashboardItem implements Serializable {
 
     int dashItemId = new Random().nextInt(Constants.NUMBER_OF_COVERS);
 
