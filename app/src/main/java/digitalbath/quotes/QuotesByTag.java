@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import adapters.QuotesByTagAdapter;
 import digitalbath.quotetabnew.R;
@@ -17,23 +19,50 @@ import retrofit2.Response;
 
 public class QuotesByTag extends AppCompatActivity {
 
-    RecyclerView quotesByTagRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quotes_by_tag);
 
-        quotesByTagRecycler = (RecyclerView) findViewById(R.id.quotesByTagRecycler);
+        initializeToolbar();
+
+        RecyclerView quotesByTagRecycler = (RecyclerView) findViewById(R.id.quotes_by_tag_recycler);
         quotesByTagRecycler.setLayoutManager(new LinearLayoutManager(this));
 
-        String TAG = getIntent().getStringExtra(Constants.QUOTE_TAG);
+        String tag = getIntent().getStringExtra(Constants.QUOTE_TAG);
 
-        QuoteTabApi.quoteTabApi.getQuotesByTag(TAG).enqueue(new Callback<Quotes>() {
+        getQuotesByTag(tag, quotesByTagRecycler);
+
+
+    }
+
+    private void initializeToolbar() {
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+       /* searchEditText = (EditText) toolbar.findViewById(R.id.search_edit_text);
+        searchEditText.getBackground().setColorFilter(getResources().getColor(
+                R.color.edit_text_toolbar_underline), PorterDuff.Mode.SRC_IN);
+
+        searchIcon = (ImageView) findViewById(R.id.search_icon);
+        searchIcon.setOnClickListener(new OnSearchIconClickListener(searchEditText, this));*/
+    }
+
+    private void getQuotesByTag(String tag, final RecyclerView quotesByTagRecycler) {
+
+        QuoteTabApi.quoteTabApi.getQuotesByTag(tag).enqueue(new Callback<Quotes>() {
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
+
                 QuotesByTagAdapter adapter = new QuotesByTagAdapter(QuotesByTag.this, response.body().getQuotes());
                 quotesByTagRecycler.setAdapter(adapter);
+
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
             }
 
             @Override
@@ -41,5 +70,11 @@ public class QuotesByTag extends AppCompatActivity {
                 AppHelper.showToast(getResources().getString(R.string.toast_error_message), QuotesByTag.this);
             }
         });
+    }
+
+    public boolean onSupportNavigateUp() {
+
+        onBackPressed();
+        return true;
     }
 }

@@ -3,6 +3,7 @@ package listeners;
 import android.content.Context;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import helpers.main.AppHelper;
 
@@ -13,10 +14,12 @@ import helpers.main.AppHelper;
 public class OnSearchIconClickListener implements View.OnClickListener {
 
     private EditText mSearchEditText;
+    private TextView mScreenTitle;
     private Context mContext;
 
-    public OnSearchIconClickListener(EditText searchEditText, Context context) {
+    public OnSearchIconClickListener(EditText searchEditText, TextView screenTitle, Context context) {
         mSearchEditText = searchEditText;
+        mScreenTitle = screenTitle;
         mContext = context;
     }
 
@@ -25,7 +28,8 @@ public class OnSearchIconClickListener implements View.OnClickListener {
         if (mSearchEditText.getText().length() == 0) {
             mSearchEditText.setVisibility(View.VISIBLE);
             mSearchEditText.requestFocus();
-            mSearchEditText.setAnimation(AppHelper.getAnimationUp(mContext));
+            mSearchEditText.startAnimation(AppHelper.getAnimationUp(mContext));
+            mScreenTitle.setVisibility(View.GONE);
         } else {
             mSearchEditText.setText("");
         }

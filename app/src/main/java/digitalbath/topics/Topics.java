@@ -18,12 +18,10 @@ import retrofit2.Response;
 
 public class Topics extends AppCompatActivity {
 
-    private int page = 2;
     private boolean loading = false;
-    int visibleItemCount;
-    int totalItemCount;
-    int pastVisibleItems;
-    TopicsAdapter adapter;
+    int page = 2, visibleItemCount, totalItemCount, pastVisibleItems;
+    private TopicsAdapter adapter;
+    private ParallaxRecyclerView topicsRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +30,32 @@ public class Topics extends AppCompatActivity {
 
         initializeToolbar();
 
-        final ParallaxRecyclerView topicsRecycler = (ParallaxRecyclerView) findViewById(R.id.topics_recycler);
-        final LinearLayoutManager manager = new LinearLayoutManager(this);
-        topicsRecycler.setLayoutManager(manager);
+        initializeContent();
 
         loadTopics(topicsRecycler);
+
+    }
+
+    private void initializeToolbar() {
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+       /* searchEditText = (EditText) toolbar.findViewById(R.id.search_edit_text);
+        searchEditText.getBackground().setColorFilter(getResources().getColor(
+                R.color.edit_text_toolbar_underline), PorterDuff.Mode.SRC_IN);
+
+        searchIcon = (ImageView) findViewById(R.id.search_icon);
+        searchIcon.setOnClickListener(new OnSearchIconClickListener(searchEditText, this));*/
+    }
+
+    private void initializeContent() {
+
+        topicsRecycler = (ParallaxRecyclerView) findViewById(R.id.topics_recycler);
+        final LinearLayoutManager manager = new LinearLayoutManager(this);
+        topicsRecycler.setLayoutManager(manager);
 
         topicsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -97,21 +116,6 @@ public class Topics extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void initializeToolbar() {
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-       /* searchEditText = (EditText) toolbar.findViewById(R.id.search_edit_text);
-        searchEditText.getBackground().setColorFilter(getResources().getColor(
-                R.color.edit_text_toolbar_underline), PorterDuff.Mode.SRC_IN);
-
-        searchIcon = (ImageView) findViewById(R.id.search_icon);
-        searchIcon.setOnClickListener(new OnSearchIconClickListener(searchEditText, this));*/
     }
 
     public boolean onSupportNavigateUp() {

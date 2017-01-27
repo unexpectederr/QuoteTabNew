@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        >
+        android:visibility="invisible">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/main.collapsing"
@@ -29,7 +29,8 @@
                 android:tint="#11000000"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.8"
-                android:layout_height="360dp"/>
+                android:layout_height="360dp"
+                />
 
             <FrameLayout
                 android:id="@+id/main.framelayout.title"
@@ -49,7 +50,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    >
 
                     <TextView
                         android:layout_width="match_parent"
@@ -117,8 +119,8 @@
                 android:gravity="center_vertical"
                 android:text="@string/quila_name2"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"
-                />
+                android:textSize="19dp"
+                android:textStyle="bold"/>
 
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
@@ -135,5 +137,14 @@
         app:startHeight="2dp"
         app:startToolbarPosition="2dp"
         app:startXPosition="2dp"
-        android:id="@+id/author_image"/>
+        android:id="@+id/author_image"
+        />
+
+    <ProgressBar
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
+        android:id="@+id/progress_bar"
+        android:layout_gravity="center"
+        android:layout_width="20dp"
+        android:layout_height="20dp"/>
+
 </android.support.design.widget.CoordinatorLayout>
