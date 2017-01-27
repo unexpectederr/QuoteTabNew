@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import adapters.AuthorsAdapter;
 import digitalbath.quotetabnew.R;
@@ -70,6 +71,8 @@ public class Authors extends AppCompatActivity {
 
                 searchEditText.addTextChangedListener(new OnSearchAuthorWatcher(response.body(),
                         authorsRecyclerView, searchIcon, Authors.this));
+
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
             }
 
             @Override

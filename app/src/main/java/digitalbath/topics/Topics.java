@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView;
 
@@ -67,8 +68,11 @@ public class Topics extends AppCompatActivity {
         QuoteTabApi.quoteTabApi.getTopics().enqueue(new Callback<models.topics.Topics>() {
             @Override
             public void onResponse(Call<models.topics.Topics> call, Response<models.topics.Topics> response) {
+
                 adapter = new TopicsAdapter(Topics.this, response.body().getTopics());
                 topicsRecycler.setAdapter(adapter);
+
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
             }
 
             @Override
@@ -83,6 +87,7 @@ public class Topics extends AppCompatActivity {
         QuoteTabApi.quoteTabApi.getTopics(page).enqueue(new Callback<models.topics.Topics>() {
             @Override
             public void onResponse(Call<models.topics.Topics> call, Response<models.topics.Topics> response) {
+
                 adapter.addTopics(response.body().getTopics());
                 loading = false;
             }

@@ -7,6 +7,13 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+    <ProgressBar
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
+        android:id="@+id/progress_bar"
+        android:layout_gravity="center"
+        android:layout_width="20dp"
+        android:layout_height="20dp"/>
+
     <com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView
         android:id="@+id/topics_recycler"
         android:layout_width="match_parent"
