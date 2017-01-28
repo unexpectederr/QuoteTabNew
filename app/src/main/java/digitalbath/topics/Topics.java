@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView;
 
@@ -17,12 +18,10 @@ import retrofit2.Response;
 
 public class Topics extends AppCompatActivity {
 
-    private int page = 2;
     private boolean loading = false;
-    int visibleItemCount;
-    int totalItemCount;
-    int pastVisibleItems;
-    TopicsAdapter adapter;
+    int page = 2, visibleItemCount, totalItemCount, pastVisibleItems;
+    private TopicsAdapter adapter;
+    private ParallaxRecyclerView topicsRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +30,32 @@ public class Topics extends AppCompatActivity {
 
         initializeToolbar();
 
-        final ParallaxRecyclerView topicsRecycler = (ParallaxRecyclerView) findViewById(R.id.topics_recycler);
-        final LinearLayoutManager manager = new LinearLayoutManager(this);
-        topicsRecycler.setLayoutManager(manager);
+        initializeContent();
 
         loadTopics(topicsRecycler);
+
+    }
+
+    private void initializeToolbar() {
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+       /* searchEditText = (EditText) toolbar.findViewById(R.id.search_edit_text);
+        searchEditText.getBackground().setColorFilter(getResources().getColor(
+                R.color.edit_text_toolbar_underline), PorterDuff.Mode.SRC_IN);
+
+        searchIcon = (ImageView) findViewById(R.id.search_icon);
+        searchIcon.setOnClickListener(new OnSearchIconClickListener(searchEditText, this));*/
+    }
+
+    private void initializeContent() {
+
+        topicsRecycler = (ParallaxRecyclerView) findViewById(R.id.topics_recycler);
+        final LinearLayoutManager manager = new LinearLayoutManager(this);
+        topicsRecycler.setLayoutManager(manager);
 
         topicsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -67,8 +87,11 @@ public class Topics extends AppCompatActivity {
         QuoteTabApi.quoteTabApi.getTopics().enqueue(new Callback<models.topics.Topics>() {
             @Override
             public void onResponse(Call<models.topics.Topics> call, Response<models.topics.Topics> response) {
+
                 adapter = new TopicsAdapter(Topics.this, response.body().getTopics());
                 topicsRecycler.setAdapter(adapter);
+
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
             }
 
             @Override
@@ -83,6 +106,7 @@ public class Topics extends AppCompatActivity {
         QuoteTabApi.quoteTabApi.getTopics(page).enqueue(new Callback<models.topics.Topics>() {
             @Override
             public void onResponse(Call<models.topics.Topics> call, Response<models.topics.Topics> response) {
+
                 adapter.addTopics(response.body().getTopics());
                 loading = false;
             }
@@ -92,21 +116,6 @@ public class Topics extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void initializeToolbar() {
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-       /* searchEditText = (EditText) toolbar.findViewById(R.id.search_edit_text);
-        searchEditText.getBackground().setColorFilter(getResources().getColor(
-                R.color.edit_text_toolbar_underline), PorterDuff.Mode.SRC_IN);
-
-        searchIcon = (ImageView) findViewById(R.id.search_icon);
-        searchIcon.setOnClickListener(new OnSearchIconClickListener(searchEditText, this));*/
     }
 
     public boolean onSupportNavigateUp() {

@@ -153,7 +153,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 initializeDashboard(items);
 
                 //initializePopularAuthors(response.body().getPopularAuthors());
-                int asd = 9;
             }
 
             @Override
@@ -172,6 +171,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 AlphaAnimation alpha = new AlphaAnimation(1, 0);
                 alpha.setDuration(400);
                 splashScreen.startAnimation(alpha);
+
             }
         }, 1200);
     }

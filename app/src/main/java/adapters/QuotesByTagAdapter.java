@@ -6,6 +6,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +34,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
     private Context context;
     private ArrayList<Quote> mDataSet;
     private ArrayList<Quote> favoriteQuotes;
+    private int lastPosition = -1;
 
     public QuotesByTagAdapter(Context context, ArrayList<Quote> mDataSet, ArrayList<Quote> favoriteQuotes) {
         this.context = context;
@@ -69,6 +72,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
         if (mDataSet.get(position).getQuoteDetails() != null) {
 
             if (mDataSet.get(position).getImageId() == 0)
@@ -93,15 +97,21 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
 
             AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
                     holder.cardImage, false);
+
             holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
+            holder.quoteText.setTypeface(AppHelper.getRalewayLigt(holder.quoteText.getContext()));
+
             holder.authorName.setText("- " + mDataSet.get(position).getQuoteDetails().getAuthorName() + " -");
             holder.authorName.setOnClickListener(new OnAuthorClickListener(context, mDataSet.get(position)
                     .getQuoteDetails().getAuthorId()));
+
             holder.shareText.setOnClickListener(new OnShareClickListener(context,
                     holder.quoteText.getText().toString(),
                     mDataSet.get(position).getQuoteDetails().getAuthorName()));
+
             holder.favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context,
                     mDataSet.get(position), holder.favoriteIcon, position));
+
             String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 
             holder.quoteTags.removeAllViews();
@@ -130,6 +140,15 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
                     holder.quoteTags.addView(quoteTag);
                 }
             }
+        }
+    }
+
+    private void setAnimation(View viewToAnimate, int position) {
+
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.abc_slide_in_bottom);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
         }
     }
 

@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import adapters.AuthorsAdapter;
 import digitalbath.quotetabnew.R;
@@ -25,6 +27,7 @@ public class Authors extends AppCompatActivity {
 
     EditText searchEditText;
     ImageView searchIcon;
+    TextView screenTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +51,15 @@ public class Authors extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        screenTitle = (TextView) findViewById(R.id.screen_title);
+
         searchEditText = (EditText) toolbar.findViewById(R.id.search_edit_text);
         searchEditText.getBackground().setColorFilter(getResources().getColor(
                 R.color.edit_text_toolbar_underline), PorterDuff.Mode.SRC_IN);
 
         searchIcon = (ImageView) findViewById(R.id.search_icon);
-        searchIcon.setOnClickListener(new OnSearchIconClickListener(searchEditText, this));
+        searchIcon.setOnClickListener(
+                new OnSearchIconClickListener(searchEditText,screenTitle, this));
     }
 
     private void initializeAuthorsList() {
@@ -70,6 +76,8 @@ public class Authors extends AppCompatActivity {
 
                 searchEditText.addTextChangedListener(new OnSearchAuthorWatcher(response.body(),
                         authorsRecyclerView, searchIcon, Authors.this));
+
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
             }
 
             @Override
@@ -83,8 +91,9 @@ public class Authors extends AppCompatActivity {
 
         if (searchEditText.getVisibility() == View.VISIBLE) {
             searchEditText.setVisibility(View.GONE);
-            searchEditText.setAnimation(AppHelper.getAnimationDown(Authors.this));
             searchEditText.setText("");
+            screenTitle.setVisibility(View.VISIBLE);
+            screenTitle.startAnimation(AppHelper.getAnimationUp(Authors.this));
             return true;
         }
 

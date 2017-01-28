@@ -12,4 +12,10 @@
 
   <color name="edit_text_toolbar_underline">#80cce6</color>
 
+  <array name="progress_bar_colors">
+    <item name="color_1">#54d4ff</item>
+    <item name="color_2">#1aa4d1</item>
+    <item name="color_3">#097497</item>
+    <item name="color_4">#24afdc</item>
+  </array>
 </resources>

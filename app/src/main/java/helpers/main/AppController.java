@@ -15,6 +15,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import digitalbath.quotetabnew.R;
 import networking.QuoteTabApi;
@@ -35,7 +36,8 @@ public class AppController extends Application {
     }
 
 
-    public static void loadImageIntoView(final Context ctx, final int index, final ImageView img, final boolean isNew) {
+    public static void loadImageIntoView(final Context ctx, final int index,
+                                         final ImageView img, final boolean isNew) {
 
         final SimpleTarget target = new SimpleTarget<Bitmap>() {
 
@@ -57,6 +59,14 @@ public class AppController extends Application {
                 if (isNew)
                     AppController.addBitmapIndex(index);
             }
+
+            @Override
+            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                super.onLoadFailed(e, errorDrawable);
+
+                AppController.loadImageIntoView(ctx, index + 1, null, true);
+
+            }
         };
 
         Glide.with(ctx)
@@ -77,6 +87,9 @@ public class AppController extends Application {
     public static int getBitmapIndex() {
 
         int index;
+
+        if (bitmapIndexes.size() < 4)
+            return new Random().nextInt(Constants.NUMBER_OF_COVERS);
 
         index = bitmapIndexes.get(0);
         bitmapIndexes.remove(0);
