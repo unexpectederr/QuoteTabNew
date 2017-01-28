@@ -59,6 +59,7 @@ public class QuotesByAuthor extends AppCompatActivity
 
         initializeContent();
 
+
         String authorId = getIntent().getStringExtra(Constants.AUTHOR_ID);
 
         getQuotesByAuthor(authorId);

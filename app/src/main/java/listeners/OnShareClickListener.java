@@ -2,6 +2,10 @@ package listeners;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,4 +34,5 @@ public class OnShareClickListener implements View.OnClickListener {
                 " -" + "\n\nwww.quotetab.com");
         context.startActivity(Intent.createChooser(share, "Share via:"));
     }
+
 }

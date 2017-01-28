@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import digitalbath.quotes.FavoriteQuotes;
 import digitalbath.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
@@ -40,6 +41,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
         this.context = context;
         this.mDataSet = mDataSet;
         this.favoriteQuotes = favoriteQuotes;
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -140,6 +142,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
                     holder.quoteTags.addView(quoteTag);
                 }
             }
+            setAnimation(holder.itemView, holder.getAdapterPosition());
         }
     }
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import adapters.QuotesByTagAdapter;
+import digitalbath.quotes.FavoriteQuotes;
 import digitalbath.quotes.QuotesByTag;
 import digitalbath.quotetabnew.R;
 import helpers.other.ReadAndWriteToFile;
@@ -21,7 +22,6 @@ public class OnFavoriteClickListener implements View.OnClickListener {
     private Quote quote;
     private ImageView favoriteIcon;
     private int position;
-    private RecyclerView.Adapter adapter;
 
     public OnFavoriteClickListener(Context context, Quote quote, ImageView favoriteIcon, int position) {
 
