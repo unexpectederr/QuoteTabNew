@@ -20,7 +20,7 @@ import models.quotes.Quote;
 public class ReadAndWriteToFile {
 
 
-    public static void addFavoriteQuotes(Context context, Quote quote, int position, RecyclerView.Adapter adapter) {
+    public static void addFavoriteQuotes(Context context, Quote quote, int position) {
 
         ArrayList<Quote> quotes = getFavoriteQuotes(context);
 
@@ -28,10 +28,8 @@ public class ReadAndWriteToFile {
 
             if (quote.isFavorite()) {
                 quotes.add(quote);
-                adapter.notifyItemInserted(position);
             } else {
                 quotes.remove(position);
-                adapter.notifyItemRemoved(position);
             }
         } else {
             quotes.add(quote);

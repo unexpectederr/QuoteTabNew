@@ -33,11 +33,13 @@ public class QuotesByAuthorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private Quotes mDataSet;
     private Context context;
+    private ArrayList<Quote> favoriteQuotes;
     private int lastPosition = -1;
 
-    public QuotesByAuthorAdapter(Quotes mDataSet, Context context) {
+    public QuotesByAuthorAdapter(Quotes mDataSet, Context context, ArrayList<Quote> favoriteQuotes) {
         this.mDataSet = mDataSet;
         this.context = context;
+        this.favoriteQuotes = favoriteQuotes;
         setHasStableIds(true);
     }
 
@@ -96,10 +98,7 @@ public class QuotesByAuthorAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 ((ViewHolderCard) holder).quoteText.getText().toString(),
                 mDataSet.getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getAuthorName()));
         ((ViewHolderCard) holder).favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context,
-                mDataSet.getQuotes().get(position), ((ViewHolderCard) holder).favoriteIcon, position,
-                new QuotesByAuthorAdapter(mDataSet,context)));
-
-        ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(context);
+                mDataSet.getQuotes().get(position), ((ViewHolderCard) holder).favoriteIcon, position));
 
         if (favoriteQuotes.size() != 0) {
             for (int i = 0; i < favoriteQuotes.size(); i++) {

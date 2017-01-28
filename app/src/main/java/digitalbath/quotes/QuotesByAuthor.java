@@ -16,11 +16,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 import adapters.QuotesByAuthorAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
 import helpers.main.Constants;
+import helpers.other.ReadAndWriteToFile;
 import models.authors.AuthorFieldsFromQuote;
+import models.quotes.Quote;
 import models.quotes.Quotes;
 import networking.QuoteTabApi;
 import retrofit2.Call;
@@ -41,6 +45,7 @@ public class QuotesByAuthor extends AppCompatActivity
     private TextView mTitle;
     private AppBarLayout mAppBarLayout;
     private Toolbar mToolbar;
+    private ArrayList<Quote> favoriteQuotes;
 
     RecyclerView quotesRecycler;
     CircleImageView authorImage;
@@ -61,7 +66,7 @@ public class QuotesByAuthor extends AppCompatActivity
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
                 quotesRecycler.setLayoutManager(new LinearLayoutManager(QuotesByAuthor.this));
-                QuotesByAuthorAdapter adapter = new QuotesByAuthorAdapter(response.body(), QuotesByAuthor.this);
+                QuotesByAuthorAdapter adapter = new QuotesByAuthorAdapter(response.body(), QuotesByAuthor.this, favoriteQuotes);
                 quotesRecycler.setAdapter(adapter);
 
                 AuthorFieldsFromQuote detailsFromQuote = response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote();
@@ -110,6 +115,7 @@ public class QuotesByAuthor extends AppCompatActivity
         authorTitle = (TextView) findViewById(R.id.author_name);
         authorTagLine = (TextView) findViewById(R.id.author_tagline);
         authorImage = (CircleImageView) findViewById(R.id.author_image);
+        favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
 
         /*bornIn = (TextView) findViewById(R.id.born_in);
         profession = (TextView) findViewById(R.id.profession);

@@ -31,10 +31,12 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
 
     private Context context;
     private ArrayList<Quote> mDataSet;
+    private ArrayList<Quote> favoriteQuotes;
 
-    public QuotesByTagAdapter(Context context, ArrayList<Quote> mDataSet) {
+    public QuotesByTagAdapter(Context context, ArrayList<Quote> mDataSet, ArrayList<Quote> favoriteQuotes) {
         this.context = context;
         this.mDataSet = mDataSet;
+        this.favoriteQuotes = favoriteQuotes;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -55,7 +57,6 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             cardImage = (ImageView) itemView.findViewById(R.id.card_image);
             authorName = (TextView) itemView.findViewById(R.id.card_author_name);
             favoriteIcon = (ImageView) itemView.findViewById(R.id.favorite_icon);
-
         }
     }
 
@@ -73,7 +74,6 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
             if (mDataSet.get(position).getImageId() == 0)
                 mDataSet.get(position).setImageId(AppController.getBitmapIndex());
 
-            ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(context);
 
             if (favoriteQuotes.size() != 0) {
                 for (int i = 0; i < favoriteQuotes.size(); i++) {
@@ -101,7 +101,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
                     holder.quoteText.getText().toString(),
                     mDataSet.get(position).getQuoteDetails().getAuthorName()));
             holder.favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context,
-                    mDataSet.get(position), holder.favoriteIcon, position, new QuotesByTagAdapter(context, mDataSet)));
+                    mDataSet.get(position), holder.favoriteIcon, position));
             String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 
             holder.quoteTags.removeAllViews();

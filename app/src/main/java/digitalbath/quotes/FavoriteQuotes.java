@@ -28,7 +28,7 @@ public class FavoriteQuotes extends AppCompatActivity {
 
         favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
 
-        QuotesByTagAdapter adapter = new QuotesByTagAdapter(this, favoriteQuotes);
+        QuotesByTagAdapter adapter = new QuotesByTagAdapter(this, favoriteQuotes, favoriteQuotes);
 
         favoritesRecycler.setAdapter(adapter);
     }
