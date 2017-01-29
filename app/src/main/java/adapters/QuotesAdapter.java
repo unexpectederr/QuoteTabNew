@@ -14,12 +14,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import digitalbath.quotes.FavoriteQuotes;
 import digitalbath.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
-import helpers.other.ReadAndWriteToFile;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteClickListener;
 import listeners.OnShareClickListener;
@@ -30,14 +28,14 @@ import models.quotes.Quote;
  * Created by Spaja on 10-Jan-17.
  */
 
-public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.ViewHolder> {
+public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<Quote> mDataSet;
     private ArrayList<Quote> favoriteQuotes;
     private int lastPosition = -1;
 
-    public QuotesByTagAdapter(Context context, ArrayList<Quote> mDataSet, ArrayList<Quote> favoriteQuotes) {
+    public QuotesAdapter(Context context, ArrayList<Quote> mDataSet, ArrayList<Quote> favoriteQuotes) {
         this.context = context;
         this.mDataSet = mDataSet;
         this.favoriteQuotes = favoriteQuotes;
@@ -69,7 +67,7 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.quote_recycler_list_item, parent, false);
-        return new QuotesByTagAdapter.ViewHolder(v);
+        return new QuotesAdapter.ViewHolder(v);
     }
 
     @Override
@@ -111,8 +109,9 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
                     holder.quoteText.getText().toString(),
                     mDataSet.get(position).getQuoteDetails().getAuthorName()));
 
-            holder.favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context,
-                    mDataSet.get(position), holder.favoriteIcon, position));
+            holder.favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context, mDataSet,
+                    holder.favoriteIcon, mDataSet.get(position).getQuoteDetails().getQuoteId(),
+                    this, true));
 
             String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 

@@ -9,8 +9,7 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
-import adapters.QuotesByTagAdapter;
-import adapters.TopicsAdapter;
+import adapters.QuotesAdapter;
 import digitalbath.quotetabnew.R;
 import helpers.other.ReadAndWriteToFile;
 import models.quotes.Quote;
@@ -26,7 +25,7 @@ public class TopQuotes extends AppCompatActivity {
     int visibleItemCount;
     int totalItemCount;
     int pastVisibleItems;
-    QuotesByTagAdapter adapter;
+    QuotesAdapter adapter;
     ProgressBar progressBar;
     private ArrayList<Quote> favoriteQuotes;
 
@@ -77,7 +76,7 @@ public class TopQuotes extends AppCompatActivity {
             @Override
             public void onResponse(Call<models.quotes.TopQuotes> call, Response<models.quotes.TopQuotes> response) {
 
-                adapter = new QuotesByTagAdapter(TopQuotes.this, response.body().getQuotes(),favoriteQuotes);
+                adapter = new QuotesAdapter(TopQuotes.this, response.body().getQuotes(),favoriteQuotes);
                 topQuotesRecycler.setAdapter(adapter);
 
             }

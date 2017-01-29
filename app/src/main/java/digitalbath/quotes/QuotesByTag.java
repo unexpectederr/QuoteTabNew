@@ -9,7 +9,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-import adapters.QuotesByTagAdapter;
+import adapters.QuotesAdapter;
 import digitalbath.quotetabnew.R;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
@@ -63,7 +63,7 @@ public class QuotesByTag extends AppCompatActivity {
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
-                QuotesByTagAdapter adapter = new QuotesByTagAdapter(QuotesByTag.this, response.body().getQuotes(), favoriteQuotes);
+                QuotesAdapter adapter = new QuotesAdapter(QuotesByTag.this, response.body().getQuotes(), favoriteQuotes);
 
                 quotesByTagRecycler.setAdapter(adapter);
 

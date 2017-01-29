@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import adapters.QuotesByTagAdapter;
+import adapters.QuotesAdapter;
 import digitalbath.quotetabnew.R;
 import helpers.other.ReadAndWriteToFile;
 import models.quotes.Quote;
@@ -28,7 +28,7 @@ public class FavoriteQuotes extends AppCompatActivity {
 
         favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
 
-        QuotesByTagAdapter adapter = new QuotesByTagAdapter(this, favoriteQuotes, favoriteQuotes);
+        QuotesAdapter adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes);
 
         favoritesRecycler.setAdapter(adapter);
     }

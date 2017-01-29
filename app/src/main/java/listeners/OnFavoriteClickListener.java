@@ -1,13 +1,12 @@
 package listeners;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
-import adapters.QuotesByTagAdapter;
-import digitalbath.quotes.FavoriteQuotes;
-import digitalbath.quotes.QuotesByTag;
+import java.util.ArrayList;
+
+import adapters.QuotesAdapter;
 import digitalbath.quotetabnew.R;
 import helpers.other.ReadAndWriteToFile;
 import models.quotes.Quote;
@@ -19,28 +18,55 @@ import models.quotes.Quote;
 public class OnFavoriteClickListener implements View.OnClickListener {
 
     private Context context;
-    private Quote quote;
+    private ArrayList<Quote> quotes;
     private ImageView favoriteIcon;
-    private int position;
+    private String quoteId;
+    private QuotesAdapter adapter;
+    private boolean isFavorites;
 
-    public OnFavoriteClickListener(Context context, Quote quote, ImageView favoriteIcon, int position) {
+    public OnFavoriteClickListener(Context context, ArrayList<Quote> quotes, ImageView favoriteIcon,
+                                   String quoteId, QuotesAdapter adapter, boolean isFavorites) {
 
         this.context = context;
-        this.quote = quote;
+        this.quotes = quotes;
         this.favoriteIcon = favoriteIcon;
-        this.position = position;
+        this.quoteId = quoteId;
+        this.adapter = adapter;
+        this.isFavorites = isFavorites;
     }
 
     @Override
     public void onClick(View v) {
-        if (quote.isFavorite()) {
-            quote.setFavorite(false);
-            favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
-        } else {
-            quote.setFavorite(true);
-            favoriteIcon.setImageResource(R.drawable.ic_favorite);
+
+        int position = 0;
+
+        for (int i = 0; quotes.size() > i; i++) {
+            if (quotes.get(i).getQuoteDetails() != null &&
+                    quotes.get(i).getQuoteDetails().getQuoteId().equals(quoteId)) {
+                position = i;
+                break;
+            }
         }
-        ReadAndWriteToFile.addFavoriteQuotes(context, quote, position);
+
+        if (quotes.get(position).isFavorite()) {
+
+            quotes.get(position).setFavorite(false);
+            favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+
+            if (isFavorites) {
+                quotes.remove(position);
+                adapter.notifyItemRemoved(position);
+            }
+
+            ReadAndWriteToFile.removeQuoteFromFavorites(context, quoteId);
+
+        } else {
+
+            quotes.get(position).setFavorite(true);
+            favoriteIcon.setImageResource(R.drawable.ic_favorite);
+
+            ReadAndWriteToFile.addQuoteToFavorites(context, quotes.get(position));
+        }
     }
 }
 
