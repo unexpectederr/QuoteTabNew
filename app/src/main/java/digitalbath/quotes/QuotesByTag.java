@@ -7,10 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import java.util.ArrayList;
+
 import adapters.QuotesByTagAdapter;
 import digitalbath.quotetabnew.R;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
+import helpers.other.ReadAndWriteToFile;
+import models.quotes.Quote;
 import models.quotes.Quotes;
 import networking.QuoteTabApi;
 import retrofit2.Call;
@@ -19,6 +23,7 @@ import retrofit2.Response;
 
 public class QuotesByTag extends AppCompatActivity {
 
+    ArrayList<Quote> favoriteQuotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +34,11 @@ public class QuotesByTag extends AppCompatActivity {
 
         RecyclerView quotesByTagRecycler = (RecyclerView) findViewById(R.id.quotes_by_tag_recycler);
         quotesByTagRecycler.setLayoutManager(new LinearLayoutManager(this));
+        favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
 
         String tag = getIntent().getStringExtra(Constants.QUOTE_TAG);
 
         getQuotesByTag(tag, quotesByTagRecycler);
-
 
     }
 
@@ -58,7 +63,8 @@ public class QuotesByTag extends AppCompatActivity {
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
-                QuotesByTagAdapter adapter = new QuotesByTagAdapter(QuotesByTag.this, response.body().getQuotes());
+                QuotesByTagAdapter adapter = new QuotesByTagAdapter(QuotesByTag.this, response.body().getQuotes(), favoriteQuotes);
+
                 quotesByTagRecycler.setAdapter(adapter);
 
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);

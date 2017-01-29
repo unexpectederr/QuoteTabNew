@@ -7,9 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import java.util.ArrayList;
+
 import adapters.QuotesByTagAdapter;
 import adapters.TopicsAdapter;
 import digitalbath.quotetabnew.R;
+import helpers.other.ReadAndWriteToFile;
+import models.quotes.Quote;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,6 +28,7 @@ public class TopQuotes extends AppCompatActivity {
     int pastVisibleItems;
     QuotesByTagAdapter adapter;
     ProgressBar progressBar;
+    private ArrayList<Quote> favoriteQuotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,7 @@ public class TopQuotes extends AppCompatActivity {
         final LinearLayoutManager manager = new LinearLayoutManager(this);
         topQuotesRecycler.setLayoutManager(manager);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
 
         loadTopQuotes(topQuotesRecycler);
 
@@ -71,7 +77,7 @@ public class TopQuotes extends AppCompatActivity {
             @Override
             public void onResponse(Call<models.quotes.TopQuotes> call, Response<models.quotes.TopQuotes> response) {
 
-                adapter = new QuotesByTagAdapter(TopQuotes.this, response.body().getQuotes());
+                adapter = new QuotesByTagAdapter(TopQuotes.this, response.body().getQuotes(),favoriteQuotes);
                 topQuotesRecycler.setAdapter(adapter);
 
             }

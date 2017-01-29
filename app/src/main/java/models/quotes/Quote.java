@@ -14,15 +14,6 @@ public class Quote implements Serializable {
 
     private int imageId;
     private boolean favorite;
-//   // private int quoteIndex;
-//
-//  //  public int getQuoteIndex() {
-//        return quoteIndex;
-//    }
-//
-//    public void setQuoteIndex(int quoteIndex) {
-//        this.quoteIndex = quoteIndex;
-//    }
 
     public boolean isFavorite() {
         return favorite;

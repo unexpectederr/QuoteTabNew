@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import adapters.QuotesByTagAdapter;
+import digitalbath.quotes.FavoriteQuotes;
 import digitalbath.quotes.QuotesByTag;
 import digitalbath.quotetabnew.R;
 import helpers.other.ReadAndWriteToFile;
@@ -21,15 +22,13 @@ public class OnFavoriteClickListener implements View.OnClickListener {
     private Quote quote;
     private ImageView favoriteIcon;
     private int position;
-    private RecyclerView.Adapter adapter;
 
-    public OnFavoriteClickListener(Context context, Quote quote, ImageView favoriteIcon, int position, RecyclerView.Adapter adapter) {
+    public OnFavoriteClickListener(Context context, Quote quote, ImageView favoriteIcon, int position) {
 
         this.context = context;
         this.quote = quote;
         this.favoriteIcon = favoriteIcon;
         this.position = position;
-        this.adapter = adapter;
     }
 
     @Override
@@ -41,7 +40,7 @@ public class OnFavoriteClickListener implements View.OnClickListener {
             quote.setFavorite(true);
             favoriteIcon.setImageResource(R.drawable.ic_favorite);
         }
-        ReadAndWriteToFile.addFavoriteQuotes(context, quote, position, adapter);
+        ReadAndWriteToFile.addFavoriteQuotes(context, quote, position);
     }
 }
 

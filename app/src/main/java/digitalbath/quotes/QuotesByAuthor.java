@@ -15,12 +15,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 import adapters.QuotesByAuthorAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
+import helpers.other.ReadAndWriteToFile;
 import models.authors.AuthorFieldsFromQuote;
+import models.quotes.Quote;
 import models.quotes.Quotes;
 import networking.QuoteTabApi;
 import retrofit2.Call;
@@ -33,17 +37,15 @@ public class QuotesByAuthor extends AppCompatActivity
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
     private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f;
     private static final int ALPHA_ANIMATIONS_DURATION = 200;
-
     private boolean mIsTheTitleVisible = false;
     private boolean mIsTheTitleContainerVisible = true;
-
     private RelativeLayout mTitleContainer;
     private TextView mTitle;
     private AppBarLayout mAppBarLayout;
     private Toolbar mToolbar;
+    private ArrayList<Quote> favoriteQuotes;
     private ImageView mCoverImage;
     private CircleImageView mAuthorImage;
-
     RecyclerView quotesRecycler;
     TextView authorTitle, authorTagLine;
 
@@ -78,6 +80,8 @@ public class QuotesByAuthor extends AppCompatActivity
         authorTitle = (TextView) findViewById(R.id.author_name);
         authorTagLine = (TextView) findViewById(R.id.author_tagline);
 
+        favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
+
         mAppBarLayout.addOnOffsetChangedListener(this);
 
         startAlphaAnimation(mTitle, 0, View.INVISIBLE);
@@ -95,15 +99,19 @@ public class QuotesByAuthor extends AppCompatActivity
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
                 quotesRecycler.setLayoutManager(new LinearLayoutManager(QuotesByAuthor.this));
-                QuotesByAuthorAdapter adapter = new QuotesByAuthorAdapter(response.body(), QuotesByAuthor.this);
+                QuotesByAuthorAdapter adapter = new QuotesByAuthorAdapter(response.body(), QuotesByAuthor.this, favoriteQuotes);
                 quotesRecycler.setAdapter(adapter);
 
                 AuthorFieldsFromQuote detailsFromQuote = response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote();
 
                 mTitle.setText(detailsFromQuote.getAuthorName());
                 authorTitle.setText(detailsFromQuote.getAuthorName());
-                authorTagLine.setText(detailsFromQuote.getProfession().getProfessionName() + " - "
-                        + detailsFromQuote.getBirthplace());
+                if (detailsFromQuote.getProfession() != null) {
+                    authorTagLine.setText(detailsFromQuote.getProfession().getProfessionName() + " - "
+                            + detailsFromQuote.getBirthplace());
+                } else {
+                    authorTagLine.setText("Unknown");
+                }
 
                 Glide.with(QuotesByAuthor.this)
                         .load(Constants.IMAGES_URL + detailsFromQuote.getAuthorImageUrl())
@@ -128,7 +136,12 @@ public class QuotesByAuthor extends AppCompatActivity
                 int i = 9;
             }
         });
+
+        mAppBarLayout.addOnOffsetChangedListener(this);
+
+        startAlphaAnimation(mTitle, 0, View.INVISIBLE);
     }
+
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {

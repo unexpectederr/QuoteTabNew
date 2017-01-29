@@ -1,7 +1,6 @@
 package helpers.other;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import adapters.QuotesByTagAdapter;
 import helpers.main.Constants;
 import models.quotes.Quote;
 
@@ -20,7 +20,7 @@ import models.quotes.Quote;
 public class ReadAndWriteToFile {
 
 
-    public static void addFavoriteQuotes(Context context, Quote quote, int position, RecyclerView.Adapter adapter) {
+    public static void addFavoriteQuotes(Context context, Quote quote, int position) {
 
         ArrayList<Quote> quotes = getFavoriteQuotes(context);
 
@@ -28,10 +28,13 @@ public class ReadAndWriteToFile {
 
             if (quote.isFavorite()) {
                 quotes.add(quote);
-                adapter.notifyItemInserted(position);
+                //adapter.notifyItemInserted(position);
+                //adapter.notifyItemRangeChanged(position, adapter.getItemCount());
             } else {
                 quotes.remove(position);
-                adapter.notifyItemRemoved(position);
+                //adapter.notifyItemRemoved(position);
+                //adapter.notifyItemRangeChanged(position, adapter.getItemCount());
+
             }
         } else {
             quotes.add(quote);
