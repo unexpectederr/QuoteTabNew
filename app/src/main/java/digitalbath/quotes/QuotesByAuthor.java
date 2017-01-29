@@ -37,10 +37,8 @@ public class QuotesByAuthor extends AppCompatActivity
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
     private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f;
     private static final int ALPHA_ANIMATIONS_DURATION = 200;
-
     private boolean mIsTheTitleVisible = false;
     private boolean mIsTheTitleContainerVisible = true;
-
     private RelativeLayout mTitleContainer;
     private TextView mTitle;
     private AppBarLayout mAppBarLayout;
@@ -58,7 +56,6 @@ public class QuotesByAuthor extends AppCompatActivity
         setContentView(R.layout.activity_quotes_by_author);
 
         initializeContent();
-
 
         String authorId = getIntent().getStringExtra(Constants.AUTHOR_ID);
 
@@ -109,8 +106,12 @@ public class QuotesByAuthor extends AppCompatActivity
 
                 mTitle.setText(detailsFromQuote.getAuthorName());
                 authorTitle.setText(detailsFromQuote.getAuthorName());
-                authorTagLine.setText(detailsFromQuote.getProfession().getProfessionName() + " - "
-                        + detailsFromQuote.getBirthplace());
+                if (detailsFromQuote.getProfession() != null) {
+                    authorTagLine.setText(detailsFromQuote.getProfession().getProfessionName() + " - "
+                            + detailsFromQuote.getBirthplace());
+                } else {
+                    authorTagLine.setText("Unknown");
+                }
 
                 Glide.with(QuotesByAuthor.this)
                         .load(Constants.IMAGES_URL + detailsFromQuote.getAuthorImageUrl())

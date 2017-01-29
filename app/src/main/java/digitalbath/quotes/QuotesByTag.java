@@ -36,11 +36,9 @@ public class QuotesByTag extends AppCompatActivity {
         quotesByTagRecycler.setLayoutManager(new LinearLayoutManager(this));
         favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
 
-
         String tag = getIntent().getStringExtra(Constants.QUOTE_TAG);
 
         getQuotesByTag(tag, quotesByTagRecycler);
-
 
     }
 
@@ -65,7 +63,7 @@ public class QuotesByTag extends AppCompatActivity {
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
-                QuotesByTagAdapter adapter = new QuotesByTagAdapter(QuotesByTag.this, response.body().getQuotes(),favoriteQuotes);
+                QuotesByTagAdapter adapter = new QuotesByTagAdapter(QuotesByTag.this, response.body().getQuotes(), favoriteQuotes);
 
                 quotesByTagRecycler.setAdapter(adapter);
 

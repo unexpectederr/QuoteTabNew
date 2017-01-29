@@ -29,9 +29,12 @@ public class ReadAndWriteToFile {
             if (quote.isFavorite()) {
                 quotes.add(quote);
                 //adapter.notifyItemInserted(position);
+                //adapter.notifyItemRangeChanged(position, adapter.getItemCount());
             } else {
                 quotes.remove(position);
                 //adapter.notifyItemRemoved(position);
+                //adapter.notifyItemRangeChanged(position, adapter.getItemCount());
+
             }
         } else {
             quotes.add(quote);

@@ -85,8 +85,8 @@ public class QuotesByTagAdapter extends RecyclerView.Adapter<QuotesByTagAdapter.
                 for (int i = 0; i < favoriteQuotes.size(); i++) {
                     if (mDataSet.get(position).getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).
                             getQuoteDetails().getQuoteId())) {
-                        holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
                         mDataSet.get(position).setFavorite(true);
+                        holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
                         break;
                     } else {
                         holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
