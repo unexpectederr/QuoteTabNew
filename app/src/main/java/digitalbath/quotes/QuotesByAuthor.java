@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,7 +22,6 @@ import java.util.ArrayList;
 import adapters.QuotesByAuthorAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
-import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.ReadAndWriteToFile;
 import models.authors.AuthorFieldsFromQuote;
@@ -121,7 +122,11 @@ public class QuotesByAuthor extends AppCompatActivity
                         .into(mAuthorImage);
 
                 mAppBarLayout.setVisibility(View.VISIBLE);
-                mAppBarLayout.startAnimation(AppHelper.getAnimationUp(QuotesByAuthor.this));
+                Animation animTwo = AnimationUtils.loadAnimation(QuotesByAuthor.this, R.anim.pop_up_two);
+                mAppBarLayout.startAnimation(animTwo);
+
+                Animation animOne = AnimationUtils.loadAnimation(QuotesByAuthor.this, R.anim.pop_up_one);
+                mAuthorImage.startAnimation(animOne);
 
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
 
