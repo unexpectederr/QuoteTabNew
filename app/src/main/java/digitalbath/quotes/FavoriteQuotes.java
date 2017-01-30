@@ -42,7 +42,7 @@ public class FavoriteQuotes extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         ArrayList<Quote> favorites;
-        
+
         if (requestCode == 1) {
             if (resultCode == QuotesByTag.RESULT_OK) {
 

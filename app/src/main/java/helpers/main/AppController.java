@@ -1,5 +1,6 @@
 package helpers.main;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -37,7 +38,10 @@ public class AppController extends Application {
 
 
     public static void loadImageIntoView(final Context ctx, final int index,
-                                         final ImageView img, final boolean isNew) {
+                                         final ImageView img, final boolean isNewIndex) {
+
+        if (ctx == null || (ctx instanceof Activity && ((Activity) ctx).isDestroyed()))
+            return;
 
         final SimpleTarget target = new SimpleTarget<Bitmap>() {
 
@@ -56,7 +60,7 @@ public class AppController extends Application {
                     td.startTransition(300);
                 }
 
-                if (isNew)
+                if (isNewIndex)
                     AppController.addBitmapIndex(index);
             }
 
@@ -74,7 +78,8 @@ public class AppController extends Application {
                 .asBitmap()
                 .into(target);
 
-        if (!isNew)
+
+        if (!isNewIndex)
             AppController.loadImageIntoView(ctx, (index + 1), null, true);
     }
 
@@ -91,12 +96,13 @@ public class AppController extends Application {
         if (bitmapIndexes.size() < 4)
             return new Random().nextInt(Constants.NUMBER_OF_COVERS);
 
-        index = bitmapIndexes.get(0);
-        bitmapIndexes.remove(0);
+        int arrayIndex = new Random().nextInt(bitmapIndexes.size());
+
+        index = bitmapIndexes.get(arrayIndex);
+        bitmapIndexes.remove(arrayIndex);
 
         return index;
 
     }
-
 }
 

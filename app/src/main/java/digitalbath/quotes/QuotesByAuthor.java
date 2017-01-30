@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,9 +22,9 @@ import java.util.ArrayList;
 import adapters.QuotesAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
-import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.ReadAndWriteToFile;
+import helpers.other.RotatingImages;
 import models.authors.AuthorFieldsFromQuote;
 import models.quotes.Quote;
 import models.quotes.Quotes;
@@ -44,7 +46,6 @@ public class QuotesByAuthor extends AppCompatActivity
     private AppBarLayout mAppBarLayout;
     private Toolbar mToolbar;
     private ArrayList<Quote> favoriteQuotes;
-    private ImageView mCoverImage;
     private CircleImageView mAuthorImage;
     RecyclerView quotesRecycler;
     TextView authorTitle, authorTagLine;
@@ -73,9 +74,6 @@ public class QuotesByAuthor extends AppCompatActivity
 
         quotesRecycler = (RecyclerView) findViewById(R.id.author_details_recyclerView);
 
-        mCoverImage = (ImageView) findViewById(R.id.cover_image);
-        Glide.with(QuotesByAuthor.this).load("https://lh3.googleusercontent.com/-NnaUBvaHFeQ/VYa2yvBGIxI/AAAAAAAAdhY/qSpaK9ubPWY/w2048-h1152/4K-Wallpaper-Pack-Smartphone-Tablet-Android-Apple-Notebook-Windows-21.jpg")
-                .error(R.drawable.avatar).into(mCoverImage);
 
         authorTitle = (TextView) findViewById(R.id.author_name);
         authorTagLine = (TextView) findViewById(R.id.author_tagline);
@@ -121,7 +119,11 @@ public class QuotesByAuthor extends AppCompatActivity
                         .into(mAuthorImage);
 
                 mAppBarLayout.setVisibility(View.VISIBLE);
-                mAppBarLayout.startAnimation(AppHelper.getAnimationUp(QuotesByAuthor.this));
+                Animation animTwo = AnimationUtils.loadAnimation(QuotesByAuthor.this, R.anim.pop_up_two);
+                mAppBarLayout.startAnimation(animTwo);
+
+                Animation animOne = AnimationUtils.loadAnimation(QuotesByAuthor.this, R.anim.pop_up_one);
+                mAuthorImage.startAnimation(animOne);
 
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
 
