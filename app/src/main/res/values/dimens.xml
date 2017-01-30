@@ -7,6 +7,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="app_bar_height_header_images">360dp</dimen>
+    <dimen name="app_bar_images_margins">-50dp</dimen>
+
     <dimen name="detail_backdrop_height">256dp</dimen>
     <dimen name="card_margin">16dp</dimen>
     <dimen name="list_item_avatar_size">40dp</dimen>

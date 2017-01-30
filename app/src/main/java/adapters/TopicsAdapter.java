@@ -6,12 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.bumptech.glide.Glide;
+
 import com.yayandroid.parallaxrecyclerview.ParallaxViewHolder;
 import java.util.ArrayList;
 import digitalbath.quotetabnew.R;
 import helpers.main.AppController;
-import helpers.main.Constants;
 import listeners.OnTagClickListener;
 import models.topics.Topic;
 
