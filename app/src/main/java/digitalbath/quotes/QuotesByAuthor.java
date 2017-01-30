@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import adapters.QuotesByAuthorAdapter;
+import adapters.QuotesAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetabnew.R;
 import helpers.main.AppHelper;
@@ -99,7 +99,7 @@ public class QuotesByAuthor extends AppCompatActivity
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
                 quotesRecycler.setLayoutManager(new LinearLayoutManager(QuotesByAuthor.this));
-                QuotesByAuthorAdapter adapter = new QuotesByAuthorAdapter(response.body(), QuotesByAuthor.this, favoriteQuotes);
+                QuotesAdapter adapter = new QuotesAdapter(QuotesByAuthor.this, response.body().getQuotes(), favoriteQuotes, false, true);
                 quotesRecycler.setAdapter(adapter);
 
                 AuthorFieldsFromQuote detailsFromQuote = response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote();

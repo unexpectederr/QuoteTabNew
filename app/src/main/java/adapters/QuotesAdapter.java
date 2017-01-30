@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import digitalbath.quotes.QuotesByTag;
 import digitalbath.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
@@ -34,11 +36,17 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     private ArrayList<Quote> mDataSet;
     private ArrayList<Quote> favoriteQuotes;
     private int lastPosition = -1;
+    private boolean isFavorites;
+    private boolean isFromAuthors;
 
-    public QuotesAdapter(Context context, ArrayList<Quote> mDataSet, ArrayList<Quote> favoriteQuotes) {
+    public QuotesAdapter(Context context, ArrayList<Quote> mDataSet, ArrayList<Quote> favoriteQuotes,
+                         boolean isFavorites, boolean isFromAuthors) {
+
         this.context = context;
         this.mDataSet = mDataSet;
         this.favoriteQuotes = favoriteQuotes;
+        this.isFavorites = isFavorites;
+        this.isFromAuthors = isFromAuthors;
 
     }
 
@@ -78,7 +86,6 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
             if (mDataSet.get(position).getImageId() == 0)
                 mDataSet.get(position).setImageId(AppController.getBitmapIndex());
 
-
             if (favoriteQuotes.size() != 0) {
                 for (int i = 0; i < favoriteQuotes.size(); i++) {
                     if (mDataSet.get(position).getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).
@@ -101,9 +108,12 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
             holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
             holder.quoteText.setTypeface(AppHelper.getRalewayLigt(holder.quoteText.getContext()));
 
-            holder.authorName.setText("- " + mDataSet.get(position).getQuoteDetails().getAuthorName() + " -");
-            holder.authorName.setOnClickListener(new OnAuthorClickListener(context, mDataSet.get(position)
-                    .getQuoteDetails().getAuthorId()));
+            if (!isFromAuthors) {
+                holder.authorName.setText("- " + mDataSet.get(position).getQuoteDetails().getAuthorName() + " -");
+                holder.authorName.setOnClickListener(new OnAuthorClickListener(context, mDataSet.get(position)
+                        .getQuoteDetails().getAuthorId()));
+            }
+
 
             holder.shareText.setOnClickListener(new OnShareClickListener(context,
                     holder.quoteText.getText().toString(),
@@ -111,7 +121,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
             holder.favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context, mDataSet,
                     holder.favoriteIcon, mDataSet.get(position).getQuoteDetails().getQuoteId(),
-                    this, true));
+                    this, isFavorites));
 
             String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 
@@ -136,7 +146,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
                     quoteTag.setGravity(Gravity.CENTER);
                     quoteTag.setTextColor(context.getResources().getColor(R.color.light_gray));
                     quoteTag.setTypeface(AppHelper.getRalewayLigt(context));
-                    quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i]));
+                    quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i], isFavorites));
 
                     holder.quoteTags.addView(quoteTag);
                 }

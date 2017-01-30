@@ -1,5 +1,6 @@
 package digitalbath.quotes;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -63,7 +64,7 @@ public class QuotesByTag extends AppCompatActivity {
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
-                QuotesAdapter adapter = new QuotesAdapter(QuotesByTag.this, response.body().getQuotes(), favoriteQuotes);
+                QuotesAdapter adapter = new QuotesAdapter(QuotesByTag.this, response.body().getQuotes(), favoriteQuotes, false, false);
 
                 quotesByTagRecycler.setAdapter(adapter);
 
@@ -80,7 +81,19 @@ public class QuotesByTag extends AppCompatActivity {
 
     public boolean onSupportNavigateUp() {
 
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteQuotes(this));
+        this.setResult(QuotesByTag.RESULT_OK, returnIntent);
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteQuotes(this));
+        this.setResult(QuotesByTag.RESULT_OK, returnIntent);
+        super.onBackPressed();
     }
 }

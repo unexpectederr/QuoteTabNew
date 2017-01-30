@@ -66,7 +66,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
         holder.topicName.setText(mDataSet.get(position).getSource().getTopicName());
 
         holder.itemView.setOnClickListener(new OnTagClickListener(
-                context, holder.topicName.getText().toString().toLowerCase()));
+                context, holder.topicName.getText().toString().toLowerCase(), false));
 
         holder.getBackgroundImage().reuse();
     }

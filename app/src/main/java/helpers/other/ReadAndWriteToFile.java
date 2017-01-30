@@ -9,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import adapters.QuotesAdapter;
+import digitalbath.quotes.FavoriteQuotes;
 import helpers.main.Constants;
 import models.quotes.Quote;
 

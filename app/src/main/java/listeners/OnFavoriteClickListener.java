@@ -1,12 +1,14 @@
 package listeners;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
 
 import adapters.QuotesAdapter;
+import digitalbath.quotes.QuotesByTag;
 import digitalbath.quotetabnew.R;
 import helpers.other.ReadAndWriteToFile;
 import models.quotes.Quote;
@@ -41,10 +43,13 @@ public class OnFavoriteClickListener implements View.OnClickListener {
         int position = 0;
 
         for (int i = 0; quotes.size() > i; i++) {
+
             if (quotes.get(i).getQuoteDetails() != null &&
                     quotes.get(i).getQuoteDetails().getQuoteId().equals(quoteId)) {
+
                 position = i;
                 break;
+
             }
         }
 
@@ -54,8 +59,10 @@ public class OnFavoriteClickListener implements View.OnClickListener {
             favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
 
             if (isFavorites) {
+
                 quotes.remove(position);
                 adapter.notifyItemRemoved(position);
+
             }
 
             ReadAndWriteToFile.removeQuoteFromFavorites(context, quoteId);
@@ -66,6 +73,9 @@ public class OnFavoriteClickListener implements View.OnClickListener {
             favoriteIcon.setImageResource(R.drawable.ic_favorite);
 
             ReadAndWriteToFile.addQuoteToFavorites(context, quotes.get(position));
+
+
+
         }
     }
 }

@@ -76,13 +76,25 @@ public class TopQuotes extends AppCompatActivity {
             @Override
             public void onResponse(Call<models.quotes.TopQuotes> call, Response<models.quotes.TopQuotes> response) {
 
-                adapter = new QuotesAdapter(TopQuotes.this, response.body().getQuotes(),favoriteQuotes);
+                ArrayList<Quote> quotes = response.body().getQuotes();
+
+                for (int i = 0; i < quotes.size(); i++) {
+
+                    if (quotes.get(i).getQuoteDetails() == null) {
+
+                        quotes.remove(i);
+
+                    }
+                }
+
+                adapter = new QuotesAdapter(TopQuotes.this, quotes, favoriteQuotes, false, false);
                 topQuotesRecycler.setAdapter(adapter);
 
             }
 
             @Override
-            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {}
+            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {
+            }
 
         });
     }
@@ -92,14 +104,25 @@ public class TopQuotes extends AppCompatActivity {
             @Override
             public void onResponse(Call<models.quotes.TopQuotes> call, Response<models.quotes.TopQuotes> response) {
 
-                adapter.addQuotes(response.body().getQuotes());
+                ArrayList<Quote> quotes = response.body().getQuotes();
+
+                for (int i = 0; i <quotes.size(); i++){
+
+                    if (quotes.get(i).getQuoteDetails() == null) {
+
+                        quotes.remove(i);
+
+                    }
+                }
+                adapter.addQuotes(quotes);
                 loading = false;
                 progressBar.setVisibility(View.GONE);
 
             }
 
             @Override
-            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {}
+            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {
+            }
         });
     }
 }
