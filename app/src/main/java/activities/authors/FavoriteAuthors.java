@@ -12,6 +12,7 @@ import adapters.FavoriteAuthorsAdapter;
 import helpers.other.ReadAndWriteToFile;
 import models.authors.AuthorDetails;
 
+
 public class FavoriteAuthors extends AppCompatActivity {
 
     @Override

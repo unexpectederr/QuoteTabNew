@@ -1,4 +1,4 @@
-package activities.dashboard;
+package adapters;
 
 
 import android.os.Parcelable;
@@ -8,16 +8,18 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 import java.util.ArrayList;
+
+import activities.dashboard.DashboardFragment;
 import models.dashboard.DashboardItem;
 import models.quotes.Quote;
 
 
-class DashboardPagerAdapter extends FragmentStatePagerAdapter {
+public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
     private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
     private ArrayList<DashboardItem> mItems;
 
-    DashboardPagerAdapter(FragmentManager fm, ArrayList<DashboardItem> items) {
+    public DashboardPagerAdapter(FragmentManager fm, ArrayList<DashboardItem> items) {
         super(fm);
         mItems = items;
     }

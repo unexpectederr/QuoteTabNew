@@ -1,4 +1,4 @@
-package activities.dashboard;
+package adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -14,13 +14,13 @@ import helpers.main.Constants;
 import models.dashboard.PopularAuthor;
 
 
-class PoplarAuthorsAdapter extends RecyclerView.Adapter<PoplarAuthorsAdapter.ViewHolder> {
+public class PoplarAuthorsAdapter extends RecyclerView.Adapter<PoplarAuthorsAdapter.ViewHolder> {
 
     private List<PopularAuthor> mDataSet;
     private Context mContext;
     private int increment;
 
-    PoplarAuthorsAdapter(List<PopularAuthor> myDataSet, Context context) {
+    public PoplarAuthorsAdapter(List<PopularAuthor> myDataSet, Context context) {
         mDataSet = myDataSet;
         mDataSet.add(new PopularAuthor());
         mDataSet.add(new PopularAuthor());

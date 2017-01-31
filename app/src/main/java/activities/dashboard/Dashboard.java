@@ -3,6 +3,7 @@ package activities.dashboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -28,12 +29,15 @@ import java.util.List;
 import java.util.Random;
 
 import activities.authors.Authors;
+import activities.authors.FavoriteAuthors;
 import activities.quotes.FavoriteQuotes;
 import activities.quotes.TopQuotes;
-import activities.topics.Topics;
-import activities.authors.FavoriteAuthors;
 import activities.quotetabnew.R;
+import activities.topics.Topics;
+import adapters.DashboardPagerAdapter;
+import adapters.PoplarAuthorsAdapter;
 import helpers.main.AppController;
+import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.ParallaxPageTransformer;
 import models.dashboard.DashboardData;
@@ -44,6 +48,7 @@ import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -85,6 +90,9 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         Glide.with(Dashboard.this).load(R.drawable.splash).into(logo);
         hideSplashScreen(splashScreen);
 
+        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.NAVIGATION_TIP, false))
+            AppHelper.showMaterialTip(toolbar.getChildAt(0), Dashboard.this, "Open a navigation menu",
+                    "You can find here more quotes and authors", Constants.NAVIGATION_TIP, R.drawable.ic_menu);
     }
 
     private void initializeDashboard(ArrayList<DashboardItem> items) {
