@@ -7,14 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
+
 import org.zakariya.stickyheaders.SectioningAdapter;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import activities.quotes.QuotesByAuthor;
 import activities.quotetabnew.R;
 import helpers.main.Constants;
+import listeners.OnFavoriteAuthorClickListener;
+import models.authors.AuthorDetails;
 import models.authors.AuthorFields;
 import models.authors.PopularAuthors;
 
@@ -28,11 +35,15 @@ public class AuthorsAdapter extends SectioningAdapter {
     private int numberOfSections;
     private Context context;
     private int lastPosition = -1;
+    private ArrayList<AuthorDetails> favoriteAuthors;
+    private boolean isFavorites;
 
-    public AuthorsAdapter(PopularAuthors dataSet, Context context) {
+    public AuthorsAdapter(PopularAuthors dataSet, Context context, ArrayList<AuthorDetails> favoriteAuthors, boolean isFavorites) {
 
         this.context = context;
         this.mDataSet = dataSet;
+        this.favoriteAuthors = favoriteAuthors;
+        this.isFavorites = isFavorites;
 
         numberOfSections = mDataSet.getAuthorGroup().size();
 
@@ -43,12 +54,14 @@ public class AuthorsAdapter extends SectioningAdapter {
         TextView authorName;
         TextView authorInfo;
         CircleImageView authorImage;
+        ImageView favoriteIcon;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             authorName = (TextView) itemView.findViewById(R.id.author_name);
             authorInfo = (TextView) itemView.findViewById(R.id.author_info);
             authorImage = (CircleImageView) itemView.findViewById(R.id.author_image);
+            favoriteIcon = (ImageView) itemView.findViewById(R.id.author_favorite);
         }
     }
 
@@ -107,16 +120,38 @@ public class AuthorsAdapter extends SectioningAdapter {
         AuthorFields authorFields = mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
                 .get(itemIndex).getAuthorFields();
 
+        if (favoriteAuthors.size() != 0) {
+            for (int i = 0; i < favoriteAuthors.size(); i++) {
+                if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex).getId()
+                        .equals(favoriteAuthors.get(i).getId())) {
+
+                    mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex).setFavorite(true);
+                    ivh.favoriteIcon.setImageResource(R.drawable.ic_favorite);
+                    break;
+
+                } else {
+                    ivh.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+                    mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex).setFavorite(false);
+                }
+            }
+        } else {
+            ivh.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+        }
+
+
         ivh.authorName.setText(authorFields.getName());
 
         ivh.authorInfo.setText(authorFields.getProfessionName() + " - "
                 + authorFields.getQuotesCount() + " quotes");
 
         Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
-                    .load(Constants.IMAGES_URL + authorFields.getImageUrl()).dontAnimate()
-                    .placeholder(R.drawable.avatar)
-                    .error(R.drawable.avatar)
-                    .into(((ItemViewHolder) viewHolder).authorImage);
+                .load(Constants.IMAGES_URL + authorFields.getImageUrl()).dontAnimate()
+                .placeholder(R.drawable.avatar)
+                .error(R.drawable.avatar)
+                .into(((ItemViewHolder) viewHolder).authorImage);
+
+        ivh.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(context,
+                mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex), favoriteAuthors, ivh.favoriteIcon, null, false));
 
         ivh.itemView.setOnClickListener(new OnAuthorClickListener(mDataSet.getAuthorGroup()
                 .get(sectionIndex).getAuthors().get(itemIndex).getId()));
@@ -142,7 +177,7 @@ public class AuthorsAdapter extends SectioningAdapter {
         hvh.header.setText(mDataSet.getAuthorGroup().get(sectionIndex).getReferences().getLetter());
     }
 
-    private class OnAuthorClickListener implements View.OnClickListener{
+    private class OnAuthorClickListener implements View.OnClickListener {
 
         String authorID;
 

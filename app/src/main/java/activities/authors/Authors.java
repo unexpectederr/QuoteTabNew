@@ -13,9 +13,14 @@ import android.widget.TextView;
 import adapters.AuthorsAdapter;
 import activities.quotetabnew.R;
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
+
+import java.util.ArrayList;
+
 import helpers.main.AppHelper;
+import helpers.other.ReadAndWriteToFile;
 import listeners.OnSearchAuthorWatcher;
 import listeners.OnSearchIconClickListener;
+import models.authors.AuthorDetails;
 import models.authors.PopularAuthors;
 import networking.QuoteTabApi;
 import retrofit2.Call;
@@ -70,7 +75,9 @@ public class Authors extends AppCompatActivity {
             @Override
             public void onResponse(Call<PopularAuthors> call, Response<PopularAuthors> response) {
 
-                AuthorsAdapter adapter = new AuthorsAdapter(response.body(), Authors.this);
+                ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(Authors.this);
+
+                AuthorsAdapter adapter = new AuthorsAdapter(response.body(), Authors.this, favoriteAuthors, false);
                 authorsRecyclerView.setAdapter(adapter);
 
                 searchEditText.addTextChangedListener(new OnSearchAuthorWatcher(response.body(),

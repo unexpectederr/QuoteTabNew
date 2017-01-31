@@ -15,21 +15,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.liangfeizc.RubberIndicator;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import activities.authors.Authors;
 import activities.quotes.FavoriteQuotes;
 import activities.quotes.TopQuotes;
@@ -37,6 +32,7 @@ import activities.quotetabnew.R;
 import activities.topics.Topics;
 import adapters.DashboardPagerAdapter;
 import adapters.PoplarAuthorsAdapter;
+import digitalbath.authors.FavoriteAuthors;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
@@ -49,7 +45,7 @@ import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
+
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -266,6 +262,9 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             startActivity(i);
         } else if (id == R.id.nav_send) {
             Intent i = new Intent(Dashboard.this, FavoriteQuotes.class);
+            startActivity(i);
+        } else if (id == R.id.menu_favorite_authors) {
+            Intent i = new Intent(Dashboard.this, FavoriteAuthors.class);
             startActivity(i);
         }
 

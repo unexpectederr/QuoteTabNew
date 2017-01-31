@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import adapters.AuthorsAdapter;
+import helpers.other.ReadAndWriteToFile;
 import activities.quotetabnew.R;
 import models.authors.AuthorDetails;
 import models.authors.AuthorGroup;
@@ -68,7 +69,8 @@ public class OnSearchAuthorWatcher implements TextWatcher {
         PopularAuthors popularAuthors = new PopularAuthors();
         popularAuthors.setAuthorGroup(authorGroup);
 
-        AuthorsAdapter adapter = new AuthorsAdapter(popularAuthors, mContext);
+        ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(mContext);
+        AuthorsAdapter adapter = new AuthorsAdapter(popularAuthors, mContext, favoriteAuthors, false);
         mRecyclerView.setAdapter(adapter);
     }
 

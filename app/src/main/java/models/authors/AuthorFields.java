@@ -2,12 +2,13 @@ package models.authors;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Spaja on 26-Dec-16.
  */
-public class AuthorFields {
+public class AuthorFields implements Serializable{
 
     private ArrayList<String> name;
     private ArrayList<String> authorId;

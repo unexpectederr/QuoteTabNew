@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-
 import helpers.main.Constants;
+import models.authors.AuthorDetails;
 import models.quotes.Quote;
 
 /**
@@ -25,7 +25,7 @@ public class ReadAndWriteToFile {
         quotes.add(quote);
 
         try {
-            FileOutputStream fos = context.openFileOutput(Constants.FILE_NAME, Context.MODE_PRIVATE);
+            FileOutputStream fos = context.openFileOutput(Constants.FILE_NAME_QUOTES, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(quotes);
             oos.close();
@@ -44,7 +44,7 @@ public class ReadAndWriteToFile {
         }
 
         try {
-            FileOutputStream fos = context.openFileOutput(Constants.FILE_NAME, Context.MODE_PRIVATE);
+            FileOutputStream fos = context.openFileOutput(Constants.FILE_NAME_QUOTES, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(quotes);
             oos.close();
@@ -59,7 +59,7 @@ public class ReadAndWriteToFile {
         ArrayList<Quote> quotes = new ArrayList<>();
 
         try {
-            fis = context.openFileInput(Constants.FILE_NAME);
+            fis = context.openFileInput(Constants.FILE_NAME_QUOTES);
             ObjectInputStream ois = new ObjectInputStream(fis);
             quotes = (ArrayList<Quote>) ois.readObject();
             ois.close();
@@ -67,5 +67,57 @@ public class ReadAndWriteToFile {
             e.printStackTrace();
         }
         return quotes;
+    }
+
+    public static void removeAuthorFromFavorites(Context context, AuthorDetails author) {
+
+        ArrayList<AuthorDetails> favoriteAuthors = getFavoriteAuthors(context);
+
+        for (int i = 0; i < favoriteAuthors.size(); i++) {
+
+            if (favoriteAuthors.get(i).getId().equals(author.getId()))
+                favoriteAuthors.remove(i);
+        }
+
+        try {
+            FileOutputStream fos = context.openFileOutput(Constants.FILE_NAME_AUTHORS, Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(favoriteAuthors);
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addAuthorToFavorites(Context context, AuthorDetails author) {
+
+        ArrayList<AuthorDetails> favoriteAuthors = getFavoriteAuthors(context);
+        favoriteAuthors.add(author);
+
+        try {
+            FileOutputStream fos = context.openFileOutput(Constants.FILE_NAME_AUTHORS, Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(favoriteAuthors);
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<AuthorDetails> getFavoriteAuthors(Context context) {
+
+        FileInputStream fis;
+        ArrayList<AuthorDetails> authors = new ArrayList<>();
+        try {
+            fis = context.openFileInput(Constants.FILE_NAME_AUTHORS);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            authors = (ArrayList<AuthorDetails>) ois.readObject();
+            ois.close();
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return authors;
+
     }
 }
