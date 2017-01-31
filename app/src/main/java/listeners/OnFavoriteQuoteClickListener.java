@@ -15,7 +15,7 @@ import models.quotes.Quote;
  * Created by Spaja on 10-Jan-17.
  */
 
-public class OnFavoriteClickListener implements View.OnClickListener {
+public class OnFavoriteQuoteClickListener implements View.OnClickListener {
 
     private Context context;
     private ArrayList<Quote> quotes;
@@ -24,8 +24,8 @@ public class OnFavoriteClickListener implements View.OnClickListener {
     private QuotesAdapter adapter;
     private boolean isFavorites;
 
-    public OnFavoriteClickListener(Context context, ArrayList<Quote> quotes, ImageView favoriteIcon,
-                                   String quoteId, QuotesAdapter adapter, boolean isFavorites) {
+    public OnFavoriteQuoteClickListener(Context context, ArrayList<Quote> quotes, ImageView favoriteIcon,
+                                        String quoteId, QuotesAdapter adapter, boolean isFavorites) {
 
         this.context = context;
         this.quotes = quotes;

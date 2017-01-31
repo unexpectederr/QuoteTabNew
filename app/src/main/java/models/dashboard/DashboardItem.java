@@ -8,16 +8,22 @@ import helpers.main.Constants;
 
 public class DashboardItem implements Serializable {
 
-    int dashItemId = new Random().nextInt(Constants.NUMBER_OF_COVERS);
+    private int dashItemId = new Random().nextInt(Constants.NUMBER_OF_COVERS);
 
     private String quote;
     private String author;
     private String authorId;
+    private String quoteId;
 
-    public DashboardItem(String quote, String author, String authorId) {
+    public DashboardItem(String quote, String author, String authorId, String quoteId) {
         this.quote = quote;
         this.author = author;
         this.authorId = authorId;
+        this.quoteId = quoteId;
+    }
+
+    public String getQuoteId(){
+        return quoteId;
     }
 
     public String getQuote() {

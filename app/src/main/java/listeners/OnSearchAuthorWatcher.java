@@ -5,9 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.ImageView;
-
 import java.util.ArrayList;
-
 import adapters.AuthorsAdapter;
 import helpers.other.ReadAndWriteToFile;
 import activities.quotetabnew.R;

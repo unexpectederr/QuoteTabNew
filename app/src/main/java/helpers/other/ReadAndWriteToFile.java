@@ -22,7 +22,7 @@ public class ReadAndWriteToFile {
     public static void addQuoteToFavorites(Context context, Quote quote) {
 
         ArrayList<Quote> quotes = getFavoriteQuotes(context);
-        quotes.add(quote);
+        quotes.add(0, quote);
 
         try {
             FileOutputStream fos = context.openFileOutput(Constants.FILE_NAME_QUOTES, Context.MODE_PRIVATE);
@@ -92,7 +92,7 @@ public class ReadAndWriteToFile {
     public static void addAuthorToFavorites(Context context, AuthorDetails author) {
 
         ArrayList<AuthorDetails> favoriteAuthors = getFavoriteAuthors(context);
-        favoriteAuthors.add(author);
+        favoriteAuthors.add(0, author);
 
         try {
             FileOutputStream fos = context.openFileOutput(Constants.FILE_NAME_AUTHORS, Context.MODE_PRIVATE);

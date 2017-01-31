@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,11 @@ public class FavoriteQuotes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_quotes);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_favorite_quotes);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         favoritesRecycler = (RecyclerView) findViewById(R.id.favorite_quotes_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -54,6 +60,12 @@ public class FavoriteQuotes extends AppCompatActivity {
 
             }
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
 

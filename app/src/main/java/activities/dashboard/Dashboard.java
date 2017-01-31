@@ -19,20 +19,23 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.liangfeizc.RubberIndicator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import activities.authors.Authors;
+import activities.authors.FavoriteAuthors;
 import activities.quotes.FavoriteQuotes;
 import activities.quotes.TopQuotes;
 import activities.quotetabnew.R;
 import activities.topics.Topics;
 import adapters.DashboardPagerAdapter;
 import adapters.PoplarAuthorsAdapter;
-import digitalbath.authors.FavoriteAuthors;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
@@ -151,10 +154,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 ArrayList<DashboardItem> items = new ArrayList<>();
                 for (int i = 0; response.body().getTopPhotos().size() > i; i++) {
 
+
                     Source source = response.body().getTopPhotos().get(i).getSource();
 
                     DashboardItem item = new DashboardItem(source.getQuote(), source.getAuthorName(),
-                            source.getAuthorId());
+                            source.getAuthorId(), source.getQuoteId());
 
                     items.add(item);
                 }

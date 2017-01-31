@@ -28,16 +28,16 @@ public class PoplarAuthorsAdapter extends RecyclerView.Adapter<PoplarAuthorsAdap
         mContext = context;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView mName1;
-        public ImageView mImage1;
-        public TextView mName2;
-        public ImageView mImage2;
-        public TextView mName3;
-        public ImageView mImage3;
+        TextView mName1;
+        ImageView mImage1;
+        TextView mName2;
+        ImageView mImage2;
+        TextView mName3;
+        ImageView mImage3;
 
-        public ViewHolder(View v) {
+        ViewHolder(View v) {
             super(v);
             mName1 = (TextView) v.findViewById(R.id.name1);
             mImage1 = (ImageView) v.findViewById(R.id.image1);
@@ -70,9 +70,7 @@ public class PoplarAuthorsAdapter extends RecyclerView.Adapter<PoplarAuthorsAdap
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(layoutId, parent, false);
 
-        ViewHolder vh = new ViewHolder(v);
-
-        return vh;
+        return new ViewHolder(v);
     }
 
     @Override

@@ -11,12 +11,13 @@ import java.util.ArrayList;
 
 import activities.dashboard.DashboardFragment;
 import models.dashboard.DashboardItem;
+import models.quotes.Quote;
 
 
 public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
-    SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
-    ArrayList<DashboardItem> mItems;
+    private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+    private ArrayList<DashboardItem> mItems;
 
     public DashboardPagerAdapter(FragmentManager fm, ArrayList<DashboardItem> items) {
         super(fm);
@@ -35,7 +36,7 @@ public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mItems.get(position).getAuthor().toString();
+        return mItems.get(position).getAuthor();
     }
 
     @Override
