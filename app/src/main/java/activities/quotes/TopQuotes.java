@@ -1,4 +1,4 @@
-package digitalbath.quotes;
+package activities.quotes;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 import java.util.ArrayList;
 
 import adapters.QuotesAdapter;
-import digitalbath.quotetabnew.R;
+import activities.quotetabnew.R;
 import helpers.other.ReadAndWriteToFile;
 import models.quotes.Quote;
 import networking.QuoteTabApi;

@@ -17,8 +17,8 @@ import org.zakariya.stickyheaders.SectioningAdapter;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import digitalbath.quotes.QuotesByAuthor;
-import digitalbath.quotetabnew.R;
+import activities.quotes.QuotesByAuthor;
+import activities.quotetabnew.R;
 import helpers.main.Constants;
 import listeners.OnFavoriteAuthorClickListener;
 import models.authors.AuthorDetails;

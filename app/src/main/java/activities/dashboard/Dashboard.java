@@ -1,4 +1,4 @@
-package digitalbath.dashboard;
+package activities.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,16 +22,17 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.liangfeizc.RubberIndicator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import digitalbath.authors.Authors;
+import activities.authors.Authors;
+import activities.quotes.FavoriteQuotes;
+import activities.quotes.TopQuotes;
+import activities.topics.Topics;
 import digitalbath.authors.FavoriteAuthors;
-import digitalbath.quotes.FavoriteQuotes;
-import digitalbath.quotes.TopQuotes;
 import digitalbath.quotetabnew.R;
-import digitalbath.topics.Topics;
 import helpers.main.AppController;
 import helpers.main.Constants;
 import helpers.other.ParallaxPageTransformer;
@@ -114,7 +115,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
@@ -128,7 +130,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
     }
 
@@ -252,10 +255,10 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         } else if (id == R.id.nav_topQuotes) {
             Intent i = new Intent(Dashboard.this, TopQuotes.class);
             startActivity(i);
-        } else if (id == R.id.nav_send){
+        } else if (id == R.id.nav_send) {
             Intent i = new Intent(Dashboard.this, FavoriteQuotes.class);
             startActivity(i);
-        } else if (id == R.id.menu_favorite_authors){
+        } else if (id == R.id.menu_favorite_authors) {
             Intent i = new Intent(Dashboard.this, FavoriteAuthors.class);
             startActivity(i);
         }

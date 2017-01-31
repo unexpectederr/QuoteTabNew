@@ -1,4 +1,4 @@
-package digitalbath.quotes;
+package activities.quotes;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,10 +20,9 @@ import java.util.ArrayList;
 
 import adapters.QuotesAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
-import digitalbath.quotetabnew.R;
+import activities.quotetabnew.R;
 import helpers.main.Constants;
 import helpers.other.ReadAndWriteToFile;
-import helpers.other.RotatingImages;
 import models.authors.AuthorFieldsFromQuote;
 import models.quotes.Quote;
 import models.quotes.Quotes;

@@ -1,4 +1,4 @@
-package digitalbath.dashboard;
+package activities.dashboard;
 
 
 import android.os.Parcelable;

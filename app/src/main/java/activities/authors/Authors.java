@@ -1,4 +1,4 @@
-package digitalbath.authors;
+package activities.authors;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -8,11 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import adapters.AuthorsAdapter;
-import digitalbath.quotetabnew.R;
+import activities.quotetabnew.R;
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
 
 import java.util.ArrayList;

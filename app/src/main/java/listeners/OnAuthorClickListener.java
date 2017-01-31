@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import digitalbath.quotes.QuotesByAuthor;
+import activities.quotes.QuotesByAuthor;
 import helpers.main.Constants;
 
 /**

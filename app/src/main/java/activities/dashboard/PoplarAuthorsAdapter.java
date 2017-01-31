@@ -1,4 +1,4 @@
-package digitalbath.dashboard;
+package activities.dashboard;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import java.util.List;
-import digitalbath.quotetabnew.R;
+import activities.quotetabnew.R;
 import helpers.main.Constants;
 import models.dashboard.PopularAuthor;
 

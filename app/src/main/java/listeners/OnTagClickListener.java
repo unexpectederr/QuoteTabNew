@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import digitalbath.quotes.FavoriteQuotes;
-import digitalbath.quotes.QuotesByTag;
+import activities.quotes.FavoriteQuotes;
+import activities.quotes.QuotesByTag;
 import helpers.main.Constants;
 
 /**

@@ -1,7 +1,6 @@
 package adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,8 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import digitalbath.quotes.QuotesByTag;
-import digitalbath.quotetabnew.R;
+import activities.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;

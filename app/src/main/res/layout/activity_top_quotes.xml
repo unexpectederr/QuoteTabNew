@@ -6,7 +6,7 @@
     android:id="@+id/activity_top_quotes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="digitalbath.quotes.TopQuotes">
+    tools:context="activities.quotes.TopQuotes">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/top_quotes_recycler"
