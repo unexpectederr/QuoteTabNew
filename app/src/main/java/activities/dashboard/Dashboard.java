@@ -1,4 +1,4 @@
-package digitalbath.dashboard;
+package activities.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,11 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import digitalbath.authors.Authors;
-import digitalbath.quotes.FavoriteQuotes;
-import digitalbath.quotes.TopQuotes;
-import digitalbath.quotetabnew.R;
-import digitalbath.topics.Topics;
+import activities.authors.Authors;
+import activities.quotes.FavoriteQuotes;
+import activities.quotes.TopQuotes;
+import activities.quotetabnew.R;
+import activities.topics.Topics;
 import helpers.main.AppController;
 import helpers.main.Constants;
 import helpers.other.ParallaxPageTransformer;

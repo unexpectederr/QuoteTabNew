@@ -1,15 +1,13 @@
 package listeners;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
 
 import adapters.QuotesAdapter;
-import digitalbath.quotes.QuotesByTag;
-import digitalbath.quotetabnew.R;
+import activities.quotetabnew.R;
 import helpers.other.ReadAndWriteToFile;
 import models.quotes.Quote;
 

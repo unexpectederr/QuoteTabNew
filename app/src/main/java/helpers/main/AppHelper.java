@@ -10,7 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import digitalbath.quotetabnew.R;
+import activities.quotetabnew.R;
 
 /**
  * Created by unexpected_err on 17/10/2016.

@@ -1,4 +1,4 @@
-package digitalbath.quotes;
+package activities.quotes;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +11,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 import adapters.QuotesAdapter;
-import digitalbath.quotetabnew.R;
+import activities.quotetabnew.R;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.ReadAndWriteToFile;

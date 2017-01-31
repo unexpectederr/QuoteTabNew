@@ -12,8 +12,8 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import digitalbath.dashboard.Dashboard;
-import digitalbath.quotetabnew.R;
+import activities.dashboard.Dashboard;
+import activities.quotetabnew.R;
 
 /**
  * Created by unexpected_err on 19/01/2017.

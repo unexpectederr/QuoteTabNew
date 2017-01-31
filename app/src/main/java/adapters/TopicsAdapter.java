@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.yayandroid.parallaxrecyclerview.ParallaxViewHolder;
 import java.util.ArrayList;
-import digitalbath.quotetabnew.R;
+import activities.quotetabnew.R;
 import helpers.main.AppController;
 import listeners.OnTagClickListener;
 import models.topics.Topic;

@@ -1,4 +1,4 @@
-package digitalbath.topics;
+package activities.topics;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.view.View;
 import com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView;
 
 import adapters.TopicsAdapter;
-import digitalbath.quotetabnew.R;
+import activities.quotetabnew.R;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;

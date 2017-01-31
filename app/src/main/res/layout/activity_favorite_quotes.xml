@@ -5,7 +5,7 @@
     android:id="@+id/activity_favorite_quotes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="digitalbath.quotes.FavoriteQuotes">
+    tools:context="activities.quotes.FavoriteQuotes">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

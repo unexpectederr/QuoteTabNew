@@ -18,11 +18,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import java.util.ArrayList;
 import java.util.Random;
 
-import digitalbath.quotetabnew.R;
-import networking.QuoteTabApi;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 /**
  * Created by unexpected_err on 17/10/2016.
  */

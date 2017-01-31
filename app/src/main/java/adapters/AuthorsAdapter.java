@@ -12,8 +12,8 @@ import com.bumptech.glide.Glide;
 import org.zakariya.stickyheaders.SectioningAdapter;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import digitalbath.quotes.QuotesByAuthor;
-import digitalbath.quotetabnew.R;
+import activities.quotes.QuotesByAuthor;
+import activities.quotetabnew.R;
 import helpers.main.Constants;
 import models.authors.AuthorFields;
 import models.authors.PopularAuthors;

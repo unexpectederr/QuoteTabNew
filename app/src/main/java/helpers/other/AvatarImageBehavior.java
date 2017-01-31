@@ -7,7 +7,7 @@ package helpers.other;
  import android.util.AttributeSet;
  import android.view.View;
  import de.hdodenhof.circleimageview.CircleImageView;
- import digitalbath.quotetabnew.R;
+ import activities.quotetabnew.R;
 
 
 @SuppressWarnings("unused")
