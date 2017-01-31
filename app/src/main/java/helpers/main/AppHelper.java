@@ -1,16 +1,22 @@
 package helpers.main;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import activities.dashboard.Dashboard;
 import activities.quotetabnew.R;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 /**
  * Created by unexpected_err on 17/10/2016.
@@ -37,6 +43,31 @@ public class AppHelper {
 
     }
 
+    public static void showMaterialTip(View v, final Activity context, String title,
+                                       String message, final String tip, int icon) {
+
+        new MaterialTapTargetPrompt.Builder(context)
+                .setTarget(v)
+                .setPrimaryText(title)
+                .setSecondaryText(message)
+                .setIcon(icon)
+                .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                    @Override
+                    public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+                        SharedPreferences.Editor editor = PreferenceManager
+                                .getDefaultSharedPreferences(context).edit();
+                        editor.putBoolean(tip, true);
+                        editor.commit();
+                    }
+
+                    @Override
+                    public void onHidePromptComplete() {
+
+                    }
+                })
+                .show();
+    }
+
     public static Animation getAnimationUp(Context context) {
         return AnimationUtils.loadAnimation(context, R.anim.abc_grow_fade_in_from_bottom);
     }
@@ -45,7 +76,7 @@ public class AppHelper {
         return AnimationUtils.loadAnimation(context, R.anim.abc_shrink_fade_out_from_bottom);
     }
 
-    public static Typeface getRalewayLigt(Context context) {
+    public static Typeface getRalewayLight(Context context) {
         return Typeface.createFromAsset(context.getAssets(), "raleway_light.ttf");
     }
 

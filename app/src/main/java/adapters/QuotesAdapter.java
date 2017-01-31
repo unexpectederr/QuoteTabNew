@@ -104,7 +104,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
                     holder.cardImage, false);
 
             holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
-            holder.quoteText.setTypeface(AppHelper.getRalewayLigt(holder.quoteText.getContext()));
+            holder.quoteText.setTypeface(AppHelper.getRalewayLight(holder.quoteText.getContext()));
 
             if (!isFromAuthors) {
                 holder.authorName.setText("- " + mDataSet.get(position).getQuoteDetails().getAuthorName() + " -");
@@ -143,7 +143,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
                     quoteTag.setLayoutParams(params);
                     quoteTag.setGravity(Gravity.CENTER);
                     quoteTag.setTextColor(context.getResources().getColor(R.color.light_gray));
-                    quoteTag.setTypeface(AppHelper.getRalewayLigt(context));
+                    quoteTag.setTypeface(AppHelper.getRalewayLight(context));
                     quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i], isFavorites));
 
                     holder.quoteTags.addView(quoteTag);

@@ -3,6 +3,7 @@ package activities.dashboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -14,14 +15,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.liangfeizc.RubberIndicator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,7 +35,10 @@ import activities.quotes.FavoriteQuotes;
 import activities.quotes.TopQuotes;
 import activities.quotetabnew.R;
 import activities.topics.Topics;
+import adapters.DashboardPagerAdapter;
+import adapters.PoplarAuthorsAdapter;
 import helpers.main.AppController;
+import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.ParallaxPageTransformer;
 import models.dashboard.DashboardData;
@@ -42,6 +49,7 @@ import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -83,6 +91,9 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         Glide.with(Dashboard.this).load(R.drawable.splash).into(logo);
         hideSplashScreen(splashScreen);
 
+        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.NAVIGATION_TIP, false))
+            AppHelper.showMaterialTip(toolbar.getChildAt(0), Dashboard.this, "Open a navigation menu",
+                    "You can find here more quotes and authors", Constants.NAVIGATION_TIP, R.drawable.ic_menu);
     }
 
     private void initializeDashboard(ArrayList<DashboardItem> items) {
@@ -113,7 +124,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
@@ -127,7 +139,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
     }
 
@@ -251,7 +264,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         } else if (id == R.id.nav_topQuotes) {
             Intent i = new Intent(Dashboard.this, TopQuotes.class);
             startActivity(i);
-        } else if (id == R.id.nav_send){
+        } else if (id == R.id.nav_send) {
             Intent i = new Intent(Dashboard.this, FavoriteQuotes.class);
             startActivity(i);
         }

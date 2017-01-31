@@ -1,4 +1,4 @@
-package activities.dashboard;
+package adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

@@ -1,4 +1,4 @@
-package activities.dashboard;
+package adapters;
 
 
 import android.os.Parcelable;
@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 import java.util.ArrayList;
+
+import activities.dashboard.DashboardFragment;
 import models.dashboard.DashboardItem;
 
 
