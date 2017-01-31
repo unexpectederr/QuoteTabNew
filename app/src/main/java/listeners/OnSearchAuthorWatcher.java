@@ -5,16 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.ImageView;
-
 import java.util.ArrayList;
-
 import adapters.AuthorsAdapter;
-<<<<<<< HEAD
-import digitalbath.quotetabnew.R;
 import helpers.other.ReadAndWriteToFile;
-=======
 import activities.quotetabnew.R;
->>>>>>> 6b258c4e1c0f9f277497477c2e048e37e33337ae
 import models.authors.AuthorDetails;
 import models.authors.AuthorGroup;
 import models.authors.PopularAuthors;

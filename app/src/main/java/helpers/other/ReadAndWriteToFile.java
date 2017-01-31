@@ -3,21 +3,13 @@ package helpers.other;
 import android.content.Context;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-
-<<<<<<< HEAD
-import digitalbath.authors.Authors;
-=======
->>>>>>> 6b258c4e1c0f9f277497477c2e048e37e33337ae
 import helpers.main.Constants;
 import models.authors.AuthorDetails;
-import models.authors.PopularAuthors;
-import models.dashboard.PopularAuthor;
 import models.quotes.Quote;
 
 /**
@@ -30,7 +22,7 @@ public class ReadAndWriteToFile {
     public static void addQuoteToFavorites(Context context, Quote quote) {
 
         ArrayList<Quote> quotes = getFavoriteQuotes(context);
-        quotes.add(quote);
+        quotes.add(0, quote);
 
         try {
             FileOutputStream fos = context.openFileOutput(Constants.FILE_NAME_QUOTES, Context.MODE_PRIVATE);
@@ -100,7 +92,7 @@ public class ReadAndWriteToFile {
     public static void addAuthorToFavorites(Context context, AuthorDetails author) {
 
         ArrayList<AuthorDetails> favoriteAuthors = getFavoriteAuthors(context);
-        favoriteAuthors.add(author);
+        favoriteAuthors.add(0, author);
 
         try {
             FileOutputStream fos = context.openFileOutput(Constants.FILE_NAME_AUTHORS, Context.MODE_PRIVATE);

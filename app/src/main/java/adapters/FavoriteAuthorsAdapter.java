@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
-import digitalbath.quotetabnew.R;
+import activities.quotetabnew.R;
 import helpers.main.Constants;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteAuthorClickListener;

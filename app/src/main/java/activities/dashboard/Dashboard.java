@@ -31,8 +31,8 @@ import activities.authors.Authors;
 import activities.quotes.FavoriteQuotes;
 import activities.quotes.TopQuotes;
 import activities.topics.Topics;
-import digitalbath.authors.FavoriteAuthors;
-import digitalbath.quotetabnew.R;
+import activities.authors.FavoriteAuthors;
+import activities.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.Constants;
 import helpers.other.ParallaxPageTransformer;
@@ -146,10 +146,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 ArrayList<DashboardItem> items = new ArrayList<>();
                 for (int i = 0; response.body().getTopPhotos().size() > i; i++) {
 
+
                     Source source = response.body().getTopPhotos().get(i).getSource();
 
                     DashboardItem item = new DashboardItem(source.getQuote(), source.getAuthorName(),
-                            source.getAuthorId());
+                            source.getAuthorId(), source.getQuoteId());
 
                     items.add(item);
                 }

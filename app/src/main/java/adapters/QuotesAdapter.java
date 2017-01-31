@@ -11,18 +11,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
-import activities.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import listeners.OnAuthorClickListener;
-import listeners.OnFavoriteClickListener;
+import listeners.OnFavoriteQuoteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
 import models.quotes.Quote;
+import activities.quotetabnew.R;
 
 /**
  * Created by Spaja on 10-Jan-17.
@@ -116,7 +114,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
                 holder.quoteText.getText().toString(),
                 mDataSet.get(position).getQuoteDetails().getAuthorName()));
 
-        holder.favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context, mDataSet,
+        holder.favoriteIcon.setOnClickListener(new OnFavoriteQuoteClickListener(context, mDataSet,
                 holder.favoriteIcon, mDataSet.get(position).getQuoteDetails().getQuoteId(),
                 this, isFavorites));
 

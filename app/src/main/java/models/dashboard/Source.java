@@ -7,8 +7,12 @@ package models.dashboard;
 
 public class Source {
 
-    String quoteId;
-    String authorId;
+    private String quoteId;
+    private String authorId;
+
+    public String getQuoteId() {
+        return quoteId;
+    }
 
     public String getQuote() {
 

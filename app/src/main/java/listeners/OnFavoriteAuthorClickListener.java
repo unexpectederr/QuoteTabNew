@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import java.util.ArrayList;
 import adapters.FavoriteAuthorsAdapter;
-import digitalbath.quotetabnew.R;
+import activities.quotetabnew.R;
 import helpers.other.ReadAndWriteToFile;
 import models.authors.AuthorDetails;
 

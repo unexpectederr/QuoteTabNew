@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -33,6 +34,11 @@ public class TopQuotes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top_quotes);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         final RecyclerView topQuotesRecycler = (RecyclerView) findViewById(R.id.top_quotes_recycler);
         final LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -106,7 +112,7 @@ public class TopQuotes extends AppCompatActivity {
 
                 ArrayList<Quote> quotes = response.body().getQuotes();
 
-                for (int i = 0; i <quotes.size(); i++){
+                for (int i = 0; i < quotes.size(); i++) {
 
                     if (quotes.get(i).getQuoteDetails() == null) {
 
@@ -124,5 +130,11 @@ public class TopQuotes extends AppCompatActivity {
             public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
