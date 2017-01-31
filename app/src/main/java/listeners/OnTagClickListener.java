@@ -1,6 +1,5 @@
 package listeners;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -20,19 +19,24 @@ public class OnTagClickListener implements View.OnClickListener {
     private boolean isFavorites;
 
     public OnTagClickListener(Context context, String quoteTag, boolean isFavorites) {
+
         this.context = context;
         this.quoteTag = quoteTag;
         this.isFavorites = isFavorites;
+
     }
 
     @Override
     public void onClick(View v) {
+
         if (isFavorites) {
+
             Intent i = new Intent(context, QuotesByTag.class);
             i.putExtra(Constants.QUOTE_TAG, quoteTag);
             ((FavoriteQuotes) context).startActivityForResult(i, 1);
 
         } else {
+
             Intent i = new Intent(context, QuotesByTag.class);
             i.putExtra(Constants.QUOTE_TAG, quoteTag);
             context.startActivity(i);

@@ -18,5 +18,7 @@ public class Constants {
 
     public static final int MAX_NUMBER_OF_QUOTES = 4;
 
-    public static final String FILE_NAME = "FAVORITE_QUOTES";
+    public static final String FILE_NAME_QUOTES = "FAVORITE_QUOTES";
+    public static final String FILE_NAME_AUTHORS = "FAVORITE_AUTHORS";
+
 }

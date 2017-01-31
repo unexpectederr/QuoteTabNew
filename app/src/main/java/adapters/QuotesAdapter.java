@@ -81,79 +81,78 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        if (mDataSet.get(position).getQuoteDetails() != null) {
 
-            if (mDataSet.get(position).getImageId() == 0)
-                mDataSet.get(position).setImageId(AppController.getBitmapIndex());
+        if (mDataSet.get(position).getImageId() == 0)
+            mDataSet.get(position).setImageId(AppController.getBitmapIndex());
 
-            if (favoriteQuotes.size() != 0) {
-                for (int i = 0; i < favoriteQuotes.size(); i++) {
-                    if (mDataSet.get(position).getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).
-                            getQuoteDetails().getQuoteId())) {
-                        mDataSet.get(position).setFavorite(true);
-                        holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
-                        break;
-                    } else {
-                        holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
-                        mDataSet.get(position).setFavorite(false);
-                    }
-                }
-            } else {
-                holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
-            }
-
-            AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
-                    holder.cardImage, false);
-
-            holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
-            holder.quoteText.setTypeface(AppHelper.getRalewayLigt(holder.quoteText.getContext()));
-
-            if (!isFromAuthors) {
-                holder.authorName.setText("- " + mDataSet.get(position).getQuoteDetails().getAuthorName() + " -");
-                holder.authorName.setOnClickListener(new OnAuthorClickListener(context, mDataSet.get(position)
-                        .getQuoteDetails().getAuthorId()));
-            }
-
-
-            holder.shareText.setOnClickListener(new OnShareClickListener(context,
-                    holder.quoteText.getText().toString(),
-                    mDataSet.get(position).getQuoteDetails().getAuthorName()));
-
-            holder.favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context, mDataSet,
-                    holder.favoriteIcon, mDataSet.get(position).getQuoteDetails().getQuoteId(),
-                    this, isFavorites));
-
-            String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
-
-            holder.quoteTags.removeAllViews();
-
-            for (int i = 0; i < tags.length; i++) {
-
-                if (i < Constants.MAX_NUMBER_OF_QUOTES) {
-
-                    TextView quoteTag = new TextView(context);
-                    quoteTag.setBackgroundResource(R.drawable.background_outline);
-                    quoteTag.setText(tags[i]);
-                    quoteTag.setPadding(30, 15, 30, 15);
-
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                    ViewGroup.LayoutParams.WRAP_CONTENT));
-
-                    params.setMarginEnd(12);
-
-                    quoteTag.setLayoutParams(params);
-                    quoteTag.setGravity(Gravity.CENTER);
-                    quoteTag.setTextColor(context.getResources().getColor(R.color.light_gray));
-                    quoteTag.setTypeface(AppHelper.getRalewayLigt(context));
-                    quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i], isFavorites));
-
-                    holder.quoteTags.addView(quoteTag);
+        if (favoriteQuotes.size() != 0) {
+            for (int i = 0; i < favoriteQuotes.size(); i++) {
+                if (mDataSet.get(position).getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).
+                        getQuoteDetails().getQuoteId())) {
+                    mDataSet.get(position).setFavorite(true);
+                    holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
+                    break;
+                } else {
+                    holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+                    mDataSet.get(position).setFavorite(false);
                 }
             }
-            setAnimation(holder.itemView, holder.getAdapterPosition());
+        } else {
+            holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
         }
+
+        AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
+                holder.cardImage, false);
+
+        holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
+        holder.quoteText.setTypeface(AppHelper.getRalewayLigt(holder.quoteText.getContext()));
+
+        if (!isFromAuthors) {
+            holder.authorName.setText("- " + mDataSet.get(position).getQuoteDetails().getAuthorName() + " -");
+            holder.authorName.setOnClickListener(new OnAuthorClickListener(context, mDataSet.get(position)
+                    .getQuoteDetails().getAuthorId()));
+        }
+
+
+        holder.shareText.setOnClickListener(new OnShareClickListener(context,
+                holder.quoteText.getText().toString(),
+                mDataSet.get(position).getQuoteDetails().getAuthorName()));
+
+        holder.favoriteIcon.setOnClickListener(new OnFavoriteClickListener(context, mDataSet,
+                holder.favoriteIcon, mDataSet.get(position).getQuoteDetails().getQuoteId(),
+                this, isFavorites));
+
+        String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
+
+        holder.quoteTags.removeAllViews();
+
+        for (int i = 0; i < tags.length; i++) {
+
+            if (i < Constants.MAX_NUMBER_OF_QUOTES) {
+
+                TextView quoteTag = new TextView(context);
+                quoteTag.setBackgroundResource(R.drawable.background_outline);
+                quoteTag.setText(tags[i]);
+                quoteTag.setPadding(30, 15, 30, 15);
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                params.setMarginEnd(12);
+
+                quoteTag.setLayoutParams(params);
+                quoteTag.setGravity(Gravity.CENTER);
+                quoteTag.setTextColor(context.getResources().getColor(R.color.light_gray));
+                quoteTag.setTypeface(AppHelper.getRalewayLigt(context));
+                quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i], isFavorites));
+
+                holder.quoteTags.addView(quoteTag);
+            }
+        }
+        setAnimation(holder.itemView, holder.getAdapterPosition());
     }
+
 
     private void setAnimation(View viewToAnimate, int position) {
 

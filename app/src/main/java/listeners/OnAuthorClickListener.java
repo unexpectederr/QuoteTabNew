@@ -13,8 +13,8 @@ import helpers.main.Constants;
 
 public class OnAuthorClickListener implements View.OnClickListener {
 
-    String authorId;
-    Context context;
+    private String authorId;
+    private Context context;
 
     public OnAuthorClickListener(Context context, String authorId) {
         this.authorId = authorId;

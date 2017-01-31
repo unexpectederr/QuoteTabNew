@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Random;
 
 import digitalbath.authors.Authors;
+import digitalbath.authors.FavoriteAuthors;
 import digitalbath.quotes.FavoriteQuotes;
 import digitalbath.quotes.TopQuotes;
 import digitalbath.quotetabnew.R;
@@ -253,6 +254,9 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             startActivity(i);
         } else if (id == R.id.nav_send){
             Intent i = new Intent(Dashboard.this, FavoriteQuotes.class);
+            startActivity(i);
+        } else if (id == R.id.menu_favorite_authors){
+            Intent i = new Intent(Dashboard.this, FavoriteAuthors.class);
             startActivity(i);
         }
 

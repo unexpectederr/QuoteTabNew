@@ -6,13 +6,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 
 import adapters.AuthorsAdapter;
-import digitalbath.authors.Authors;
 import digitalbath.quotetabnew.R;
+import helpers.other.ReadAndWriteToFile;
 import models.authors.AuthorDetails;
 import models.authors.AuthorGroup;
 import models.authors.PopularAuthors;
@@ -71,7 +69,8 @@ public class OnSearchAuthorWatcher implements TextWatcher {
         PopularAuthors popularAuthors = new PopularAuthors();
         popularAuthors.setAuthorGroup(authorGroup);
 
-        AuthorsAdapter adapter = new AuthorsAdapter(popularAuthors, mContext);
+        ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(mContext);
+        AuthorsAdapter adapter = new AuthorsAdapter(popularAuthors, mContext, favoriteAuthors, false);
         mRecyclerView.setAdapter(adapter);
     }
 

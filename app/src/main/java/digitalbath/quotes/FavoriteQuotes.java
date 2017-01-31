@@ -41,13 +41,11 @@ public class FavoriteQuotes extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        ArrayList<Quote> favorites;
-
         if (requestCode == 1) {
+
             if (resultCode == QuotesByTag.RESULT_OK) {
 
-                favorites = (ArrayList<Quote>) data.getSerializableExtra("result");
-                favoriteQuotes = favorites;
+                favoriteQuotes = (ArrayList<Quote>) data.getSerializableExtra("result");
                 adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false);
                 favoritesRecycler.setAdapter(adapter);
 
