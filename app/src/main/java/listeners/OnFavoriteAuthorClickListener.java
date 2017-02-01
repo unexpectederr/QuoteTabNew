@@ -22,8 +22,8 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
     private ArrayList<AuthorDetails> favoriteAuthors;
     private boolean isFavorites;
 
-    public OnFavoriteAuthorClickListener(Context context, AuthorDetails author, ArrayList<AuthorDetails> favoriteAuthors, ImageView favoriteIcon,
-                                         FavoriteAuthorsAdapter adapter, boolean isFavorites) {
+    public OnFavoriteAuthorClickListener(Context context, AuthorDetails author, ArrayList<AuthorDetails>
+            favoriteAuthors, ImageView favoriteIcon, FavoriteAuthorsAdapter adapter, boolean isFavorites) {
 
         this.context = context;
         this.author = author;
@@ -50,7 +50,7 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
 
         if (author.isFavorite()) {
 
-            favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+            favoriteIcon.setImageResource(R.drawable.ic_author_empty);
             author.setFavorite(false);
 
             if (isFavorites) {
@@ -59,10 +59,11 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
                 adapter.notifyItemRemoved(position);
             }
 
-            ReadAndWriteToFile.removeAuthorFromFavorites(context, author);
+            ReadAndWriteToFile.removeAuthorFromFavorites(context, author.getId());
+
         } else {
 
-            favoriteIcon.setImageResource(R.drawable.ic_favorite);
+            favoriteIcon.setImageResource(R.drawable.ic_author);
             author.setFavorite(true);
             ReadAndWriteToFile.addAuthorToFavorites(context, author);
         }

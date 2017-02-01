@@ -68,7 +68,7 @@ public class OnSearchAuthorWatcher implements TextWatcher {
         popularAuthors.setAuthorGroup(authorGroup);
 
         ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(mContext);
-        AuthorsAdapter adapter = new AuthorsAdapter(popularAuthors, mContext, favoriteAuthors, false);
+        AuthorsAdapter adapter = new AuthorsAdapter(popularAuthors, mContext, favoriteAuthors);
         mRecyclerView.setAdapter(adapter);
     }
 

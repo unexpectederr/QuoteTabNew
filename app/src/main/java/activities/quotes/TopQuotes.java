@@ -23,11 +23,9 @@ public class TopQuotes extends AppCompatActivity {
 
     private int page = 2;
     private boolean loading = false;
-    int visibleItemCount;
-    int totalItemCount;
-    int pastVisibleItems;
-    QuotesAdapter adapter;
-    ProgressBar progressBar;
+    private int visibleItemCount, totalItemCount, pastVisibleItems;
+    private QuotesAdapter adapter;
+    private ProgressBar progressBar;
     private ArrayList<Quote> favoriteQuotes;
 
     @Override
@@ -78,6 +76,7 @@ public class TopQuotes extends AppCompatActivity {
     }
 
     private void loadTopQuotes(final RecyclerView topQuotesRecycler) {
+
         QuoteTabApi.quoteTabApi.getTopQuotes().enqueue(new Callback<models.quotes.TopQuotes>() {
             @Override
             public void onResponse(Call<models.quotes.TopQuotes> call, Response<models.quotes.TopQuotes> response) {
@@ -106,6 +105,7 @@ public class TopQuotes extends AppCompatActivity {
     }
 
     private void loadTopQuotes(int page) {
+
         QuoteTabApi.quoteTabApi.getTopQuotes(page).enqueue(new Callback<models.quotes.TopQuotes>() {
             @Override
             public void onResponse(Call<models.quotes.TopQuotes> call, Response<models.quotes.TopQuotes> response) {

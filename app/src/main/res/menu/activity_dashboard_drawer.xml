@@ -22,7 +22,7 @@
 
       <item
           android:id="@+id/menu_favorite_authors"
-          android:icon="@drawable/ic_favorite"
+          android:icon="@drawable/ic_author"
           android:title="Favorite authors"/>
     </menu>
   </item>

@@ -146,4 +146,114 @@
         android:layout_width="20dp"
         android:layout_height="20dp"/>
 
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorPrimary"
+            android:alpha="0.95">
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_close"
+            android:id="@+id/close_info"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:id="@+id/asd"
+            android:paddingTop="10dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_gravity="center_horizontal"
+                app:finalHeight="@dimen/image_final_width"
+                app:civ_border_width="2dp"
+                app:civ_border_color="@color/main_color_light"
+                app:finalYPosition="2dp"
+                app:layout_behavior="helpers.other.AvatarImageBehavior"
+                app:startHeight="2dp"
+                app:startToolbarPosition="2dp"
+                app:startXPosition="2dp"
+                android:id="@+id/author_image_info"
+                android:src="@drawable/avatar"
+                android:layout_marginRight="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <TextView
+                    android:text="John Doe, Android Dev"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView"
+                    android:textColor="@android:color/white"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:text="Born in Rocken, Germany"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView2"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:text="Born on October 15, 1844"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView3"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:text="Friedrich Wilhelm Nietzschewas a German philosopher, cultural critic, poet and Latin and Greek scholar whose work has exerted a profound influence on Western philosophy and modern intellectual history. He began his career as a classical philologist before turning to philosophy. He became the youngest ever to hold the Chair of Classical Philology at the University of Basel in 1869, at the age of 24. Nietzsche resigned in 1879 due to health problems that plagued him most of his life, and..."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            android:layout_weight="1"
+            android:layout_below="@+id/asd"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textColor="@android:color/white"
+            android:lineSpacingExtra="8sp"
+            android:layout_marginTop="10dp"/>
+
+        <Button
+            android:text="Read more on Wikipedia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button2"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/background_outline_w"
+            android:layout_margin="15dp"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
+
 </android.support.design.widget.CoordinatorLayout>

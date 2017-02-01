@@ -61,10 +61,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         initializeContent();
 
-        getDashboardData();
-
-        preloadImages();
-
         FirebaseMessaging.getInstance().subscribeToTopic("quote-of-the-day");
 
     }
@@ -76,7 +72,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle =
-                new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                new ActionBarDrawerToggle(this, drawer, toolbar,
+                        R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -88,11 +85,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         RelativeLayout splashScreen = (RelativeLayout) findViewById(R.id.splash_screen);
         ImageView logo = (ImageView) findViewById(R.id.logo);
         Glide.with(Dashboard.this).load(R.drawable.splash).into(logo);
-        hideSplashScreen(splashScreen);
 
-        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.NAVIGATION_TIP, false))
-            AppHelper.showMaterialTip(toolbar.getChildAt(0), Dashboard.this, "Open a navigation menu",
-                    "You can find here more quotes and authors", Constants.NAVIGATION_TIP, R.drawable.ic_menu);
+        getDashboardData(toolbar, splashScreen);
+
+        preloadImages();
+
     }
 
     private void initializeDashboard(ArrayList<DashboardItem> items) {
@@ -101,11 +98,16 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         mPager.setOffscreenPageLimit(3);
 
         ParallaxPageTransformer pageTransformer = new ParallaxPageTransformer()
-                .addViewToParallax(new ParallaxPageTransformer.ParallaxTransformInformation(R.id.quote, 1.2f, 1.9f))
-                .addViewToParallax(new ParallaxPageTransformer.ParallaxTransformInformation(R.id.author, 0.6f, 1.7f))
-                .addViewToParallax(new ParallaxPageTransformer.ParallaxTransformInformation(R.id.author_image, 0.3f, 1.5f))
-                .addViewToParallax(new ParallaxPageTransformer.ParallaxTransformInformation(R.id.action_buttons_cont, 0.7f, 1.3f))
-                .addViewToParallax(new ParallaxPageTransformer.ParallaxTransformInformation(R.id.backdrop, -1.8f, -1.8f));
+                .addViewToParallax(new ParallaxPageTransformer
+                        .ParallaxTransformInformation(R.id.quote, 1.2f, 1.9f))
+                .addViewToParallax(new ParallaxPageTransformer
+                        .ParallaxTransformInformation(R.id.author, 0.6f, 1.7f))
+                .addViewToParallax(new ParallaxPageTransformer
+                        .ParallaxTransformInformation(R.id.author_image, 0.3f, 1.5f))
+                .addViewToParallax(new ParallaxPageTransformer
+                        .ParallaxTransformInformation(R.id.action_buttons_cont, 0.7f, 1.3f))
+                .addViewToParallax(new ParallaxPageTransformer
+                        .ParallaxTransformInformation(R.id.backdrop, -1.8f, -1.8f));
 
         mPager.setPageTransformer(true, pageTransformer);
 
@@ -123,8 +125,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
@@ -138,12 +139,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
     }
 
-    private void getDashboardData() {
+    private void getDashboardData(final Toolbar toolbar, final RelativeLayout splashScreen) {
 
         Call<DashboardData> call = QuoteTabApi.quoteTabApi.getDashboardData();
 
@@ -151,7 +151,10 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             @Override
             public void onResponse(Call<DashboardData> call, Response<DashboardData> response) {
 
+                hideSplashScreen(splashScreen, toolbar);
+
                 ArrayList<DashboardItem> items = new ArrayList<>();
+
                 for (int i = 0; response.body().getTopPhotos().size() > i; i++) {
 
 
@@ -175,18 +178,29 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         });
     }
 
-    private void hideSplashScreen(final RelativeLayout splashScreen) {
+    private void hideSplashScreen(final RelativeLayout splashScreen, final Toolbar toolbar) {
+
+        splashScreen.setVisibility(View.GONE);
+        AlphaAnimation alpha = new AlphaAnimation(1, 0);
+        alpha.setDuration(400);
+        splashScreen.startAnimation(alpha);
+
+        ImageView navImage = (ImageView) findViewById(R.id.nav_image);
+        AppController.loadImageIntoView(Dashboard.this, new Random().nextInt(
+                Constants.NUMBER_OF_COVERS), navImage, true);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                splashScreen.setVisibility(View.GONE);
-                AlphaAnimation alpha = new AlphaAnimation(1, 0);
-                alpha.setDuration(400);
-                splashScreen.startAnimation(alpha);
+
+                if (!PreferenceManager.getDefaultSharedPreferences(Dashboard.this)
+                        .getBoolean(Constants.NAVIGATION_TIP, false))
+                    AppHelper.showMaterialTip(toolbar.getChildAt(1), Dashboard.this, "Open a navigation menu",
+                            "You can find here more quotes, topics and authors", Constants.NAVIGATION_TIP,
+                            R.drawable.ic_menu);
 
             }
-        }, 1200);
+        }, 2000);
     }
 
     private void preloadImages() {
@@ -224,28 +238,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.dashboard, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

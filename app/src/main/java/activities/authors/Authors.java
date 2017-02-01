@@ -2,6 +2,7 @@ package activities.authors;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -9,11 +10,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import adapters.AuthorsAdapter;
-import activities.quotetabnew.R;
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
 import java.util.ArrayList;
+import activities.quotetabnew.R;
+import adapters.AuthorsAdapter;
 import helpers.main.AppHelper;
+import helpers.main.Constants;
 import helpers.other.ReadAndWriteToFile;
 import listeners.OnSearchAuthorWatcher;
 import listeners.OnSearchIconClickListener;
@@ -74,13 +76,19 @@ public class Authors extends AppCompatActivity {
 
                 ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(Authors.this);
 
-                AuthorsAdapter adapter = new AuthorsAdapter(response.body(), Authors.this, favoriteAuthors, false);
+                AuthorsAdapter adapter = new AuthorsAdapter(response.body(), Authors.this, favoriteAuthors);
                 authorsRecyclerView.setAdapter(adapter);
 
                 searchEditText.addTextChangedListener(new OnSearchAuthorWatcher(response.body(),
                         authorsRecyclerView, searchIcon, Authors.this));
 
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
+                if (!PreferenceManager.getDefaultSharedPreferences(Authors.this)
+                        .getBoolean(Constants.SEARCH_AUTHORS_TIP, false))
+                    AppHelper.showMaterialTip(searchIcon, Authors.this, "Search authors",
+                            "You can search authors here and find easily what you are looking for",
+                            Constants.SEARCH_AUTHORS_TIP, R.drawable.ic_search);
             }
 
             @Override

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -57,7 +58,7 @@ public class AppHelper {
                         SharedPreferences.Editor editor = PreferenceManager
                                 .getDefaultSharedPreferences(context).edit();
                         editor.putBoolean(tip, true);
-                        editor.commit();
+                        //editor.commit();
                     }
 
                     @Override

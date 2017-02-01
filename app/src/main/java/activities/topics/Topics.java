@@ -1,16 +1,22 @@
 package activities.topics;
 
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView;
 
+import activities.authors.Authors;
 import adapters.TopicsAdapter;
 import activities.quotetabnew.R;
+import helpers.main.AppHelper;
+import helpers.main.Constants;
+import models.dashboard.TopPhotos;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,6 +28,7 @@ public class Topics extends AppCompatActivity {
     int page = 2, visibleItemCount, totalItemCount, pastVisibleItems;
     private TopicsAdapter adapter;
     private ParallaxRecyclerView topicsRecycler;
+    private ImageView searchIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,8 @@ public class Topics extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        searchIcon = (ImageView) findViewById(R.id.search_icon);
+
        /* searchEditText = (EditText) toolbar.findViewById(R.id.search_edit_text);
         searchEditText.getBackground().setColorFilter(getResources().getColor(
                 R.color.edit_text_toolbar_underline), PorterDuff.Mode.SRC_IN);
@@ -61,11 +70,15 @@ public class Topics extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
                 if (dy > 0) {
+
                     visibleItemCount = manager.getChildCount();
                     totalItemCount = manager.getItemCount();
                     pastVisibleItems = manager.findFirstVisibleItemPosition();
+
                     if (!loading) {
+
                         if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                             loading = true;
                             loadMoreTopics(page);
@@ -92,6 +105,12 @@ public class Topics extends AppCompatActivity {
                 topicsRecycler.setAdapter(adapter);
 
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
+                if (!PreferenceManager.getDefaultSharedPreferences(Topics.this)
+                        .getBoolean(Constants.SEARCH_TOPICS_TIP, false))
+                    AppHelper.showMaterialTip(searchIcon, Topics.this, "Search topics",
+                            "You can search topics here and find easily what you are looking for",
+                            Constants.SEARCH_TOPICS_TIP, R.drawable.ic_search);
             }
 
             @Override
