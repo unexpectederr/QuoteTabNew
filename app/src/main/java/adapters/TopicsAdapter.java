@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yayandroid.parallaxrecyclerview.ParallaxViewHolder;
+
 import java.util.ArrayList;
+
 import activities.quotetabnew.R;
 import helpers.main.AppController;
 import listeners.OnTagClickListener;

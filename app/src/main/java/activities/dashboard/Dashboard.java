@@ -40,10 +40,12 @@ import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.ParallaxPageTransformer;
+import helpers.other.ReadAndWriteToFile;
 import models.dashboard.DashboardData;
 import models.dashboard.DashboardItem;
 import models.dashboard.PopularAuthor;
 import models.dashboard.Source;
+import models.quotes.Quote;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -111,7 +113,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         mPager.setPageTransformer(true, pageTransformer);
 
-        DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), items);
+        ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
+        DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), items, favoriteQuotes);
         mPager.setAdapter(mPagerAdapter);
 
         final RubberIndicator mRubberIndicator = (RubberIndicator) findViewById(R.id.rubber);
@@ -157,11 +160,10 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
                 for (int i = 0; response.body().getTopPhotos().size() > i; i++) {
 
-
                     Source source = response.body().getTopPhotos().get(i).getSource();
 
                     DashboardItem item = new DashboardItem(source.getQuote(), source.getAuthorName(),
-                            source.getAuthorId(), source.getQuoteId());
+                            source.getAuthorId(), source.getQuoteId(), false);
 
                     items.add(item);
                 }
@@ -260,7 +262,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             Intent i = new Intent(Dashboard.this, FavoriteQuotes.class);
             startActivity(i);
         } else if (id == R.id.menu_favorite_authors) {
-            Intent i = new Intent(Dashboard.this, Authors.class);
+            Intent i = new Intent(Dashboard.this, FavoriteAuthors.class);
             startActivity(i);
         }
 

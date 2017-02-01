@@ -81,7 +81,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         if (mDataSet.get(position).getImageId() == 0)
             mDataSet.get(position).setImageId(AppController.getBitmapIndex());
 
-        if (!mDataSet.get(position).isFavorite()) {
+        if (mDataSet.get(position).isFavorite()) {
 
             holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
 
@@ -121,8 +121,8 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
                 holder.quoteText.getText().toString(),
                 mDataSet.get(position).getQuoteDetails().getAuthorName()));
 
-        holder.favoriteIcon.setOnClickListener(new OnFavoriteQuoteClickListener(context, mDataSet,
-                holder.favoriteIcon, mDataSet.get(position).getQuoteDetails().getQuoteId(),
+        holder.favoriteIcon.setOnClickListener(new OnFavoriteQuoteClickListener(context, favoriteQuotes,
+                holder.favoriteIcon, mDataSet.get(position),
                 this, isFavorites));
 
         String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");

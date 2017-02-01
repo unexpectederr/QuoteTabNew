@@ -47,6 +47,31 @@ public class QuoteFields implements Serializable{
     @SerializedName("quoteId")
     private ArrayList<String> quoteId;
 
+    public void setAuthorCountry(String authorCountry) {
+        this.authorCountry = new ArrayList<>();
+        this.authorCountry.add(authorCountry);
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = new ArrayList<>();
+        this.authorId.add(authorId);
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = new ArrayList<>();
+        this.authorName.add(authorName);
+    }
+
+    public void setQuoteId(String quoteId) {
+        this.quoteId = new ArrayList<>();
+        this.quoteId.add(quoteId);
+    }
+
+    public void setQuoteText(String quoteText) {
+        this.quoteText = new ArrayList<>();
+        this.quoteText.add(quoteText);
+    }
+
     public String getQuoteId() {
          return quoteId.get(0);
     }

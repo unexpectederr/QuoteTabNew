@@ -18,10 +18,12 @@ public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
     private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
     private ArrayList<DashboardItem> mItems;
+    private ArrayList<Quote> favoriteQuotes;
 
-    public DashboardPagerAdapter(FragmentManager fm, ArrayList<DashboardItem> items) {
+    public DashboardPagerAdapter(FragmentManager fm, ArrayList<DashboardItem> items, ArrayList<Quote> favoriteQuotes) {
         super(fm);
         mItems = items;
+        this.favoriteQuotes = favoriteQuotes;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return DashboardFragment.getNewInstance(position, mItems.get(position));
+        return DashboardFragment.getNewInstance(position, mItems.get(position), favoriteQuotes);
     }
 
     @Override

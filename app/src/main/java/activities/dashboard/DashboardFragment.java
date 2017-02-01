@@ -24,18 +24,22 @@ import listeners.OnFavoriteQuoteClickListener;
 import listeners.OnShareClickListener;
 import models.dashboard.DashboardItem;
 import models.quotes.Quote;
+import models.quotes.QuoteFields;
 
 public class DashboardFragment extends Fragment {
 
     private static final String ARG_ITEM = "ARG_ITEM";
     private static final String ARG_PAGE = "ARG_PAGE";
+    private static final String ARG_FAVORITES = "ARG_FAVORITES";
 
     private DashboardItem mItem;
     private int mPage;
+    private ArrayList<Quote> mFavorites;
 
-    public static DashboardFragment getNewInstance(int page, DashboardItem item) {
+    public static DashboardFragment getNewInstance(int page, DashboardItem item, ArrayList<Quote> favoriteQuotes) {
 
         Bundle args = new Bundle();
+        args.putSerializable(ARG_FAVORITES, favoriteQuotes);
         args.putSerializable(ARG_ITEM, item);
         args.putInt(ARG_PAGE, page);
 
@@ -51,6 +55,7 @@ public class DashboardFragment extends Fragment {
 
         mItem = (DashboardItem) getArguments().getSerializable(ARG_ITEM);
         mPage = (int) getArguments().getSerializable(ARG_PAGE);
+        mFavorites = (ArrayList<Quote>) getArguments().getSerializable(ARG_FAVORITES);
 
     }
 
@@ -87,9 +92,26 @@ public class DashboardFragment extends Fragment {
         //Potrebno proslijediti quote u fragment ili na neki slican nacin proslijediti parametre u OnFavoriteQuoteClickListener
         ImageView favorite = (ImageView) view.findViewById(R.id.dashboard_favorite);
 
+        for (int i = 0; i < mFavorites.size(); i++){
+            if (mItem.getQuoteId().equals(mFavorites.get(i).getQuoteDetails().getQuoteId())){
+                favorite.setImageResource(R.drawable.ic_favorite);
+                mItem.setFavorite(true);
+            } else {
+                favorite.setImageResource(R.drawable.ic_favorite_empty);
+                mItem.setFavorite(false);
+            }
+        }
 
-//        favorite.setOnClickListener(new OnFavoriteQuoteClickListener(favorite.getContext(),
-//                ReadAndWriteToFile.getFavoriteQuotes(favorite.getContext()), favorite, mItem.getQuoteId(), null, false));
+        QuoteFields quoteFields = new QuoteFields();
+        quoteFields.setQuoteText(mItem.getQuote());
+        quoteFields.setAuthorName(mItem.getAuthor());
+        quoteFields.setAuthorId(mItem.getAuthorId());
+        quoteFields.setQuoteId(mItem.getQuoteId());
+
+        Quote quote1 = new Quote(mItem.isFavorite(), mItem.getDashItemId(), quoteFields);
+
+        favorite.setOnClickListener(new OnFavoriteQuoteClickListener(favorite.getContext(),
+                mFavorites, favorite, quote1, null, false));
 
         return view;
     }
