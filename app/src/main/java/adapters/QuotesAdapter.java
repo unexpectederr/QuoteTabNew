@@ -153,6 +153,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
                 holder.quoteTags.addView(quoteTag);
             }
         }
+
         setAnimation(holder.itemView, holder.getAdapterPosition());
     }
 

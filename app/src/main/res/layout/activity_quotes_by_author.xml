@@ -23,24 +23,24 @@
             >
 
             <helpers.other.RotatingImages
-                android:layout_width="match_parent"
                 android:id="@+id/rotating_images"
+                android:layout_width="match_parent"
+                android:layout_height="360dp"
                 app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.8"
-                android:layout_height="360dp">
+                app:layout_collapseParallaxMultiplier="0.8">
             </helpers.other.RotatingImages>
 
 
             <FrameLayout
                 android:id="@+id/main.framelayout.title"
                 android:layout_width="match_parent"
+                android:layout_height="145dp"
                 android:layout_gravity="bottom|center_horizontal"
+                android:alpha="0.7"
                 android:background="@android:color/white"
                 android:orientation="vertical"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.3"
-                android:alpha="0.7"
-                android:layout_height="145dp"
                 >
 
                 <RelativeLayout
@@ -48,29 +48,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:orientation="vertical"
                     android:gravity="center"
+                    android:orientation="vertical"
                     >
 
                     <TextView
+                        android:id="@+id/author_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        tools:text="@string/quila_name"
+                        android:gravity="center"
                         android:textColor="@color/main_color_dark"
                         android:textSize="30sp"
-                        android:id="@+id/author_name"
-                        android:gravity="center"/>
+                        tools:text="@string/quila_name"/>
 
                     <TextView
+                        android:id="@+id/author_tagline"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        tools:text="@string/quila_tagline"
-                        android:textColor="@color/main_color_dark"
-                        android:id="@+id/author_tagline"
                         android:layout_below="@+id/author_name"
-                        android:gravity="center"/>
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:textColor="@color/main_color_dark"
+                        tools:text="@string/quila_tagline"/>
 
                 </RelativeLayout>
             </FrameLayout>
@@ -83,24 +83,24 @@
         android:id="@+id/author_details_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="5dp"
         app:behavior_overlapTop="35dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:padding="5dp">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </android.support.v7.widget.RecyclerView>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/main.toolbar"
         android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
         android:background="@android:color/white"
+        android:visibility="invisible"
         app:layout_anchor="@id/main.framelayout.title"
         app:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:title=""
-        android:layout_height="?actionBarSize"
-        android:visibility="invisible">
+        app:title="">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
@@ -115,145 +115,178 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="8dp"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="@string/quila_name2"
                 android:textColor="@android:color/white"
                 android:textSize="19dp"
                 android:textStyle="bold"/>
 
+            <ImageView
+                android:id="@+id/favorite_icon"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:alpha="0.7"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="7dp"
+                app:srcCompat="@drawable/ic_author_empty"/>
+
+            <ImageView
+                android:id="@+id/info_icon"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="10dp"
+                android:alpha="0.7"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="7dp"
+                android:tint="@color/main_color_light"
+                app:srcCompat="@drawable/ic_info_outline"/>
+
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/author_image"
         android:layout_width="@dimen/image_width"
         android:layout_height="@dimen/image_width"
         android:layout_gravity="center_horizontal"
-        app:finalHeight="@dimen/image_final_width"
-        app:civ_border_width="2dp"
         app:civ_border_color="@color/main_color_light"
+        app:civ_border_width="2dp"
+        app:finalHeight="@dimen/image_final_width"
         app:finalYPosition="2dp"
         app:layout_behavior="helpers.other.AvatarImageBehavior"
         app:startHeight="2dp"
         app:startToolbarPosition="2dp"
         app:startXPosition="2dp"
-        android:id="@+id/author_image"
         />
 
-    <ProgressBar
-        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
-        android:id="@+id/progress_bar"
-        android:layout_gravity="center"
-        android:layout_width="20dp"
-        android:layout_height="20dp"/>
-
-    <RelativeLayout
-        android:orientation="vertical"
+    <io.codetail.widget.RevealFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="bottom">
+        android:visibility="invisible">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/colorPrimary"
-            android:alpha="0.95">
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_close"
-            android:id="@+id/close_info"
-            android:layout_alignParentRight="true"
-            android:padding="10dp"/>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:id="@+id/asd"
-            android:paddingTop="10dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_gravity="center_horizontal"
-                app:finalHeight="@dimen/image_final_width"
-                app:civ_border_width="2dp"
-                app:civ_border_color="@color/main_color_light"
-                app:finalYPosition="2dp"
-                app:layout_behavior="helpers.other.AvatarImageBehavior"
-                app:startHeight="2dp"
-                app:startToolbarPosition="2dp"
-                app:startXPosition="2dp"
-                android:id="@+id/author_image_info"
-                android:src="@drawable/avatar"
-                android:layout_marginRight="10dp"
-                android:layout_width="80dp"
-                android:layout_height="80dp"/>
+            android:id="@+id/author_info">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp">
-
-                <TextView
-                    android:text="John Doe, Android Dev"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView"
-                    android:textColor="@android:color/white"
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:text="Born in Rocken, Germany"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView2"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:text="Born on October 15, 1844"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView3"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:layout_weight="1"/>
+                android:alpha="0.95"
+                android:background="?attr/colorPrimary"
+                android:orientation="vertical">
             </LinearLayout>
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/close_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:padding="15dp"
+                app:srcCompat="@drawable/ic_close"/>
 
-        <TextView
-            android:text="Friedrich Wilhelm Nietzschewas a German philosopher, cultural critic, poet and Latin and Greek scholar whose work has exerted a profound influence on Western philosophy and modern intellectual history. He began his career as a classical philologist before turning to philosophy. He became the youngest ever to hold the Chair of Classical Philology at the University of Basel in 1869, at the age of 24. Nietzsche resigned in 1879 due to health problems that plagued him most of his life, and..."
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView4"
-            android:layout_weight="1"
-            android:layout_below="@+id/asd"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:textColor="@android:color/white"
-            android:lineSpacingExtra="8sp"
-            android:layout_marginTop="10dp"/>
+            <LinearLayout
+                android:id="@+id/asd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
 
-        <Button
-            android:text="Read more on Wikipedia"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/button2"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/background_outline_w"
-            android:layout_margin="15dp"
-            android:textSize="16sp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/author_image_info"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/avatar"
+                    app:civ_border_color="@color/main_color_light"
+                    app:civ_border_width="2dp"
+                    app:finalHeight="@dimen/image_final_width"
+                    app:finalYPosition="2dp"
+                    app:layout_behavior="helpers.other.AvatarImageBehavior"
+                    app:startHeight="2dp"
+                    app:startToolbarPosition="2dp"
+                    app:startXPosition="2dp"/>
 
-    </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="John Doe, Android Dev"
+                        android:textColor="@android:color/white"
+                        android:textSize="19sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_weight="1"
+                        android:text="Born in Rocken, Germany"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Born on October 15, 1844"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/asd"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:lineSpacingExtra="8sp"
+                android:text="Friedrich Wilhelm Nietzschewas a German philosopher, cultural critic, poet and Latin and Greek scholar whose work has exerted a profound influence on Western philosophy and modern intellectual history. He began his career as a classical philologist before turning to philosophy. He became the youngest ever to hold the Chair of Classical Philology at the University of Basel in 1869, at the age of 24. Nietzsche resigned in 1879 due to health problems that plagued him most of his life, and..."
+                android:textColor="@android:color/white"/>
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="15dp"
+                android:background="@drawable/background_outline_w"
+                android:text="Read more on Wikipedia"
+                android:textSize="16sp"/>
+
+        </RelativeLayout>
+
+    </io.codetail.widget.RevealFrameLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"/>
 
 </android.support.design.widget.CoordinatorLayout>

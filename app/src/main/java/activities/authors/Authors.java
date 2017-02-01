@@ -67,6 +67,7 @@ public class Authors extends AppCompatActivity {
         searchIcon = (ImageView) findViewById(R.id.search_icon);
         searchIcon.setOnClickListener(
                 new OnSearchIconClickListener(searchEditText,screenTitle, this));
+
     }
 
     private void initializeAuthorsList() {
