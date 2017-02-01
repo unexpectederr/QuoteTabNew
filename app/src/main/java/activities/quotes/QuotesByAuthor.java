@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import activities.quotetabnew.R;
 import helpers.main.Constants;
 import helpers.other.ReadAndWriteToFile;
+import listeners.OnShowAuthorInfoListener;
 import models.authors.AuthorFieldsFromQuote;
 import models.quotes.Quote;
 import models.quotes.Quotes;
@@ -37,16 +39,17 @@ public class QuotesByAuthor extends AppCompatActivity
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
     private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f;
     private static final int ALPHA_ANIMATIONS_DURATION = 200;
+
     private boolean mIsTheTitleVisible = false;
     private boolean mIsTheTitleContainerVisible = true;
+
     private RelativeLayout mTitleContainer;
     private TextView mTitle;
     private AppBarLayout mAppBarLayout;
     private Toolbar mToolbar;
-    private ArrayList<Quote> favoriteQuotes;
+
     private CircleImageView mAuthorImage;
     RecyclerView quotesRecycler;
-    TextView authorTitle, authorTagLine;
 
 
     @Override
@@ -72,19 +75,12 @@ public class QuotesByAuthor extends AppCompatActivity
 
         quotesRecycler = (RecyclerView) findViewById(R.id.author_details_recyclerView);
 
-
-        authorTitle = (TextView) findViewById(R.id.author_name);
-        authorTagLine = (TextView) findViewById(R.id.author_tagline);
-
-        favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
-
         mAppBarLayout.addOnOffsetChangedListener(this);
 
-        startAlphaAnimation(mTitle, 0, View.INVISIBLE);
+        ImageView infoIcon = (ImageView) findViewById(R.id.info_icon);
+        infoIcon.setOnClickListener(new OnShowAuthorInfoListener(this));
 
-        /*bornIn = (TextView) findViewById(R.id.born_in);
-        profession = (TextView) findViewById(R.id.profession);
-        country = (TextView) findViewById(R.id.country);*/
+        startAlphaAnimation(mTitle, 0, View.INVISIBLE);
 
     }
 
@@ -94,6 +90,8 @@ public class QuotesByAuthor extends AppCompatActivity
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
+                ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(QuotesByAuthor.this);
+
                 quotesRecycler.setLayoutManager(new LinearLayoutManager(QuotesByAuthor.this));
                 QuotesAdapter adapter = new QuotesAdapter(QuotesByAuthor.this, response.body()
                         .getQuotes(), favoriteQuotes, false, true);
@@ -102,8 +100,13 @@ public class QuotesByAuthor extends AppCompatActivity
                 AuthorFieldsFromQuote detailsFromQuote = response.body()
                         .getAuthorDetailsFromQuote().getAuthorFieldsFromQuote();
 
+                TextView authorTitle = (TextView) findViewById(R.id.author_name);
+                TextView authorTagLine = (TextView) findViewById(R.id.author_tagline);
+
                 mTitle.setText(detailsFromQuote.getAuthorName());
+
                 authorTitle.setText(detailsFromQuote.getAuthorName());
+
                 if (detailsFromQuote.getProfession() != null) {
                     authorTagLine.setText(detailsFromQuote.getProfession().getProfessionName() + " - "
                             + detailsFromQuote.getBirthplace());
@@ -141,9 +144,17 @@ public class QuotesByAuthor extends AppCompatActivity
 
         mAppBarLayout.addOnOffsetChangedListener(this);
 
-        startAlphaAnimation(mTitle, 0, View.INVISIBLE);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {

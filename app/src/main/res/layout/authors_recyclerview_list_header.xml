@@ -9,7 +9,7 @@
         android:gravity="center"
         android:textAllCaps="true"
         android:text="A"
-        android:background="@drawable/circle_bcg"
+        android:background="@drawable/circle_bcg_outline"
         android:layout_margin="12dp"
         android:layout_width="30dp"
         android:layout_height="30dp"/>
