@@ -83,13 +83,23 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"/>
             <ImageView
-                app:srcCompat="@drawable/ic_favorite"
+                app:srcCompat="@drawable/ic_favorite_empty"
                 android:id="@+id/dashboard_favorite"
                 android:layout_marginLeft="4dp"
                 android:padding="5dp"
                 android:clickable="true"
                 android:layout_width="30dp"
                 android:layout_height="30dp"/>
+
+            <ImageView
+                app:srcCompat="@drawable/ic_author_empty"
+                android:id="@+id/dashboard_author"
+                android:layout_marginLeft="6dp"
+                android:padding="3dp"
+                android:clickable="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp"/>
+
         </LinearLayout>
     </LinearLayout>
 

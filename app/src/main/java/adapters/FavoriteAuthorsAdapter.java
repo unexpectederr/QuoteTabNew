@@ -54,7 +54,7 @@ public class FavoriteAuthorsAdapter extends RecyclerView.Adapter<FavoriteAuthors
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.authors_recyclerview_list_item, parent, false);
+        View v = inflater.inflate(R.layout.fav_authors_recyclerview_list_item, parent, false);
         return new MyViewHolder(v);
     }
 
@@ -67,14 +67,15 @@ public class FavoriteAuthorsAdapter extends RecyclerView.Adapter<FavoriteAuthors
                 + mDataSet.get(position).getAuthorFields().getQuotesCount() + " quotes");
 
         Glide.with(holder.authorImage.getContext())
-                .load(Constants.IMAGES_URL + mDataSet.get(position).getAuthorFields().getImageUrl()).dontAnimate()
+                .load(Constants.IMAGES_URL + mDataSet.get(position).getAuthorFields()
+                        .getImageUrl()).dontAnimate()
                 .placeholder(R.drawable.avatar)
                 .error(R.drawable.avatar)
                 .into(holder.authorImage);
 
-        holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
-        holder.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(context, mDataSet.get(position), mDataSet,
-                holder.favoriteIcon, this, true));
+        holder.favoriteIcon.setImageResource(R.drawable.ic_author);
+        holder.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(context,
+                mDataSet.get(position), mDataSet, holder.favoriteIcon, this, true));
 
         holder.itemView.setOnClickListener(new OnAuthorClickListener(context, mDataSet.get(position).getId()));
     }

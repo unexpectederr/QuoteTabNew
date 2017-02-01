@@ -95,10 +95,12 @@ public class QuotesByAuthor extends AppCompatActivity
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
                 quotesRecycler.setLayoutManager(new LinearLayoutManager(QuotesByAuthor.this));
-                QuotesAdapter adapter = new QuotesAdapter(QuotesByAuthor.this, response.body().getQuotes(), favoriteQuotes, false, true);
+                QuotesAdapter adapter = new QuotesAdapter(QuotesByAuthor.this, response.body()
+                        .getQuotes(), favoriteQuotes, false, true);
                 quotesRecycler.setAdapter(adapter);
 
-                AuthorFieldsFromQuote detailsFromQuote = response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote();
+                AuthorFieldsFromQuote detailsFromQuote = response.body()
+                        .getAuthorDetailsFromQuote().getAuthorFieldsFromQuote();
 
                 mTitle.setText(detailsFromQuote.getAuthorName());
                 authorTitle.setText(detailsFromQuote.getAuthorName());

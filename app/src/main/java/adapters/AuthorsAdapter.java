@@ -32,20 +32,19 @@ import models.authors.PopularAuthors;
 public class AuthorsAdapter extends SectioningAdapter {
 
     private PopularAuthors mDataSet;
-    private int numberOfSections;
-    private Context context;
-    private int lastPosition = -1;
-    private ArrayList<AuthorDetails> favoriteAuthors;
-    private boolean isFavorites;
+    private int mNumberOfSections;
+    private Context mContext;
+    private int mLastPosition = -1;
+    private ArrayList<AuthorDetails> mFavoriteAuthors;
 
-    public AuthorsAdapter(PopularAuthors dataSet, Context context, ArrayList<AuthorDetails> favoriteAuthors, boolean isFavorites) {
+    public AuthorsAdapter(PopularAuthors dataSet, Context context,
+                          ArrayList<AuthorDetails> favoriteAuthors) {
 
-        this.context = context;
+        this.mContext = context;
         this.mDataSet = dataSet;
-        this.favoriteAuthors = favoriteAuthors;
-        this.isFavorites = isFavorites;
+        this.mFavoriteAuthors = favoriteAuthors;
 
-        numberOfSections = mDataSet.getAuthorGroup().size();
+        mNumberOfSections = mDataSet.getAuthorGroup().size();
 
     }
 
@@ -77,7 +76,7 @@ public class AuthorsAdapter extends SectioningAdapter {
 
     @Override
     public int getNumberOfSections() {
-        return numberOfSections;
+        return mNumberOfSections;
     }
 
     @Override
@@ -120,24 +119,30 @@ public class AuthorsAdapter extends SectioningAdapter {
         AuthorFields authorFields = mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
                 .get(itemIndex).getAuthorFields();
 
-        if (favoriteAuthors.size() != 0) {
-            for (int i = 0; i < favoriteAuthors.size(); i++) {
+        if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
+                .get(itemIndex).isFavorite()) {
+
+            ivh.favoriteIcon.setImageResource(R.drawable.ic_author);
+
+        } else if (mFavoriteAuthors.size() != 0) {
+
+            for (int i = 0; i < mFavoriteAuthors.size(); i++) {
+
                 if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex).getId()
-                        .equals(favoriteAuthors.get(i).getId())) {
+                        .equals(mFavoriteAuthors.get(i).getId())) {
 
-                    mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex).setFavorite(true);
-                    ivh.favoriteIcon.setImageResource(R.drawable.ic_favorite);
+                    mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
+                            .get(itemIndex).setFavorite(true);
+                    ivh.favoriteIcon.setImageResource(R.drawable.ic_author);
+
                     break;
-
-                } else {
-                    ivh.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
-                    mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex).setFavorite(false);
                 }
             }
-        } else {
-            ivh.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
         }
 
+        if (!mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
+                .get(itemIndex).isFavorite())
+            ivh.favoriteIcon.setImageResource(R.drawable.ic_author_empty);
 
         ivh.authorName.setText(authorFields.getName());
 
@@ -150,8 +155,9 @@ public class AuthorsAdapter extends SectioningAdapter {
                 .error(R.drawable.avatar)
                 .into(((ItemViewHolder) viewHolder).authorImage);
 
-        ivh.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(context,
-                mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex), favoriteAuthors, ivh.favoriteIcon, null, false));
+        ivh.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(mContext,
+                mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex),
+                mFavoriteAuthors, ivh.favoriteIcon, null, false));
 
         ivh.itemView.setOnClickListener(new OnAuthorClickListener(mDataSet.getAuthorGroup()
                 .get(sectionIndex).getAuthors().get(itemIndex).getId()));
@@ -161,10 +167,10 @@ public class AuthorsAdapter extends SectioningAdapter {
 
     private void setAnimation(View viewToAnimate, int position) {
 
-        if (position > lastPosition) {
-            Animation animation = AnimationUtils.loadAnimation(context, R.anim.abc_slide_in_bottom);
+        if (position > mLastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.abc_slide_in_bottom);
             viewToAnimate.startAnimation(animation);
-            lastPosition = position;
+            mLastPosition = position;
         }
     }
 
@@ -187,9 +193,9 @@ public class AuthorsAdapter extends SectioningAdapter {
 
         @Override
         public void onClick(View v) {
-            Intent i = new Intent(context, QuotesByAuthor.class);
+            Intent i = new Intent(mContext, QuotesByAuthor.class);
             i.putExtra(Constants.AUTHOR_ID, authorID);
-            context.startActivity(i);
+            mContext.startActivity(i);
         }
     }
 }

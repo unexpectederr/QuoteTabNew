@@ -81,21 +81,28 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         if (mDataSet.get(position).getImageId() == 0)
             mDataSet.get(position).setImageId(AppController.getBitmapIndex());
 
-        if (favoriteQuotes.size() != 0) {
+        if (!mDataSet.get(position).isFavorite()) {
+
+            holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
+
+        } else if (favoriteQuotes.size() != 0) {
+
             for (int i = 0; i < favoriteQuotes.size(); i++) {
+
                 if (mDataSet.get(position).getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).
                         getQuoteDetails().getQuoteId())) {
+
                     mDataSet.get(position).setFavorite(true);
                     holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
+
                     break;
-                } else {
-                    holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
-                    mDataSet.get(position).setFavorite(false);
                 }
             }
-        } else {
-            holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
         }
+
+        if (!mDataSet.get(position).isFavorite())
+            holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
+
 
         AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
                 holder.cardImage, false);
@@ -127,7 +134,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
             if (i < Constants.MAX_NUMBER_OF_QUOTES) {
 
                 TextView quoteTag = new TextView(context);
-                quoteTag.setBackgroundResource(R.drawable.background_outline);
+                quoteTag.setBackgroundResource(R.drawable.background_outline_g);
                 quoteTag.setText(tags[i]);
                 quoteTag.setPadding(30, 15, 30, 15);
 

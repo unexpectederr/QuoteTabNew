@@ -8,14 +8,28 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:layout_height="160dp"
     android:gravity="center"
-    android:paddingTop="25dp">
+    >
+
+  <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/nav_image"
+      android:scaleType="centerCrop"/>
+
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@android:color/black"
+      android:alpha="0.3">
+  </LinearLayout>
 
   <LinearLayout
       android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_margin="15dp"
-      >
+      android:paddingTop="25dp">
 
     <ImageView
         android:id="@+id/imageView"
@@ -30,7 +44,9 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/aa"
         android:layout_below="@+id/imageView"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="12dp"
+        android:textSize="16dp"
+        android:textStyle="normal|bold"/>
 
     <TextView
         android:id="@+id/ss"
@@ -38,7 +54,7 @@
         android:layout_height="wrap_content"
         android:text="Your daily quotes"
         android:layout_below="@+id/aa"
-        android:layout_marginTop="3dp"/>
+        />
   </LinearLayout>
 
 </RelativeLayout>
