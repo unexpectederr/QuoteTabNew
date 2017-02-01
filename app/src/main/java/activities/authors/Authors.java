@@ -9,13 +9,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import adapters.AuthorsAdapter;
 import activities.quotetabnew.R;
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
-
 import java.util.ArrayList;
-
 import helpers.main.AppHelper;
 import helpers.other.ReadAndWriteToFile;
 import listeners.OnSearchAuthorWatcher;

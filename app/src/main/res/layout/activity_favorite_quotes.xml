@@ -69,6 +69,7 @@
                         android:foreground="?attr/selectableItemBackground"
                         android:padding="7dp"
                         app:srcCompat="@drawable/ic_search"
+                        android:visibility="gone"
                         android:layout_width="38dp"
                         android:layout_height="38dp"
                         android:alpha="0.7"/>

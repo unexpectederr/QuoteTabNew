@@ -268,7 +268,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             Intent i = new Intent(Dashboard.this, FavoriteQuotes.class);
             startActivity(i);
         } else if (id == R.id.menu_favorite_authors) {
-            Intent i = new Intent(Dashboard.this, FavoriteAuthors.class);
+            Intent i = new Intent(Dashboard.this, Authors.class);
             startActivity(i);
         }
 

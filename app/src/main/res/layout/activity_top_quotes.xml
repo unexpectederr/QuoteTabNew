@@ -91,6 +91,7 @@
                         app:srcCompat="@drawable/ic_search"
                         android:layout_width="38dp"
                         android:layout_height="38dp"
+                        android:visibility="gone"
                         android:alpha="0.7"/>
 
                 </RelativeLayout>
