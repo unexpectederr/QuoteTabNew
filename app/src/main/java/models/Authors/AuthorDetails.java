@@ -18,6 +18,15 @@ public class AuthorDetails implements Serializable {
     private AuthorFields authorFields;
 
     private boolean favorite;
+    private boolean last;
+
+    public boolean isLast() {
+        return last;
+    }
+
+    public void setLast(boolean last) {
+        this.last = last;
+    }
 
     public void setId(String id) {
         this.id = id;

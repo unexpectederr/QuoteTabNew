@@ -16,10 +16,12 @@ import org.zakariya.stickyheaders.SectioningAdapter;
 
 import java.util.ArrayList;
 
+import activities.authors.Authors;
 import de.hdodenhof.circleimageview.CircleImageView;
 import activities.quotes.QuotesByAuthor;
 import activities.quotetabnew.R;
 import helpers.main.Constants;
+import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteAuthorClickListener;
 import models.authors.AuthorDetails;
 import models.authors.AuthorFields;
@@ -36,6 +38,7 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
     private Context mContext;
     private int mLastPosition = -1;
     private ArrayList<AuthorDetails> mFavoriteAuthors;
+    private static final int TYPE_ITEM_LAST = 4;
 
     public PopularAuthorsAdapter(PopularAuthors dataSet, Context context,
                                  ArrayList<AuthorDetails> favoriteAuthors) {
@@ -54,6 +57,7 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
         TextView authorInfo;
         CircleImageView authorImage;
         ImageView favoriteIcon;
+        TextView text;
 
         ItemViewHolder(View itemView) {
             super(itemView);
@@ -61,6 +65,7 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
             authorInfo = (TextView) itemView.findViewById(R.id.author_info);
             authorImage = (CircleImageView) itemView.findViewById(R.id.author_image);
             favoriteIcon = (ImageView) itemView.findViewById(R.id.author_favorite);
+            text = (TextView) itemView.findViewById(R.id.text_load);
         }
     }
 
@@ -95,11 +100,25 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
     }
 
     @Override
+    public int getSectionItemUserType(int sectionIndex, int itemIndex) {
+        if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex).isLast())
+            return TYPE_ITEM_LAST;
+        else
+            return TYPE_ITEM;
+    }
+
+    @Override
     public ItemViewHolder onCreateItemViewHolder(ViewGroup parent, int itemType) {
 
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.authors_recyclerview_list_item, parent, false);
-        return new ItemViewHolder(v);
+        if (itemType == TYPE_ITEM) {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            View v = inflater.inflate(R.layout.authors_recyclerview_list_item, parent, false);
+            return new ItemViewHolder(v);
+        } else {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            View v = inflater.inflate(R.layout.last_item, parent, false);
+            return new ItemViewHolder(v);
+        }
     }
 
     @Override
@@ -115,54 +134,62 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
                                      int itemIndex, int itemType) {
 
         ItemViewHolder ivh = (ItemViewHolder) viewHolder;
-
         AuthorFields authorFields = mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
                 .get(itemIndex).getAuthorFields();
 
-        if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
-                .get(itemIndex).isFavorite()) {
+        if (itemType == TYPE_ITEM) {
 
-            ivh.favoriteIcon.setImageResource(R.drawable.ic_author);
+            if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
+                    .get(itemIndex).isFavorite()) {
 
-        } else if (mFavoriteAuthors.size() != 0) {
+                ivh.favoriteIcon.setImageResource(R.drawable.ic_author);
 
-            for (int i = 0; i < mFavoriteAuthors.size(); i++) {
+            } else if (mFavoriteAuthors.size() != 0) {
 
-                if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex).getId()
-                        .equals(mFavoriteAuthors.get(i).getId())) {
+                for (int i = 0; i < mFavoriteAuthors.size(); i++) {
 
-                    mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
-                            .get(itemIndex).setFavorite(true);
-                    ivh.favoriteIcon.setImageResource(R.drawable.ic_author);
+                    if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex).getId()
+                            .equals(mFavoriteAuthors.get(i).getId())) {
 
-                    break;
+                        mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
+                                .get(itemIndex).setFavorite(true);
+                        ivh.favoriteIcon.setImageResource(R.drawable.ic_author);
+
+                        break;
+                    }
                 }
             }
+
+            if (!mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
+                    .get(itemIndex).isFavorite())
+                ivh.favoriteIcon.setImageResource(R.drawable.ic_author_empty);
+
+            ivh.authorName.setText(authorFields.getName());
+
+            ivh.authorInfo.setText(authorFields.getProfessionName() + " - "
+                    + authorFields.getQuotesCount() + " quotes");
+
+            Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
+                    .load(Constants.IMAGES_URL + authorFields.getImageUrl()).dontAnimate()
+                    .placeholder(R.drawable.avatar)
+                    .error(R.drawable.avatar)
+                    .into(((ItemViewHolder) viewHolder).authorImage);
+
+            ivh.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(mContext,
+                    mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex),
+                    mFavoriteAuthors, ivh.favoriteIcon, null, false));
+
+            ivh.itemView.setOnClickListener(new OnAuthorClickListener(mDataSet.getAuthorGroup()
+                    .get(sectionIndex).getAuthors().get(itemIndex).getId()));
+
+            setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
+        } else {
+            ivh.text.setText("All " + mDataSet.getAuthorGroup().get(sectionIndex).getReferences()
+                    .getLetter().toUpperCase() + " Authors...");
+            setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
+            ivh.itemView.setOnClickListener(new OnAuthorLetterClickListener(mDataSet.getAuthorGroup().get(sectionIndex).getReferences()
+                    .getLetter()));
         }
-
-        if (!mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
-                .get(itemIndex).isFavorite())
-            ivh.favoriteIcon.setImageResource(R.drawable.ic_author_empty);
-
-        ivh.authorName.setText(authorFields.getName());
-
-        ivh.authorInfo.setText(authorFields.getProfessionName() + " - "
-                + authorFields.getQuotesCount() + " quotes");
-
-        Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
-                .load(Constants.IMAGES_URL + authorFields.getImageUrl()).dontAnimate()
-                .placeholder(R.drawable.avatar)
-                .error(R.drawable.avatar)
-                .into(((ItemViewHolder) viewHolder).authorImage);
-
-        ivh.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(mContext,
-                mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex),
-                mFavoriteAuthors, ivh.favoriteIcon, null, false));
-
-        ivh.itemView.setOnClickListener(new OnAuthorClickListener(mDataSet.getAuthorGroup()
-                .get(sectionIndex).getAuthors().get(itemIndex).getId()));
-
-        setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
     }
 
     private void setAnimation(View viewToAnimate, int position) {
@@ -183,6 +210,23 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
         hvh.header.setText(mDataSet.getAuthorGroup().get(sectionIndex).getReferences().getLetter());
     }
 
+    private class OnAuthorLetterClickListener implements View.OnClickListener {
+
+        String letter;
+        OnAuthorLetterClickListener(String letter) {
+
+            this.letter = letter;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent i = new Intent(mContext, Authors.class);
+            i.putExtra("IS_BY_LETTER", true);
+            i.putExtra("LETTER", letter);
+            mContext.startActivity(i);
+        }
+    }
+
     private class OnAuthorClickListener implements View.OnClickListener {
 
         String authorID;
@@ -197,5 +241,6 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
             i.putExtra(Constants.AUTHOR_ID, authorID);
             mContext.startActivity(i);
         }
+
     }
 }

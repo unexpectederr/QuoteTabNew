@@ -10,8 +10,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
+
 import java.util.ArrayList;
+
 import activities.quotetabnew.R;
 import adapters.PopularAuthorsAdapter;
 import helpers.main.AppHelper;
@@ -20,6 +23,9 @@ import helpers.other.ReadAndWriteToFile;
 import listeners.OnSearchAuthorWatcher;
 import listeners.OnSearchIconClickListener;
 import models.authors.AuthorDetails;
+import models.authors.AuthorFields;
+import models.authors.AuthorGroup;
+import models.dashboard.PopularAuthor;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,7 +67,7 @@ public class PopularAuthors extends AppCompatActivity {
 
         searchIcon = (ImageView) findViewById(R.id.search_icon);
         searchIcon.setOnClickListener(
-                new OnSearchIconClickListener(searchEditText,screenTitle, this));
+                new OnSearchIconClickListener(searchEditText, screenTitle, this));
 
     }
 
@@ -76,27 +82,37 @@ public class PopularAuthors extends AppCompatActivity {
 
                 ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(PopularAuthors.this);
 
-                PopularAuthorsAdapter adapter = new PopularAuthorsAdapter(response.body(), PopularAuthors.this, favoriteAuthors);
-                authorsRecyclerView.setAdapter(adapter);
+                AuthorDetails author = new AuthorDetails();
+                author.setLast(true);
 
-                searchEditText.addTextChangedListener(new OnSearchAuthorWatcher(response.body(),
-                        authorsRecyclerView, searchIcon, PopularAuthors.this));
+                models.authors.PopularAuthors authors = response.body();
 
-                findViewById(R.id.progress_bar).setVisibility(View.GONE);
+                for (int i = 0; i < response.body().getAuthorGroup().size(); i++) {
+                        authors.getAuthorGroup().get(i).getAuthors().add(author);
+                    }
 
-                if (!PreferenceManager.getDefaultSharedPreferences(PopularAuthors.this)
-                        .getBoolean(Constants.SEARCH_AUTHORS_TIP, false))
-                    AppHelper.showMaterialTip(searchIcon, PopularAuthors.this, "Search authors",
-                            "You can search authors here and find easily what you are looking for",
-                            Constants.SEARCH_AUTHORS_TIP, R.drawable.ic_search);
-            }
 
-            @Override
-            public void onFailure(Call<models.authors.PopularAuthors> call, Throwable t) {
-                AppHelper.showToast(getResources().getString(R.string.toast_error_message), PopularAuthors.this);
-            }
-        });
+            PopularAuthorsAdapter adapter = new PopularAuthorsAdapter(authors, PopularAuthors.this, favoriteAuthors);
+            authorsRecyclerView.setAdapter(adapter);
+
+            searchEditText.addTextChangedListener(new OnSearchAuthorWatcher(response.body(),authorsRecyclerView,searchIcon,PopularAuthors.this));
+
+            findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
+            if(!PreferenceManager.getDefaultSharedPreferences(PopularAuthors.this).getBoolean(Constants.SEARCH_AUTHORS_TIP, false))
+                    AppHelper.showMaterialTip(searchIcon,PopularAuthors.this,"Search authors",
+                    "You can search authors here and find easily what you are looking for",
+            Constants.SEARCH_AUTHORS_TIP,R.drawable.ic_search);
+        }
+
+        @Override
+        public void onFailure (Call < models.authors.PopularAuthors > call, Throwable t){
+            AppHelper.showToast(getResources().getString(R.string.toast_error_message), PopularAuthors.this);
+        }
     }
+
+    );
+}
 
     public boolean onSupportNavigateUp() {
 
