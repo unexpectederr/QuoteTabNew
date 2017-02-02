@@ -11,16 +11,17 @@ import java.util.ArrayList;
 
 import activities.dashboard.DashboardFragment;
 import models.dashboard.DashboardItem;
+import models.dashboard.TopPhotos;
 import models.quotes.Quote;
 
 
 public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
     private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
-    private ArrayList<DashboardItem> mItems;
+    private ArrayList<TopPhotos> mItems;
     private ArrayList<Quote> favoriteQuotes;
 
-    public DashboardPagerAdapter(FragmentManager fm, ArrayList<DashboardItem> items, ArrayList<Quote> favoriteQuotes) {
+public DashboardPagerAdapter(FragmentManager fm, ArrayList<TopPhotos> items, ArrayList<Quote> favoriteQuotes) {
         super(fm);
         mItems = items;
         this.favoriteQuotes = favoriteQuotes;
@@ -38,7 +39,7 @@ public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mItems.get(position).getAuthor();
+        return mItems.get(position).getSource().getAuthorName();
     }
 
     @Override

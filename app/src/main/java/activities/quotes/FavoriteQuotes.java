@@ -62,10 +62,22 @@ public class FavoriteQuotes extends AppCompatActivity {
         }
     }
 
-    @Override
     public boolean onSupportNavigateUp() {
+
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteQuotes(this));
+        this.setResult(FavoriteQuotes.RESULT_OK, returnIntent);
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteQuotes(this));
+        this.setResult(FavoriteQuotes.RESULT_OK, returnIntent);
+        super.onBackPressed();
     }
 }
 

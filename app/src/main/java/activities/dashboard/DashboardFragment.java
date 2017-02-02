@@ -12,17 +12,17 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import activities.quotetabnew.R;
+import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
-import helpers.other.ReadAndWriteToFile;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteQuoteClickListener;
 import listeners.OnShareClickListener;
-import models.dashboard.DashboardItem;
+import models.dashboard.TopPhotos;
 import models.quotes.Quote;
 import models.quotes.QuoteFields;
 
@@ -32,15 +32,15 @@ public class DashboardFragment extends Fragment {
     private static final String ARG_PAGE = "ARG_PAGE";
     private static final String ARG_FAVORITES = "ARG_FAVORITES";
 
-    private DashboardItem mItem;
+    private TopPhotos quote;
     private int mPage;
     private ArrayList<Quote> mFavorites;
 
-    public static DashboardFragment getNewInstance(int page, DashboardItem item, ArrayList<Quote> favoriteQuotes) {
+    public static DashboardFragment getNewInstance(int page, TopPhotos quote, ArrayList<Quote> favoriteQuotes) {
 
         Bundle args = new Bundle();
         args.putSerializable(ARG_FAVORITES, favoriteQuotes);
-        args.putSerializable(ARG_ITEM, item);
+        args.putSerializable(ARG_ITEM, quote);
         args.putInt(ARG_PAGE, page);
 
         DashboardFragment fragment = new DashboardFragment();
@@ -53,7 +53,7 @@ public class DashboardFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mItem = (DashboardItem) getArguments().getSerializable(ARG_ITEM);
+        quote = (TopPhotos) getArguments().getSerializable(ARG_ITEM);
         mPage = (int) getArguments().getSerializable(ARG_PAGE);
         mFavorites = (ArrayList<Quote>) getArguments().getSerializable(ARG_FAVORITES);
 
@@ -67,48 +67,48 @@ public class DashboardFragment extends Fragment {
 
         ImageView cardImage = (android.widget.ImageView) view.findViewById(R.id.backdrop);
 
-        AppController.loadImageIntoView(getContext(), mItem.getDashItemId(), cardImage, true);
+        AppController.loadImageIntoView(getContext(), new Random().nextInt(Constants.NUMBER_OF_COVERS), cardImage, true);
 
         CircleImageView authorImage = (CircleImageView) view.findViewById(R.id.author_image);
         Glide.with(getContext())
-                .load(Constants.IMAGES_URL + mItem.getAuthorId() + ".jpg")
+                .load(Constants.IMAGES_URL + quote.getSource().getAuthorId() + ".jpg")
                 .dontAnimate()
                 .placeholder(R.drawable.avatar)
                 .error(R.drawable.avatar)
                 .into(authorImage);
-        authorImage.setOnClickListener(new OnAuthorClickListener(authorImage.getContext(), mItem.getAuthorId()));
+        authorImage.setOnClickListener(new OnAuthorClickListener(authorImage.getContext(), quote.getSource().getAuthorId()));
 
-        TextView quote = (TextView) view.findViewById(R.id.quote);
-        quote.setTypeface(AppHelper.getRalewayLight(getContext()));
-        quote.setText(mItem.getQuote());
+        TextView quoteTextView = (TextView) view.findViewById(R.id.quote);
+        quoteTextView.setTypeface(AppHelper.getRalewayLight(getContext()));
+        quoteTextView.setText(quote.getSource().getQuote());
 
         TextView author = (TextView) view.findViewById(R.id.author);
-        author.setText("- " + mItem.getAuthor() + "-");
-        author.setOnClickListener(new OnAuthorClickListener(author.getContext(), mItem.getAuthorId()));
+        author.setText("- " + quote.getSource().getAuthorName() + "-");
+        author.setOnClickListener(new OnAuthorClickListener(author.getContext(), quote.getSource().getAuthorId()));
 
         ImageView share = (ImageView) view.findViewById(R.id.dashboard_share);
-        share.setOnClickListener(new OnShareClickListener(share.getContext(), mItem.getQuote(), mItem.getAuthor()));
+        share.setOnClickListener(new OnShareClickListener(share.getContext(), quote.getSource().getQuote(),
+                quote.getSource().getAuthorName()));
 
-        //Potrebno proslijediti quote u fragment ili na neki slican nacin proslijediti parametre u OnFavoriteQuoteClickListener
         ImageView favorite = (ImageView) view.findViewById(R.id.dashboard_favorite);
+        favorite.setImageResource(R.drawable.ic_favorite_empty);
 
-        for (int i = 0; i < mFavorites.size(); i++){
-            if (mItem.getQuoteId().equals(mFavorites.get(i).getQuoteDetails().getQuoteId())){
+        for (int i = 0; i < mFavorites.size(); i++) {
+            if (quote.getSource().getQuoteId().equals(mFavorites.get(i).getQuoteDetails().getQuoteId())) {
                 favorite.setImageResource(R.drawable.ic_favorite);
-                mItem.setFavorite(true);
+                quote.setFavorite(true);
             } else {
-                favorite.setImageResource(R.drawable.ic_favorite_empty);
-                mItem.setFavorite(false);
+                quote.setFavorite(false);
             }
         }
 
-        QuoteFields quoteFields = new QuoteFields();
-        quoteFields.setQuoteText(mItem.getQuote());
-        quoteFields.setAuthorName(mItem.getAuthor());
-        quoteFields.setAuthorId(mItem.getAuthorId());
-        quoteFields.setQuoteId(mItem.getQuoteId());
+        QuoteFields fields = new QuoteFields();
+        fields.setAuthorName(quote.getSource().getAuthorName());
+        fields.setAuthorId(quote.getSource().getAuthorId());
+        fields.setQuoteText(quote.getSource().getQuote());
+        fields.setQuoteId(quote.getSource().getQuoteId());
 
-        Quote quote1 = new Quote(mItem.isFavorite(), mItem.getDashItemId(), quoteFields);
+        Quote quote1 = new Quote(quote.isFavorite(), new Random().nextInt(Constants.NUMBER_OF_COVERS), fields);
 
         favorite.setOnClickListener(new OnFavoriteQuoteClickListener(favorite.getContext(),
                 mFavorites, favorite, quote1, null, false));
