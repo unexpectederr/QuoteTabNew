@@ -22,25 +22,32 @@ import helpers.main.Constants;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteQuoteClickListener;
 import listeners.OnShareClickListener;
+import models.authors.AuthorDetails;
 import models.dashboard.TopPhotos;
 import models.quotes.Quote;
 import models.quotes.QuoteFields;
 
 public class DashboardFragment extends Fragment {
 
-    private static final String ARG_ITEM = "ARG_ITEM";
+    private static final String ARG_QUOTE = "ARG_QUOTE";
     private static final String ARG_PAGE = "ARG_PAGE";
-    private static final String ARG_FAVORITES = "ARG_FAVORITES";
+    private static final String ARG_FAVORITE_QUOTES = "ARG_FAVORITE_QUOTES";
+    private static final String ARG_FAVORITE_AUTHORS = "ARG_FAVORITE_AUTHORS";
+    private static final String ARG_AUTHOR = "ARG_AUTHOR";
+
 
     private TopPhotos quote;
     private int mPage;
-    private ArrayList<Quote> mFavorites;
+    private ArrayList<Quote> favoriteQuotes;
+    private ArrayList<AuthorDetails> favoriteAuthors;
 
-    public static DashboardFragment getNewInstance(int page, TopPhotos quote, ArrayList<Quote> favoriteQuotes) {
+    public static DashboardFragment getNewInstance(int page, TopPhotos quote, ArrayList<Quote> favoriteQuotes,
+                                                   ArrayList<AuthorDetails> favoriteAuthors) {
 
         Bundle args = new Bundle();
-        args.putSerializable(ARG_FAVORITES, favoriteQuotes);
-        args.putSerializable(ARG_ITEM, quote);
+        args.putSerializable(ARG_FAVORITE_AUTHORS, favoriteAuthors);
+        args.putSerializable(ARG_FAVORITE_QUOTES, favoriteQuotes);
+        args.putSerializable(ARG_QUOTE, quote);
         args.putInt(ARG_PAGE, page);
 
         DashboardFragment fragment = new DashboardFragment();
@@ -53,9 +60,10 @@ public class DashboardFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        quote = (TopPhotos) getArguments().getSerializable(ARG_ITEM);
+        quote = (TopPhotos) getArguments().getSerializable(ARG_QUOTE);
         mPage = (int) getArguments().getSerializable(ARG_PAGE);
-        mFavorites = (ArrayList<Quote>) getArguments().getSerializable(ARG_FAVORITES);
+        favoriteQuotes = (ArrayList<Quote>) getArguments().getSerializable(ARG_FAVORITE_QUOTES);
+        favoriteAuthors = (ArrayList<AuthorDetails>) getArguments().getSerializable(ARG_FAVORITE_AUTHORS);
 
     }
 
@@ -90,12 +98,21 @@ public class DashboardFragment extends Fragment {
         share.setOnClickListener(new OnShareClickListener(share.getContext(), quote.getSource().getQuote(),
                 quote.getSource().getAuthorName()));
 
-        ImageView favorite = (ImageView) view.findViewById(R.id.dashboard_favorite);
-        favorite.setImageResource(R.drawable.ic_favorite_empty);
+        ImageView favoriteQuote = (ImageView) view.findViewById(R.id.dashboard_favorite);
+        favoriteQuote.setImageResource(R.drawable.ic_favorite_empty);
 
-        for (int i = 0; i < mFavorites.size(); i++) {
-            if (quote.getSource().getQuoteId().equals(mFavorites.get(i).getQuoteDetails().getQuoteId())) {
-                favorite.setImageResource(R.drawable.ic_favorite);
+        ImageView favoriteAuthor = (ImageView) view.findViewById(R.id.dashboard_author);
+        favoriteAuthor.setImageResource(R.drawable.ic_author_empty);
+
+//        for (int i = 0; i < favoriteAuthors.size(); i++) {
+//            if (quote.getSource().getAuthorId().equals(favoriteAuthors.get(i).getId())){
+//                favoriteAuthor.setImageResource(R.drawable.ic_author);
+//            }
+//        }
+
+        for (int i = 0; i < favoriteQuotes.size(); i++) {
+            if (quote.getSource().getQuoteId().equals(favoriteQuotes.get(i).getQuoteDetails().getQuoteId())) {
+                favoriteQuote.setImageResource(R.drawable.ic_favorite);
                 quote.setFavorite(true);
             } else {
                 quote.setFavorite(false);
@@ -110,8 +127,8 @@ public class DashboardFragment extends Fragment {
 
         Quote quote1 = new Quote(quote.isFavorite(), new Random().nextInt(Constants.NUMBER_OF_COVERS), fields);
 
-        favorite.setOnClickListener(new OnFavoriteQuoteClickListener(favorite.getContext(),
-                mFavorites, favorite, quote1, null, false));
+        favoriteQuote.setOnClickListener(new OnFavoriteQuoteClickListener(favoriteQuote.getContext(),
+                favoriteQuotes, favoriteQuote, quote1, null, false));
 
         return view;
     }

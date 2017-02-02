@@ -27,21 +27,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import activities.authors.PopularAuthors;
 import activities.authors.Authors;
-import activities.authors.FavoriteAuthors;
 import activities.quotes.FavoriteQuotes;
 import activities.quotes.QuotesByTag;
 import activities.quotes.TopQuotes;
 import activities.quotetabnew.R;
 import activities.topics.Topics;
 import adapters.DashboardPagerAdapter;
-import adapters.PoplarAuthorsAdapter;
-import adapters.QuotesAdapter;
+import adapters.DashboardPoplarAuthorsAdapter;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.ParallaxPageTransformer;
 import helpers.other.ReadAndWriteToFile;
+import models.authors.AuthorDetails;
 import models.dashboard.DashboardData;
 import models.dashboard.PopularAuthor;
 import models.dashboard.TopPhotos;
@@ -116,7 +116,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         mPager.setPageTransformer(true, pageTransformer);
 
         ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
-        DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), items, favoriteQuotes);
+        ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(this);
+        DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), items, favoriteQuotes, favoriteAuthors);
         mPager.setAdapter(mPagerAdapter);
 
         final RubberIndicator mRubberIndicator = (RubberIndicator) findViewById(R.id.rubber);
@@ -226,7 +227,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        PoplarAuthorsAdapter mAdapter = new PoplarAuthorsAdapter(popularAuthorsList, Dashboard.this);
+        DashboardPoplarAuthorsAdapter mAdapter = new DashboardPoplarAuthorsAdapter(popularAuthorsList, Dashboard.this);
         mRecyclerView.setAdapter(mAdapter);
 
     }
@@ -248,7 +249,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         int id = item.getItemId();
 
         if (id == R.id.nav_authors) {
-            Intent i = new Intent(Dashboard.this, Authors.class);
+            Intent i = new Intent(Dashboard.this, PopularAuthors.class);
             startActivity(i);
         } else if (id == R.id.nav_topics) {
             Intent i = new Intent(Dashboard.this, Topics.class);
@@ -261,7 +262,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             Intent i = new Intent(Dashboard.this, FavoriteQuotes.class);
             startActivityForResult(i, 1);
         } else if (id == R.id.menu_favorite_authors) {
-            Intent i = new Intent(Dashboard.this, FavoriteAuthors.class);
+            Intent i = new Intent(Dashboard.this, Authors.class);
             startActivity(i);
         }
 
@@ -278,7 +279,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             if (resultCode == FavoriteQuotes.RESULT_OK) {
 
                 ArrayList<Quote> favoriteQuotes = (ArrayList<Quote>) data.getSerializableExtra("result");
-                DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), items, favoriteQuotes);
+                DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), items, favoriteQuotes, null);
                 mPager.setAdapter(mPagerAdapter);
 
             } else if (resultCode == QuotesByTag.RESULT_CANCELED) {

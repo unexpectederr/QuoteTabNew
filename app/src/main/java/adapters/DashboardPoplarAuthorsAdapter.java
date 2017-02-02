@@ -14,13 +14,13 @@ import helpers.main.Constants;
 import models.dashboard.PopularAuthor;
 
 
-public class PoplarAuthorsAdapter extends RecyclerView.Adapter<PoplarAuthorsAdapter.ViewHolder> {
+public class DashboardPoplarAuthorsAdapter extends RecyclerView.Adapter<DashboardPoplarAuthorsAdapter.ViewHolder> {
 
     private List<PopularAuthor> mDataSet;
     private Context mContext;
     private int increment;
 
-    public PoplarAuthorsAdapter(List<PopularAuthor> myDataSet, Context context) {
+    public DashboardPoplarAuthorsAdapter(List<PopularAuthor> myDataSet, Context context) {
         mDataSet = myDataSet;
         mDataSet.add(new PopularAuthor());
         mDataSet.add(new PopularAuthor());
@@ -50,8 +50,8 @@ public class PoplarAuthorsAdapter extends RecyclerView.Adapter<PoplarAuthorsAdap
 
 
     @Override
-    public PoplarAuthorsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    public DashboardPoplarAuthorsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                                       int viewType) {
 
         int layoutId = R.layout.popular_authors_type_one;
 

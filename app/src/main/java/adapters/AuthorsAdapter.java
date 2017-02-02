@@ -1,61 +1,47 @@
 package adapters;
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-
-import org.zakariya.stickyheaders.SectioningAdapter;
-
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-import activities.quotes.QuotesByAuthor;
 import activities.quotetabnew.R;
+import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.Constants;
+import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteAuthorClickListener;
 import models.authors.AuthorDetails;
-import models.authors.AuthorFields;
-import models.authors.PopularAuthors;
 
 /**
- * Created by Spaja on 26-Dec-16.
+ * Created by Spaja on 31-Jan-17.
  */
 
-public class AuthorsAdapter extends SectioningAdapter {
+public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHolder> {
 
-    private PopularAuthors mDataSet;
-    private int mNumberOfSections;
-    private Context mContext;
-    private int mLastPosition = -1;
-    private ArrayList<AuthorDetails> mFavoriteAuthors;
+    private Context context;
+    private ArrayList<AuthorDetails> mDataSet;
 
-    public AuthorsAdapter(PopularAuthors dataSet, Context context,
-                          ArrayList<AuthorDetails> favoriteAuthors) {
+    public AuthorsAdapter(Context context, ArrayList<AuthorDetails> favoriteAuthors) {
 
-        this.mContext = context;
-        this.mDataSet = dataSet;
-        this.mFavoriteAuthors = favoriteAuthors;
-
-        mNumberOfSections = mDataSet.getAuthorGroup().size();
+        this.context = context;
+        this.mDataSet = favoriteAuthors;
 
     }
 
-    private class ItemViewHolder extends SectioningAdapter.ItemViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
 
         TextView authorName;
         TextView authorInfo;
         CircleImageView authorImage;
         ImageView favoriteIcon;
 
-        ItemViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
+
             super(itemView);
             authorName = (TextView) itemView.findViewById(R.id.author_name);
             authorInfo = (TextView) itemView.findViewById(R.id.author_info);
@@ -64,138 +50,39 @@ public class AuthorsAdapter extends SectioningAdapter {
         }
     }
 
-    private class HeaderViewHolder extends SectioningAdapter.HeaderViewHolder {
-
-        TextView header;
-
-        HeaderViewHolder(View itemView) {
-            super(itemView);
-            header = (TextView) itemView.findViewById(R.id.header);
-        }
-    }
-
     @Override
-    public int getNumberOfSections() {
-        return mNumberOfSections;
-    }
-
-    @Override
-    public int getNumberOfItemsInSection(int sectionIndex) {
-        return mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().size();
-    }
-
-    @Override
-    public boolean doesSectionHaveHeader(int sectionIndex) {
-        return true;
-    }
-
-    @Override
-    public boolean doesSectionHaveFooter(int sectionIndex) {
-        return false;
-    }
-
-    @Override
-    public ItemViewHolder onCreateItemViewHolder(ViewGroup parent, int itemType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.authors_recyclerview_list_item, parent, false);
-        return new ItemViewHolder(v);
+        View v = inflater.inflate(R.layout.fav_authors_recyclerview_list_item, parent, false);
+        return new MyViewHolder(v);
     }
 
     @Override
-    public HeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent, int headerType) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.authors_recyclerview_list_header, parent, false);
-        return new HeaderViewHolder(v);
-    }
+        holder.authorName.setText(mDataSet.get(position).getAuthorFields().getName());
 
-    @Override
-    public void onBindItemViewHolder(SectioningAdapter.ItemViewHolder viewHolder, int sectionIndex,
-                                     int itemIndex, int itemType) {
+        holder.authorInfo.setText(mDataSet.get(position).getAuthorFields().getProfessionName() + " - "
+                + mDataSet.get(position).getAuthorFields().getQuotesCount() + " quotes");
 
-        ItemViewHolder ivh = (ItemViewHolder) viewHolder;
-
-        AuthorFields authorFields = mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
-                .get(itemIndex).getAuthorFields();
-
-        if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
-                .get(itemIndex).isFavorite()) {
-
-            ivh.favoriteIcon.setImageResource(R.drawable.ic_author);
-
-        } else if (mFavoriteAuthors.size() != 0) {
-
-            for (int i = 0; i < mFavoriteAuthors.size(); i++) {
-
-                if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex).getId()
-                        .equals(mFavoriteAuthors.get(i).getId())) {
-
-                    mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
-                            .get(itemIndex).setFavorite(true);
-                    ivh.favoriteIcon.setImageResource(R.drawable.ic_author);
-
-                    break;
-                }
-            }
-        }
-
-        if (!mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
-                .get(itemIndex).isFavorite())
-            ivh.favoriteIcon.setImageResource(R.drawable.ic_author_empty);
-
-        ivh.authorName.setText(authorFields.getName());
-
-        ivh.authorInfo.setText(authorFields.getProfessionName() + " - "
-                + authorFields.getQuotesCount() + " quotes");
-
-        Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
-                .load(Constants.IMAGES_URL + authorFields.getImageUrl()).dontAnimate()
+        Glide.with(holder.authorImage.getContext())
+                .load(Constants.IMAGES_URL + mDataSet.get(position).getAuthorFields()
+                        .getImageUrl()).dontAnimate()
                 .placeholder(R.drawable.avatar)
                 .error(R.drawable.avatar)
-                .into(((ItemViewHolder) viewHolder).authorImage);
+                .into(holder.authorImage);
 
-        ivh.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(mContext,
-                mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex),
-                mFavoriteAuthors, ivh.favoriteIcon, null, false));
+        holder.favoriteIcon.setImageResource(R.drawable.ic_author);
+        holder.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(context,
+                mDataSet.get(position), mDataSet, holder.favoriteIcon, this, true));
 
-        ivh.itemView.setOnClickListener(new OnAuthorClickListener(mDataSet.getAuthorGroup()
-                .get(sectionIndex).getAuthors().get(itemIndex).getId()));
-
-        setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
-    }
-
-    private void setAnimation(View viewToAnimate, int position) {
-
-        if (position > mLastPosition) {
-            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.abc_slide_in_bottom);
-            viewToAnimate.startAnimation(animation);
-            mLastPosition = position;
-        }
+        holder.itemView.setOnClickListener(new OnAuthorClickListener(context, mDataSet.get(position).getId()));
     }
 
     @Override
-    public void onBindHeaderViewHolder(SectioningAdapter.HeaderViewHolder viewHolder, int sectionIndex,
-                                       int headerType) {
-
-        HeaderViewHolder hvh = (HeaderViewHolder) viewHolder;
-        hvh.itemView.setBackgroundColor(0x55ffffff);
-        hvh.header.setText(mDataSet.getAuthorGroup().get(sectionIndex).getReferences().getLetter());
+    public int getItemCount() {
+        return mDataSet.size();
     }
 
-    private class OnAuthorClickListener implements View.OnClickListener {
-
-        String authorID;
-
-        OnAuthorClickListener(String authorID) {
-            this.authorID = authorID;
-        }
-
-        @Override
-        public void onClick(View v) {
-            Intent i = new Intent(mContext, QuotesByAuthor.class);
-            i.putExtra(Constants.AUTHOR_ID, authorID);
-            mContext.startActivity(i);
-        }
-    }
 }
