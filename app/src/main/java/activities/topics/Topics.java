@@ -11,12 +11,10 @@ import android.widget.ImageView;
 
 import com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView;
 
-import activities.authors.Authors;
 import adapters.TopicsAdapter;
 import activities.quotetabnew.R;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
-import models.dashboard.TopPhotos;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -141,7 +139,7 @@ public class Topics extends AppCompatActivity {
 
         /*if (searchEditText.getVisibility() == View.VISIBLE) {
             searchEditText.setVisibility(View.GONE);
-            searchEditText.setAnimation(AppHelper.getAnimationDown(Authors.this));
+            searchEditText.setAnimation(AppHelper.getAnimationDown(PopularAuthors.this));
             searchEditText.setText("");
             return true;
         }*/

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import java.util.ArrayList;
-import adapters.FavoriteAuthorsAdapter;
+import adapters.AuthorsAdapter;
 import activities.quotetabnew.R;
 import helpers.other.ReadAndWriteToFile;
 import models.authors.AuthorDetails;
@@ -18,12 +18,12 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
     private Context context;
     private AuthorDetails author;
     private ImageView favoriteIcon;
-    private FavoriteAuthorsAdapter adapter;
+    private AuthorsAdapter adapter;
     private ArrayList<AuthorDetails> favoriteAuthors;
     private boolean isFavorites;
 
     public OnFavoriteAuthorClickListener(Context context, AuthorDetails author, ArrayList<AuthorDetails>
-            favoriteAuthors, ImageView favoriteIcon, FavoriteAuthorsAdapter adapter, boolean isFavorites) {
+            favoriteAuthors, ImageView favoriteIcon, AuthorsAdapter adapter, boolean isFavorites) {
 
         this.context = context;
         this.author = author;

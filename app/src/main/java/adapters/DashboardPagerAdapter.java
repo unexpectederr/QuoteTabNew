@@ -7,21 +7,30 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
+
 import java.util.ArrayList;
 
 import activities.dashboard.DashboardFragment;
+import models.authors.AuthorDetails;
+import models.authors.AuthorFields;
 import models.dashboard.DashboardItem;
+import models.dashboard.TopPhotos;
 import models.quotes.Quote;
 
 
 public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
     private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
-    private ArrayList<DashboardItem> mItems;
+    private ArrayList<TopPhotos> mItems;
+    private ArrayList<Quote> favoriteQuotes;
+    private ArrayList<AuthorDetails> favoriteAuthors;
 
-    public DashboardPagerAdapter(FragmentManager fm, ArrayList<DashboardItem> items) {
+    public DashboardPagerAdapter(FragmentManager fm, ArrayList<TopPhotos> items, ArrayList<Quote> favoriteQuotes,
+                                 ArrayList<AuthorDetails> favoriteAuthors) {
         super(fm);
         mItems = items;
+        this.favoriteQuotes = favoriteQuotes;
+        this.favoriteAuthors = favoriteAuthors;
     }
 
     @Override
@@ -31,12 +40,12 @@ public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return DashboardFragment.getNewInstance(position, mItems.get(position));
+        return DashboardFragment.getNewInstance(position, mItems.get(position), favoriteQuotes, favoriteAuthors);
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mItems.get(position).getAuthor();
+        return mItems.get(position).getSource().getAuthorName();
     }
 
     @Override

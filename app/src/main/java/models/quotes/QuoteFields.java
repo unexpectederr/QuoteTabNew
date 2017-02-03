@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Spaja on 05-Jan-17.
  */
 
-public class QuoteFields implements Serializable{
+public class QuoteFields implements Serializable {
 
 
     @SerializedName("author.authorId")
@@ -47,8 +47,33 @@ public class QuoteFields implements Serializable{
     @SerializedName("quoteId")
     private ArrayList<String> quoteId;
 
+    public void setAuthorCountry(String authorCountry) {
+        this.authorCountry = new ArrayList<>();
+        this.authorCountry.add(authorCountry);
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = new ArrayList<>();
+        this.authorId.add(authorId);
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = new ArrayList<>();
+        this.authorName.add(authorName);
+    }
+
+    public void setQuoteId(String quoteId) {
+        this.quoteId = new ArrayList<>();
+        this.quoteId.add(quoteId);
+    }
+
+    public void setQuoteText(String quoteText) {
+        this.quoteText = new ArrayList<>();
+        this.quoteText.add(quoteText);
+    }
+
     public String getQuoteId() {
-         return quoteId.get(0);
+        return quoteId.get(0);
     }
 
     public String getAuthorId() {
@@ -60,7 +85,10 @@ public class QuoteFields implements Serializable{
     }
 
     public String getCategories() {
-        return categories.get(0);
+        if (categories != null)
+            return categories.get(0);
+        return "Inspirational";
+
     }
 
     public String getThumbnailUrl() {
@@ -89,7 +117,7 @@ public class QuoteFields implements Serializable{
 
     public String getQuoteImageUrl() {
         if (quoteImageUrl != null)
-        return quoteImageUrl.get(0);
+            return quoteImageUrl.get(0);
         return "";
     }
 

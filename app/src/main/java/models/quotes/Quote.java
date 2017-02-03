@@ -15,6 +15,16 @@ public class Quote implements Serializable {
     private int imageId;
     private boolean favorite;
 
+    public Quote(){
+
+    }
+
+    public Quote(boolean favorite, int imageId, QuoteFields quoteDetails) {
+        this.favorite = favorite;
+        this.imageId = imageId;
+        this.quoteDetails = quoteDetails;
+    }
+
     public boolean isFavorite() {
         return favorite;
     }

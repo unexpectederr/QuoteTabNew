@@ -12,31 +12,42 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import activities.quotetabnew.R;
+import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
-import helpers.other.ReadAndWriteToFile;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteQuoteClickListener;
 import listeners.OnShareClickListener;
-import models.dashboard.DashboardItem;
+import models.authors.AuthorDetails;
+import models.dashboard.TopPhotos;
 import models.quotes.Quote;
+import models.quotes.QuoteFields;
 
 public class DashboardFragment extends Fragment {
 
-    private static final String ARG_ITEM = "ARG_ITEM";
+    private static final String ARG_QUOTE = "ARG_QUOTE";
     private static final String ARG_PAGE = "ARG_PAGE";
+    private static final String ARG_FAVORITE_QUOTES = "ARG_FAVORITE_QUOTES";
+    private static final String ARG_FAVORITE_AUTHORS = "ARG_FAVORITE_AUTHORS";
+    private static final String ARG_AUTHOR = "ARG_AUTHOR";
 
-    private DashboardItem mItem;
+
+    private TopPhotos quote;
     private int mPage;
+    private ArrayList<Quote> favoriteQuotes;
+    private ArrayList<AuthorDetails> favoriteAuthors;
 
-    public static DashboardFragment getNewInstance(int page, DashboardItem item) {
+    public static DashboardFragment getNewInstance(int page, TopPhotos quote, ArrayList<Quote> favoriteQuotes,
+                                                   ArrayList<AuthorDetails> favoriteAuthors) {
 
         Bundle args = new Bundle();
-        args.putSerializable(ARG_ITEM, item);
+        args.putSerializable(ARG_FAVORITE_AUTHORS, favoriteAuthors);
+        args.putSerializable(ARG_FAVORITE_QUOTES, favoriteQuotes);
+        args.putSerializable(ARG_QUOTE, quote);
         args.putInt(ARG_PAGE, page);
 
         DashboardFragment fragment = new DashboardFragment();
@@ -49,8 +60,10 @@ public class DashboardFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mItem = (DashboardItem) getArguments().getSerializable(ARG_ITEM);
+        quote = (TopPhotos) getArguments().getSerializable(ARG_QUOTE);
         mPage = (int) getArguments().getSerializable(ARG_PAGE);
+        favoriteQuotes = (ArrayList<Quote>) getArguments().getSerializable(ARG_FAVORITE_QUOTES);
+        favoriteAuthors = (ArrayList<AuthorDetails>) getArguments().getSerializable(ARG_FAVORITE_AUTHORS);
 
     }
 
@@ -62,34 +75,60 @@ public class DashboardFragment extends Fragment {
 
         ImageView cardImage = (android.widget.ImageView) view.findViewById(R.id.backdrop);
 
-        AppController.loadImageIntoView(getContext(), mItem.getDashItemId(), cardImage, true);
+        AppController.loadImageIntoView(getContext(), new Random().nextInt(Constants.NUMBER_OF_COVERS), cardImage, true);
 
         CircleImageView authorImage = (CircleImageView) view.findViewById(R.id.author_image);
         Glide.with(getContext())
-                .load(Constants.IMAGES_URL + mItem.getAuthorId() + ".jpg")
+                .load(Constants.IMAGES_URL + quote.getSource().getAuthorId() + ".jpg")
                 .dontAnimate()
                 .placeholder(R.drawable.avatar)
                 .error(R.drawable.avatar)
                 .into(authorImage);
-        authorImage.setOnClickListener(new OnAuthorClickListener(authorImage.getContext(), mItem.getAuthorId()));
+        authorImage.setOnClickListener(new OnAuthorClickListener(authorImage.getContext(), quote.getSource().getAuthorId()));
 
-        TextView quote = (TextView) view.findViewById(R.id.quote);
-        quote.setTypeface(AppHelper.getRalewayLight(getContext()));
-        quote.setText(mItem.getQuote());
+        TextView quoteTextView = (TextView) view.findViewById(R.id.quote);
+        quoteTextView.setTypeface(AppHelper.getRalewayLight(getContext()));
+        quoteTextView.setText(quote.getSource().getQuote());
 
         TextView author = (TextView) view.findViewById(R.id.author);
-        author.setText("- " + mItem.getAuthor() + "-");
-        author.setOnClickListener(new OnAuthorClickListener(author.getContext(), mItem.getAuthorId()));
+        author.setText("- " + quote.getSource().getAuthorName() + "-");
+        author.setOnClickListener(new OnAuthorClickListener(author.getContext(), quote.getSource().getAuthorId()));
 
         ImageView share = (ImageView) view.findViewById(R.id.dashboard_share);
-        share.setOnClickListener(new OnShareClickListener(share.getContext(), mItem.getQuote(), mItem.getAuthor()));
+        share.setOnClickListener(new OnShareClickListener(share.getContext(), quote.getSource().getQuote(),
+                quote.getSource().getAuthorName()));
 
-        //Potrebno proslijediti quote u fragment ili na neki slican nacin proslijediti parametre u OnFavoriteQuoteClickListener
-        ImageView favorite = (ImageView) view.findViewById(R.id.dashboard_favorite);
+        ImageView favoriteQuote = (ImageView) view.findViewById(R.id.dashboard_favorite);
+        favoriteQuote.setImageResource(R.drawable.ic_favorite_empty);
 
+        ImageView favoriteAuthor = (ImageView) view.findViewById(R.id.dashboard_author);
+        favoriteAuthor.setImageResource(R.drawable.ic_author_empty);
 
-//        favorite.setOnClickListener(new OnFavoriteQuoteClickListener(favorite.getContext(),
-//                ReadAndWriteToFile.getFavoriteQuotes(favorite.getContext()), favorite, mItem.getQuoteId(), null, false));
+//        for (int i = 0; i < favoriteAuthors.size(); i++) {
+//            if (quote.getSource().getAuthorId().equals(favoriteAuthors.get(i).getId())){
+//                favoriteAuthor.setImageResource(R.drawable.ic_author);
+//            }
+//        }
+
+        for (int i = 0; i < favoriteQuotes.size(); i++) {
+            if (quote.getSource().getQuoteId().equals(favoriteQuotes.get(i).getQuoteDetails().getQuoteId())) {
+                favoriteQuote.setImageResource(R.drawable.ic_favorite);
+                quote.setFavorite(true);
+            } else {
+                quote.setFavorite(false);
+            }
+        }
+
+        QuoteFields fields = new QuoteFields();
+        fields.setAuthorName(quote.getSource().getAuthorName());
+        fields.setAuthorId(quote.getSource().getAuthorId());
+        fields.setQuoteText(quote.getSource().getQuote());
+        fields.setQuoteId(quote.getSource().getQuoteId());
+
+        Quote quote1 = new Quote(quote.isFavorite(), new Random().nextInt(Constants.NUMBER_OF_COVERS), fields);
+
+        favoriteQuote.setOnClickListener(new OnFavoriteQuoteClickListener(favoriteQuote.getContext(),
+                favoriteQuotes, favoriteQuote, quote1, null, false));
 
         return view;
     }

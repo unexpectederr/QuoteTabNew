@@ -18,19 +18,19 @@ import models.quotes.Quote;
 public class OnFavoriteQuoteClickListener implements View.OnClickListener {
 
     private Context context;
-    private ArrayList<Quote> quotes;
+    private ArrayList<Quote> favoriteQuotes;
     private ImageView favoriteIcon;
-    private String quoteId;
     private QuotesAdapter adapter;
     private boolean isFavorites;
+    Quote quote;
 
-    public OnFavoriteQuoteClickListener(Context context, ArrayList<Quote> quotes, ImageView favoriteIcon,
-                                        String quoteId, QuotesAdapter adapter, boolean isFavorites) {
+    public OnFavoriteQuoteClickListener(Context context, ArrayList<Quote> favoriteQuotes, ImageView favoriteIcon,
+                                        Quote quote, QuotesAdapter adapter, boolean isFavorites) {
 
         this.context = context;
-        this.quotes = quotes;
+        this.favoriteQuotes = favoriteQuotes;
         this.favoriteIcon = favoriteIcon;
-        this.quoteId = quoteId;
+        this.quote = quote;
         this.adapter = adapter;
         this.isFavorites = isFavorites;
     }
@@ -40,10 +40,10 @@ public class OnFavoriteQuoteClickListener implements View.OnClickListener {
 
         int position = 0;
 
-        for (int i = 0; quotes.size() > i; i++) {
+        for (int i = 0; favoriteQuotes.size() > i; i++) {
 
-            if (quotes.get(i).getQuoteDetails() != null &&
-                    quotes.get(i).getQuoteDetails().getQuoteId().equals(quoteId)) {
+            if (favoriteQuotes.get(i).getQuoteDetails() != null &&
+                    favoriteQuotes.get(i).getQuoteDetails().getQuoteId().equals(quote.getQuoteDetails().getQuoteId())) {
 
                 position = i;
                 break;
@@ -51,26 +51,26 @@ public class OnFavoriteQuoteClickListener implements View.OnClickListener {
             }
         }
 
-        if (quotes.get(position).isFavorite()) {
+        if (quote.isFavorite()) {
 
-            quotes.get(position).setFavorite(false);
+            quote.setFavorite(false);
             favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
 
             if (isFavorites) {
 
-                quotes.remove(position);
+                favoriteQuotes.remove(position);
                 adapter.notifyItemRemoved(position);
 
             }
 
-            ReadAndWriteToFile.removeQuoteFromFavorites(context, quoteId);
+            ReadAndWriteToFile.removeQuoteFromFavorites(context, quote.getQuoteDetails().getQuoteId());
 
         } else {
 
-            quotes.get(position).setFavorite(true);
+            quote.setFavorite(true);
             favoriteIcon.setImageResource(R.drawable.ic_favorite);
 
-            ReadAndWriteToFile.addQuoteToFavorites(context, quotes.get(position));
+            ReadAndWriteToFile.addQuoteToFavorites(context, quote);
 
 
 
