@@ -2,18 +2,24 @@ package activities.authors;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView;
+
 import java.util.ArrayList;
 
 import activities.quotes.QuotesByTag;
 import activities.quotetabnew.R;
+import activities.topics.Topics;
 import adapters.AuthorsAdapter;
+import adapters.TopicsAdapter;
 import helpers.main.AppHelper;
+import helpers.main.Constants;
 import helpers.other.ReadAndWriteToFile;
 import models.authors.AuthorsByLetter;
 import models.authors.AuthorDetails;
@@ -26,8 +32,10 @@ import retrofit2.Response;
 public class Authors extends AppCompatActivity {
 
     private boolean isByLetter;
-    private ArrayList<AuthorDetails> authors;
     RecyclerView authorsRecyclerView;
+    int page = 1, visibleItemCount, totalItemCount, pastVisibleItems;
+    AuthorsAdapter adapter;
+    private boolean loading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,31 +47,52 @@ public class Authors extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        authorsRecyclerView = (RecyclerView) findViewById(R.id.authors_recycler_view);
-        authorsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        initializeContent();
 
-        authors = ReadAndWriteToFile.getFavoriteAuthors(this);
+
+    }
+
+    private void initializeContent() {
+        authorsRecyclerView = (RecyclerView) findViewById(R.id.authors_recycler_view);
+        final LinearLayoutManager manager = new LinearLayoutManager(this);
+        authorsRecyclerView.setLayoutManager(manager);
+
+        ArrayList<AuthorDetails> authors = ReadAndWriteToFile.getFavoriteAuthors(this);
 
         isByLetter = getIntent().getBooleanExtra("IS_BY_LETTER", false);
         final String letter = getIntent().getStringExtra("LETTER");
 
         if (isByLetter) {
 
-            QuoteTabApi.quoteTabApi.getAuthorsByLetter(letter).enqueue(new Callback<AuthorsByLetter>() {
+            loadAuthors(letter, page);
+
+            authorsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
-                public void onResponse(Call<AuthorsByLetter> call, Response<AuthorsByLetter> response) {
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
 
-                    AuthorsAdapter adapter = new AuthorsAdapter(Authors.this, response.body().getAuthors(), true);
-                    authorsRecyclerView.setAdapter(adapter);
-                    findViewById(R.id.progress_bar).setVisibility(View.GONE);
+                    if (dy > 0) {
 
-                    //setati naslov za actionbar
-                    //handlati favorite icone i favorite authore
+                        visibleItemCount = manager.getChildCount();
+                        totalItemCount = manager.getItemCount();
+                        pastVisibleItems = manager.findFirstVisibleItemPosition();
+
+                        if (!loading) {
+
+                            if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                                loading = true;
+                                loadAuthors(letter, page);
+                                //adapter.notifyItemRangeInserted(adapter.getItemCount(), adapter.getItemCount());
+                                adapter.notifyDataSetChanged();
+                                page++;
+                            }
+                        }
+                    }
                 }
 
                 @Override
-                public void onFailure(Call<AuthorsByLetter> call, Throwable t) {
-
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
                 }
             });
         } else {
@@ -74,7 +103,26 @@ public class Authors extends AppCompatActivity {
         }
     }
 
+    private void loadAuthors(String letter, int page) {
 
+        QuoteTabApi.quoteTabApi.getAuthorsByLetter(letter, page).enqueue(new Callback<AuthorsByLetter>() {
+            @Override
+            public void onResponse(Call<AuthorsByLetter> call, Response<AuthorsByLetter> response) {
+
+                //ovdje svaki put pravi novi adapter
+                adapter = new AuthorsAdapter(Authors.this, response.body().getAuthors(), true);
+                authorsRecyclerView.setAdapter(adapter);
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
+                loading = false;
+
+            }
+
+            @Override
+            public void onFailure(Call<AuthorsByLetter> call, Throwable t) {
+
+            }
+        });
+    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -86,6 +134,7 @@ public class Authors extends AppCompatActivity {
             this.setResult(Authors.RESULT_OK, returnIntent);
             onBackPressed();
             return true;
+
         } else {
             onBackPressed();
             return true;
@@ -101,6 +150,7 @@ public class Authors extends AppCompatActivity {
             returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteAuthors(this));
             this.setResult(Authors.RESULT_OK, returnIntent);
             super.onBackPressed();
+
         } else {
             super.onBackPressed();
         }

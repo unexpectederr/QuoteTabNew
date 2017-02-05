@@ -222,10 +222,12 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
 
         @Override
         public void onClick(View view) {
+
             Intent i = new Intent(mContext, Authors.class);
             i.putExtra("IS_BY_LETTER", true);
             i.putExtra("LETTER", letter);
             ((activities.authors.PopularAuthors) mContext).startActivityForResult(i, 1);
+
         }
     }
 }

@@ -5,7 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.ImageView;
+
 import java.util.ArrayList;
+
 import adapters.PopularAuthorsAdapter;
 import helpers.other.ReadAndWriteToFile;
 import activities.quotetabnew.R;
@@ -55,13 +57,18 @@ public class OnSearchAuthorWatcher implements TextWatcher {
             newAuthorGroup.setReferences(author.getReferences());
             newAuthorGroup.setAuthors(new ArrayList<AuthorDetails>());
 
-            for (int j = 0; j < author.getAuthors().size(); j++) {
+            for (int j = 0; j < author.getAuthors().size() - 1; j++) {
                 if (author.getAuthors().get(j).getId().contains(query.toString().toLowerCase()))
                     newAuthorGroup.getAuthors().add(author.getAuthors().get(j));
             }
 
-            if (newAuthorGroup.getAuthors().size() != 0)
+            if (newAuthorGroup.getAuthors().size() != 0) {
+
+                AuthorDetails authorLast = new AuthorDetails();
+                authorLast.setLast(true);
+                newAuthorGroup.getAuthors().add(authorLast);
                 authorGroup.add(newAuthorGroup);
+            }
         }
 
         PopularAuthors popularAuthors = new PopularAuthors();
