@@ -42,6 +42,7 @@ public class Authors extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_authors);
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -64,6 +65,9 @@ public class Authors extends AppCompatActivity {
 
         if (isByLetter) {
 
+            adapter = new AuthorsAdapter(this, new ArrayList<AuthorDetails>(), true);
+            authorsRecyclerView.setAdapter(adapter);
+
             loadAuthors(letter, page);
 
             authorsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -81,10 +85,9 @@ public class Authors extends AppCompatActivity {
 
                             if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                                 loading = true;
-                                loadAuthors(letter, page);
-                                //adapter.notifyItemRangeInserted(adapter.getItemCount(), adapter.getItemCount());
-                                adapter.notifyDataSetChanged();
                                 page++;
+                                loadAuthors(letter, page);
+                                findViewById(R.id.smooth_progress_bar).setVisibility(View.VISIBLE);
                             }
                         }
                     }
@@ -109,11 +112,10 @@ public class Authors extends AppCompatActivity {
             @Override
             public void onResponse(Call<AuthorsByLetter> call, Response<AuthorsByLetter> response) {
 
-                //ovdje svaki put pravi novi adapter
-                adapter = new AuthorsAdapter(Authors.this, response.body().getAuthors(), true);
-                authorsRecyclerView.setAdapter(adapter);
+                adapter.addAuthors(response.body().getAuthors());
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
                 loading = false;
+                findViewById(R.id.smooth_progress_bar).setVisibility(View.GONE);
 
             }
 
