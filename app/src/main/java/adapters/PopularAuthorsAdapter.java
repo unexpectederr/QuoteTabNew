@@ -26,6 +26,7 @@ import listeners.OnFavoriteAuthorClickListener;
 import models.authors.AuthorDetails;
 import models.authors.AuthorFields;
 import models.authors.PopularAuthors;
+import models.dashboard.PopularAuthor;
 
 /**
  * Created by Spaja on 26-Dec-16.
@@ -179,7 +180,7 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
                     mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex),
                     mFavoriteAuthors, ivh.favoriteIcon, null, false));
 
-            ivh.itemView.setOnClickListener(new OnAuthorClickListener(mDataSet.getAuthorGroup()
+            ivh.itemView.setOnClickListener(new OnAuthorClickListener(mContext, mDataSet.getAuthorGroup()
                     .get(sectionIndex).getAuthors().get(itemIndex).getId()));
 
             setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
@@ -213,6 +214,7 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
     private class OnAuthorLetterClickListener implements View.OnClickListener {
 
         String letter;
+
         OnAuthorLetterClickListener(String letter) {
 
             this.letter = letter;
@@ -223,24 +225,7 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
             Intent i = new Intent(mContext, Authors.class);
             i.putExtra("IS_BY_LETTER", true);
             i.putExtra("LETTER", letter);
-            mContext.startActivity(i);
+            ((activities.authors.PopularAuthors) mContext).startActivityForResult(i, 1);
         }
-    }
-
-    private class OnAuthorClickListener implements View.OnClickListener {
-
-        String authorID;
-
-        OnAuthorClickListener(String authorID) {
-            this.authorID = authorID;
-        }
-
-        @Override
-        public void onClick(View v) {
-            Intent i = new Intent(mContext, QuotesByAuthor.class);
-            i.putExtra(Constants.AUTHOR_ID, authorID);
-            mContext.startActivity(i);
-        }
-
     }
 }

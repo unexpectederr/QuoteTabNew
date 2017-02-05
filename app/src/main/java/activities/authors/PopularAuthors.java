@@ -1,5 +1,6 @@
 package activities.authors;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,6 +17,7 @@ import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
 import java.util.ArrayList;
 
 import activities.quotetabnew.R;
+import adapters.AuthorsAdapter;
 import adapters.PopularAuthorsAdapter;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
@@ -36,6 +38,8 @@ public class PopularAuthors extends AppCompatActivity {
     EditText searchEditText;
     ImageView searchIcon;
     TextView screenTitle;
+    RecyclerView authorsRecyclerView;
+    models.authors.PopularAuthors authors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +77,7 @@ public class PopularAuthors extends AppCompatActivity {
 
     private void initializeAuthorsList() {
 
-        final RecyclerView authorsRecyclerView = (RecyclerView) findViewById(R.id.authors_recycler_view);
+        authorsRecyclerView = (RecyclerView) findViewById(R.id.authors_recycler_view);
         authorsRecyclerView.setLayoutManager(new StickyHeaderLayoutManager());
 
         QuoteTabApi.quoteTabApi.getAuthors().enqueue(new Callback<models.authors.PopularAuthors>() {
@@ -85,7 +89,7 @@ public class PopularAuthors extends AppCompatActivity {
                 AuthorDetails author = new AuthorDetails();
                 author.setLast(true);
 
-                models.authors.PopularAuthors authors = response.body();
+                authors = response.body();
 
                 for (int i = 0; i < response.body().getAuthorGroup().size(); i++) {
                         authors.getAuthorGroup().get(i).getAuthors().add(author);
@@ -95,7 +99,7 @@ public class PopularAuthors extends AppCompatActivity {
             PopularAuthorsAdapter adapter = new PopularAuthorsAdapter(authors, PopularAuthors.this, favoriteAuthors);
             authorsRecyclerView.setAdapter(adapter);
 
-            searchEditText.addTextChangedListener(new OnSearchAuthorWatcher(response.body(),authorsRecyclerView,searchIcon,PopularAuthors.this));
+            searchEditText.addTextChangedListener(new OnSearchAuthorWatcher(authors,authorsRecyclerView,searchIcon,PopularAuthors.this));
 
             findViewById(R.id.progress_bar).setVisibility(View.GONE);
 
@@ -128,4 +132,25 @@ public class PopularAuthors extends AppCompatActivity {
 
         return true;
     }
-}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+            if (requestCode == 1) {
+
+                if (resultCode == Authors.RESULT_OK) {
+
+                    ArrayList<AuthorDetails> favoriteAuthors = (ArrayList<AuthorDetails>) data.getSerializableExtra("result");
+                    PopularAuthorsAdapter adapter = new PopularAuthorsAdapter(authors,this, favoriteAuthors);
+                    authorsRecyclerView.setAdapter(adapter);
+                    findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
+                } else if (resultCode == Authors.RESULT_CANCELED) {
+
+                    AppHelper.showToast("Something went wrong", this);
+
+                }
+            }
+        }
+    }
+

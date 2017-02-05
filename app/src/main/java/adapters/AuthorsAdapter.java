@@ -7,11 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
+
 import activities.quotetabnew.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.Constants;
+import helpers.other.ReadAndWriteToFile;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteAuthorClickListener;
 import models.authors.AuthorDetails;
@@ -24,11 +28,15 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
 
     private Context context;
     private ArrayList<AuthorDetails> mDataSet;
+    private ArrayList<AuthorDetails> favoriteAuthors;
+    private boolean isFromAllAuthors;
 
-    public AuthorsAdapter(Context context, ArrayList<AuthorDetails> favoriteAuthors) {
+    public AuthorsAdapter(Context context, ArrayList<AuthorDetails> Authors, boolean isFromAllAuthors) {
 
         this.context = context;
-        this.mDataSet = favoriteAuthors;
+        this.mDataSet = Authors;
+        favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(context);
+        this.isFromAllAuthors = isFromAllAuthors;
 
     }
 
@@ -73,9 +81,26 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
                 .error(R.drawable.avatar)
                 .into(holder.authorImage);
 
-        holder.favoriteIcon.setImageResource(R.drawable.ic_author);
-        holder.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(context,
-                mDataSet.get(position), mDataSet, holder.favoriteIcon, this, true));
+        holder.favoriteIcon.setImageResource(R.drawable.ic_author_empty);
+
+        for (int i = 0; i < favoriteAuthors.size(); i++) {
+
+            if (mDataSet.get(position).getId().equals(favoriteAuthors.get(i).getId())) {
+
+                holder.favoriteIcon.setImageResource(R.drawable.ic_author);
+                mDataSet.get(position).setFavorite(true);
+            }
+        }
+
+        if (isFromAllAuthors) {
+
+            holder.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(context,
+                    mDataSet.get(position), mDataSet, holder.favoriteIcon, this, false));
+        } else {
+
+            holder.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(context,
+                    mDataSet.get(position), mDataSet, holder.favoriteIcon, this, true));
+        }
 
         holder.itemView.setOnClickListener(new OnAuthorClickListener(context, mDataSet.get(position).getId()));
     }

@@ -22,7 +22,7 @@ public class OnFavoriteQuoteClickListener implements View.OnClickListener {
     private ImageView favoriteIcon;
     private QuotesAdapter adapter;
     private boolean isFavorites;
-    Quote quote;
+    private Quote quote;
 
     public OnFavoriteQuoteClickListener(Context context, ArrayList<Quote> favoriteQuotes, ImageView favoriteIcon,
                                         Quote quote, QuotesAdapter adapter, boolean isFavorites) {
