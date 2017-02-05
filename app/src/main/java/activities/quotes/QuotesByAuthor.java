@@ -47,6 +47,7 @@ public class QuotesByAuthor extends AppCompatActivity
     private TextView mTitle;
     private AppBarLayout mAppBarLayout;
     private Toolbar mToolbar;
+    private TextView infoText;
 
     private CircleImageView mAuthorImage;
     RecyclerView quotesRecycler;
@@ -72,6 +73,7 @@ public class QuotesByAuthor extends AppCompatActivity
         mTitleContainer = (RelativeLayout) findViewById(R.id.main_linearlayout_title);
         mAppBarLayout = (AppBarLayout) findViewById(R.id.main_appbar);
         mAuthorImage = (CircleImageView) findViewById(R.id.author_image);
+        infoText = (TextView) findViewById(R.id.info_text);
 
         quotesRecycler = (RecyclerView) findViewById(R.id.author_details_recyclerView);
 
@@ -120,6 +122,8 @@ public class QuotesByAuthor extends AppCompatActivity
                         .placeholder(R.drawable.avatar)
                         .error(R.drawable.avatar)
                         .into(mAuthorImage);
+
+                infoText.setText(response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getDescription());
 
                 mAppBarLayout.setVisibility(View.VISIBLE);
                 Animation animTwo = AnimationUtils.loadAnimation(QuotesByAuthor.this, R.anim.pop_up_two);
