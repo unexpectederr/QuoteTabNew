@@ -101,7 +101,9 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
 
     @Override
     public int getSectionItemUserType(int sectionIndex, int itemIndex) {
-        if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex).isLast())
+
+        if (mDataSet.getAuthorGroup().get(sectionIndex)
+                .getAuthors().get(itemIndex).isLast())
             return TYPE_ITEM_LAST;
         else
             return TYPE_ITEM;
@@ -111,12 +113,15 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
     public ItemViewHolder onCreateItemViewHolder(ViewGroup parent, int itemType) {
 
         if (itemType == TYPE_ITEM) {
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View v = inflater.inflate(R.layout.authors_recyclerview_list_item, parent, false);
+
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.authors_recyclerview_list_item, parent, false);
             return new ItemViewHolder(v);
+
         } else {
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View v = inflater.inflate(R.layout.last_item, parent, false);
+
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.last_item, parent, false);
             return new ItemViewHolder(v);
         }
     }
@@ -183,11 +188,14 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
                     .get(sectionIndex).getAuthors().get(itemIndex).getId()));
 
             setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
+
         } else {
+
             ivh.text.setText("All " + mDataSet.getAuthorGroup().get(sectionIndex).getReferences()
                     .getLetter().toUpperCase() + " Authors...");
             setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
-            ivh.itemView.setOnClickListener(new OnAuthorLetterClickListener(mDataSet.getAuthorGroup().get(sectionIndex).getReferences()
+            ivh.itemView.setOnClickListener(new OnAuthorLetterClickListener
+                    (mDataSet.getAuthorGroup().get(sectionIndex).getReferences()
                     .getLetter()));
         }
     }
@@ -208,13 +216,14 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
         HeaderViewHolder hvh = (HeaderViewHolder) viewHolder;
         hvh.itemView.setBackgroundColor(0x55ffffff);
         hvh.header.setText(mDataSet.getAuthorGroup().get(sectionIndex).getReferences().getLetter());
+
     }
 
     private class OnAuthorLetterClickListener implements View.OnClickListener {
 
         String letter;
-        OnAuthorLetterClickListener(String letter) {
 
+        OnAuthorLetterClickListener(String letter) {
             this.letter = letter;
         }
 
