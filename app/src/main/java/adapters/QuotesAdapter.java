@@ -172,8 +172,8 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         return mDataSet.size();
     }
 
-    public void addQuotes(ArrayList<Quote> topQuotes) {
-        mDataSet.addAll(topQuotes);
-        notifyItemRangeInserted(mDataSet.size() - topQuotes.size(), topQuotes.size());
+    public void addQuotes(ArrayList<Quote> quotes) {
+        mDataSet.addAll(quotes);
+        notifyItemRangeInserted(mDataSet.size() - quotes.size(), quotes.size());
     }
 }

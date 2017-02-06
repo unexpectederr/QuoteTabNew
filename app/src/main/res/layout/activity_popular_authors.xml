@@ -14,25 +14,13 @@
         android:layout_width="20dp"
         android:layout_height="20dp"/>
 
-    <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
-        android:id="@+id/smooth_progress_bar"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/authors_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-3dp"
-        android:indeterminate="true"
-        android:visibility="gone"
-        app:spb_colors="@array/progress_bar_colors"
-        app:spb_interpolator="spb_interpolator_accelerate"
-        app:spb_mirror_mode="true"
-        app:spb_progressiveStart_activated="true"
-        app:spb_progressiveStart_speed="1.5"
-        app:spb_progressiveStop_speed="3.5"
-        app:spb_reversed="true"
-        app:spb_sections_count="4"
-        app:spb_speed="1.5"
-        app:spb_stroke_separator_length="0dp"
-        app:spb_stroke_width="2dp"
-        android:layout_gravity="bottom|center"/>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+    </android.support.v7.widget.RecyclerView>
 
 
     <android.support.design.widget.AppBarLayout
@@ -58,13 +46,38 @@
                     >
 
                     <TextView
-                        android:text="Favorite authors"
+                        android:text="Authors"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/screen_title"
                         android:layout_centerVertical="true"
                         android:textStyle="bold"
                         android:textSize="19dp"/>
+
+                    <EditText
+                        android:id="@+id/search_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/search_icon"
+                        android:ems="10"
+                        android:hint="Search author"
+                        android:inputType="textPersonName"
+                        android:visibility="gone"/>
+
+                    <ImageView
+                        android:id="@+id/search_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:padding="7dp"
+                        app:srcCompat="@drawable/ic_search"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:alpha="0.7"/>
 
                 </RelativeLayout>
 
@@ -73,14 +86,6 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/authors_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
-    </android.support.v7.widget.RecyclerView>
 
 </android.support.design.widget.CoordinatorLayout>
 

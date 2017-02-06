@@ -17,7 +17,6 @@ import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
 import java.util.ArrayList;
 
 import activities.quotetabnew.R;
-import adapters.AuthorsAdapter;
 import adapters.PopularAuthorsAdapter;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
@@ -25,9 +24,6 @@ import helpers.other.ReadAndWriteToFile;
 import listeners.OnSearchAuthorWatcher;
 import listeners.OnSearchIconClickListener;
 import models.authors.AuthorDetails;
-import models.authors.AuthorFields;
-import models.authors.AuthorGroup;
-import models.dashboard.PopularAuthor;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,7 +40,7 @@ public class PopularAuthors extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_authors);
+        setContentView(R.layout.activity_popular_authors);
 
         initializeContent();
     }

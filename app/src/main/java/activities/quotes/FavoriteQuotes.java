@@ -24,7 +24,7 @@ public class FavoriteQuotes extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite_quotes);
+        setContentView(R.layout.activity_quotes);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_favorite_quotes);
         setSupportActionBar(toolbar);

@@ -25,22 +25,59 @@ import retrofit2.Response;
 public class QuotesByTag extends AppCompatActivity {
 
     ArrayList<Quote> favoriteQuotes;
+    private int visibleItemCount, totalItemCount, pastVisibleItems, page = 1;
+    private boolean loading = false;
+    QuotesAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_quotes_by_tag);
 
         initializeToolbar();
 
-        RecyclerView quotesByTagRecycler = (RecyclerView) findViewById(R.id.quotes_by_tag_recycler);
-        quotesByTagRecycler.setLayoutManager(new LinearLayoutManager(this));
+        final RecyclerView quotesByTagRecycler = (RecyclerView) findViewById(R.id.quotes_by_tag_recycler);
+        final LinearLayoutManager manager = new LinearLayoutManager(this);
+        quotesByTagRecycler.setLayoutManager(manager);
+
         favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
+        adapter = new QuotesAdapter(this, new ArrayList<Quote>(), favoriteQuotes, false, false);
 
-        String tag = getIntent().getStringExtra(Constants.QUOTE_TAG);
+        quotesByTagRecycler.setAdapter(adapter);
 
-        getQuotesByTag(tag, quotesByTagRecycler);
+        final String tag = getIntent().getStringExtra(Constants.QUOTE_TAG);
 
+        getQuotesByTag(tag, page);
+
+        quotesByTagRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {
+
+                    visibleItemCount = manager.getChildCount();
+                    totalItemCount = manager.getItemCount();
+                    pastVisibleItems = manager.findFirstVisibleItemPosition();
+
+                    if (!loading) {
+                        if ((visibleItemCount + pastVisibleItems) >= (totalItemCount - 3)) {
+                            loading = true;
+                            findViewById(R.id.progress_bar_quotes_by_tag).setVisibility(View.VISIBLE);
+                            page++;
+                            getQuotesByTag(tag, page);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
     }
 
     private void initializeToolbar() {
@@ -58,17 +95,15 @@ public class QuotesByTag extends AppCompatActivity {
         searchIcon.setOnClickListener(new OnSearchIconClickListener(searchEditText, this));*/
     }
 
-    private void getQuotesByTag(String tag, final RecyclerView quotesByTagRecycler) {
+    private void getQuotesByTag(String tag, int page) {
 
-        QuoteTabApi.quoteTabApi.getQuotesByTag(tag).enqueue(new Callback<Quotes>() {
+        QuoteTabApi.quoteTabApi.getQuotesByTag(tag, page).enqueue(new Callback<Quotes>() {
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
-                QuotesAdapter adapter = new QuotesAdapter(QuotesByTag.this, response.body().getQuotes(), favoriteQuotes, false, false);
-
-                quotesByTagRecycler.setAdapter(adapter);
-
-                findViewById(R.id.progress_bar).setVisibility(View.GONE);
+                adapter.addQuotes(response.body().getQuotes());
+                findViewById(R.id.progress_bar_quotes_by_tag).setVisibility(View.GONE);
+                loading = false;
 
             }
 

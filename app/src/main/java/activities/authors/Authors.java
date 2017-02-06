@@ -2,24 +2,17 @@ package activities.authors;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-
-import com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import activities.quotes.QuotesByTag;
 import activities.quotetabnew.R;
-import activities.topics.Topics;
 import adapters.AuthorsAdapter;
-import adapters.TopicsAdapter;
-import helpers.main.AppHelper;
-import helpers.main.Constants;
 import helpers.other.ReadAndWriteToFile;
 import models.authors.AuthorsByLetter;
 import models.authors.AuthorDetails;
@@ -34,13 +27,15 @@ public class Authors extends AppCompatActivity {
     private boolean isByLetter;
     RecyclerView authorsRecyclerView;
     int page = 1, visibleItemCount, totalItemCount, pastVisibleItems;
-    AuthorsAdapter adapter;
+    private AuthorsAdapter adapter;
+    TextView screenTitle;
     private boolean loading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite_authors);
+        setContentView(R.layout.activity_authors);
+
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -54,10 +49,12 @@ public class Authors extends AppCompatActivity {
     }
 
     private void initializeContent() {
+
         authorsRecyclerView = (RecyclerView) findViewById(R.id.authors_recycler_view);
         final LinearLayoutManager manager = new LinearLayoutManager(this);
         authorsRecyclerView.setLayoutManager(manager);
 
+        screenTitle = (TextView) findViewById(R.id.screen_title);
         ArrayList<AuthorDetails> authors = ReadAndWriteToFile.getFavoriteAuthors(this);
 
         isByLetter = getIntent().getBooleanExtra("IS_BY_LETTER", false);
@@ -65,6 +62,7 @@ public class Authors extends AppCompatActivity {
 
         if (isByLetter) {
 
+            screenTitle.setText("All " + letter + " Authors...");
             adapter = new AuthorsAdapter(this, new ArrayList<AuthorDetails>(), true);
             authorsRecyclerView.setAdapter(adapter);
 
@@ -100,6 +98,7 @@ public class Authors extends AppCompatActivity {
             });
         } else {
 
+            screenTitle.setText("Favorite Authors");
             AuthorsAdapter adapter = new AuthorsAdapter(this, authors, false);
             authorsRecyclerView.setAdapter(adapter);
             findViewById(R.id.progress_bar).setVisibility(View.GONE);
