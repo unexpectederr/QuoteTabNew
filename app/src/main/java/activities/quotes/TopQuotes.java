@@ -38,7 +38,7 @@ public class TopQuotes extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        final RecyclerView topQuotesRecycler = (RecyclerView) findViewById(R.id.top_quotes_recycler);
+        RecyclerView topQuotesRecycler = (RecyclerView) findViewById(R.id.top_quotes_recycler);
         final LinearLayoutManager manager = new LinearLayoutManager(this);
         topQuotesRecycler.setLayoutManager(manager);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);

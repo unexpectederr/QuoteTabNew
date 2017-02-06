@@ -19,6 +19,7 @@ import helpers.other.ReadAndWriteToFile;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteAuthorClickListener;
 import models.authors.AuthorDetails;
+import models.authors.AuthorsByLetter;
 
 /**
  * Created by Spaja on 31-Jan-17.
@@ -37,6 +38,13 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
         this.mDataSet = Authors;
         favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(context);
         this.isFromAllAuthors = isFromAllAuthors;
+
+    }
+
+    public void addAuthors(ArrayList<AuthorDetails> authors) {
+
+        mDataSet.addAll(authors);
+        notifyItemRangeInserted(mDataSet.size() - authors.size(), authors.size());
 
     }
 

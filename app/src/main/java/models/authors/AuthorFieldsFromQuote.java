@@ -22,6 +22,13 @@ public class AuthorFieldsFromQuote {
     @SerializedName("imageUrl")
     private String authorImageUrl;
 
+    @SerializedName("description")
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
     public String getAuthorImageUrl() {
         return authorImageUrl;
     }

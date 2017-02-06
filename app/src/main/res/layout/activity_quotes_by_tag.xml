@@ -7,6 +7,27 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+    <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+        android:id="@+id/progress_bar_quotes_by_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="-3dp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:spb_colors="@array/progress_bar_colors"
+        app:spb_interpolator="spb_interpolator_accelerate"
+        app:spb_mirror_mode="true"
+        app:spb_progressiveStart_activated="true"
+        app:spb_progressiveStart_speed="1.5"
+        app:spb_progressiveStop_speed="3.5"
+        app:spb_reversed="true"
+        app:spb_sections_count="4"
+        app:spb_speed="1.5"
+        app:spb_stroke_separator_length="0dp"
+        app:spb_stroke_width="2dp"
+        />
+
     <ProgressBar
         android:id="@+id/progress_bar"
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
