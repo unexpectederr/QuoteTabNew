@@ -155,7 +155,15 @@ public class QuotesByAuthor extends AppCompatActivity
                     }
                 }
 
-                favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener());
+//                AuthorDetails author = new AuthorDetails();
+//                author.setFavorite(authorFromQuote.isFavorite());
+//                author.setId(authorFromQuote.getAuthorFieldsFromQuote().getAuthorId());
+
+                //napraviti novi authordetails objekat od authordetailsfromquote
+                //proslijeiti u author i napraviti adapter
+                //author.setAuthorFields(authorFromQuote.getAuthorFieldsFromQuote());
+
+                //favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener());
                 adapter.addQuotes(response.body().getQuotes());
                 loading = false;
                 findViewById(R.id.progress_bar_quotes_by_author).setVisibility(View.GONE);
