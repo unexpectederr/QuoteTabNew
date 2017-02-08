@@ -24,10 +24,9 @@ import retrofit2.Response;
 
 public class QuotesByTag extends AppCompatActivity {
 
-    ArrayList<Quote> favoriteQuotes;
     private int visibleItemCount, totalItemCount, pastVisibleItems, page = 1;
     private boolean loading = false;
-    QuotesAdapter adapter;
+    private QuotesAdapter adapter;
 
 
     @Override
@@ -42,7 +41,7 @@ public class QuotesByTag extends AppCompatActivity {
         final LinearLayoutManager manager = new LinearLayoutManager(this);
         quotesByTagRecycler.setLayoutManager(manager);
 
-        favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
+        ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
         adapter = new QuotesAdapter(this, new ArrayList<Quote>(), favoriteQuotes, false, false);
 
         quotesByTagRecycler.setAdapter(adapter);
@@ -102,6 +101,7 @@ public class QuotesByTag extends AppCompatActivity {
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
                 adapter.addQuotes(response.body().getQuotes());
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
                 findViewById(R.id.progress_bar_quotes_by_tag).setVisibility(View.GONE);
                 loading = false;
 

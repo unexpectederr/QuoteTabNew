@@ -8,6 +8,27 @@
     tools:ignore="RtlHardcoded"
     >
 
+    <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+        android:id="@+id/progress_bar_quotes_by_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="-3dp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:spb_colors="@array/progress_bar_colors"
+        app:spb_interpolator="spb_interpolator_accelerate"
+        app:spb_mirror_mode="true"
+        app:spb_progressiveStart_activated="true"
+        app:spb_progressiveStart_speed="1.5"
+        app:spb_progressiveStop_speed="3.5"
+        app:spb_reversed="true"
+        app:spb_sections_count="4"
+        app:spb_speed="1.5"
+        app:spb_stroke_separator_length="0dp"
+        app:spb_stroke_width="2dp"
+        />
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/main.appbar"
         android:layout_width="match_parent"
@@ -123,7 +144,7 @@
                 android:textStyle="bold"/>
 
             <ImageView
-                android:id="@+id/favorite_icon"
+                android:id="@+id/favorite_icon_author"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
                 android:layout_alignParentRight="true"
@@ -201,7 +222,7 @@
                 android:paddingTop="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/author_image_info"
+                    android:id="@+id/info_author_image"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
@@ -223,17 +244,17 @@
                     android:padding="10dp">
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/info_text_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="John Doe, Android Dev"
                         android:textColor="@android:color/white"
-                        android:textSize="19sp"
+                        android:textSize="15sp"
                         android:textStyle="bold"/>
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/info_text_birthplace"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
@@ -244,7 +265,7 @@
                         android:textStyle="bold"/>
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/info_text_birthday"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
