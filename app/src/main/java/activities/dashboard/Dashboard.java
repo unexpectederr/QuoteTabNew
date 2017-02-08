@@ -35,7 +35,6 @@ import activities.quotes.TopQuotes;
 import activities.quotetabnew.R;
 import activities.topics.Topics;
 import adapters.DashboardPagerAdapter;
-import adapters.DashboardPoplarAuthorsAdapter;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
@@ -224,11 +223,13 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.popular_authors);
         mRecyclerView.setHasFixedSize(true);
 
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager
+                (this, LinearLayoutManager.HORIZONTAL, false);
+
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        DashboardPoplarAuthorsAdapter mAdapter = new DashboardPoplarAuthorsAdapter(popularAuthorsList, Dashboard.this);
-        mRecyclerView.setAdapter(mAdapter);
+        //DashboardPoplarAuthorsAdapter mAdapter = new DashboardPoplarAuthorsAdapter(popularAuthorsList, Dashboard.this);
+        //mRecyclerView.setAdapter(mAdapter);
 
     }
 
