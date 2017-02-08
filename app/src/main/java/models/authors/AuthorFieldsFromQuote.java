@@ -25,6 +25,34 @@ public class AuthorFieldsFromQuote {
     @SerializedName("description")
     private String description;
 
+    @SerializedName("bornDay")
+    private String bornDay;
+
+    @SerializedName("bornMonth")
+    private String bornMonth;
+
+    @SerializedName("bornYear")
+    private String bornYear;
+
+    @SerializedName("authorId")
+    private String authorId;
+
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public String getBornDay() {
+        return bornDay;
+    }
+
+    public String getBornMonth() {
+        return bornMonth;
+    }
+
+    public String getBornYear() {
+        return bornYear;
+    }
+
     public String getDescription() {
         return description;
     }

@@ -24,7 +24,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import activities.quotetabnew.R;
 import helpers.main.Constants;
 import helpers.other.ReadAndWriteToFile;
+import listeners.OnFavoriteAuthorClickListener;
 import listeners.OnShowAuthorInfoListener;
+import models.authors.AuthorDetails;
+import models.authors.AuthorDetailsFromQuote;
 import models.authors.AuthorFieldsFromQuote;
 import models.quotes.Quote;
 import models.quotes.Quotes;
@@ -47,10 +50,14 @@ public class QuotesByAuthor extends AppCompatActivity
     private TextView mTitle;
     private AppBarLayout mAppBarLayout;
     private Toolbar mToolbar;
-    private TextView infoText;
-
-    private CircleImageView mAuthorImage;
-    RecyclerView quotesRecycler;
+    private TextView infoText, infoTextName, infoTextBirthday, infoTextBirthplace;
+    private CircleImageView mAuthorImage, infoAuthorImage;
+    private RecyclerView quotesRecycler;
+    private LinearLayoutManager manager;
+    private int visibleItemCount, totalItemCount, pastVisibleItems, page = 1;
+    private boolean loading = false;
+    private QuotesAdapter adapter;
+    private ImageView favoriteIcon;
 
 
     @Override
@@ -60,9 +67,42 @@ public class QuotesByAuthor extends AppCompatActivity
 
         initializeContent();
 
-        String authorId = getIntent().getStringExtra(Constants.AUTHOR_ID);
+        final String authorId = getIntent().getStringExtra(Constants.AUTHOR_ID);
 
-        getQuotesByAuthor(authorId);
+        getQuotesByAuthor(authorId, page);
+
+        ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(QuotesByAuthor.this);
+        adapter = new QuotesAdapter(QuotesByAuthor.this, new ArrayList<Quote>(), favoriteQuotes, false, true);
+        quotesRecycler.setLayoutManager(manager);
+        quotesRecycler.setAdapter(adapter);
+
+        quotesRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {
+
+                    visibleItemCount = manager.getChildCount();
+                    totalItemCount = manager.getItemCount();
+                    pastVisibleItems = manager.findFirstVisibleItemPosition();
+
+                    if (!loading) {
+                        if ((visibleItemCount + pastVisibleItems) >= (totalItemCount - 3)) {
+                            loading = true;
+                            findViewById(R.id.progress_bar_quotes_by_author).setVisibility(View.VISIBLE);
+                            page++;
+                            getQuotesByAuthor(authorId, page);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
 
     }
 
@@ -74,6 +114,12 @@ public class QuotesByAuthor extends AppCompatActivity
         mAppBarLayout = (AppBarLayout) findViewById(R.id.main_appbar);
         mAuthorImage = (CircleImageView) findViewById(R.id.author_image);
         infoText = (TextView) findViewById(R.id.info_text);
+        infoTextName = (TextView) findViewById(R.id.info_text_name);
+        infoTextBirthday = (TextView) findViewById(R.id.info_text_birthday);
+        infoTextBirthplace = (TextView) findViewById(R.id.info_text_birthplace);
+        infoAuthorImage = (CircleImageView) findViewById(R.id.info_author_image);
+        manager = new LinearLayoutManager(this);
+        favoriteIcon = (ImageView) findViewById(R.id.favorite_icon_author);
 
         quotesRecycler = (RecyclerView) findViewById(R.id.author_details_recyclerView);
 
@@ -86,21 +132,35 @@ public class QuotesByAuthor extends AppCompatActivity
 
     }
 
-    private void getQuotesByAuthor(String authorId) {
+    private void getQuotesByAuthor(String authorId, final int page) {
 
-        QuoteTabApi.quoteTabApi.getQuotes(authorId).enqueue(new Callback<Quotes>() {
+        QuoteTabApi.quoteTabApi.getQuotes(authorId, page).enqueue(new Callback<Quotes>() {
+
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
 
-                ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(QuotesByAuthor.this);
+                ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(QuotesByAuthor.this);
 
-                quotesRecycler.setLayoutManager(new LinearLayoutManager(QuotesByAuthor.this));
-                QuotesAdapter adapter = new QuotesAdapter(QuotesByAuthor.this, response.body()
-                        .getQuotes(), favoriteQuotes, false, true);
-                quotesRecycler.setAdapter(adapter);
-
+                AuthorDetailsFromQuote authorFromQuote = response.body().getAuthorDetailsFromQuote();
                 AuthorFieldsFromQuote detailsFromQuote = response.body()
                         .getAuthorDetailsFromQuote().getAuthorFieldsFromQuote();
+
+                for (int i = 0; i < favoriteAuthors.size(); i++) {
+
+                    if (detailsFromQuote.getAuthorId().equals(favoriteAuthors.get(i).getId())) {
+
+                        authorFromQuote.setFavorite(true);
+                        favoriteIcon.setImageResource(R.drawable.ic_author);
+
+                    }
+                }
+
+                favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener());
+                adapter.addQuotes(response.body().getQuotes());
+                loading = false;
+                findViewById(R.id.progress_bar_quotes_by_author).setVisibility(View.GONE);
+
+
 
                 TextView authorTitle = (TextView) findViewById(R.id.author_name);
                 TextView authorTagLine = (TextView) findViewById(R.id.author_tagline);
@@ -116,21 +176,39 @@ public class QuotesByAuthor extends AppCompatActivity
                     authorTagLine.setText("Unknown");
                 }
 
-                Glide.with(QuotesByAuthor.this)
-                        .load(Constants.IMAGES_URL + detailsFromQuote.getAuthorImageUrl())
-                        .dontAnimate()
-                        .placeholder(R.drawable.avatar)
-                        .error(R.drawable.avatar)
-                        .into(mAuthorImage);
 
-                infoText.setText(response.body().getAuthorDetailsFromQuote().getAuthorFieldsFromQuote().getDescription());
+                if (page == 1) {
 
-                mAppBarLayout.setVisibility(View.VISIBLE);
-                Animation animTwo = AnimationUtils.loadAnimation(QuotesByAuthor.this, R.anim.pop_up_two);
-                mAppBarLayout.startAnimation(animTwo);
+                    Glide.with(QuotesByAuthor.this)
+                            .load(Constants.IMAGES_URL + detailsFromQuote.getAuthorImageUrl())
+                            .dontAnimate()
+                            .placeholder(R.drawable.avatar)
+                            .error(R.drawable.avatar)
+                            .into(mAuthorImage);
 
-                Animation animOne = AnimationUtils.loadAnimation(QuotesByAuthor.this, R.anim.pop_up_one);
-                mAuthorImage.startAnimation(animOne);
+                    mAppBarLayout.setVisibility(View.VISIBLE);
+                    Animation animTwo = AnimationUtils.loadAnimation(QuotesByAuthor.this, R.anim.pop_up_two);
+                    mAppBarLayout.startAnimation(animTwo);
+
+                    Animation animOne = AnimationUtils.loadAnimation(QuotesByAuthor.this, R.anim.pop_up_one);
+                    mAuthorImage.startAnimation(animOne);
+
+                    Glide.with(QuotesByAuthor.this)
+                            .load(Constants.IMAGES_URL + detailsFromQuote.getAuthorImageUrl())
+                            .dontAnimate()
+                            .placeholder(R.drawable.avatar)
+                            .error(R.drawable.avatar)
+                            .into(infoAuthorImage);
+
+                    infoText.setText(detailsFromQuote.getDescription());
+                    infoTextName.setText(detailsFromQuote.getAuthorName());
+                    infoTextBirthplace.setText(detailsFromQuote.getBirthplace());
+                    infoTextBirthday.setText("Born on " + detailsFromQuote.getBornDay() + "."
+                            + detailsFromQuote.getBornMonth()
+                            + "."
+                            + detailsFromQuote.getBornYear());
+                }
+
 
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
 
@@ -142,7 +220,7 @@ public class QuotesByAuthor extends AppCompatActivity
 
             @Override
             public void onFailure(Call<Quotes> call, Throwable t) {
-                int i = 9;
+                findViewById(R.id.progress_bar_quotes_by_author).setVisibility(View.GONE);
             }
         });
 

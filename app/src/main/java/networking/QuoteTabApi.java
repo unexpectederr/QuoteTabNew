@@ -27,8 +27,8 @@ public interface QuoteTabApi {
     @GET(BASE_URL + "authors")
     Call<PopularAuthors> getAuthors();
 
-    @GET(BASE_URL + "quotes/by-{authorID}")
-    Call<Quotes> getQuotes(@Path("authorID") String authorID);
+    @GET(BASE_URL + "quotes/by-{authorID}/{page}")
+    Call<Quotes> getQuotes(@Path("authorID") String authorID, @Path("page") int page);
 
     @GET(BASE_URL + "quotes/about-{tag}/{page}")
     Call<Quotes> getQuotesByTag(@Path("tag") String quoteTag, @Path("page") int page);
