@@ -3,7 +3,6 @@ package models.dashboard;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import models.quotes.Quote;
 
@@ -11,10 +10,10 @@ import models.quotes.Quote;
 public class DashboardData {
 
     @SerializedName("popularAuthorsList")
-    List<PopularAuthor> popularAuthors;
+    ArrayList<PopularAuthor> popularAuthors;
 
     @SerializedName("topPhotos")
-    List<TopPhotos> topPhotos;
+    ArrayList<TopPhotos> topPhotos;
 
     @SerializedName("quotesPartial")
     private ArrayList<Quote> quotesPartial;
@@ -27,11 +26,11 @@ public class DashboardData {
         this.quotesPartial = quotesPartial;
     }
 
-    public List<PopularAuthor> getPopularAuthors() {
+    public ArrayList<PopularAuthor> getPopularAuthors() {
         return popularAuthors;
     }
 
-    public List<TopPhotos> getTopPhotos() {
+    public ArrayList<TopPhotos> getTopPhotos() {
         return topPhotos;
     }
 }

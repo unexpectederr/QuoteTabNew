@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +25,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.liangfeizc.RubberIndicator;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import activities.authors.PopularAuthors;
@@ -34,6 +34,8 @@ import activities.quotes.QuotesByTag;
 import activities.quotes.TopQuotes;
 import activities.quotetabnew.R;
 import activities.topics.Topics;
+import adapters.AuthorsAdapter;
+import adapters.DashboardAuthorAdapter;
 import adapters.DashboardPagerAdapter;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
@@ -41,6 +43,7 @@ import helpers.main.Constants;
 import helpers.other.ParallaxPageTransformer;
 import helpers.other.ReadAndWriteToFile;
 import models.authors.AuthorDetails;
+import models.authors.AuthorFields;
 import models.dashboard.DashboardData;
 import models.dashboard.PopularAuthor;
 import models.dashboard.TopPhotos;
@@ -169,7 +172,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
                 initializeDashboard(items);
 
-                //initializePopularAuthors(response.body().getPopularAuthors());
+                initializePopularAuthors(response.body().getPopularAuthors());
             }
 
             @Override
@@ -218,18 +221,16 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         }, 4000);
     }
 
-    private void initializePopularAuthors(List<PopularAuthor> popularAuthorsList) {
+    private void initializePopularAuthors(ArrayList<PopularAuthor> popularAuthorsList) {
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.popular_authors);
         mRecyclerView.setHasFixedSize(true);
 
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager
-                (this, LinearLayoutManager.HORIZONTAL, false);
-
+        GridLayoutManager mLayoutManager = new GridLayoutManager(Dashboard.this, 3);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        //DashboardPoplarAuthorsAdapter mAdapter = new DashboardPoplarAuthorsAdapter(popularAuthorsList, Dashboard.this);
-        //mRecyclerView.setAdapter(mAdapter);
+        DashboardAuthorAdapter mAdapter = new DashboardAuthorAdapter(Dashboard.this, popularAuthorsList);
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 

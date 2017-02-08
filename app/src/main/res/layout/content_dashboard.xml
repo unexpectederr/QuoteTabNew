@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:orientation="vertical"
-      android:paddingTop="10dp"
-      android:background="@android:color/white"
-      >
-
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:id="@+id/popular_authors"
-        android:paddingLeft="8dp"
-        android:clipToPadding="false"
-        />
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        >
 
-  </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/popular_authors"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:clipToPadding="false"
+            android:paddingLeft="8dp"
+            />
+
+    </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

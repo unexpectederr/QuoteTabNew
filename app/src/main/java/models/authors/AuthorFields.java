@@ -15,6 +15,25 @@ public class AuthorFields implements Serializable {
     private ArrayList<Integer> quotesCount;
     private ArrayList<String> imageUrl;
 
+    public void setAuthorId(ArrayList<String> authorId) {
+        this.authorId = authorId;
+    }
+
+    public void setImageUrl(ArrayList<String> imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setName(ArrayList<String> name) {
+        this.name = name;
+    }
+
+    public void setProfessionName(ArrayList<String> professionName) {
+        this.professionName = professionName;
+    }
+
+    public void setQuotesCount(ArrayList<Integer> quotesCount) {
+        this.quotesCount = quotesCount;
+    }
 
     @SerializedName("profession.name")
     private ArrayList<String> professionName;

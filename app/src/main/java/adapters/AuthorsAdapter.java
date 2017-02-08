@@ -19,7 +19,6 @@ import helpers.other.ReadAndWriteToFile;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteAuthorClickListener;
 import models.authors.AuthorDetails;
-import models.authors.AuthorsByLetter;
 
 /**
  * Created by Spaja on 31-Jan-17.

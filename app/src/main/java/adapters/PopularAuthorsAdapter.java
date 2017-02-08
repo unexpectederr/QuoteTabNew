@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 import activities.authors.Authors;
 import de.hdodenhof.circleimageview.CircleImageView;
-import activities.quotes.QuotesByAuthor;
 import activities.quotetabnew.R;
 import helpers.main.Constants;
 import listeners.OnAuthorClickListener;
@@ -26,7 +25,6 @@ import listeners.OnFavoriteAuthorClickListener;
 import models.authors.AuthorDetails;
 import models.authors.AuthorFields;
 import models.authors.PopularAuthors;
-import models.dashboard.PopularAuthor;
 
 /**
  * Created by Spaja on 26-Dec-16.
