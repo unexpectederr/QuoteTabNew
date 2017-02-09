@@ -7,6 +7,18 @@ public class PopularAuthor {
     private String authorId;
     private String imageUrl;
 
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

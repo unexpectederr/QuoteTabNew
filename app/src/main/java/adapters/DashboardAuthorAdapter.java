@@ -1,6 +1,5 @@
 package adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 
 import activities.quotetabnew.R;
 import de.hdodenhof.circleimageview.CircleImageView;
+import models.authors.AuthorDetails;
 import models.dashboard.PopularAuthor;
 
 /**
@@ -19,13 +19,12 @@ import models.dashboard.PopularAuthor;
 
 public class DashboardAuthorAdapter extends RecyclerView.Adapter<DashboardAuthorAdapter.MyViewHolder> {
 
-    private Context mContext;
     private ArrayList<PopularAuthor> popularAuthors;
 
-    public DashboardAuthorAdapter(Context context, ArrayList<PopularAuthor> popularAuthorsList) {
+    public DashboardAuthorAdapter(ArrayList<PopularAuthor> popularAuthorsList) {
 
-        this.mContext = context;
         this.popularAuthors = popularAuthorsList;
+
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
