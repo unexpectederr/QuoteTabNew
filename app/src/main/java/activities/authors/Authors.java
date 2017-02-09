@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import activities.quotetabnew.R;
 import adapters.AuthorsAdapter;
 import helpers.other.ReadAndWriteToFile;
-import models.authors.AuthorsByLetter;
 import models.authors.AuthorDetails;
+import models.authors.AuthorsByLetter;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,13 +36,17 @@ public class Authors extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authors);
 
+        initializeToolbar();
+
+        initializeContent();
+
+    }
+
+    private void initializeToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        initializeContent();
-
     }
 
     private void initializeContent() {
@@ -59,7 +63,7 @@ public class Authors extends AppCompatActivity {
 
         if (isByLetter) {
 
-            screenTitle.setText("All " + letter + " Authors...");
+            screenTitle.setText("All " + letter.toUpperCase() + " Authors...");
             adapter = new AuthorsAdapter(this, new ArrayList<AuthorDetails>(), true);
             authorsRecyclerView.setAdapter(adapter);
 

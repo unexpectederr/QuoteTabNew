@@ -11,7 +11,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import java.util.ArrayList;
+
+import activities.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
@@ -20,7 +23,6 @@ import listeners.OnFavoriteQuoteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
 import models.quotes.Quote;
-import activities.quotetabnew.R;
 
 /**
  * Created by Spaja on 10-Jan-17.
@@ -69,6 +71,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.quote_recycler_list_item, parent, false);
         return new QuotesAdapter.ViewHolder(v);
@@ -129,28 +132,30 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
         holder.quoteTags.removeAllViews();
 
-        for (int i = 0; i < tags.length; i++) {
+        if (tags[0].trim().length() != 0) {
+            for (int i = 0; i < tags.length; i++) {
 
-            if (i < Constants.MAX_NUMBER_OF_QUOTES) {
+                if (i < Constants.MAX_NUMBER_OF_QUOTES) {
 
-                TextView quoteTag = new TextView(context);
-                quoteTag.setBackgroundResource(R.drawable.background_outline_g);
-                quoteTag.setText(tags[i]);
-                quoteTag.setPadding(30, 15, 30, 15);
+                    TextView quoteTag = new TextView(context);
+                    quoteTag.setBackgroundResource(R.drawable.background_outline_g);
+                    quoteTag.setText(tags[i]);
+                    quoteTag.setPadding(30, 15, 30, 15);
 
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT));
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                params.setMarginEnd(12);
+                    params.setMarginStart(12);
 
-                quoteTag.setLayoutParams(params);
-                quoteTag.setGravity(Gravity.CENTER);
-                quoteTag.setTextColor(context.getResources().getColor(R.color.light_gray));
-                quoteTag.setTypeface(AppHelper.getRalewayLight(context));
-                quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i], isFavorites));
+                    quoteTag.setLayoutParams(params);
+                    quoteTag.setGravity(Gravity.CENTER);
+                    quoteTag.setTextColor(context.getResources().getColor(R.color.light_gray));
+                    quoteTag.setTypeface(AppHelper.getRalewayLight(context));
+                    quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i], isFavorites));
 
-                holder.quoteTags.addView(quoteTag);
+                    holder.quoteTags.addView(quoteTag);
+                }
             }
         }
 

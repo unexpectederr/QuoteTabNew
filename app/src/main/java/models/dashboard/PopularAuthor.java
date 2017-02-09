@@ -3,9 +3,9 @@ package models.dashboard;
 
 public class PopularAuthor {
 
-    String name;
-    String authorId;
-    String imageUrl;
+    private String name;
+    private String authorId;
+    private String imageUrl;
 
     public String getName() {
         return name;

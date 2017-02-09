@@ -193,6 +193,7 @@
         android:visibility="invisible">
 
         <RelativeLayout
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/author_info">
@@ -290,7 +291,7 @@
                 android:textColor="@android:color/white"/>
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/wikipedia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

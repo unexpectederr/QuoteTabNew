@@ -20,6 +20,7 @@ android {
 }
 
 repositories {
+
     maven {
         url { "https://jitpack.io" }
     }
@@ -52,6 +53,7 @@ dependencies {
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.2.0'
     compile 'uk.co.samuelwall:material-tap-target-prompt:1.8.2'
+    compile 'com.github.aakira:expandable-layout:1.6.0@aar'
 
     compile ('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true;

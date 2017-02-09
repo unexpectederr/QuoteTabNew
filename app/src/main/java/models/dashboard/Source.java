@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by unexpected_err on 20/01/2017.
  */
 
-public class Source implements Serializable{
+public class Source implements Serializable {
 
     private String quoteId;
     private String authorId;

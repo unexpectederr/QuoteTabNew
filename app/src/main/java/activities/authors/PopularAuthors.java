@@ -77,6 +77,7 @@ public class PopularAuthors extends AppCompatActivity {
         authorsRecyclerView.setLayoutManager(new StickyHeaderLayoutManager());
 
         QuoteTabApi.quoteTabApi.getAuthors().enqueue(new Callback<models.authors.PopularAuthors>() {
+
             @Override
             public void onResponse(Call<models.authors.PopularAuthors> call, Response<models.authors.PopularAuthors> response) {
 
@@ -88,31 +89,33 @@ public class PopularAuthors extends AppCompatActivity {
                 authors = response.body();
 
                 for (int i = 0; i < response.body().getAuthorGroup().size(); i++) {
-                        authors.getAuthorGroup().get(i).getAuthors().add(author);
-                    }
+                    authors.getAuthorGroup().get(i).getAuthors().add(author);
+                }
 
 
-            PopularAuthorsAdapter adapter = new PopularAuthorsAdapter(authors, PopularAuthors.this, favoriteAuthors);
-            authorsRecyclerView.setAdapter(adapter);
+                PopularAuthorsAdapter adapter = new PopularAuthorsAdapter(authors, PopularAuthors.this,
+                        favoriteAuthors);
+                authorsRecyclerView.setAdapter(adapter);
 
-            searchEditText.addTextChangedListener(new OnSearchAuthorWatcher(authors,authorsRecyclerView,searchIcon,PopularAuthors.this));
+                searchEditText.addTextChangedListener(new OnSearchAuthorWatcher(authors,
+                        authorsRecyclerView, searchIcon, PopularAuthors.this));
 
-            findViewById(R.id.progress_bar).setVisibility(View.GONE);
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
 
-            if(!PreferenceManager.getDefaultSharedPreferences(PopularAuthors.this).getBoolean(Constants.SEARCH_AUTHORS_TIP, false))
-                    AppHelper.showMaterialTip(searchIcon,PopularAuthors.this,"Search authors",
-                    "You can search authors here and find easily what you are looking for",
-            Constants.SEARCH_AUTHORS_TIP,R.drawable.ic_search);
+                if (!PreferenceManager.getDefaultSharedPreferences(PopularAuthors.this).getBoolean(Constants.SEARCH_AUTHORS_TIP, false))
+                    AppHelper.showMaterialTip(searchIcon, PopularAuthors.this, "Search authors",
+                            "You can search authors here and find easily what you are looking for",
+                            Constants.SEARCH_AUTHORS_TIP, R.drawable.ic_search);
+            }
+
+            @Override
+            public void onFailure(Call<models.authors.PopularAuthors> call, Throwable t) {
+                AppHelper.showToast(getResources().getString(R.string.toast_error_message), PopularAuthors.this);
+            }
         }
 
-        @Override
-        public void onFailure (Call < models.authors.PopularAuthors > call, Throwable t){
-            AppHelper.showToast(getResources().getString(R.string.toast_error_message), PopularAuthors.this);
-        }
+        );
     }
-
-    );
-}
 
     public boolean onSupportNavigateUp() {
 
@@ -132,21 +135,21 @@ public class PopularAuthors extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-            if (requestCode == 1) {
+        if (requestCode == 1) {
 
-                if (resultCode == Authors.RESULT_OK) {
+            if (resultCode == Authors.RESULT_OK) {
 
-                    ArrayList<AuthorDetails> favoriteAuthors = (ArrayList<AuthorDetails>) data.getSerializableExtra("result");
-                    PopularAuthorsAdapter adapter = new PopularAuthorsAdapter(authors,this, favoriteAuthors);
-                    authorsRecyclerView.setAdapter(adapter);
-                    findViewById(R.id.progress_bar).setVisibility(View.GONE);
+                ArrayList<AuthorDetails> favoriteAuthors = (ArrayList<AuthorDetails>) data.getSerializableExtra("result");
+                PopularAuthorsAdapter adapter = new PopularAuthorsAdapter(authors, this, favoriteAuthors);
+                authorsRecyclerView.setAdapter(adapter);
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
 
-                } else if (resultCode == Authors.RESULT_CANCELED) {
+            } else if (resultCode == Authors.RESULT_CANCELED) {
 
-                    AppHelper.showToast("Something went wrong", this);
+                AppHelper.showToast("Something went wrong", this);
 
-                }
             }
         }
     }
+}
 

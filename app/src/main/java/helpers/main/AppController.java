@@ -38,7 +38,7 @@ public class AppController extends Application {
         if (ctx == null || (ctx instanceof Activity && ((Activity) ctx).isDestroyed()))
             return;
 
-        final SimpleTarget target = new SimpleTarget<Bitmap>() {
+        final SimpleTarget target = new SimpleTarget<Bitmap>(400, 300) {
 
             @Override
             public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
@@ -67,6 +67,7 @@ public class AppController extends Application {
 
             }
         };
+
 
         Glide.with(ctx)
                 .load(Constants.COVER_IMAGES_URL + index + ".jpg")

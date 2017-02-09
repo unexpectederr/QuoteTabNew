@@ -9,8 +9,8 @@ import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 
-import adapters.QuotesAdapter;
 import activities.quotetabnew.R;
+import adapters.QuotesAdapter;
 import helpers.main.AppHelper;
 import helpers.other.ReadAndWriteToFile;
 import models.quotes.Quote;
@@ -19,17 +19,21 @@ public class FavoriteQuotes extends AppCompatActivity {
 
     public ArrayList<Quote> favoriteQuotes;
     public RecyclerView favoritesRecycler;
-    QuotesAdapter adapter;
+    private QuotesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quotes);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_favorite_quotes);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        initializeToolbar();
+
+        initializeRecyclerView();
+
+    }
+
+    private void initializeRecyclerView() {
 
         favoritesRecycler = (RecyclerView) findViewById(R.id.favorite_quotes_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -40,7 +44,13 @@ public class FavoriteQuotes extends AppCompatActivity {
         adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false);
 
         favoritesRecycler.setAdapter(adapter);
+    }
 
+    private void initializeToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_favorite_quotes);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override
