@@ -186,13 +186,13 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
             ivh.itemView.setOnClickListener(new OnAuthorClickListener(mContext, mDataSet.getAuthorGroup()
                     .get(sectionIndex).getAuthors().get(itemIndex).getId()));
 
-            setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
+            //setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
 
         } else {
 
             ivh.text.setText("All " + mDataSet.getAuthorGroup().get(sectionIndex).getReferences()
                     .getLetter().toUpperCase() + " Authors...");
-            setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
+            //setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
             ivh.itemView.setOnClickListener(new OnAuthorLetterClickListener
                     (mDataSet.getAuthorGroup().get(sectionIndex).getReferences()
                             .getLetter()));

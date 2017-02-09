@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -42,6 +43,9 @@ public class QuotesByTag extends AppCompatActivity {
         initializeRecyclerView();
 
         final String tag = getIntent().getStringExtra(Constants.QUOTE_TAG);
+
+        TextView screenTitle = (TextView) findViewById(R.id.screen_title);
+        screenTitle.setText(Character.toUpperCase(tag.charAt(0)) + tag.substring(1) + " Quotes");
 
         getQuotesByTag(tag, page);
 

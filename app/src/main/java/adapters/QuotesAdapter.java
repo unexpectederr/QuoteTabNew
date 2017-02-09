@@ -131,6 +131,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
         holder.quoteTags.removeAllViews();
 
+        if (tags[0].trim().length() != 0){
         for (int i = 0; i < tags.length; i++) {
 
             if (i < Constants.MAX_NUMBER_OF_QUOTES) {
@@ -144,7 +145,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
                         new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                params.setMarginEnd(12);
+                params.setMarginStart(12);
 
                 quoteTag.setLayoutParams(params);
                 quoteTag.setGravity(Gravity.CENTER);
@@ -154,6 +155,8 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
                 holder.quoteTags.addView(quoteTag);
             }
+        }
+
         }
 
         setAnimation(holder.itemView, holder.getAdapterPosition());
