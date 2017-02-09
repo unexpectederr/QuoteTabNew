@@ -8,7 +8,8 @@
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/view_pager">
+        android:id="@+id/view_pager"
+        >
     </android.support.v4.view.ViewPager>
 
     <LinearLayout
@@ -17,7 +18,7 @@
         android:orientation="vertical"
         android:paddingTop="10dp"
         android:background="@android:color/white"
-        >
+        android:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
@@ -71,6 +72,22 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <TextView
+        android:id="@+id/more_icon"
+        android:background="@drawable/circle_bcg_outline_empty"
+        android:text="&#183;&#183;&#183;"
+        android:backgroundTint="@color/light_gray_ultra"
+        android:textColor="@color/main_color_light"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:alpha="0.9"
+        android:layout_height="30dp"
+        android:layout_width="30dp"
+        android:textSize="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"/>
+
     <com.liangfeizc.RubberIndicator
         android:id="@+id/rubber"
         android:layout_alignParentBottom="true"
@@ -81,12 +98,148 @@
         android:alpha="0.8"
         android:layout_width="75dp"/>
 
+    <io.codetail.widget.RevealFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/author_info">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.95"
+                android:background="?attr/colorPrimary"
+                android:orientation="vertical"
+                android:clickable="true">
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/close_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:padding="18dp"
+                app:srcCompat="@drawable/ic_close"
+                android:layout_alignParentBottom="true"/>
+
+            <LinearLayout
+                android:id="@+id/asd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:layout_centerInParent="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="20dp"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:srcCompat="@drawable/ic_star_full"
+                        android:id="@+id/imageView2"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/info_text_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Popular authors"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="1dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="20dp"
+                    android:gravity="center_vertical"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:srcCompat="@drawable/ic_today"
+                        android:id="@+id/imageView23"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/info_text_name3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Today's birthdays"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="1dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="20dp"
+                    android:gravity="center_vertical"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:srcCompat="@drawable/ic_trending"
+                        android:id="@+id/imageView233"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/info_text_name5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Trending Authors at QuoteTab"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="10dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginBottom="2dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </io.codetail.widget.RevealFrameLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/splash_screen"
         android:background="@android:color/white"
-        android:translationZ="999dp">
+        android:translationZ="999dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/logo"

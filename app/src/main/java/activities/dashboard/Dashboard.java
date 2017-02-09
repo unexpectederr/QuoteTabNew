@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -40,6 +41,8 @@ import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.ParallaxPageTransformer;
 import helpers.other.ReadAndWriteToFile;
+import listeners.OnShowAuthorInfoListener;
+import listeners.OnShowDashboardMoreListener;
 import models.authors.AuthorDetails;
 import models.dashboard.DashboardData;
 import models.dashboard.PopularAuthor;
@@ -90,6 +93,9 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         Glide.with(Dashboard.this).load(R.drawable.splash).into(logo);
 
         getDashboardData(toolbar, splashScreen);
+
+        TextView moreIcon = (TextView) findViewById(R.id.more_icon);
+        moreIcon.setOnClickListener(new OnShowDashboardMoreListener(this));
 
         preloadImages();
 
