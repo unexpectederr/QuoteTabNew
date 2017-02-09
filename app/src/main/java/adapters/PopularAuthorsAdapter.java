@@ -17,8 +17,8 @@ import org.zakariya.stickyheaders.SectioningAdapter;
 import java.util.ArrayList;
 
 import activities.authors.Authors;
-import de.hdodenhof.circleimageview.CircleImageView;
 import activities.quotetabnew.R;
+import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.Constants;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteAuthorClickListener;
@@ -195,7 +195,7 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
             setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
             ivh.itemView.setOnClickListener(new OnAuthorLetterClickListener
                     (mDataSet.getAuthorGroup().get(sectionIndex).getReferences()
-                    .getLetter()));
+                            .getLetter()));
         }
     }
 

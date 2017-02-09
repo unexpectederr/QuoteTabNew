@@ -37,6 +37,13 @@ public class AuthorFieldsFromQuote {
     @SerializedName("authorId")
     private String authorId;
 
+    @SerializedName("source")
+    private String wikipediaUrl;
+
+    public String getWikipediaUrl() {
+        return wikipediaUrl;
+    }
+
     public String getAuthorId() {
         return authorId;
     }

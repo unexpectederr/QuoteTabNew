@@ -12,8 +12,6 @@ import java.util.ArrayList;
 
 import activities.dashboard.DashboardFragment;
 import models.authors.AuthorDetails;
-import models.authors.AuthorFields;
-import models.dashboard.DashboardItem;
 import models.dashboard.TopPhotos;
 import models.quotes.Quote;
 

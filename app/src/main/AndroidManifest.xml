@@ -93,18 +93,30 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="activities.quotes.FavoriteQuotes"
-                  android:label="@string/app_name"
-                  android:theme="@style/AppThemeNormal">>
+        <activity
+            android:name="activities.quotes.FavoriteQuotes"
+            android:label="@string/app_name"
+            android:theme="@style/AppThemeNormal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="activities.authors.Authors"
-                  android:label="@string/app_name"
-                  android:theme="@style/AppThemeNormal">>
+        <activity
+            android:name="activities.authors.Authors"
+            android:label="@string/app_name"
+            android:theme="@style/AppThemeNormal">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="activities.authors.AuthorWikipedia"
+            android:label="@string/app_name"
+            android:theme="@style/AppThemeNormal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

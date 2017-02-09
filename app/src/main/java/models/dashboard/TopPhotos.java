@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class TopPhotos implements Serializable {
 
     @SerializedName("_source")
-    Source source;
+    private Source source;
 
     private boolean favorite;
 

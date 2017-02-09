@@ -1,8 +1,8 @@
 package activities.topics;
 
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,8 +11,8 @@ import android.widget.ImageView;
 
 import com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView;
 
-import adapters.TopicsAdapter;
 import activities.quotetabnew.R;
+import adapters.TopicsAdapter;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import networking.QuoteTabApi;

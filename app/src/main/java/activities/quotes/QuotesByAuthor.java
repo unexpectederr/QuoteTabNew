@@ -1,5 +1,6 @@
 package activities.quotes;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,13 +21,13 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import activities.quotetabnew.R;
 import adapters.QuotesAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
-import activities.quotetabnew.R;
 import helpers.main.Constants;
 import helpers.other.ReadAndWriteToFile;
-import listeners.OnFavoriteAuthorClickListener;
 import listeners.OnShowAuthorInfoListener;
+import listeners.OnWikipediaButtonClickListener;
 import models.authors.AuthorDetails;
 import models.authors.AuthorDetailsFromQuote;
 import models.authors.AuthorFieldsFromQuote;
@@ -59,6 +61,16 @@ public class QuotesByAuthor extends AppCompatActivity
     private QuotesAdapter adapter;
     private ImageView favoriteIcon;
 
+    public static void startAlphaAnimation(View v, long duration, int visibility) {
+
+        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
+                ? new AlphaAnimation(0f, 1f)
+                : new AlphaAnimation(1f, 0f);
+
+        alphaAnimation.setDuration(duration);
+        alphaAnimation.setFillAfter(true);
+        v.startAnimation(alphaAnimation);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +154,7 @@ public class QuotesByAuthor extends AppCompatActivity
                 ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(QuotesByAuthor.this);
 
                 AuthorDetailsFromQuote authorFromQuote = response.body().getAuthorDetailsFromQuote();
-                AuthorFieldsFromQuote detailsFromQuote = response.body()
+                final AuthorFieldsFromQuote detailsFromQuote = response.body()
                         .getAuthorDetailsFromQuote().getAuthorFieldsFromQuote();
 
                 for (int i = 0; i < favoriteAuthors.size(); i++) {
@@ -167,7 +179,6 @@ public class QuotesByAuthor extends AppCompatActivity
                 adapter.addQuotes(response.body().getQuotes());
                 loading = false;
                 findViewById(R.id.progress_bar_quotes_by_author).setVisibility(View.GONE);
-
 
 
                 TextView authorTitle = (TextView) findViewById(R.id.author_name);
@@ -215,6 +226,9 @@ public class QuotesByAuthor extends AppCompatActivity
                             + detailsFromQuote.getBornMonth()
                             + "."
                             + detailsFromQuote.getBornYear());
+                    Button wikipedia = (Button) findViewById(R.id.wikipedia);
+                    wikipedia.setOnClickListener(new OnWikipediaButtonClickListener(QuotesByAuthor.this,
+                            detailsFromQuote.getWikipediaUrl(), detailsFromQuote.getAuthorName()));
                 }
 
 
@@ -293,16 +307,5 @@ public class QuotesByAuthor extends AppCompatActivity
                 mIsTheTitleContainerVisible = true;
             }
         }
-    }
-
-    public static void startAlphaAnimation(View v, long duration, int visibility) {
-
-        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
-                ? new AlphaAnimation(0f, 1f)
-                : new AlphaAnimation(1f, 0f);
-
-        alphaAnimation.setDuration(duration);
-        alphaAnimation.setFillAfter(true);
-        v.startAnimation(alphaAnimation);
     }
 }

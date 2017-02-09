@@ -11,7 +11,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import java.util.ArrayList;
+
+import activities.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
@@ -20,7 +23,6 @@ import listeners.OnFavoriteQuoteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
 import models.quotes.Quote;
-import activities.quotetabnew.R;
 
 /**
  * Created by Spaja on 10-Jan-17.

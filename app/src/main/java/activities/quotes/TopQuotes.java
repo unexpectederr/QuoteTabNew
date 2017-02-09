@@ -1,7 +1,7 @@
 package activities.quotes;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -10,8 +10,8 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
-import adapters.QuotesAdapter;
 import activities.quotetabnew.R;
+import adapters.QuotesAdapter;
 import helpers.other.ReadAndWriteToFile;
 import models.quotes.Quote;
 import networking.QuoteTabApi;
@@ -27,22 +27,19 @@ public class TopQuotes extends AppCompatActivity {
     private QuotesAdapter adapter;
     private ProgressBar progressBar;
     private ArrayList<Quote> favoriteQuotes;
+    private LinearLayoutManager manager;
+    private RecyclerView topQuotesRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_top_quotes);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        initializeToolbar();
 
-        RecyclerView topQuotesRecycler = (RecyclerView) findViewById(R.id.top_quotes_recycler);
-        final LinearLayoutManager manager = new LinearLayoutManager(this);
-        topQuotesRecycler.setLayoutManager(manager);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
+        initializeRecyclerView();
 
         loadTopQuotes(topQuotesRecycler);
 
@@ -73,6 +70,21 @@ public class TopQuotes extends AppCompatActivity {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
+    }
+
+    private void initializeRecyclerView() {
+        topQuotesRecycler = (RecyclerView) findViewById(R.id.top_quotes_recycler);
+        manager = new LinearLayoutManager(this);
+        topQuotesRecycler.setLayoutManager(manager);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
+    }
+
+    private void initializeToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     private void loadTopQuotes(final RecyclerView topQuotesRecycler) {

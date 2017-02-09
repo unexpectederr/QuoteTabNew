@@ -7,13 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 
 import activities.quotetabnew.R;
 import de.hdodenhof.circleimageview.CircleImageView;
-import helpers.main.Constants;
 import models.dashboard.PopularAuthor;
 
 /**

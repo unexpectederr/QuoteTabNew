@@ -2,10 +2,6 @@ package models.topics;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Random;
-
-import helpers.main.Constants;
-
 /**
  * Created by Spaja on 17-Jan-17.
  */

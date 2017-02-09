@@ -2,8 +2,8 @@ package networking;
 
 import models.authors.AuthorsByLetter;
 import models.authors.PopularAuthors;
-import models.quotes.Quotes;
 import models.dashboard.DashboardData;
+import models.quotes.Quotes;
 import models.quotes.TopQuotes;
 import models.topics.Topics;
 import retrofit2.Call;

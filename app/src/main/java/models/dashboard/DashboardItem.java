@@ -19,7 +19,6 @@ public class DashboardItem implements Serializable {
     private boolean favorite;
 
 
-
     public DashboardItem(String quote, String author, String authorId, String quoteId, boolean favorite) {
         this.favorite = favorite;
         this.quote = quote;
@@ -36,7 +35,7 @@ public class DashboardItem implements Serializable {
         this.favorite = favorite;
     }
 
-    public String getQuoteId(){
+    public String getQuoteId() {
         return quoteId;
     }
 

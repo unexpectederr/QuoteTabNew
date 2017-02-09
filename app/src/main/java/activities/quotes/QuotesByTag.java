@@ -1,8 +1,8 @@
 package activities.quotes;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -10,8 +10,8 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-import adapters.QuotesAdapter;
 import activities.quotetabnew.R;
+import adapters.QuotesAdapter;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.ReadAndWriteToFile;
@@ -27,6 +27,8 @@ public class QuotesByTag extends AppCompatActivity {
     private int visibleItemCount, totalItemCount, pastVisibleItems, page = 1;
     private boolean loading = false;
     private QuotesAdapter adapter;
+    private RecyclerView quotesByTagRecycler;
+    private LinearLayoutManager manager;
 
 
     @Override
@@ -37,14 +39,7 @@ public class QuotesByTag extends AppCompatActivity {
 
         initializeToolbar();
 
-        final RecyclerView quotesByTagRecycler = (RecyclerView) findViewById(R.id.quotes_by_tag_recycler);
-        final LinearLayoutManager manager = new LinearLayoutManager(this);
-        quotesByTagRecycler.setLayoutManager(manager);
-
-        ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
-        adapter = new QuotesAdapter(this, new ArrayList<Quote>(), favoriteQuotes, false, false);
-
-        quotesByTagRecycler.setAdapter(adapter);
+        initializeRecyclerView();
 
         final String tag = getIntent().getStringExtra(Constants.QUOTE_TAG);
 
@@ -77,6 +72,18 @@ public class QuotesByTag extends AppCompatActivity {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
+    }
+
+    private void initializeRecyclerView() {
+
+        quotesByTagRecycler = (RecyclerView) findViewById(R.id.quotes_by_tag_recycler);
+        manager = new LinearLayoutManager(this);
+        quotesByTagRecycler.setLayoutManager(manager);
+
+        ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
+        adapter = new QuotesAdapter(this, new ArrayList<Quote>(), favoriteQuotes, false, false);
+
+        quotesByTagRecycler.setAdapter(adapter);
     }
 
     private void initializeToolbar() {
