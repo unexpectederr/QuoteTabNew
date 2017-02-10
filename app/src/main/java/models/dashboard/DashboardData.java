@@ -11,10 +11,10 @@ import models.quotes.Quote;
 public class DashboardData {
 
     @SerializedName("popularAuthorsList")
-    ArrayList<PopularAuthor> popularAuthors;
+    private ArrayList<PopularAuthor> popularAuthors;
 
     @SerializedName("topPhotos")
-    ArrayList<TopPhotos> topPhotos;
+    private ArrayList<TopPhotos> topPhotos;
 
     @SerializedName("quotesPartial")
     private ArrayList<Quote> quotesPartial;

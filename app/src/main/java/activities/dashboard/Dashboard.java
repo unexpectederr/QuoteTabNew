@@ -41,6 +41,7 @@ import helpers.main.Constants;
 import helpers.other.ParallaxPageTransformer;
 import helpers.other.ReadAndWriteToFile;
 import models.authors.AuthorDetails;
+import models.authors.AuthorFields;
 import models.dashboard.DashboardData;
 import models.dashboard.PopularAuthor;
 import models.dashboard.TopPhotos;
@@ -171,16 +172,15 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 initializeDashboard(items);
 
                 initializePopularAuthors(response.body().getPopularAuthors());
+
                 ArrayList<PopularAuthor> todaysBirthdays = new ArrayList<>();
-
-
 
                 for (int i = 0; i < response.body().getTodaysBirthdays().size(); i++) {
 
                     PopularAuthor author = new PopularAuthor();
-                    author.setName(response.body().getTodaysBirthdays().get(i).getAuthorFields().getName());
-                    author.setImageUrl(response.body().getTodaysBirthdays().get(i).getAuthorFields().getImageUrl());
                     author.setAuthorId(response.body().getTodaysBirthdays().get(i).getId());
+                    author.setImageUrl(response.body().getTodaysBirthdays().get(i).getAuthorFields().getImageUrl());
+                    author.setName(response.body().getTodaysBirthdays().get(i).getAuthorFields().getName());
 
                     todaysBirthdays.add(author);
                 }
@@ -188,15 +188,17 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 initializeTodaysBirthdays(todaysBirthdays);
 
                 ArrayList<PopularAuthor> trendingAuthors = new ArrayList<>();
+
                 for (int i = 0; i < response.body().getTrendingAuthors().size(); i++) {
 
                     PopularAuthor author = new PopularAuthor();
-                    author.setName(response.body().getTrendingAuthors().get(i).getAuthorFields().getName());
-                    author.setImageUrl(response.body().getTrendingAuthors().get(i).getAuthorFields().getImageUrl());
                     author.setAuthorId(response.body().getTrendingAuthors().get(i).getId());
+                    author.setImageUrl(response.body().getTrendingAuthors().get(i).getAuthorFields().getImageUrl());
+                    author.setName(response.body().getTrendingAuthors().get(i).getAuthorFields().getName());
 
                     trendingAuthors.add(author);
                 }
+
                 initializeTrendingAuthors(trendingAuthors);
             }
 
@@ -254,7 +256,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         GridLayoutManager mLayoutManager = new GridLayoutManager(Dashboard.this, 3);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        DashboardAuthorAdapter mAdapter = new DashboardAuthorAdapter(popularAuthorsList);
+        DashboardAuthorAdapter mAdapter = new DashboardAuthorAdapter(popularAuthorsList, Dashboard.this);
         mRecyclerView.setAdapter(mAdapter);
 
     }
@@ -267,7 +269,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         GridLayoutManager manager = new GridLayoutManager(Dashboard.this, 3);
         birthdaysRecycler.setLayoutManager(manager);
 
-        DashboardAuthorAdapter adapter = new DashboardAuthorAdapter(todaysBirthdaysList);
+        DashboardAuthorAdapter adapter = new DashboardAuthorAdapter(todaysBirthdaysList, Dashboard.this);
         birthdaysRecycler.setAdapter(adapter);
     }
 
@@ -279,7 +281,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         GridLayoutManager manager = new GridLayoutManager(Dashboard.this, 3);
         trendingAuthorsRecycler.setLayoutManager(manager);
 
-        DashboardAuthorAdapter adapter = new DashboardAuthorAdapter(trendingAuthors);
+        DashboardAuthorAdapter adapter = new DashboardAuthorAdapter(trendingAuthors, Dashboard.this);
         trendingAuthorsRecycler.setAdapter(adapter);
     }
 
