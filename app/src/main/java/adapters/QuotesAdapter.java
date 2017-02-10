@@ -108,7 +108,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
 
         AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
-                holder.cardImage, false);
+                holder.cardImage, false, 0, 0);
 
         holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
         holder.quoteText.setTypeface(AppHelper.getRalewayLight(holder.quoteText.getContext()));
