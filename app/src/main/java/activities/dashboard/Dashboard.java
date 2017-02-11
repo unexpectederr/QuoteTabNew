@@ -41,7 +41,6 @@ import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.ParallaxPageTransformer;
 import helpers.other.ReadAndWriteToFile;
-import listeners.OnShowAuthorInfoListener;
 import listeners.OnShowDashboardMoreListener;
 import models.authors.AuthorDetails;
 import models.dashboard.DashboardData;

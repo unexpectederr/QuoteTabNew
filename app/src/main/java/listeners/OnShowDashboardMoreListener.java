@@ -1,20 +1,22 @@
 package listeners;
 
 import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Transformation;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
+import android.widget.LinearLayout;
 
 import activities.quotetabnew.R;
-import de.hdodenhof.circleimageview.CircleImageView;
-import helpers.main.Constants;
+
 import io.codetail.animation.ViewAnimationUtils;
 import io.codetail.widget.RevealFrameLayout;
-import models.authors.AuthorFieldsFromQuote;
+
 
 /**
  * Created by unexpected_err on 02/02/2017.
@@ -23,6 +25,7 @@ import models.authors.AuthorFieldsFromQuote;
 public class OnShowDashboardMoreListener implements View.OnClickListener {
 
     Activity mActivity;
+    boolean ex;
 
     public OnShowDashboardMoreListener(Activity activity) {
         this.mActivity = activity;
@@ -53,11 +56,61 @@ public class OnShowDashboardMoreListener implements View.OnClickListener {
         ImageView closeInfo = (ImageView) authorInfo.findViewById(R.id.close_info);
         closeInfo.setOnClickListener(new OnCloseAuthorInfoListener(authorInfo, cx, cy, finalRadius));
 
-        //bindAuthorInfo();
+        bindDashboardMore();
     }
 
-    private void bindAuthorInfo() {
+    private void bindDashboardMore() {
 
+        LinearLayout popularAuthors = (LinearLayout) mActivity.findViewById(R.id.popular_authors_btn);
+        final FrameLayout expandableLayout
+                = (FrameLayout) mActivity.findViewById(R.id.popular_authors_expandable);
 
+        popularAuthors.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ex) {
+                    collapse(expandableLayout, 1000, 0);
+                    ex = false;
+                } else {
+                    expand(expandableLayout, 1000, 600);
+                    ex = true;
+                }
+            }
+        });
+
+    }
+
+    public static void expand(final View v, int duration, int targetHeight) {
+
+        int prevHeight  = v.getHeight();
+
+        v.setVisibility(View.VISIBLE);
+        ValueAnimator valueAnimator = ValueAnimator.ofInt(prevHeight, targetHeight);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                v.getLayoutParams().height = (int) animation.getAnimatedValue();
+                v.requestLayout();
+            }
+        });
+        valueAnimator.setInterpolator(new DecelerateInterpolator());
+        valueAnimator.setDuration(duration);
+        valueAnimator.start();
+    }
+
+    public static void collapse(final View v, int duration, int targetHeight) {
+        int prevHeight  = v.getHeight();
+        ValueAnimator valueAnimator = ValueAnimator.ofInt(prevHeight, targetHeight);
+        valueAnimator.setInterpolator(new DecelerateInterpolator());
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                v.getLayoutParams().height = (int) animation.getAnimatedValue();
+                v.requestLayout();
+            }
+        });
+        valueAnimator.setInterpolator(new DecelerateInterpolator());
+        valueAnimator.setDuration(duration);
+        valueAnimator.start();
     }
 }
