@@ -57,18 +57,7 @@ public class QuotesByAuthor extends AppCompatActivity
     private boolean loading = false;
     private QuotesAdapter adapter;
     private ImageView favoriteIcon;
-    private AuthorFieldsFromQuote detailsFromQuote;
 
-    public static void startAlphaAnimation(View v, long duration, int visibility) {
-
-        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
-                ? new AlphaAnimation(0f, 1f)
-                : new AlphaAnimation(1f, 0f);
-
-        alphaAnimation.setDuration(duration);
-        alphaAnimation.setFillAfter(true);
-        v.startAnimation(alphaAnimation);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +70,14 @@ public class QuotesByAuthor extends AppCompatActivity
 
         getQuotesByAuthor(authorId, page);
 
-        ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(QuotesByAuthor.this);
-        adapter = new QuotesAdapter(QuotesByAuthor.this, new ArrayList<Quote>(), favoriteQuotes, false, true);
+        ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile
+                .getFavoriteQuotes(QuotesByAuthor.this);
 
-        RecyclerView quotesRecycler = (RecyclerView) findViewById(R.id.author_details_recyclerView);
+        adapter = new QuotesAdapter(QuotesByAuthor.this,
+                new ArrayList<Quote>(), favoriteQuotes, false, true);
+
+        RecyclerView quotesRecycler = (RecyclerView)
+                findViewById(R.id.author_details_recyclerView);
 
         quotesRecycler.setLayoutManager(manager);
         quotesRecycler.setAdapter(adapter);
@@ -130,9 +123,6 @@ public class QuotesByAuthor extends AppCompatActivity
 
         mAppBarLayout.addOnOffsetChangedListener(this);
 
-        ImageView infoIcon = (ImageView) findViewById(R.id.info_icon);
-        infoIcon.setOnClickListener(new OnShowAuthorInfoListener(this, detailsFromQuote));
-
         startAlphaAnimation(mTitle, 0, View.INVISIBLE);
 
     }
@@ -146,8 +136,6 @@ public class QuotesByAuthor extends AppCompatActivity
 
 
                 AuthorDetailsFromQuote authorFromQuote = response.body().getAuthorDetailsFromQuote();
-                detailsFromQuote = authorFromQuote.getAuthorFieldsFromQuote();
-
 
 //                AuthorDetails author = new AuthorDetails();
 //                author.setFavorite(authorFromQuote.isFavorite());
@@ -169,6 +157,9 @@ public class QuotesByAuthor extends AppCompatActivity
 
                     bindAuthorHeader(authorFromQuote);
 
+                    ImageView infoIcon = (ImageView) findViewById(R.id.info_icon);
+                    infoIcon.setOnClickListener(new OnShowAuthorInfoListener
+                            (QuotesByAuthor.this, authorFromQuote.getAuthorFieldsFromQuote()));
                 }
             }
 
@@ -184,11 +175,13 @@ public class QuotesByAuthor extends AppCompatActivity
 
     private void bindAuthorHeader(AuthorDetailsFromQuote authorFromQuote) {
 
-        ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(QuotesByAuthor.this);
+        ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile
+                .getFavoriteAuthors(QuotesByAuthor.this);
 
         for (int i = 0; i < favoriteAuthors.size(); i++) {
 
-            if (detailsFromQuote.getAuthorId().equals(favoriteAuthors.get(i).getId())) {
+            if (authorFromQuote.getAuthorFieldsFromQuote()
+                    .getAuthorId().equals(favoriteAuthors.get(i).getId())) {
 
                 authorFromQuote.setFavorite(true);
                 favoriteIcon.setImageResource(R.drawable.ic_author);
@@ -199,13 +192,14 @@ public class QuotesByAuthor extends AppCompatActivity
         TextView authorTitle = (TextView) findViewById(R.id.author_name);
         TextView authorTagLine = (TextView) findViewById(R.id.author_tagline);
 
-        mTitle.setText(detailsFromQuote.getAuthorName());
+        mTitle.setText(authorFromQuote.getAuthorFieldsFromQuote().getAuthorName());
 
-        authorTitle.setText(detailsFromQuote.getAuthorName());
+        authorTitle.setText(authorFromQuote.getAuthorFieldsFromQuote().getAuthorName());
 
-        if (detailsFromQuote.getProfession() != null) {
-            authorTagLine.setText(detailsFromQuote.getProfession().getProfessionName() + " - "
-                    + detailsFromQuote.getBirthplace());
+        if (authorFromQuote.getAuthorFieldsFromQuote().getProfession() != null) {
+            authorTagLine.setText(authorFromQuote.getAuthorFieldsFromQuote()
+                    .getProfession().getProfessionName() + " - "
+                    + authorFromQuote.getAuthorFieldsFromQuote().getBirthplace());
         } else {
             authorTagLine.setText("Unknown");
         }
@@ -213,7 +207,8 @@ public class QuotesByAuthor extends AppCompatActivity
         CircleImageView mAuthorImage = (CircleImageView) findViewById(R.id.author_image);
 
         Glide.with(QuotesByAuthor.this)
-                .load(Constants.IMAGES_URL + detailsFromQuote.getAuthorImageUrl())
+                .load(Constants.IMAGES_URL + authorFromQuote
+                        .getAuthorFieldsFromQuote().getAuthorImageUrl())
                 .dontAnimate()
                 .placeholder(R.drawable.avatar)
                 .error(R.drawable.avatar)
@@ -285,5 +280,16 @@ public class QuotesByAuthor extends AppCompatActivity
                 mIsTheTitleContainerVisible = true;
             }
         }
+    }
+
+    public static void startAlphaAnimation(View v, long duration, int visibility) {
+
+        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
+                ? new AlphaAnimation(0f, 1f)
+                : new AlphaAnimation(1f, 0f);
+
+        alphaAnimation.setDuration(duration);
+        alphaAnimation.setFillAfter(true);
+        v.startAnimation(alphaAnimation);
     }
 }

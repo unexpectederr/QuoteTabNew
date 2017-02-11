@@ -12,38 +12,6 @@
         >
     </android.support.v4.view.ViewPager>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:background="@android:color/white"
-        android:visibility="visible">
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/popular_authors"
-            android:paddingLeft="8dp"
-            android:clipToPadding="false"
-            />
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/todays_birthdays">
-
-        </android.support.v7.widget.RecyclerView>
-        
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/trending_authors">
-
-        </android.support.v7.widget.RecyclerView>
-
-    </LinearLayout>
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -120,7 +88,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/author_info">
+            android:id="@+id/dashboard_more">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -141,7 +109,7 @@
                 android:layout_alignParentBottom="true"/>
 
             <LinearLayout
-                android:id="@+id/asd"
+                android:id="@+id/dashboard_more_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
@@ -158,7 +126,8 @@
                     android:paddingTop="5dp"
                     android:paddingLeft="20dp"
                     android:foreground="?attr/selectableItemBackground"
-                    android:id="@+id/popular_authors_btn">
+                    android:id="@+id/popular_authors_btn"
+                    android:tag="popular">
 
                     <ImageView
                         android:layout_width="50dp"
@@ -180,17 +149,31 @@
 
                 </LinearLayout>
 
-                <FrameLayout
+                <helpers.other.ExpandableFrame
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="0dp"
                     android:animateLayoutChanges="true"
-                    android:id="@+id/popular_authors_expandable">
+                    android:id="@+id/popular_authors_expandable"
+                    android:tag="popular">
 
-                    <TextView
+                    <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="afdsdsdsfdsd afdsd afasafdsafd a sa af afsafsafdafds safdsgfaf asvdashasas as sf asfsa fafgadjh fgahg fdgfgsdj gsfhds gfdgsfgsdhjf gdgsfdhjsg dgsfsdfdsfgdshjg "/>
-                </FrameLayout>
+                        android:layout_height="wrap_content"
+                        android:id="@+id/popular_authors"
+                        android:paddingLeft="8dp"
+                        android:clipToPadding="false"/>
+
+                    <Button
+                        android:id="@+id/aaa"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/background_outline_w"
+                        android:text="More popular authors"
+                        android:textSize="16sp"
+                        android:layout_below="@+id/popular_authors"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"/>
+
+                </helpers.other.ExpandableFrame>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -200,7 +183,9 @@
                     android:paddingTop="5dp"
                     android:paddingLeft="20dp"
                     android:gravity="center_vertical"
-                    android:foreground="?attr/selectableItemBackground">
+                    android:foreground="?attr/selectableItemBackground"
+                    android:id="@+id/today_birthdays_btn"
+                    android:tag="birthdays">
 
                     <ImageView
                         android:layout_width="50dp"
@@ -222,6 +207,32 @@
 
                 </LinearLayout>
 
+                <helpers.other.ExpandableFrame
+                    android:layout_width="match_parent"
+                    android:animateLayoutChanges="true"
+                    android:id="@+id/today_birthdays_expandable"
+                    android:tag="birthdays"
+                    android:layout_height="0dp">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:id="@+id/today_birthdays"
+                        android:clipToPadding="false"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"/>
+
+                    <Button
+                        android:id="@+id/bbb"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/background_outline_w"
+                        android:text="More today's birthdays"
+                        android:textSize="16sp"
+                        android:layout_below="@+id/today_birthdays"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"/>
+
+                </helpers.other.ExpandableFrame>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -230,7 +241,9 @@
                     android:paddingTop="5dp"
                     android:paddingLeft="20dp"
                     android:gravity="center_vertical"
-                    android:foreground="?attr/selectableItemBackground">
+                    android:foreground="?attr/selectableItemBackground"
+                    android:id="@+id/trending_authors_btn"
+                    android:tag="trending">
 
                     <ImageView
                         android:layout_width="50dp"
@@ -254,6 +267,33 @@
 
                 </LinearLayout>
 
+                <helpers.other.ExpandableFrame
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:animateLayoutChanges="true"
+                    android:id="@+id/trending_authors_expandable"
+                    android:tag="trending">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/trending_authors"
+                        android:paddingLeft="8dp"
+                        android:clipToPadding="false"
+                        />
+
+                    <Button
+                        android:id="@+id/ccc"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/background_outline_w"
+                        android:text="All authors"
+                        android:textSize="16sp"
+                        android:layout_below="@+id/trending_authors"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"/>
+
+                </helpers.other.ExpandableFrame>
+
             </LinearLayout>
 
         </RelativeLayout>
@@ -266,7 +306,7 @@
         android:id="@+id/splash_screen"
         android:background="@android:color/white"
         android:translationZ="999dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/logo"

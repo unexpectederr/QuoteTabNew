@@ -58,18 +58,18 @@ public class DashboardAuthorAdapter extends RecyclerView.Adapter<DashboardAuthor
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-//        Glide.with(context).load(Constants.IMAGES_URL + mDataSet.get(position).getImageUrl())
-//                .dontAnimate()
-//                .error(R.drawable.avatar)
-//                .placeholder(R.drawable.avatar)
-//                .into(holder.authorImage);
+        Glide.with(context).load(Constants.IMAGES_URL + mDataSet.get(position).getImageUrl())
+                .dontAnimate()
+                .error(R.drawable.avatar)
+                .placeholder(R.drawable.avatar)
+                .into(holder.authorImage);
 
         holder.authorName.setText(mDataSet.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return mDataSet.size();
+        return mDataSet.size() > 12 ? 12 : mDataSet.size();
     }
 
 }

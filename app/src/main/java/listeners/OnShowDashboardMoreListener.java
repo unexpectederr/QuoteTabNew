@@ -3,19 +3,24 @@ package listeners;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Transformation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+
 import activities.quotetabnew.R;
 
-import io.codetail.animation.ViewAnimationUtils;
-import io.codetail.widget.RevealFrameLayout;
+import adapters.DashboardAuthorAdapter;
+import helpers.main.AppHelper;
+import helpers.other.ExpandableFrame;
+import models.dashboard.DashboardData;
+import models.dashboard.PopularAuthor;
 
 
 /**
@@ -25,92 +30,137 @@ import io.codetail.widget.RevealFrameLayout;
 public class OnShowDashboardMoreListener implements View.OnClickListener {
 
     Activity mActivity;
-    boolean ex;
+    DashboardData mData;
 
-    public OnShowDashboardMoreListener(Activity activity) {
+    public OnShowDashboardMoreListener(Activity activity, DashboardData data) {
         this.mActivity = activity;
+        this.mData = data;
     }
 
     @Override
     public void onClick(View view) {
 
-        final View authorInfo = mActivity.findViewById(R.id.author_info);
-        ((RevealFrameLayout) authorInfo.getParent()).setVisibility(View.VISIBLE);
+        View dashboardMore = mActivity.findViewById(R.id.dashboard_more);
+        ImageView closeBtn = (ImageView) dashboardMore.findViewById(R.id.close_info);
 
-        // get the center for the clipping circle
-        final int cx = (view.getLeft() + view.getRight()) / 2;
-        final int cy = (view.getTop() + view.getBottom()) / 2;
-
-        // get the final radius for the clipping circle
-        int dx = Math.max(cx, authorInfo.getWidth() - cx);
-        int dy = Math.max(cy, authorInfo.getHeight() - cy);
-        final float finalRadius = (float) Math.hypot(dx, dy);
-
-        // Android native animator
-        final Animator animator =
-                ViewAnimationUtils.createCircularReveal(authorInfo, cx, cy, 0, finalRadius);
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.setDuration(600);
-        animator.start();
-
-        ImageView closeInfo = (ImageView) authorInfo.findViewById(R.id.close_info);
-        closeInfo.setOnClickListener(new OnCloseAuthorInfoListener(authorInfo, cx, cy, finalRadius));
+        AppHelper.revealLayout(dashboardMore, view, closeBtn);
 
         bindDashboardMore();
+
+        initializePopularAuthors();
+        initializeTodayBirthdays();
+        initializeTrendingAuthors();
     }
 
     private void bindDashboardMore() {
 
-        LinearLayout popularAuthors = (LinearLayout) mActivity.findViewById(R.id.popular_authors_btn);
-        final FrameLayout expandableLayout
-                = (FrameLayout) mActivity.findViewById(R.id.popular_authors_expandable);
+        LinearLayout dashboardMoreMain = (LinearLayout) mActivity.findViewById(R.id.dashboard_more_main);
 
-        popularAuthors.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ex) {
-                    collapse(expandableLayout, 1000, 0);
-                    ex = false;
-                } else {
-                    expand(expandableLayout, 1000, 600);
-                    ex = true;
+        LinearLayout popularAuthors = (LinearLayout) mActivity.findViewById(R.id.popular_authors_btn);
+        popularAuthors.setOnClickListener(new ExpandClickListener(dashboardMoreMain));
+
+        LinearLayout todayBirthdays = (LinearLayout) mActivity.findViewById(R.id.today_birthdays_btn);
+        todayBirthdays.setOnClickListener(new ExpandClickListener(dashboardMoreMain));
+
+        LinearLayout trendingAuthors = (LinearLayout) mActivity.findViewById(R.id.trending_authors_btn);
+        trendingAuthors.setOnClickListener(new ExpandClickListener(dashboardMoreMain));
+    }
+
+    private class ExpandClickListener implements View.OnClickListener {
+
+        LinearLayout mDashboardMoreMain;
+
+        public ExpandClickListener(LinearLayout dashboardMoreMain) {
+            mDashboardMoreMain = dashboardMoreMain;
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            for (int i = 0; mDashboardMoreMain.getChildCount() > i; i++) {
+
+                if (mDashboardMoreMain.getChildAt(i) instanceof ExpandableFrame) {
+
+                    if (mDashboardMoreMain.getChildAt(i).getTag().equals(view.getTag())) {
+
+                        if (((ExpandableFrame) mDashboardMoreMain.getChildAt(i)).isExpanded()) {
+                            AppHelper.collapse(mDashboardMoreMain.getChildAt(i), 600, 0);
+                            ((ExpandableFrame) mDashboardMoreMain.getChildAt(i)).setExpanded(false);
+                        } else {
+                            AppHelper.expand(mDashboardMoreMain.getChildAt(i), 600, 1300);
+                            ((ExpandableFrame) mDashboardMoreMain.getChildAt(i)).setExpanded(true);
+                        }
+
+                    } else {
+
+                        if (((ExpandableFrame) mDashboardMoreMain.getChildAt(i)).isExpanded()) {
+                            AppHelper.collapse(mDashboardMoreMain.getChildAt(i), 600, 0);
+                            ((ExpandableFrame) mDashboardMoreMain.getChildAt(i)).setExpanded(false);
+                        }
+                    }
                 }
             }
-        });
+        }
+    }
+
+    private void initializePopularAuthors() {
+
+        RecyclerView mRecyclerView = (RecyclerView) mActivity.findViewById(R.id.popular_authors);
+        mRecyclerView.setHasFixedSize(true);
+
+        GridLayoutManager mLayoutManager = new GridLayoutManager(mActivity, 4);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        DashboardAuthorAdapter mAdapter = new DashboardAuthorAdapter(mData.getPopularAuthors(), mActivity);
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 
-    public static void expand(final View v, int duration, int targetHeight) {
+    private void initializeTodayBirthdays() {
 
-        int prevHeight  = v.getHeight();
+        ArrayList<PopularAuthor> todayBirthdays = new ArrayList<>();
 
-        v.setVisibility(View.VISIBLE);
-        ValueAnimator valueAnimator = ValueAnimator.ofInt(prevHeight, targetHeight);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                v.getLayoutParams().height = (int) animation.getAnimatedValue();
-                v.requestLayout();
-            }
-        });
-        valueAnimator.setInterpolator(new DecelerateInterpolator());
-        valueAnimator.setDuration(duration);
-        valueAnimator.start();
+        for (int i = 0; i < mData.getTodaysBirthdays().size(); i++) {
+
+            PopularAuthor author = new PopularAuthor();
+            author.setAuthorId(mData.getTodaysBirthdays().get(i).getId());
+            author.setImageUrl(mData.getTodaysBirthdays().get(i).getAuthorFields().getImageUrl());
+            author.setName(mData.getTodaysBirthdays().get(i).getAuthorFields().getName());
+
+            todayBirthdays.add(author);
+        }
+
+        RecyclerView birthdaysRecycler = (RecyclerView) mActivity.findViewById(R.id.today_birthdays);
+        birthdaysRecycler.setHasFixedSize(true);
+
+        GridLayoutManager manager = new GridLayoutManager(mActivity, 4);
+        birthdaysRecycler.setLayoutManager(manager);
+
+        DashboardAuthorAdapter adapter = new DashboardAuthorAdapter(todayBirthdays, mActivity);
+        birthdaysRecycler.setAdapter(adapter);
     }
 
-    public static void collapse(final View v, int duration, int targetHeight) {
-        int prevHeight  = v.getHeight();
-        ValueAnimator valueAnimator = ValueAnimator.ofInt(prevHeight, targetHeight);
-        valueAnimator.setInterpolator(new DecelerateInterpolator());
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                v.getLayoutParams().height = (int) animation.getAnimatedValue();
-                v.requestLayout();
-            }
-        });
-        valueAnimator.setInterpolator(new DecelerateInterpolator());
-        valueAnimator.setDuration(duration);
-        valueAnimator.start();
+    private void initializeTrendingAuthors() {
+
+        ArrayList<PopularAuthor> trendingAuthors = new ArrayList<>();
+
+        for (int i = 0; i < mData.getTrendingAuthors().size(); i++) {
+
+            PopularAuthor author = new PopularAuthor();
+            author.setAuthorId(mData.getTrendingAuthors().get(i).getId());
+            author.setImageUrl(mData.getTrendingAuthors().get(i).getAuthorFields().getImageUrl());
+            author.setName(mData.getTrendingAuthors().get(i).getAuthorFields().getName());
+
+            trendingAuthors.add(author);
+        }
+
+        RecyclerView trendingAuthorsRecycler = (RecyclerView) mActivity.findViewById(R.id.trending_authors);
+        trendingAuthorsRecycler.setHasFixedSize(true);
+
+        GridLayoutManager manager = new GridLayoutManager(mActivity, 4);
+        trendingAuthorsRecycler.setLayoutManager(manager);
+
+        DashboardAuthorAdapter adapter = new DashboardAuthorAdapter(trendingAuthors, mActivity);
+        trendingAuthorsRecycler.setAdapter(adapter);
     }
 }

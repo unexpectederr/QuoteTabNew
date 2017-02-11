@@ -11,14 +11,14 @@ import io.codetail.widget.RevealFrameLayout;
  * Created by unexpected_err on 02/02/2017.
  */
 
-public class OnCloseAuthorInfoListener implements View.OnClickListener{
+public class OnCloseRevealedLayoutListener implements View.OnClickListener{
 
     private View authorInfo;
     private int cx;
     private int cy;
     private float finalRadius;
 
-    OnCloseAuthorInfoListener(View authorInfo, int cx, int cy, float finalRadius) {
+    public OnCloseRevealedLayoutListener(View authorInfo, int cx, int cy, float finalRadius) {
         this.authorInfo = authorInfo;
         this.cx = cx;
         this.cy = cy;

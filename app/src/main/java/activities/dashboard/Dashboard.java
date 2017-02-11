@@ -10,8 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +32,6 @@ import activities.quotes.QuotesByTag;
 import activities.quotes.TopQuotes;
 import activities.quotetabnew.R;
 import activities.topics.Topics;
-import adapters.DashboardAuthorAdapter;
 import adapters.DashboardPagerAdapter;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
@@ -43,9 +40,7 @@ import helpers.other.ParallaxPageTransformer;
 import helpers.other.ReadAndWriteToFile;
 import listeners.OnShowDashboardMoreListener;
 import models.authors.AuthorDetails;
-import models.authors.AuthorFields;
 import models.dashboard.DashboardData;
-import models.dashboard.PopularAuthor;
 import models.dashboard.TopPhotos;
 import models.quotes.Quote;
 import networking.QuoteTabApi;
@@ -58,7 +53,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     int rubberOldPosition;
     ViewPager mPager;
-    ArrayList<TopPhotos> items;
+    ArrayList<TopPhotos> mItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +89,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         Glide.with(Dashboard.this).load(R.drawable.splash).into(logo);
 
         getDashboardData(toolbar, splashScreen);
-
-        TextView moreIcon = (TextView) findViewById(R.id.more_icon);
-        moreIcon.setOnClickListener(new OnShowDashboardMoreListener(this));
 
         preloadImages();
 
@@ -167,44 +159,17 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
                 hideSplashScreen(splashScreen, toolbar);
 
-                items = new ArrayList<>();
+                mItems = new ArrayList<>();
 
                 for (int i = 0; response.body().getTopPhotos().size() > i; i++) {
 
-                    items.add(response.body().getTopPhotos().get(i));
+                    mItems.add(response.body().getTopPhotos().get(i));
                 }
 
-                initializeDashboard(items);
+                initializeDashboard(mItems);
 
-                initializePopularAuthors(response.body().getPopularAuthors());
-
-                ArrayList<PopularAuthor> todaysBirthdays = new ArrayList<>();
-
-                for (int i = 0; i < response.body().getTodaysBirthdays().size(); i++) {
-
-                    PopularAuthor author = new PopularAuthor();
-                    author.setAuthorId(response.body().getTodaysBirthdays().get(i).getId());
-                    author.setImageUrl(response.body().getTodaysBirthdays().get(i).getAuthorFields().getImageUrl());
-                    author.setName(response.body().getTodaysBirthdays().get(i).getAuthorFields().getName());
-
-                    todaysBirthdays.add(author);
-                }
-
-                initializeTodaysBirthdays(todaysBirthdays);
-
-                ArrayList<PopularAuthor> trendingAuthors = new ArrayList<>();
-
-                for (int i = 0; i < response.body().getTrendingAuthors().size(); i++) {
-
-                    PopularAuthor author = new PopularAuthor();
-                    author.setAuthorId(response.body().getTrendingAuthors().get(i).getId());
-                    author.setImageUrl(response.body().getTrendingAuthors().get(i).getAuthorFields().getImageUrl());
-                    author.setName(response.body().getTrendingAuthors().get(i).getAuthorFields().getName());
-
-                    trendingAuthors.add(author);
-                }
-
-                initializeTrendingAuthors(trendingAuthors);
+                TextView moreIcon = (TextView) findViewById(R.id.more_icon);
+                moreIcon.setOnClickListener(new OnShowDashboardMoreListener(Dashboard.this, response.body()));
             }
 
             @Override
@@ -253,43 +218,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         }, 4000);
     }
 
-    private void initializePopularAuthors(ArrayList<PopularAuthor> popularAuthorsList) {
-
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.popular_authors);
-        mRecyclerView.setHasFixedSize(true);
-
-        GridLayoutManager mLayoutManager = new GridLayoutManager(Dashboard.this, 3);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        DashboardAuthorAdapter mAdapter = new DashboardAuthorAdapter(popularAuthorsList, Dashboard.this);
-        mRecyclerView.setAdapter(mAdapter);
-
-    }
-
-    private void initializeTodaysBirthdays(ArrayList<PopularAuthor> todaysBirthdaysList) {
-
-        RecyclerView birthdaysRecycler = (RecyclerView) findViewById(R.id.todays_birthdays);
-        birthdaysRecycler.setHasFixedSize(true);
-
-        GridLayoutManager manager = new GridLayoutManager(Dashboard.this, 3);
-        birthdaysRecycler.setLayoutManager(manager);
-
-        DashboardAuthorAdapter adapter = new DashboardAuthorAdapter(todaysBirthdaysList, Dashboard.this);
-        birthdaysRecycler.setAdapter(adapter);
-    }
-
-    private void initializeTrendingAuthors(ArrayList<PopularAuthor> trendingAuthors) {
-
-        RecyclerView trendingAuthorsRecycler = (RecyclerView) findViewById(R.id.trending_authors);
-        trendingAuthorsRecycler.setHasFixedSize(true);
-
-        GridLayoutManager manager = new GridLayoutManager(Dashboard.this, 3);
-        trendingAuthorsRecycler.setLayoutManager(manager);
-
-        DashboardAuthorAdapter adapter = new DashboardAuthorAdapter(trendingAuthors, Dashboard.this);
-        trendingAuthorsRecycler.setAdapter(adapter);
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -303,7 +231,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+
         int id = item.getItemId();
 
         if (id == R.id.nav_authors) {
@@ -337,7 +265,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             if (resultCode == FavoriteQuotes.RESULT_OK) {
 
                 ArrayList<Quote> favoriteQuotes = (ArrayList<Quote>) data.getSerializableExtra("result");
-                DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), items, favoriteQuotes, null);
+                DashboardPagerAdapter mPagerAdapter =
+                        new DashboardPagerAdapter(getSupportFragmentManager(), mItems, favoriteQuotes, null);
                 mPager.setAdapter(mPagerAdapter);
 
             } else if (resultCode == QuotesByTag.RESULT_CANCELED) {

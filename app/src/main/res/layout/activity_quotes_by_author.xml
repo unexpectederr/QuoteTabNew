@@ -251,7 +251,7 @@
                         android:layout_weight="1"
                         android:text="John Doe, Android Dev"
                         android:textColor="@android:color/white"
-                        android:textSize="15sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"/>
 
                     <TextView
@@ -262,17 +262,17 @@
                         android:layout_weight="1"
                         android:text="Born in Rocken, Germany"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold"/>
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:id="@+id/info_text_birthday"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginTop="2dp"
                         android:text="Born on October 15, 1844"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"/>
+                        android:textSize="15sp"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -285,6 +285,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="10dp"
+                android:textSize="15sp"
                 android:layout_weight="1"
                 android:lineSpacingExtra="8sp"
                 android:text="Friedrich Wilhelm Nietzschewas a German philosopher, cultural critic, poet and Latin and Greek scholar whose work has exerted a profound influence on Western philosophy and modern intellectual history. He began his career as a classical philologist before turning to philosophy. He became the youngest ever to hold the Chair of Classical Philology at the University of Basel in 1869, at the age of 24. Nietzsche resigned in 1879 due to health problems that plagued him most of his life, and..."
