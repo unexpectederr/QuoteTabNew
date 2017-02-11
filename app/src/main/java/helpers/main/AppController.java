@@ -25,6 +25,7 @@ import java.util.Random;
 public class AppController extends Application {
 
     static ArrayList<Integer> bitmapIndexes = new ArrayList<>();
+    static SimpleTarget target;
 
     @Override
     public void onCreate() {
@@ -33,40 +34,72 @@ public class AppController extends Application {
 
 
     public static void loadImageIntoView(final Context ctx, final int index,
-                                         final ImageView img, final boolean isNewIndex) {
+                                         final ImageView img, final boolean isNewIndex,
+                                         int height, int width) {
 
         if (ctx == null || (ctx instanceof Activity && ((Activity) ctx).isDestroyed()))
             return;
+        if (height == 0 && width == 0) {
+            target = new SimpleTarget<Bitmap>() {
 
-        final SimpleTarget target = new SimpleTarget<Bitmap>(400, 300) {
+                @Override
+                public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
 
-            @Override
-            public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+                    if (img != null) {
 
-                if (img != null) {
+                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{
+                                new ColorDrawable(Color.TRANSPARENT),
+                                new BitmapDrawable(ctx.getResources(), bitmap)
+                        });
 
-                    TransitionDrawable td = new TransitionDrawable(new Drawable[]{
-                            new ColorDrawable(Color.TRANSPARENT),
-                            new BitmapDrawable(ctx.getResources(), bitmap)
-                    });
+                        img.setImageDrawable(td);
 
-                    img.setImageDrawable(td);
+                        td.startTransition(300);
+                    }
 
-                    td.startTransition(300);
+                    if (isNewIndex)
+                        AppController.addBitmapIndex(index);
                 }
 
-                if (isNewIndex)
-                    AppController.addBitmapIndex(index);
-            }
+                @Override
+                public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                    super.onLoadFailed(e, errorDrawable);
 
-            @Override
-            public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                super.onLoadFailed(e, errorDrawable);
+                    AppController.loadImageIntoView(ctx, index + 1, null, true, 0, 0);
 
-                AppController.loadImageIntoView(ctx, index + 1, null, true);
+                }
+            };
+        } else {
+            target = new SimpleTarget<Bitmap>(height, width) {
 
-            }
-        };
+                @Override
+                public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+
+                    if (img != null) {
+
+                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{
+                                new ColorDrawable(Color.TRANSPARENT),
+                                new BitmapDrawable(ctx.getResources(), bitmap)
+                        });
+
+                        img.setImageDrawable(td);
+
+                        td.startTransition(300);
+                    }
+
+                    if (isNewIndex)
+                        AppController.addBitmapIndex(index);
+                }
+
+                @Override
+                public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                    super.onLoadFailed(e, errorDrawable);
+
+                    AppController.loadImageIntoView(ctx, index + 1, null, true, 0, 0);
+
+                }
+            };
+        }
 
 
         Glide.with(ctx)
@@ -76,7 +109,7 @@ public class AppController extends Application {
 
 
         if (!isNewIndex)
-            AppController.loadImageIntoView(ctx, (index + 1), null, true);
+            AppController.loadImageIntoView(ctx, (index + 1), null, true, 0, 0);
     }
 
     public static void addBitmapIndex(int index) {

@@ -18,15 +18,29 @@
         android:orientation="vertical"
         android:paddingTop="10dp"
         android:background="@android:color/white"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="280dp"
+            android:layout_height="200dp"
             android:id="@+id/popular_authors"
             android:paddingLeft="8dp"
             android:clipToPadding="false"
             />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/todays_birthdays">
+
+        </android.support.v7.widget.RecyclerView>
+        
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/trending_authors">
+
+        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 

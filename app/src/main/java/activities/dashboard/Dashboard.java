@@ -43,6 +43,7 @@ import helpers.other.ParallaxPageTransformer;
 import helpers.other.ReadAndWriteToFile;
 import listeners.OnShowDashboardMoreListener;
 import models.authors.AuthorDetails;
+import models.authors.AuthorFields;
 import models.dashboard.DashboardData;
 import models.dashboard.PopularAuthor;
 import models.dashboard.TopPhotos;
@@ -176,6 +177,34 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 initializeDashboard(items);
 
                 initializePopularAuthors(response.body().getPopularAuthors());
+
+                ArrayList<PopularAuthor> todaysBirthdays = new ArrayList<>();
+
+                for (int i = 0; i < response.body().getTodaysBirthdays().size(); i++) {
+
+                    PopularAuthor author = new PopularAuthor();
+                    author.setAuthorId(response.body().getTodaysBirthdays().get(i).getId());
+                    author.setImageUrl(response.body().getTodaysBirthdays().get(i).getAuthorFields().getImageUrl());
+                    author.setName(response.body().getTodaysBirthdays().get(i).getAuthorFields().getName());
+
+                    todaysBirthdays.add(author);
+                }
+
+                initializeTodaysBirthdays(todaysBirthdays);
+
+                ArrayList<PopularAuthor> trendingAuthors = new ArrayList<>();
+
+                for (int i = 0; i < response.body().getTrendingAuthors().size(); i++) {
+
+                    PopularAuthor author = new PopularAuthor();
+                    author.setAuthorId(response.body().getTrendingAuthors().get(i).getId());
+                    author.setImageUrl(response.body().getTrendingAuthors().get(i).getAuthorFields().getImageUrl());
+                    author.setName(response.body().getTrendingAuthors().get(i).getAuthorFields().getName());
+
+                    trendingAuthors.add(author);
+                }
+
+                initializeTrendingAuthors(trendingAuthors);
             }
 
             @Override
@@ -194,7 +223,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         ImageView navImage = (ImageView) findViewById(R.id.nav_image);
         AppController.loadImageIntoView(Dashboard.this, new Random().nextInt(
-                Constants.NUMBER_OF_COVERS), navImage, true);
+                Constants.NUMBER_OF_COVERS), navImage, true, 400, 300);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -218,7 +247,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
                 for (int i = 0; Constants.NUMBER_OF_IMAGES_TO_PRELOAD > i; i++) {
                     AppController.loadImageIntoView(Dashboard.this, new Random().nextInt(
-                            Constants.NUMBER_OF_COVERS), null, true);
+                            Constants.NUMBER_OF_COVERS), null, true, 0, 0);
                 }
             }
         }, 4000);
@@ -232,9 +261,33 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         GridLayoutManager mLayoutManager = new GridLayoutManager(Dashboard.this, 3);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        DashboardAuthorAdapter mAdapter = new DashboardAuthorAdapter(Dashboard.this, popularAuthorsList);
+        DashboardAuthorAdapter mAdapter = new DashboardAuthorAdapter(popularAuthorsList, Dashboard.this);
         mRecyclerView.setAdapter(mAdapter);
 
+    }
+
+    private void initializeTodaysBirthdays(ArrayList<PopularAuthor> todaysBirthdaysList) {
+
+        RecyclerView birthdaysRecycler = (RecyclerView) findViewById(R.id.todays_birthdays);
+        birthdaysRecycler.setHasFixedSize(true);
+
+        GridLayoutManager manager = new GridLayoutManager(Dashboard.this, 3);
+        birthdaysRecycler.setLayoutManager(manager);
+
+        DashboardAuthorAdapter adapter = new DashboardAuthorAdapter(todaysBirthdaysList, Dashboard.this);
+        birthdaysRecycler.setAdapter(adapter);
+    }
+
+    private void initializeTrendingAuthors(ArrayList<PopularAuthor> trendingAuthors) {
+
+        RecyclerView trendingAuthorsRecycler = (RecyclerView) findViewById(R.id.trending_authors);
+        trendingAuthorsRecycler.setHasFixedSize(true);
+
+        GridLayoutManager manager = new GridLayoutManager(Dashboard.this, 3);
+        trendingAuthorsRecycler.setLayoutManager(manager);
+
+        DashboardAuthorAdapter adapter = new DashboardAuthorAdapter(trendingAuthors, Dashboard.this);
+        trendingAuthorsRecycler.setAdapter(adapter);
     }
 
     @Override

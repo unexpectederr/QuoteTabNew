@@ -62,7 +62,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
             mDataSet.get(position).setImageId(AppController.getBitmapIndex());
 
         AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
-                holder.getBackgroundImage(), false);
+                holder.getBackgroundImage(), false, 400, 300);
 
         holder.topicName.setText(mDataSet.get(position).getSource().getTopicName());
 

@@ -75,7 +75,7 @@ public class DashboardFragment extends Fragment {
 
         ImageView cardImage = (android.widget.ImageView) view.findViewById(R.id.backdrop);
 
-        AppController.loadImageIntoView(getContext(), new Random().nextInt(Constants.NUMBER_OF_COVERS), cardImage, true);
+        AppController.loadImageIntoView(getContext(), new Random().nextInt(Constants.NUMBER_OF_COVERS), cardImage, true, 0, 0);
 
         CircleImageView authorImage = (CircleImageView) view.findViewById(R.id.author_image);
         Glide.with(getContext())

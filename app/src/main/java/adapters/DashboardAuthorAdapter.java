@@ -7,10 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import activities.quotetabnew.R;
 import de.hdodenhof.circleimageview.CircleImageView;
+import helpers.main.Constants;
+import models.authors.AuthorDetails;
+import models.authors.AuthorFields;
 import models.dashboard.PopularAuthor;
 
 /**
@@ -19,13 +24,14 @@ import models.dashboard.PopularAuthor;
 
 public class DashboardAuthorAdapter extends RecyclerView.Adapter<DashboardAuthorAdapter.MyViewHolder> {
 
-    private Context mContext;
-    private ArrayList<PopularAuthor> popularAuthors;
+    private ArrayList<PopularAuthor> mDataSet;
+    private Context context;
 
-    public DashboardAuthorAdapter(Context context, ArrayList<PopularAuthor> popularAuthorsList) {
+    public DashboardAuthorAdapter(ArrayList<PopularAuthor> mDataSet, Context context) {
 
-        this.mContext = context;
-        this.popularAuthors = popularAuthorsList;
+        this.mDataSet = mDataSet;
+        this.context = context;
+
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -52,18 +58,18 @@ public class DashboardAuthorAdapter extends RecyclerView.Adapter<DashboardAuthor
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-//        Glide.with(mContext).load(Constants.IMAGES_URL + popularAuthors.get(position).getImageUrl())
+//        Glide.with(context).load(Constants.IMAGES_URL + mDataSet.get(position).getImageUrl())
 //                .dontAnimate()
 //                .error(R.drawable.avatar)
 //                .placeholder(R.drawable.avatar)
 //                .into(holder.authorImage);
 
-        holder.authorName.setText(popularAuthors.get(position).getName());
+        holder.authorName.setText(mDataSet.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return popularAuthors.size();
+        return mDataSet.size();
     }
 
 }
