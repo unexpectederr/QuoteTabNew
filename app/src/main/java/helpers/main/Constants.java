@@ -13,6 +13,9 @@ public class Constants {
     public static final int NUMBER_OF_COVERS = 2493;
     public static final int NUMBER_OF_IMAGES_TO_PRELOAD = 10;
 
+    public static final int RESIZED_WIDTH = 400;
+    public static final int RESIZED_HEIGHT = 300;
+
     public static final String QUOTE_TAG = "QUOTE_TAG";
     public static final String AUTHOR_ID = "AUTHOR_ID";
 

@@ -131,7 +131,7 @@ public class RotatingImages extends RelativeLayout {
         lastIndex = index;
 
         AppController.loadImageIntoView(((ContextWrapper) getContext()).getBaseContext(),
-                index, img, true, 0, 0);
+                index, img, true, false);
 
     }
 

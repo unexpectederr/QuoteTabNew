@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -35,72 +36,41 @@ public class AppController extends Application {
 
     public static void loadImageIntoView(final Context ctx, final int index,
                                          final ImageView img, final boolean isNewIndex,
-                                         int height, int width) {
+                                         final boolean loadOriginal) {
 
         if (ctx == null || (ctx instanceof Activity && ((Activity) ctx).isDestroyed()))
             return;
-        if (height == 0 && width == 0) {
-            target = new SimpleTarget<Bitmap>() {
 
-                @Override
-                public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+        target = new SimpleTarget<Bitmap>(loadOriginal ? Target.SIZE_ORIGINAL : Constants.RESIZED_WIDTH,
+                loadOriginal ? Target.SIZE_ORIGINAL : Constants.RESIZED_HEIGHT) {
 
-                    if (img != null) {
+            @Override
+            public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
 
-                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{
-                                new ColorDrawable(Color.TRANSPARENT),
-                                new BitmapDrawable(ctx.getResources(), bitmap)
-                        });
+                if (img != null) {
 
-                        img.setImageDrawable(td);
+                    TransitionDrawable td = new TransitionDrawable(new Drawable[]{
+                            new ColorDrawable(Color.TRANSPARENT),
+                            new BitmapDrawable(ctx.getResources(), bitmap)
+                    });
 
-                        td.startTransition(300);
-                    }
+                    img.setImageDrawable(td);
 
-                    if (isNewIndex)
-                        AppController.addBitmapIndex(index);
+                    td.startTransition(300);
                 }
 
-                @Override
-                public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                    super.onLoadFailed(e, errorDrawable);
+                if (isNewIndex)
+                    AppController.addBitmapIndex(index);
+            }
 
-                    AppController.loadImageIntoView(ctx, index + 1, null, true, 0, 0);
+            @Override
+            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                super.onLoadFailed(e, errorDrawable);
 
-                }
-            };
-        } else {
-            target = new SimpleTarget<Bitmap>(height, width) {
+                AppController.loadImageIntoView(ctx, index + 1, img, true, loadOriginal);
 
-                @Override
-                public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-
-                    if (img != null) {
-
-                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{
-                                new ColorDrawable(Color.TRANSPARENT),
-                                new BitmapDrawable(ctx.getResources(), bitmap)
-                        });
-
-                        img.setImageDrawable(td);
-
-                        td.startTransition(300);
-                    }
-
-                    if (isNewIndex)
-                        AppController.addBitmapIndex(index);
-                }
-
-                @Override
-                public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                    super.onLoadFailed(e, errorDrawable);
-
-                    AppController.loadImageIntoView(ctx, index + 1, null, true, 0, 0);
-
-                }
-            };
-        }
-
+            }
+        };
 
         Glide.with(ctx)
                 .load(Constants.COVER_IMAGES_URL + index + ".jpg")
@@ -109,7 +79,7 @@ public class AppController extends Application {
 
 
         if (!isNewIndex)
-            AppController.loadImageIntoView(ctx, (index + 1), null, true, 0, 0);
+            AppController.loadImageIntoView(ctx, (index + 1), null, true, loadOriginal);
     }
 
     public static void addBitmapIndex(int index) {

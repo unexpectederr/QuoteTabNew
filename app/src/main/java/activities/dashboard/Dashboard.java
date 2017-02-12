@@ -188,7 +188,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         ImageView navImage = (ImageView) findViewById(R.id.nav_image);
         AppController.loadImageIntoView(Dashboard.this, new Random().nextInt(
-                Constants.NUMBER_OF_COVERS), navImage, true, 400, 300);
+                Constants.NUMBER_OF_COVERS), navImage, true, false);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -212,7 +212,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
                 for (int i = 0; Constants.NUMBER_OF_IMAGES_TO_PRELOAD > i; i++) {
                     AppController.loadImageIntoView(Dashboard.this, new Random().nextInt(
-                            Constants.NUMBER_OF_COVERS), null, true, 0, 0);
+                            Constants.NUMBER_OF_COVERS), null, true, true);
                 }
             }
         }, 4000);
