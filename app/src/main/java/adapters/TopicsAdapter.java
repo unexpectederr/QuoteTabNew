@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yayandroid.parallaxrecyclerview.ParallaxViewHolder;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 import activities.quotetabnew.R;
 import helpers.main.AppController;
+import helpers.main.Constants;
 import listeners.OnTagClickListener;
 import models.topics.Topic;
 
@@ -24,6 +27,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
 
     private Context context;
     private ArrayList<Topic> mDataSet;
+    private ConcurrentHashMap<Integer, Integer> map = new ConcurrentHashMap<>();
 
     public TopicsAdapter(Context context, ArrayList<Topic> mDataSet) {
 
@@ -57,6 +61,12 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(TopicsAdapter.ViewHolder holder, int position) {
+
+        //FIXME naci neko cool rjesenje za dupli load slika
+        if(map.containsKey(position)){
+            return;
+        }
+        map.put(position, position);
 
         if (mDataSet.get(position).getImageId() == 0)
             mDataSet.get(position).setImageId(AppController.getBitmapIndex());
