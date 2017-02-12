@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -18,98 +19,44 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import java.util.ArrayList;
 import java.util.Random;
 
+import helpers.other.SimpleTargetBitmap;
+
 /**
  * Created by unexpected_err on 17/10/2016.
  */
 
 public class AppController extends Application {
 
-    static ArrayList<Integer> bitmapIndexes = new ArrayList<>();
-    static SimpleTarget target;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
+    private static ArrayList<Integer> bitmapIndexes = new ArrayList<>();
 
     public static void loadImageIntoView(final Context ctx, final int index,
                                          final ImageView img, final boolean isNewIndex,
                                          int height, int width) {
+        if (contextExists(ctx)) {
+            SimpleTarget<Bitmap> target = getSimpleTarget(ctx, index, img, isNewIndex, height, width);
+            Glide.with(ctx)
+                    .load(Constants.COVER_IMAGES_URL + index + ".jpg")
+                    .asBitmap()
+                    .into(target);
 
-        if (ctx == null || (ctx instanceof Activity && ((Activity) ctx).isDestroyed()))
-            return;
-        if (height == 0 && width == 0) {
-            target = new SimpleTarget<Bitmap>() {
-
-                @Override
-                public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-
-                    if (img != null) {
-
-                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{
-                                new ColorDrawable(Color.TRANSPARENT),
-                                new BitmapDrawable(ctx.getResources(), bitmap)
-                        });
-
-                        img.setImageDrawable(td);
-
-                        td.startTransition(300);
-                    }
-
-                    if (isNewIndex)
-                        AppController.addBitmapIndex(index);
-                }
-
-                @Override
-                public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                    super.onLoadFailed(e, errorDrawable);
-
-                    AppController.loadImageIntoView(ctx, index + 1, null, true, 0, 0);
-
-                }
-            };
-        } else {
-            target = new SimpleTarget<Bitmap>(height, width) {
-
-                @Override
-                public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-
-                    if (img != null) {
-
-                        TransitionDrawable td = new TransitionDrawable(new Drawable[]{
-                                new ColorDrawable(Color.TRANSPARENT),
-                                new BitmapDrawable(ctx.getResources(), bitmap)
-                        });
-
-                        img.setImageDrawable(td);
-
-                        td.startTransition(300);
-                    }
-
-                    if (isNewIndex)
-                        AppController.addBitmapIndex(index);
-                }
-
-                @Override
-                public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                    super.onLoadFailed(e, errorDrawable);
-
-                    AppController.loadImageIntoView(ctx, index + 1, null, true, 0, 0);
-
-                }
-            };
+            if (!isNewIndex)
+                AppController.loadImageIntoView(ctx, (index + 1), null, true, 0, 0);
         }
+    }
 
+    @NonNull
+    private static SimpleTarget<Bitmap> getSimpleTarget(final Context ctx, final int index, final ImageView img, final boolean isNewIndex, final int height, final int width) {
+        SimpleTarget<Bitmap> target;
+        if (height == 0 && width == 0) {
+            target = new SimpleTargetBitmap(ctx, index, img, isNewIndex);
+        } else {
+            target = new SimpleTargetBitmap(ctx, index, img, isNewIndex, width, height);
+        }
+        return target;
+    }
 
-        Glide.with(ctx)
-                .load(Constants.COVER_IMAGES_URL + index + ".jpg")
-                .asBitmap()
-                .into(target);
-
-
-        if (!isNewIndex)
-            AppController.loadImageIntoView(ctx, (index + 1), null, true, 0, 0);
+    private static boolean contextExists(Context ctx) {
+        return !(ctx == null || ((ctx instanceof Activity) && ((Activity) ctx).isDestroyed()));
     }
 
     public static void addBitmapIndex(int index) {
@@ -133,5 +80,12 @@ public class AppController extends Application {
         return index;
 
     }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+
 }
 
