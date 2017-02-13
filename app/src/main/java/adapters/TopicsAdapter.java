@@ -27,7 +27,6 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
 
     private Context context;
     private ArrayList<Topic> mDataSet;
-    private ConcurrentHashMap<Integer, Integer> map = new ConcurrentHashMap<>();
 
     public TopicsAdapter(Context context, ArrayList<Topic> mDataSet) {
 
@@ -61,12 +60,6 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(TopicsAdapter.ViewHolder holder, int position) {
-
-        //FIXME naci neko cool rjesenje za dupli load slika
-        if(map.containsKey(position)){
-            return;
-        }
-        map.put(position, position);
 
         if (mDataSet.get(position).getImageId() == 0)
             mDataSet.get(position).setImageId(AppController.getBitmapIndex());
