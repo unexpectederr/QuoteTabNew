@@ -9,11 +9,11 @@
     tools:context="activities.quote_maker.QuoteMaker">
 
     <RelativeLayout
-        android:layout_width="match_parent"
         android:id="@+id/top_layout"
+        android:layout_width="match_parent"
         android:layout_height="312dp">
 
-        <ImageView
+        <helpers.other.QuoteImageView
             android:id="@+id/quote_image"
             android:layout_width="match_parent"
             android:layout_height="312dp"
@@ -22,41 +22,41 @@
             android:scaleType="centerCrop"
             android:src="@drawable/raw_37">
 
-        </ImageView>
+        </helpers.other.QuoteImageView>
 
         <TextView
-            android:text="You must be the change you  wish to see in the world."
+            android:id="@+id/quote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/quote"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:gravity="center"
             android:layout_centerInParent="true"
-            android:paddingTop="10dp"
+            android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp"/>
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:text="You must be the change you  wish to see in the world."
+            android:textColor="@android:color/white"
+            android:textSize="20sp"/>
 
         <TextView
-            android:text="Spajaaaaaa"
-            android:layout_marginBottom="40dp"
-            android:textColor="@color/main_color_light"
-            android:layout_below="@+id/quote"
-            android:layout_centerHorizontal="true"
+            android:id="@+id/author_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/author_name"
+            android:layout_below="@+id/quote"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:text="Spajaaaaaa"
+            android:textColor="@color/main_color_light"
             android:textSize="12sp"/>
 
         <ImageView
-            android:alpha="0.6"
-            android:src="@mipmap/ic_launcher"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="30dp"/>
+            android:layout_marginBottom="30dp"
+            android:alpha="0.6"
+            android:src="@mipmap/ic_launcher"/>
     </RelativeLayout>
 
     <LinearLayout

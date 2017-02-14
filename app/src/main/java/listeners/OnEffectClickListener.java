@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 
 import activities.quote_maker.QuoteMaker;
 import helpers.main.Constants;
+import helpers.other.QuoteImageView;
 import jp.wasabeef.glide.transformations.GrayscaleTransformation;
 import jp.wasabeef.glide.transformations.gpu.InvertFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.KuwaharaFilterTransformation;
@@ -21,11 +22,11 @@ import jp.wasabeef.glide.transformations.gpu.ToonFilterTransformation;
 public class OnEffectClickListener implements View.OnClickListener {
 
     private Context context;
-    private ImageView imageView;
+    private QuoteImageView imageView;
     private int position;
 
 
-    public OnEffectClickListener(Context context, ImageView imageView, int position) {
+    public OnEffectClickListener(Context context, QuoteImageView imageView, int position) {
         this.context = context;
         this.imageView = imageView;
         this.position = position;
@@ -37,23 +38,23 @@ public class OnEffectClickListener implements View.OnClickListener {
 
         switch (position) {
             case 0:
-                Glide.with(context).load(Constants.COVER_IMAGES_URL + QuoteMaker.getLargeImageId() + ".jpg")
+                Glide.with(context).load(imageView.getImageUrl())
                         .bitmapTransform(new SepiaFilterTransformation(context)).into(imageView);
                 break;
             case 1:
-                Glide.with(context).load(Constants.COVER_IMAGES_URL + QuoteMaker.getLargeImageId() + ".jpg")
+                Glide.with(context).load(imageView.getImageUrl())
                         .bitmapTransform(new ToonFilterTransformation(context)).into(imageView);
                 break;
             case 2:
-                Glide.with(context).load(Constants.COVER_IMAGES_URL + QuoteMaker.getLargeImageId() + ".jpg")
+                Glide.with(context).load(imageView.getImageUrl())
                         .bitmapTransform(new KuwaharaFilterTransformation(context)).into(imageView);
                 break;
             case 3:
-                Glide.with(context).load(Constants.COVER_IMAGES_URL + QuoteMaker.getLargeImageId() + ".jpg")
+                Glide.with(context).load(imageView.getImageUrl())
                         .bitmapTransform(new GrayscaleTransformation(context)).into(imageView);
                 break;
             case 4:
-                Glide.with(context).load(Constants.COVER_IMAGES_URL + QuoteMaker.getLargeImageId() + ".jpg")
+                Glide.with(context).load(imageView.getImageUrl())
                         .bitmapTransform(new InvertFilterTransformation(context)).into(imageView);
                 break;
         }

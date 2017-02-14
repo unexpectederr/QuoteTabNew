@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 
 import activities.quote_maker.QuoteMaker;
 import helpers.main.Constants;
+import helpers.other.QuoteImageView;
 
 /**
  * Created by Spaja on 14-Feb-17.
@@ -16,10 +17,10 @@ import helpers.main.Constants;
 public class OnImageClickListener implements View.OnClickListener {
 
     private int imageId;
-    private ImageView image;
+    private QuoteImageView image;
     private Context context;
 
-    public OnImageClickListener(Context context, ImageView image, int imageId) {
+    public OnImageClickListener(Context context, QuoteImageView image, int imageId) {
 
         this.context = context;
         this.image = image;
@@ -28,7 +29,7 @@ public class OnImageClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        QuoteMaker.setLargeImageId(imageId);
         Glide.with(context).load(Constants.COVER_IMAGES_URL + imageId + ".jpg").into(image);
+        image.setImageUrl(Constants.COVER_IMAGES_URL + imageId + ".jpg");
     }
 }

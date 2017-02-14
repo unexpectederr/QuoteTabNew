@@ -17,20 +17,12 @@ import adapters.ImageEffectsAdapter;
 import adapters.QuoteImagesAdapter;
 import helpers.main.AppController;
 import helpers.main.Constants;
+import helpers.other.QuoteImageView;
 import models.images.Effect;
 import models.images.ImageSuggestion;
+import models.quotes.Quote;
 
 public class QuoteMaker extends AppCompatActivity {
-
-    private static int largeImageId;
-
-    public static int getLargeImageId() {
-        return largeImageId;
-    }
-
-    public static void setLargeImageId(int largeImageId) {
-        QuoteMaker.largeImageId = largeImageId;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +35,7 @@ public class QuoteMaker extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ArrayList<ImageSuggestion> imageSuggestions = new ArrayList<>();
-        ImageView quoteImage = (ImageView) findViewById(R.id.quote_image);
+        QuoteImageView quoteImage = (QuoteImageView) findViewById(R.id.quote_image);
 
         for (int i = 0; i < 8; i++) {
             ImageSuggestion imageSuggestion = new ImageSuggestion();
@@ -54,7 +46,7 @@ public class QuoteMaker extends AppCompatActivity {
 
         Glide.with(this).load(Constants.COVER_IMAGES_URL + imageSuggestions.get(0).getImageId() + ".jpg")
                 .into(quoteImage);
-        QuoteMaker.setLargeImageId(imageSuggestions.get(0).getImageId());
+        quoteImage.setImageUrl(Constants.COVER_IMAGES_URL + imageSuggestions.get(0).getImageId() + ".jpg");
 
         ArrayList<Effect> effects = new ArrayList<>();
 
@@ -68,14 +60,14 @@ public class QuoteMaker extends AppCompatActivity {
         initializeEffectsRecyclerView(quoteImage, effects);
     }
 
-    private void initializeEffectsRecyclerView(ImageView quoteImage, ArrayList<Effect> effects) {
+    private void initializeEffectsRecyclerView(QuoteImageView quoteImage, ArrayList<Effect> effects) {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.effects_recycler);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(new ImageEffectsAdapter(effects, this, quoteImage));
     }
 
-    private void initializeImagesRecyclerView(ArrayList<ImageSuggestion> imageSuggestions, ImageView quoteImage) {
+    private void initializeImagesRecyclerView(ArrayList<ImageSuggestion> imageSuggestions, QuoteImageView quoteImage) {
 
         RecyclerView imagesRecycler = (RecyclerView) findViewById(R.id.background_images_recycler);
         GridLayoutManager manager = new GridLayoutManager(this, 2, LinearLayoutManager.HORIZONTAL, false);

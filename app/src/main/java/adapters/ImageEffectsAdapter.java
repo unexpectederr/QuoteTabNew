@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import activities.quotetabnew.R;
 import helpers.main.Constants;
+import helpers.other.QuoteImageView;
 import listeners.OnEffectClickListener;
 import models.images.Effect;
 
@@ -29,9 +30,9 @@ public class ImageEffectsAdapter extends RecyclerView.Adapter<ImageEffectsAdapte
 
     private ArrayList<Effect> mDataSet;
     private Context context;
-    private ImageView imageLarge;
+    private QuoteImageView imageLarge;
 
-    public ImageEffectsAdapter(ArrayList<Effect> mDataSet, Context context, ImageView imageLarge) {
+    public ImageEffectsAdapter(ArrayList<Effect> mDataSet, Context context, QuoteImageView imageLarge) {
 
         this.mDataSet = mDataSet;
         this.context = context;
@@ -43,7 +44,7 @@ public class ImageEffectsAdapter extends RecyclerView.Adapter<ImageEffectsAdapte
         ImageView effectImage;
         TextView effectName;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
 
             effectImage = (ImageView) itemView.findViewById(R.id.effect_image);

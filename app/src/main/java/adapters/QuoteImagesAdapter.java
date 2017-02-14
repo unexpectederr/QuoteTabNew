@@ -21,8 +21,10 @@ import java.util.ArrayList;
 
 import activities.quotetabnew.R;
 import helpers.main.AppController;
+import helpers.other.QuoteImageView;
 import listeners.OnImageClickListener;
 import models.images.ImageSuggestion;
+import models.quotes.Quote;
 
 /**
  * Created by Spaja on 14-Feb-17.
@@ -32,9 +34,9 @@ public class QuoteImagesAdapter extends RecyclerView.Adapter<QuoteImagesAdapter.
 
     private Context context;
     private ArrayList<ImageSuggestion> mDataSet;
-    private ImageView largeImage;
+    private QuoteImageView largeImage;
 
-    public QuoteImagesAdapter(Context context, ArrayList<ImageSuggestion> mDataSet, ImageView largeImage) {
+    public QuoteImagesAdapter(Context context, ArrayList<ImageSuggestion> mDataSet, QuoteImageView largeImage) {
 
         this.context = context;
         this.mDataSet = mDataSet;
