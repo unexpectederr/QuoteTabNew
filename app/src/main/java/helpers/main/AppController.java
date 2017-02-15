@@ -26,7 +26,6 @@ import java.util.Random;
 public class AppController extends Application {
 
     static ArrayList<Integer> bitmapIndexes = new ArrayList<>();
-    static SimpleTarget target;
 
     @Override
     public void onCreate() {
@@ -38,11 +37,11 @@ public class AppController extends Application {
                                          final ImageView img, final boolean isNewIndex,
                                          final boolean loadOriginal) {
 
-        if (ctx == null || (ctx instanceof Activity && ((Activity) ctx).isDestroyed()))
+        if (!contextExists(ctx))
             return;
 
-        target = new SimpleTarget<Bitmap>(loadOriginal ? Target.SIZE_ORIGINAL : Constants.RESIZED_WIDTH,
-                loadOriginal ? Target.SIZE_ORIGINAL : Constants.RESIZED_HEIGHT) {
+        SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>(loadOriginal ? Target.SIZE_ORIGINAL
+                : Constants.RESIZED_WIDTH, loadOriginal ? Target.SIZE_ORIGINAL : Constants.RESIZED_HEIGHT) {
 
             @Override
             public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
@@ -77,7 +76,6 @@ public class AppController extends Application {
                 .asBitmap()
                 .into(target);
 
-
         if (!isNewIndex)
             AppController.loadImageIntoView(ctx, (index + 1), null, true, loadOriginal);
     }
@@ -102,6 +100,10 @@ public class AppController extends Application {
 
         return index;
 
+    }
+
+    private static boolean contextExists(Context ctx) {
+        return !(ctx == null || ((ctx instanceof Activity) && ((Activity) ctx).isDestroyed()));
     }
 }
 

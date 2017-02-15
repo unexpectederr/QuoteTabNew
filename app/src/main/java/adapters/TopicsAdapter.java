@@ -29,6 +29,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
 
         this.context = context;
         this.mDataSet = mDataSet;
+
     }
 
     class ViewHolder extends ParallaxViewHolder {
@@ -75,11 +76,6 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return mDataSet.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return position;
     }
 
     public void addTopics(ArrayList<Topic> topics) {
