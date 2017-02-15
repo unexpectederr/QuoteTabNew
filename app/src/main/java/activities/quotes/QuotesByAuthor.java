@@ -192,6 +192,11 @@ public class QuotesByAuthor extends AppCompatActivity
         TextView authorTitle = (TextView) findViewById(R.id.author_name);
         TextView authorTagLine = (TextView) findViewById(R.id.author_tagline);
 
+        Button wikipedia = (Button) findViewById(R.id.wikipedia);
+        wikipedia.setOnClickListener(new OnWikipediaButtonClickListener(QuotesByAuthor.this,
+                authorFromQuote.getAuthorFieldsFromQuote().getWikipediaUrl(),
+                authorFromQuote.getAuthorFieldsFromQuote().getAuthorName()));
+
         mTitle.setText(authorFromQuote.getAuthorFieldsFromQuote().getAuthorName());
 
         authorTitle.setText(authorFromQuote.getAuthorFieldsFromQuote().getAuthorName());

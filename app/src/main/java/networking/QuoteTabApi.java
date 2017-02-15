@@ -3,6 +3,7 @@ package networking;
 import models.authors.AuthorsByLetter;
 import models.authors.PopularAuthors;
 import models.dashboard.DashboardData;
+import models.images.ImageSuggestion;
 import models.quotes.Quotes;
 import models.quotes.TopQuotes;
 import models.topics.Topics;
@@ -11,6 +12,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by unexpected_err on 17/10/2016.
@@ -18,38 +20,41 @@ import retrofit2.http.Path;
 
 public interface QuoteTabApi {
 
-    String ENDPOINT = "https://www.quotetab.com/";
-    String BASE_URL = "api/v1.0/";
+    String BASE_URL = "https://www.quotetab.com/";
+    String ENDPOINT = "api/v1.0/";
 
     @GET("api/v1.0")
     Call<DashboardData> getDashboardData();
 
-    @GET(BASE_URL + "authors")
+    @GET(ENDPOINT + "authors")
     Call<PopularAuthors> getAuthors();
 
-    @GET(BASE_URL + "quotes/by-{authorID}/{page}")
+    @GET(ENDPOINT + "quotes/by-{authorID}/{page}")
     Call<Quotes> getQuotes(@Path("authorID") String authorID, @Path("page") int page);
 
-    @GET(BASE_URL + "quotes/about-{tag}/{page}")
+    @GET(ENDPOINT + "quotes/about-{tag}/{page}")
     Call<Quotes> getQuotesByTag(@Path("tag") String quoteTag, @Path("page") int page);
 
-    @GET(BASE_URL + "topics")
+    @GET(ENDPOINT + "topics")
     Call<Topics> getTopics();
 
-    @GET(BASE_URL + "topics/{page}")
+    @GET(ENDPOINT + "topics/{page}")
     Call<Topics> getTopics(@Path("page") int page);
 
-    @GET(BASE_URL + "top-quotes")
+    @GET(ENDPOINT + "top-quotes")
     Call<TopQuotes> getTopQuotes();
 
-    @GET(BASE_URL + "top-quotes/{page}")
+    @GET(ENDPOINT + "top-quotes/{page}")
     Call<TopQuotes> getTopQuotes(@Path("page") int page);
 
-    @GET(BASE_URL + "authors/{letter}/{page}")
+    @GET(ENDPOINT + "authors/{letter}/{page}")
     Call<AuthorsByLetter> getAuthorsByLetter(@Path("letter") String letter, @Path("page") int page);
 
+    @GET("photo-quote/images/load")
+    Call<ImageSuggestion> getImageSugguestions(@Query("query") String query);
+
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(ENDPOINT)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 

@@ -27,6 +27,7 @@ import java.util.Random;
 
 import activities.authors.Authors;
 import activities.authors.PopularAuthors;
+import activities.quote_maker.QuoteMaker;
 import activities.quotes.FavoriteQuotes;
 import activities.quotes.QuotesByTag;
 import activities.quotes.TopQuotes;
@@ -249,6 +250,9 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             startActivityForResult(i, 1);
         } else if (id == R.id.menu_favorite_authors) {
             Intent i = new Intent(Dashboard.this, Authors.class);
+            startActivity(i);
+        } else if (id == R.id.menu_quote_maker) {
+            Intent i = new Intent(Dashboard.this, QuoteMaker.class);
             startActivity(i);
         }
 

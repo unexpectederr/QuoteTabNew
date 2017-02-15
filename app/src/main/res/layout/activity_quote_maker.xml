@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_quote_maker"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="activities.quote_maker.QuoteMaker">
+
+    <RelativeLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="312dp">
+
+        <helpers.other.QuoteImageView
+            android:id="@+id/quote_image"
+            android:layout_width="match_parent"
+            android:layout_height="312dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/raw_37">
+
+        </helpers.other.QuoteImageView>
+
+        <EditText
+            android:hint="Enter quote text here..."
+            android:textColorHint="@color/cardview_light_background"
+            android:id="@+id/quote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:background="@android:color/transparent"
+            android:textCursorDrawable="@null"/>
+
+        <EditText
+            android:id="@+id/author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/quote"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:hint="Enter author here..."
+            android:textColorHint="@color/cardview_light_background"
+            android:textColor="@color/main_color_light"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:background="@android:color/transparent"
+            android:textCursorDrawable="@null"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="30dp"
+            android:alpha="0.6"
+            android:src="@mipmap/ic_launcher"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/filters"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/top_layout"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/effects_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/quote_backgrounds"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_below="@+id/filters"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/background_images_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="25dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+        app:theme="@style/ToolbarTheme">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <ImageView
+                android:id="@+id/download_icon"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:alpha="0.7"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="7dp"
+                app:srcCompat="@drawable/ic_download_icon"/>
+
+            <ImageView
+                android:id="@+id/share_quote_icon"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/download_icon"
+                android:alpha="0.7"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="9dp"
+                app:srcCompat="@drawable/ic_menu_share"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+</RelativeLayout>

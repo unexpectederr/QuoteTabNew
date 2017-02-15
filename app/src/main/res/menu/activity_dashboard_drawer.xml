@@ -24,6 +24,11 @@
           android:id="@+id/menu_favorite_authors"
           android:icon="@drawable/ic_author"
           android:title="Favorite authors"/>
+
+      <item
+          android:id="@+id/menu_quote_maker"
+          android:icon="@drawable/ic_author"
+          android:title="Quote Maker"/>
     </menu>
   </item>
 
