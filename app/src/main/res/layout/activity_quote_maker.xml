@@ -24,7 +24,9 @@
 
         </helpers.other.QuoteImageView>
 
-        <TextView
+        <EditText
+            android:hint="Enter quote text here..."
+            android:textColorHint="@color/cardview_light_background"
             android:id="@+id/quote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,20 +36,25 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
-            android:text="You must be the change you  wish to see in the world."
             android:textColor="@android:color/white"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:background="@android:color/transparent"
+            android:textCursorDrawable="@null"/>
 
-        <TextView
+        <EditText
             android:id="@+id/author_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/quote"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="40dp"
-            android:text="Spajaaaaaa"
+            android:hint="Enter author here..."
+            android:textColorHint="@color/cardview_light_background"
             android:textColor="@color/main_color_light"
-            android:textSize="12sp"/>
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:background="@android:color/transparent"
+            android:textCursorDrawable="@null"/>
 
         <ImageView
             android:layout_width="50dp"

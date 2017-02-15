@@ -1,12 +1,16 @@
 package activities.quote_maker;
 
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -16,11 +20,12 @@ import activities.quotetabnew.R;
 import adapters.ImageEffectsAdapter;
 import adapters.QuoteImagesAdapter;
 import helpers.main.AppController;
+import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.QuoteImageView;
+import helpers.other.ReadAndWriteToFile;
 import models.images.Effect;
 import models.images.ImageSuggestion;
-import models.quotes.Quote;
 
 public class QuoteMaker extends AppCompatActivity {
 
@@ -35,7 +40,7 @@ public class QuoteMaker extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ArrayList<ImageSuggestion> imageSuggestions = new ArrayList<>();
-        QuoteImageView quoteImage = (QuoteImageView) findViewById(R.id.quote_image);
+        final QuoteImageView quoteImage = (QuoteImageView) findViewById(R.id.quote_image);
 
         for (int i = 0; i < 8; i++) {
             ImageSuggestion imageSuggestion = new ImageSuggestion();
@@ -58,6 +63,30 @@ public class QuoteMaker extends AppCompatActivity {
         }
 
         initializeEffectsRecyclerView(quoteImage, effects);
+
+        ImageView saveImage = (ImageView) findViewById(R.id.download_icon);
+        final RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.top_layout);
+
+        saveImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                relativeLayout.setDrawingCacheEnabled(true);
+                Bitmap bm = Bitmap.createBitmap(relativeLayout.getDrawingCache());
+
+                if (bm != null) {
+
+                    ReadAndWriteToFile.saveImage(bm, QuoteMaker.this);
+                    Toast toast = Toast.makeText(QuoteMaker.this, "Quote saved",
+                            Toast.LENGTH_LONG);
+                    toast.show();
+                    relativeLayout.setDrawingCacheEnabled(false);
+                    
+                } else {
+                    AppHelper.showToast("Something went wrong!", QuoteMaker.this);
+                }
+            }
+        });
     }
 
     private void initializeEffectsRecyclerView(QuoteImageView quoteImage, ArrayList<Effect> effects) {
