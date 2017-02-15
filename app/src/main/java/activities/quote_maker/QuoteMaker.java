@@ -1,6 +1,8 @@
 package activities.quote_maker;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import activities.quotetabnew.R;
@@ -24,6 +27,8 @@ import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.QuoteImageView;
 import helpers.other.ReadAndWriteToFile;
+import listeners.OnImageClickListener;
+import listeners.SaveImageToFileClickListener;
 import models.images.Effect;
 import models.images.ImageSuggestion;
 
@@ -64,29 +69,16 @@ public class QuoteMaker extends AppCompatActivity {
 
         initializeEffectsRecyclerView(quoteImage, effects);
 
+        saveQuoteToDevice();
+
+     }
+
+    private void saveQuoteToDevice() {
+
         ImageView saveImage = (ImageView) findViewById(R.id.download_icon);
         final RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.top_layout);
 
-        saveImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                relativeLayout.setDrawingCacheEnabled(true);
-                Bitmap bm = Bitmap.createBitmap(relativeLayout.getDrawingCache());
-
-                if (bm != null) {
-
-                    ReadAndWriteToFile.saveImage(bm, QuoteMaker.this);
-                    Toast toast = Toast.makeText(QuoteMaker.this, "Quote saved",
-                            Toast.LENGTH_LONG);
-                    toast.show();
-                    relativeLayout.setDrawingCacheEnabled(false);
-                    
-                } else {
-                    AppHelper.showToast("Something went wrong!", QuoteMaker.this);
-                }
-            }
-        });
+        saveImage.setOnClickListener(new SaveImageToFileClickListener(QuoteMaker.this, relativeLayout));
     }
 
     private void initializeEffectsRecyclerView(QuoteImageView quoteImage, ArrayList<Effect> effects) {
