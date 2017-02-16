@@ -144,13 +144,15 @@ public class ReadAndWriteToFile {
 
     public static void saveImage(Bitmap bitmap, final Context context) {
 
-        File imagePath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+ File.separator + "QuoteTab" + File.separator);
-        imagePath.mkdir();
+        File imagePath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + "QuoteTab" + File.separator);
         OutputStream fOut = null;
-        File file = new File(imagePath,"Quote_"+ System.currentTimeMillis() +".jpg");
+        File file = new File(imagePath, "Quote_" + System.currentTimeMillis() + ".jpg");
 
         try {
             fOut = new FileOutputStream(file);
+            if (!imagePath.exists()) {
+                imagePath.mkdir();
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -166,7 +168,7 @@ public class ReadAndWriteToFile {
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, "Quote");
         values.put(MediaStore.Images.Media.DESCRIPTION, "Description");
-        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis ());
+        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
         values.put(MediaStore.Images.ImageColumns.BUCKET_ID, file.toString().toLowerCase(Locale.US).hashCode());
         values.put(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, file.getName().toLowerCase(Locale.US));
         values.put("_data", file.getAbsolutePath());

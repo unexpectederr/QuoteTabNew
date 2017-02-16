@@ -26,7 +26,6 @@ import models.images.ImageSuggestion;
 
 public class QuoteMaker extends AppCompatActivity {
 
-    RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,22 +43,22 @@ public class QuoteMaker extends AppCompatActivity {
 
         initializeEffectsRecyclerView(quoteImage);
 
-        saveImage();
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.top_layout);
 
-        shareImage();
+        saveImage(relativeLayout);
+
+        shareImage(relativeLayout);
     }
 
-    private void shareImage() {
+    private void shareImage(RelativeLayout relativeLayout) {
 
         ImageView share = (ImageView) findViewById(R.id.share_quote_icon);
         share.setOnClickListener(new ShareImageClickListener(this, relativeLayout));
     }
 
-    private void saveImage() {
+    private void saveImage(RelativeLayout relativeLayout) {
 
         ImageView saveImage = (ImageView) findViewById(R.id.download_icon);
-        relativeLayout = (RelativeLayout) findViewById(R.id.top_layout);
-
         saveImage.setOnClickListener(new SaveImageToFileClickListener(QuoteMaker.this, relativeLayout));
     }
 
