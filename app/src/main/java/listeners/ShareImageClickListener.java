@@ -1,17 +1,13 @@
 package listeners;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.RelativeLayout;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -35,10 +31,27 @@ public class ShareImageClickListener implements View.OnClickListener {
         relativeLayout.setDrawingCacheEnabled(true);
         Bitmap bm = Bitmap.createBitmap(relativeLayout.getDrawingCache());
         relativeLayout.setDrawingCacheEnabled(false);
+
+        writeImageToCache(bm);
+
+        File imagePath = new File(context.getCacheDir(), "images");
+        File newFile = new File(imagePath, "image.jpg");
+        Uri contentUri = FileProvider.getUriForFile(context,
+                "com.digitalbath.quotetabnew.fileprovider", newFile);
+
+        if (contentUri != null) {
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
+            shareIntent.setDataAndType(contentUri, context.getContentResolver().getType(contentUri));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            context.startActivity(Intent.createChooser(shareIntent, "Choose an app:"));
+        }
+    }
+
+    private void writeImageToCache(Bitmap bm) {
         FileOutputStream stream = null;
-
         try {
-
             File cachePath = new File(context.getCacheDir(), "images");
             if (!cachePath.exists()) {
                 cachePath.mkdirs();
@@ -56,43 +69,5 @@ public class ShareImageClickListener implements View.OnClickListener {
                 e.printStackTrace();
             }
         }
-
-        File imagePath = new File(context.getCacheDir(), "images");
-        File newFile = new File(imagePath, "image.jpg");
-        Uri contentUri = FileProvider.getUriForFile(context, "com.digitalbath.quotetabnew.fileprovider", newFile);
-
-        if (contentUri != null) {
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
-            shareIntent.setDataAndType(contentUri, context.getContentResolver().getType(contentUri));
-            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-            context.startActivity(Intent.createChooser(shareIntent, "Choose an app:n"));
-        }
-
-//        Intent share = new Intent(Intent.ACTION_SEND);
-//        share.setType("image/jpeg");
-//        //File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-//        File f = new File(context.getExternalCacheDir() + File.separator + "temporary_file.jpg");
-//        FileOutputStream fo = null;
-//
-//        try {
-//            fo = new FileOutputStream(f);
-//            if (!f.exists()) {
-//                f.createNewFile();
-//            }
-//            bm.compress(Bitmap.CompressFormat.JPEG, 100, fo);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                fo.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        share.putExtra(Intent.EXTRA_STREAM, Uri.parse(context.getExternalCacheDir() + File.separator + "temporary_file.jpg"));
-//        //share.putExtra(Intent.EXTRA_STREAM, Uri.parse(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg"));
-//        context.startActivity(Intent.createChooser(share, "Share Image"));
     }
 }

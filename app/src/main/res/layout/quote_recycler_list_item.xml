@@ -34,27 +34,6 @@
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/quotes_left"
-            android:alpha="0.1"
-            android:layout_below="@+id/tags_scroll_view"
-            android:layout_marginLeft="-45dp"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="-15dp"
-            android:visibility="gone"/>
-
-        <ImageView
-            android:id="@+id/quotes_right"
-            android:alpha="0.1"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="-45dp"
-            android:layout_above="@+id/qwe"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginBottom="-15dp"
-            android:visibility="gone"/>
-
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

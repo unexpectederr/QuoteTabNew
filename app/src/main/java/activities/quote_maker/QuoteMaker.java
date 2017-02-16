@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -21,7 +22,8 @@ import helpers.main.Constants;
 import helpers.other.QuoteImageView;
 import listeners.SaveImageToFileClickListener;
 import listeners.ShareImageClickListener;
-import models.images.Effect;
+import models.filters.Filter;
+import models.filters.FiltersList;
 import models.images.ImageSuggestion;
 
 public class QuoteMaker extends AppCompatActivity {
@@ -32,8 +34,7 @@ public class QuoteMaker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quote_maker);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        initializeToolbar();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -50,6 +51,11 @@ public class QuoteMaker extends AppCompatActivity {
         shareImage(relativeLayout);
     }
 
+    private void initializeToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
     private void shareImage(RelativeLayout relativeLayout) {
 
         ImageView share = (ImageView) findViewById(R.id.share_quote_icon);
@@ -64,13 +70,18 @@ public class QuoteMaker extends AppCompatActivity {
 
     private void initializeEffectsRecyclerView(QuoteImageView quoteImage) {
 
-        ArrayList<Effect> effects = new ArrayList<>();
+        ArrayList<Filter> effects = new ArrayList<>();
+        FiltersList filters = new FiltersList();
+        int filtersSize = filters.getFiltersList().size();
+        String[] filterNames = filters.getFiltersList().keySet().toArray(new String[filtersSize]);
+        String[] filterClassNames = filters.getFiltersList().values().toArray(new String[filtersSize]);
 
-        for (int i = 0; i < 5; i++) {
-            Effect effect = new Effect();
-            effect.setEffectName("effect" + i);
-            effect.setImageId(AppController.getBitmapIndex());
-            effects.add(effect);
+        for (int i = 0; i < filtersSize; i++) {
+
+            Filter filter = new Filter();
+            filter.setFilterName(filterNames[i]);
+            filter.setFilterClass(filterClassNames[i]);
+            effects.add(filter);
         }
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.effects_recycler);
