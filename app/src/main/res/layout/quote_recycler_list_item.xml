@@ -88,7 +88,6 @@
             android:gravity="center"
             android:textColor="@color/main_color_light"
             android:layout_below="@+id/tags_scroll_view"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vehicula sem a malesuada rhoncus. Pellentesque ut dolor a dui porttitor "
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:textSize="19sp"

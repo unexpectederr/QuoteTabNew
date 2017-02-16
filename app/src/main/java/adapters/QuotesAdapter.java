@@ -80,7 +80,6 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-
         if (mDataSet.get(position).getImageId() == 0)
             mDataSet.get(position).setImageId(AppController.getBitmapIndex());
 

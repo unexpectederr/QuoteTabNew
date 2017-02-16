@@ -1,7 +1,7 @@
 package activities.quote_maker;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,30 +38,11 @@ public class QuoteMaker extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ArrayList<ImageSuggestion> imageSuggestions = new ArrayList<>();
-        final QuoteImageView quoteImage = (QuoteImageView) findViewById(R.id.quote_image);
+        QuoteImageView quoteImage = (QuoteImageView) findViewById(R.id.quote_image);
 
-        for (int i = 0; i < 8; i++) {
-            ImageSuggestion imageSuggestion = new ImageSuggestion();
-            imageSuggestion.setImageId(AppController.getBitmapIndex());
-            imageSuggestions.add(imageSuggestion);
-        }
-        initializeImagesRecyclerView(imageSuggestions, quoteImage);
+        initializeImagesRecyclerView(quoteImage);
 
-        Glide.with(this).load(Constants.COVER_IMAGES_URL + imageSuggestions.get(0).getImageId() + ".jpg")
-                .into(quoteImage);
-        quoteImage.setImageUrl(Constants.COVER_IMAGES_URL + imageSuggestions.get(0).getImageId() + ".jpg");
-
-        ArrayList<Effect> effects = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++) {
-            Effect effect = new Effect();
-            effect.setEffectName("effect" + i);
-            effect.setImageId(AppController.getBitmapIndex());
-            effects.add(effect);
-        }
-
-        initializeEffectsRecyclerView(quoteImage, effects);
+        initializeEffectsRecyclerView(quoteImage);
 
         saveImage();
 
@@ -69,7 +50,7 @@ public class QuoteMaker extends AppCompatActivity {
     }
 
     private void shareImage() {
-        
+
         ImageView share = (ImageView) findViewById(R.id.share_quote_icon);
         share.setOnClickListener(new ShareImageClickListener(this, relativeLayout));
     }
@@ -82,21 +63,42 @@ public class QuoteMaker extends AppCompatActivity {
         saveImage.setOnClickListener(new SaveImageToFileClickListener(QuoteMaker.this, relativeLayout));
     }
 
-    private void initializeEffectsRecyclerView(QuoteImageView quoteImage, ArrayList<Effect> effects) {
+    private void initializeEffectsRecyclerView(QuoteImageView quoteImage) {
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.effects_recycler);ž
+        ArrayList<Effect> effects = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            Effect effect = new Effect();
+            effect.setEffectName("effect" + i);
+            effect.setImageId(AppController.getBitmapIndex());
+            effects.add(effect);
+        }
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.effects_recycler);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(new ImageEffectsAdapter(effects, this, quoteImage));
     }
 
-    private void initializeImagesRecyclerView(ArrayList<ImageSuggestion> imageSuggestions, QuoteImageView quoteImage) {
+    private void initializeImagesRecyclerView(QuoteImageView quoteImage) {
+
+        ArrayList<ImageSuggestion> imageSuggestions = new ArrayList<>();
+
+        for (int i = 0; i < 8; i++) {
+            ImageSuggestion imageSuggestion = new ImageSuggestion();
+            imageSuggestion.setImageId(AppController.getBitmapIndex());
+            imageSuggestions.add(imageSuggestion);
+        }
 
         RecyclerView imagesRecycler = (RecyclerView) findViewById(R.id.background_images_recycler);
         GridLayoutManager manager = new GridLayoutManager(this, 2, LinearLayoutManager.HORIZONTAL, false);
         imagesRecycler.setLayoutManager(manager);
         QuoteImagesAdapter adapter = new QuoteImagesAdapter(this, imageSuggestions, quoteImage);
         imagesRecycler.setAdapter(adapter);
+
+        Glide.with(this).load(Constants.COVER_IMAGES_URL + imageSuggestions.get(0).getImageId() + ".jpg")
+                .into(quoteImage);
+        quoteImage.setImageUrl(Constants.COVER_IMAGES_URL + imageSuggestions.get(0).getImageId() + ".jpg");
     }
 
     @Override
