@@ -36,7 +36,7 @@
             tools:text="You must be the change you  wish to see in the world."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/quote"
+            android:id="@+id/quote_text"
             android:textSize="28sp"
             android:textColor="@android:color/white"
             android:gravity="center"

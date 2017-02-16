@@ -69,7 +69,7 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.fav_authors_recyclerview_list_item, parent, false);
+        View v = inflater.inflate(R.layout.fav_authors_list_item, parent, false);
         return new MyViewHolder(v);
     }
 

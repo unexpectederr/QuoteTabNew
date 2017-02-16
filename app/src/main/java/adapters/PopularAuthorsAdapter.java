@@ -114,13 +114,13 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
         if (itemType == TYPE_ITEM) {
 
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.authors_recyclerview_list_item, parent, false);
+                    .inflate(R.layout.authors_list_item, parent, false);
             return new ItemViewHolder(v);
 
         } else {
 
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.last_item, parent, false);
+                    .inflate(R.layout.authors_last_item, parent, false);
             return new ItemViewHolder(v);
         }
     }
@@ -129,7 +129,7 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
     public HeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent, int headerType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.authors_recyclerview_list_header, parent, false);
+        View v = inflater.inflate(R.layout.authors_list_header, parent, false);
         return new HeaderViewHolder(v);
     }
 

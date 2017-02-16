@@ -102,7 +102,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         ParallaxPageTransformer pageTransformer = new ParallaxPageTransformer()
                 .addViewToParallax(new ParallaxPageTransformer
-                        .ParallaxTransformInformation(R.id.quote, 1.2f, 1.9f))
+                        .ParallaxTransformInformation(R.id.quote_text, 1.2f, 1.9f))
                 .addViewToParallax(new ParallaxPageTransformer
                         .ParallaxTransformInformation(R.id.author, 0.6f, 1.7f))
                 .addViewToParallax(new ParallaxPageTransformer

@@ -87,7 +87,7 @@ public class DashboardFragment extends Fragment {
                 .into(authorImage);
         authorImage.setOnClickListener(new OnAuthorClickListener(authorImage.getContext(), quote.getSource().getAuthorId()));
 
-        TextView quoteTextView = (TextView) view.findViewById(R.id.quote);
+        TextView quoteTextView = (TextView) view.findViewById(R.id.quote_text);
         quoteTextView.setTypeface(AppHelper.getRalewayLight(getContext()));
         quoteTextView.setText(quote.getSource().getQuote());
 

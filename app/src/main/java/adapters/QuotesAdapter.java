@@ -73,7 +73,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.quote_recycler_list_item, parent, false);
+                .inflate(R.layout.quote_list_item, parent, false);
         return new QuotesAdapter.ViewHolder(v);
     }
 

@@ -1,22 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_quote_maker"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="activities.quote_maker.QuoteMaker">
 
     <RelativeLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
-        android:layout_height="312dp">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginTop="25dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+            app:theme="@style/ToolbarTheme"
+            android:translationZ="99dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <ImageView
+                    android:id="@+id/download_icon"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:alpha="0.7"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="7dp"
+                    app:srcCompat="@drawable/ic_download_icon"/>
+
+                <ImageView
+                    android:id="@+id/share_quote_icon"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@+id/download_icon"
+                    android:alpha="0.7"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="9dp"
+                    app:srcCompat="@drawable/ic_menu_share"/>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
 
         <helpers.other.QuoteImageView
             android:id="@+id/quote_image"
             android:layout_width="match_parent"
-            android:layout_height="312dp"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerCrop"
@@ -24,10 +70,19 @@
 
         </helpers.other.QuoteImageView>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/qwe"
+            android:background="@android:color/black"
+            android:id="@+id/hgc"
+            android:layout_alignParentTop="true"
+            android:alpha="0.6"/>
+
         <EditText
             android:hint="Enter quote text here..."
             android:textColorHint="@color/cardview_light_background"
-            android:id="@+id/quote"
+            android:id="@+id/quote_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -35,108 +90,83 @@
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:paddingTop="10dp"
             android:textColor="@android:color/white"
-            android:textSize="20sp"
+            android:textSize="24sp"
+            android:ellipsize="end"
             android:background="@android:color/transparent"
-            android:textCursorDrawable="@null"/>
+            android:textCursorDrawable="@null"
+            android:lineSpacingExtra="8sp"
+            android:maxLines="4"/>
 
         <EditText
             android:id="@+id/author_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/quote"
+            android:layout_below="@+id/quote_text"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="40dp"
             android:hint="Enter author here..."
             android:textColorHint="@color/cardview_light_background"
             android:textColor="@color/main_color_light"
             android:textAlignment="center"
             android:textSize="12sp"
             android:background="@android:color/transparent"
-            android:textCursorDrawable="@null"/>
+            android:textCursorDrawable="@null"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="30dp"
-            android:alpha="0.6"
-            android:src="@mipmap/ic_launcher"/>
+            android:layout_marginBottom="20dp"
+            android:alpha="0.8"
+            android:src="@mipmap/ic_launcher"
+            android:layout_height="40dp"
+            android:layout_width="35dp"/>
+
+
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/filters"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/effects_recycler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_gravity="center_horizontal">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/background_images_recycler"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/top_layout"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/effects_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
+    </android.support.v7.widget.RecyclerView>
 
-        </android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:id="@+id/bottom_slide_rubber"
+        android:background="@drawable/circle_bcg"
+        android:backgroundTint="@color/colorPrimary"
+        android:textStyle="bold"
+        android:alpha="0.5"
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="-16dp"
+        android:layout_height="32dp"
+        android:layout_width="46dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_more"
+            android:id="@+id/imageView3"
+            android:layout_weight="1"
+            android:layout_marginTop="-3dp"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/quote_backgrounds"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_below="@+id/filters"
-        android:orientation="horizontal">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/background_images_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </android.support.v7.widget.RecyclerView>
-    </LinearLayout>
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="25dp"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:theme="@style/ToolbarTheme">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-
-            <ImageView
-                android:id="@+id/download_icon"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:alpha="0.7"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="7dp"
-                app:srcCompat="@drawable/ic_download_icon"/>
-
-            <ImageView
-                android:id="@+id/share_quote_icon"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toLeftOf="@+id/download_icon"
-                android:alpha="0.7"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="9dp"
-                app:srcCompat="@drawable/ic_menu_share"/>
-
-        </RelativeLayout>
-
-    </android.support.v7.widget.Toolbar>
-</RelativeLayout>
+</LinearLayout>
