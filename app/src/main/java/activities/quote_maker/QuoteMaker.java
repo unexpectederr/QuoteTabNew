@@ -1,38 +1,32 @@
 package activities.quote_maker;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import activities.quotetabnew.R;
 import adapters.ImageEffectsAdapter;
 import adapters.QuoteImagesAdapter;
 import helpers.main.AppController;
-import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.QuoteImageView;
-import helpers.other.ReadAndWriteToFile;
-import listeners.OnImageClickListener;
 import listeners.SaveImageToFileClickListener;
+import listeners.ShareImageClickListener;
 import models.images.Effect;
 import models.images.ImageSuggestion;
 
 public class QuoteMaker extends AppCompatActivity {
+
+    RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,20 +63,28 @@ public class QuoteMaker extends AppCompatActivity {
 
         initializeEffectsRecyclerView(quoteImage, effects);
 
-        saveQuoteToDevice();
+        saveImage();
 
-     }
+        shareImage();
+    }
 
-    private void saveQuoteToDevice() {
+    private void shareImage() {
+        
+        ImageView share = (ImageView) findViewById(R.id.share_quote_icon);
+        share.setOnClickListener(new ShareImageClickListener(this, relativeLayout));
+    }
+
+    private void saveImage() {
 
         ImageView saveImage = (ImageView) findViewById(R.id.download_icon);
-        final RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.top_layout);
+        relativeLayout = (RelativeLayout) findViewById(R.id.top_layout);
 
         saveImage.setOnClickListener(new SaveImageToFileClickListener(QuoteMaker.this, relativeLayout));
     }
 
     private void initializeEffectsRecyclerView(QuoteImageView quoteImage, ArrayList<Effect> effects) {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.effects_recycler);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.effects_recycler);ž
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(new ImageEffectsAdapter(effects, this, quoteImage));
