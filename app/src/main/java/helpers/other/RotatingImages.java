@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import java.util.Random;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import helpers.main.AppController;
 
 /**

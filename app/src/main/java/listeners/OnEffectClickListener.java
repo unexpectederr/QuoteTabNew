@@ -2,12 +2,9 @@ package listeners;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-import activities.quote_maker.QuoteMaker;
-import helpers.main.Constants;
 import helpers.other.QuoteImageView;
 import jp.wasabeef.glide.transformations.GrayscaleTransformation;
 import jp.wasabeef.glide.transformations.gpu.InvertFilterTransformation;

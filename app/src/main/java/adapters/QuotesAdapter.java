@@ -1,6 +1,6 @@
 package adapters;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,12 +14,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteQuoteClickListener;
+import listeners.OnQuoteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
 import models.quotes.Quote;
@@ -30,14 +31,14 @@ import models.quotes.Quote;
 
 public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder> {
 
-    private Context context;
+    private Activity context;
     private ArrayList<Quote> mDataSet;
     private ArrayList<Quote> favoriteQuotes;
     private int lastPosition = -1;
     private boolean isFavorites;
     private boolean isFromAuthors;
 
-    public QuotesAdapter(Context context, ArrayList<Quote> mDataSet, ArrayList<Quote> favoriteQuotes,
+    public QuotesAdapter(Activity context, ArrayList<Quote> mDataSet, ArrayList<Quote> favoriteQuotes,
                          boolean isFavorites, boolean isFromAuthors) {
 
         this.context = context;
@@ -124,8 +125,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
                 mDataSet.get(position).getQuoteDetails().getAuthorName()));
 
         holder.favoriteIcon.setOnClickListener(new OnFavoriteQuoteClickListener(context, favoriteQuotes,
-                holder.favoriteIcon, mDataSet.get(position),
-                this, isFavorites));
+                holder.favoriteIcon, mDataSet.get(position), this, isFavorites));
 
         String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 
@@ -158,9 +158,10 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
             }
         }
 
+        holder.itemView.setOnClickListener(new OnQuoteClickListener(context, mDataSet.get(position)));
+
         setAnimation(holder.itemView, holder.getAdapterPosition());
     }
-
 
     private void setAnimation(View viewToAnimate, int position) {
 

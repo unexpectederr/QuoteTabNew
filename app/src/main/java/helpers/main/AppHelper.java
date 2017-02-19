@@ -19,7 +19,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import activities.quotetabnew.R;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
+import digitalbath.quotetab.R;
 import io.codetail.animation.ViewAnimationUtils;
 import io.codetail.widget.RevealFrameLayout;
 import listeners.OnCloseRevealedLayoutListener;
@@ -108,6 +113,60 @@ public class AppHelper {
         valueAnimator.setInterpolator(new DecelerateInterpolator());
         valueAnimator.setDuration(duration);
         valueAnimator.start();
+    }
+
+    public static String getTimeDifference(String timePublished) {
+
+        String newsTimeStamp = "";
+
+        if (timePublished == null)
+            return newsTimeStamp;
+
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+        SimpleDateFormat dateFormatLocal = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+
+        Date now = null;
+
+        try {
+            now = dateFormatLocal.parse(dateFormatGmt.format(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Date articleDate = null;
+
+        try {
+            articleDate = dateFormatLocal.parse(dateFormatGmt.format(new Date(timePublished)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (articleDate != null) {
+
+            long diff = now.getTime() - articleDate.getTime();
+
+            if (diff <= 0)
+                return "0 minutes ago";
+
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            if (diffDays > 0) {
+                if (diffHours > 11)
+                    diffDays += 1;
+                newsTimeStamp = Long.toString(diffDays) + (" days ago");
+            } else if (diffHours > 0) {
+                if (diffMinutes > 29)
+                    diffHours += 1;
+                newsTimeStamp = Long.toString(diffHours) + (" hours ago");
+            } else
+                newsTimeStamp = Long.toString(diffMinutes).replace("-", "") + (" minutes ago");
+
+        }
+
+        return newsTimeStamp;
     }
 
     public static void revealLayout(View authorInfo, View view, ImageView closeBtn) {

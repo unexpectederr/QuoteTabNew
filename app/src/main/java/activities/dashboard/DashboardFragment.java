@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.Random;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.AppController;
 import helpers.main.AppHelper;

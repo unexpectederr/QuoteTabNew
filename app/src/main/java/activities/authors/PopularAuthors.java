@@ -16,7 +16,7 @@ import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
 
 import java.util.ArrayList;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import adapters.PopularAuthorsAdapter;
 import helpers.main.AppHelper;
 import helpers.main.Constants;

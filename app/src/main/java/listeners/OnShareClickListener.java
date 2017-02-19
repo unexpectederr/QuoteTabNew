@@ -29,7 +29,7 @@ public class OnShareClickListener implements View.OnClickListener {
     public void onClick(View v) {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
-        share.putExtra(Intent.EXTRA_SUBJECT, "Quote");
+        share.putExtra(Intent.EXTRA_SUBJECT, "QuoteActivity");
         share.putExtra(Intent.EXTRA_TEXT, "\"" + quoteText + "\""+ "\n\n" + "- "  + authorName +
                 " -" + "\n\nwww.quotetab.com");
         context.startActivity(Intent.createChooser(share, "Share via:"));

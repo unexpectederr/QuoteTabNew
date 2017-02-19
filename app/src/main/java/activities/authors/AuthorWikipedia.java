@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 
 public class AuthorWikipedia extends AppCompatActivity {
 

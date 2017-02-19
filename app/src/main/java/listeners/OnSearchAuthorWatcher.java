@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import adapters.PopularAuthorsAdapter;
 import helpers.other.ReadAndWriteToFile;
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import models.authors.AuthorDetails;
 import models.authors.AuthorGroup;
 import models.authors.PopularAuthors;

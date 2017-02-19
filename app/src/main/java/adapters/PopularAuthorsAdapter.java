@@ -17,7 +17,7 @@ import org.zakariya.stickyheaders.SectioningAdapter;
 import java.util.ArrayList;
 
 import activities.authors.Authors;
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.Constants;
 import listeners.OnAuthorClickListener;
@@ -186,16 +186,18 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
             ivh.itemView.setOnClickListener(new OnAuthorClickListener(mContext, mDataSet.getAuthorGroup()
                     .get(sectionIndex).getAuthors().get(itemIndex).getId()));
 
-            //setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
+            setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
 
         } else {
 
             ivh.text.setText("All " + mDataSet.getAuthorGroup().get(sectionIndex).getReferences()
                     .getLetter().toUpperCase() + " Authors...");
-            //setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
+
             ivh.itemView.setOnClickListener(new OnAuthorLetterClickListener
                     (mDataSet.getAuthorGroup().get(sectionIndex).getReferences()
                             .getLetter()));
+
+            setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
         }
     }
 

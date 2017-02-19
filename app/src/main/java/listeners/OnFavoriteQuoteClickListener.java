@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import adapters.QuotesAdapter;
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import helpers.other.ReadAndWriteToFile;
 import models.quotes.Quote;
 

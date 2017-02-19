@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import adapters.QuotesAdapter;
 import helpers.main.AppHelper;
 import helpers.other.ReadAndWriteToFile;

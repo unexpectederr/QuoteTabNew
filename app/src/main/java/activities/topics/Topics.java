@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import adapters.TopicsAdapter;
 import helpers.main.AppHelper;
 import helpers.main.Constants;

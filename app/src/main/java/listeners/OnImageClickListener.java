@@ -8,16 +8,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 
-import activities.quote_maker.QuoteMaker;
-import helpers.main.AppController;
-import helpers.main.Constants;
 import helpers.other.QuoteImageView;
 
 /**

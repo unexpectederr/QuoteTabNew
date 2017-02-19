@@ -7,8 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,9 +15,9 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import activities.quotetabnew.R;
 import adapters.ImageEffectsAdapter;
 import adapters.QuoteImagesAdapter;
+import digitalbath.quotetab.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;

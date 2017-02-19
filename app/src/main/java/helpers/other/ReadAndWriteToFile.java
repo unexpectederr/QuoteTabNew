@@ -1,13 +1,9 @@
 package helpers.other;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 
@@ -22,12 +18,9 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import activities.quotetabnew.R;
 import helpers.main.Constants;
 import models.authors.AuthorDetails;
 import models.quotes.Quote;
-
-import static android.R.attr.bitmap;
 
 /**
  * Created by Spaja on 23-Jan-17.
@@ -169,7 +162,7 @@ public class ReadAndWriteToFile {
         }
 
         ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE, "Quote");
+        values.put(MediaStore.Images.Media.TITLE, "QuoteActivity");
         values.put(MediaStore.Images.Media.DESCRIPTION, "Description");
         values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
         values.put(MediaStore.Images.ImageColumns.BUCKET_ID, file.toString().toLowerCase(Locale.US).hashCode());

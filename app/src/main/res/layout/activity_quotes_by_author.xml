@@ -170,6 +170,7 @@
                 app:srcCompat="@drawable/ic_info_outline"/>
 
         </LinearLayout>
+
     </android.support.v7.widget.Toolbar>
 
     <de.hdodenhof.circleimageview.CircleImageView

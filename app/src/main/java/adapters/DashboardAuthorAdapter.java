@@ -11,11 +11,9 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.Constants;
-import models.authors.AuthorDetails;
-import models.authors.AuthorFields;
 import models.dashboard.PopularAuthor;
 
 /**
