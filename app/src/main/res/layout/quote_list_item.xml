@@ -8,11 +8,13 @@
     app:cardUseCompatPadding="true"
     app:cardElevation="2dp">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/save_image">
 
         <ImageView
             android:layout_width="match_parent"
@@ -23,7 +25,7 @@
             android:layout_alignParentTop="true"
             />
 
-        <RelativeLayout
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignBottom="@+id/qwe"
@@ -32,7 +34,7 @@
             android:layout_alignParentTop="true"
             android:alpha="0.6">
 
-        </RelativeLayout>
+        </ImageView>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -96,6 +98,19 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:id="@+id/qwe">
+
+            <ImageView
+                android:src="@drawable/ic_download_icon"
+                android:id="@+id/download_icon"
+                android:layout_marginBottom="12dp"
+                android:tint="@color/cardview_shadow_start_color"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center"
+                android:padding="3dp"
+                android:clickable="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp"/>
 
             <ImageView
                 android:src="@drawable/ic_menu_share"

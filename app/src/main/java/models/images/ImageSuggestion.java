@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class ImageSuggestion {
 
     private int imageId;
+    private boolean selected;
 
     @SerializedName("largeImageUrl")
     private String largeImageUrl;
@@ -30,5 +31,13 @@ public class ImageSuggestion {
 
     public String getPriviewImageUrl() {
         return priviewImageUrl;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

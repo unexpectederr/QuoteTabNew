@@ -15,7 +15,7 @@ import activities.quotetabnew.R;
 import helpers.main.AppController;
 import helpers.main.Constants;
 import helpers.other.QuoteImageView;
-import listeners.OnImageClickListener;
+import listeners.OnPreviewImageClickListener;
 import models.images.ImageSuggestion;
 
 /**
@@ -40,12 +40,13 @@ public class QuoteImagesAdapter extends RecyclerView.Adapter<QuoteImagesAdapter.
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView quoteImage;
+        ImageView quoteImage, shader;
 
         MyViewHolder(View itemView) {
             super(itemView);
 
             quoteImage = (ImageView) itemView.findViewById(R.id.quote_background_image);
+            shader = (ImageView) itemView.findViewById(R.id.shader);
         }
     }
     @Override
@@ -81,12 +82,15 @@ public class QuoteImagesAdapter extends RecyclerView.Adapter<QuoteImagesAdapter.
             imageUrl = mDataSet.get(position).getPriviewImageUrl();
         }
 
-        holder.quoteImage.setOnClickListener(new OnImageClickListener
-                (context, largeImage, imageUrl));
+        holder.quoteImage.setOnClickListener(new OnPreviewImageClickListener
+                (context, largeImage, imageUrl, mDataSet, this, position));
 
-
+        if (mDataSet.get(position).isSelected()) {
+            holder.shader.setVisibility(View.VISIBLE);
+        } else {
+            holder.shader.setVisibility(View.GONE);
+        }
     }
-
 
     @Override
     public int getItemCount() {

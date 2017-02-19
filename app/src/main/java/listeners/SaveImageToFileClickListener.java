@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class SaveImageToFileClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+
         relativeLayout.setDrawingCacheEnabled(true);
         Bitmap bm = Bitmap.createBitmap(relativeLayout.getDrawingCache());
 

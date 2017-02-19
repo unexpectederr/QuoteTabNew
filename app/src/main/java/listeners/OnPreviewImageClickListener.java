@@ -15,30 +15,51 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 
+import java.util.ArrayList;
+
 import activities.quote_maker.QuoteMaker;
+import adapters.QuoteImagesAdapter;
 import helpers.main.AppController;
 import helpers.main.Constants;
 import helpers.other.QuoteImageView;
+import models.images.ImageSuggestion;
 
 /**
  * Created by Spaja on 14-Feb-17.
  */
 
-public class OnImageClickListener implements View.OnClickListener {
+public class OnPreviewImageClickListener implements View.OnClickListener {
 
     private String imageUrl;
     private QuoteImageView image;
     private Context context;
+    private ArrayList<ImageSuggestion> mDataSet;
+    private QuoteImagesAdapter adapter;
+    private int position;
 
-    public OnImageClickListener(Context context, QuoteImageView image, String imageUrl) {
+    public OnPreviewImageClickListener(Context context, QuoteImageView image, String imageUrl,
+                                       ArrayList<ImageSuggestion> mDataSet,
+                                       QuoteImagesAdapter adapter, int position) {
 
         this.context = context;
         this.image = image;
         this.imageUrl = imageUrl;
+        this.mDataSet = mDataSet;
+        this.adapter = adapter;
+        this.position = position;
     }
 
     @Override
     public void onClick(View view) {
+
+        for (int i = 0; i < mDataSet.size(); i++) {
+            if (mDataSet.get(i).isSelected()) {
+                mDataSet.get(i).setSelected(false);
+                adapter.notifyItemChanged(i);
+            }
+        }
+        mDataSet.get(position).setSelected(true);
+        adapter.notifyItemChanged(position);
 
         SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>() {
 
