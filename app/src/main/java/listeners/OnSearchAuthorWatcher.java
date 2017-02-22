@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import adapters.PopularAuthorsAdapter;
-import helpers.other.ReadAndWriteToFile;
+import helpers.main.ReadAndWriteToFile;
 import digitalbath.quotetab.R;
 import models.authors.AuthorDetails;
 import models.authors.AuthorGroup;

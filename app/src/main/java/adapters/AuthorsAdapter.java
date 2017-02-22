@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import digitalbath.quotetab.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.Constants;
-import helpers.other.ReadAndWriteToFile;
+import helpers.main.ReadAndWriteToFile;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteAuthorClickListener;
 import models.authors.AuthorDetails;

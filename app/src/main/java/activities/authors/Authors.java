@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import digitalbath.quotetab.R;
 import adapters.AuthorsAdapter;
-import helpers.other.ReadAndWriteToFile;
+import helpers.main.ReadAndWriteToFile;
 import models.authors.AuthorDetails;
 import networking.QuoteTabApi;
 import retrofit2.Call;

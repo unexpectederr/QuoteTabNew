@@ -42,7 +42,7 @@ import adapters.CommentsAdapter;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
-import helpers.other.ReadAndWriteToFile;
+import helpers.main.ReadAndWriteToFile;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteQuoteClickListener;
 import listeners.OnShareClickListener;

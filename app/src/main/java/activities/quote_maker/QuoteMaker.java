@@ -23,7 +23,7 @@ import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.QuoteImageView;
 import listeners.SaveImageToFileClickListener;
-import listeners.ShareImageClickListener;
+import listeners.ShareAsImageClickListener;
 import models.filters.Filter;
 import models.filters.FiltersList;
 import models.images.ImageSuggestion;
@@ -56,7 +56,7 @@ public class QuoteMaker extends AppCompatActivity {
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.top_layout);
 
         ImageView share = (ImageView) findViewById(R.id.share_quote_icon);
-        share.setOnClickListener(new ShareImageClickListener(this, relativeLayout));
+        share.setOnClickListener(new ShareAsImageClickListener(this, relativeLayout));
 
         ImageView saveImage = (ImageView) findViewById(R.id.download_icon);
         saveImage.setOnClickListener(new SaveImageToFileClickListener(QuoteMaker.this, relativeLayout, null, null));

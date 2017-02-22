@@ -1,7 +1,6 @@
 package activities.dashboard;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -43,7 +42,7 @@ import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.ParallaxPageTransformer;
-import helpers.other.ReadAndWriteToFile;
+import helpers.main.ReadAndWriteToFile;
 import listeners.OnShowDashboardMoreListener;
 import models.authors.AuthorDetails;
 import models.dashboard.DashboardData;
