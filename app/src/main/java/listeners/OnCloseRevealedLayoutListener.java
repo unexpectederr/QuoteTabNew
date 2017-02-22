@@ -1,43 +1,30 @@
 package listeners;
 
-import android.animation.Animator;
-import android.os.Handler;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import io.codetail.animation.ViewAnimationUtils;
-import io.codetail.widget.RevealFrameLayout;
+
+import helpers.main.AppHelper;
 
 /**
  * Created by unexpected_err on 02/02/2017.
  */
 
-public class OnCloseRevealedLayoutListener implements View.OnClickListener{
+public class OnCloseRevealedLayoutListener implements View.OnClickListener {
 
-    private View authorInfo;
+    private View viewToUnReveal;
     private int cx;
     private int cy;
     private float finalRadius;
 
-    public OnCloseRevealedLayoutListener(View authorInfo, int cx, int cy, float finalRadius) {
-        this.authorInfo = authorInfo;
+    public OnCloseRevealedLayoutListener(View viewToUnReveal, int cx, int cy, float finalRadius) {
+        this.viewToUnReveal = viewToUnReveal;
         this.cx = cx;
         this.cy = cy;
         this.finalRadius = finalRadius;
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(final View view) {
 
-        Animator animatorReverse = ViewAnimationUtils.createCircularReveal(authorInfo, cx, cy, finalRadius, 0);
-        animatorReverse.setInterpolator(new AccelerateDecelerateInterpolator());
-        animatorReverse.setDuration(600);
-        animatorReverse.start();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ((RevealFrameLayout) authorInfo.getParent()).setVisibility(View.INVISIBLE);
-            }
-        }, 600);
+        AppHelper.unRevealLayout(viewToUnReveal, cx, cy, finalRadius);
     }
 }
