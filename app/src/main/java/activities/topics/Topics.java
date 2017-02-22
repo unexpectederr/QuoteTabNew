@@ -55,7 +55,7 @@ public class Topics extends AppCompatActivity {
                 R.color.edit_text_toolbar_underline), PorterDuff.Mode.SRC_IN);
 
         searchIcon = (ImageView) findViewById(R.id.search_icon);
-        searchIcon.setOnClickListener(new OnSearchIconClickListener(searchEditText, this));*/
+        searchIcon.setOnClickListener(new OnSearchAuthorsClickListener(searchEditText, this));*/
     }
 
     private void initializeContent() {

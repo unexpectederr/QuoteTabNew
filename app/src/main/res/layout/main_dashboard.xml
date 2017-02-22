@@ -12,6 +12,37 @@
         >
     </android.support.v4.view.ViewPager>
 
+    <io.codetail.widget.RevealFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_marginBottom="-5dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:layout_weight="1">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/toolbar_dropshadow"/>
+
+        </LinearLayout>
+
+
+    </io.codetail.widget.RevealFrameLayout>
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -32,9 +63,13 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/search_icon"
                 android:ems="10"
-                android:hint="Search author"
+                android:textCursorDrawable="@null"
+                android:background="@android:color/transparent"
+                android:hint="Search quotes or authors.."
                 android:inputType="textPersonName"
-                android:visibility="gone"/>
+                android:visibility="visible"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/edit_text_toolbar_underline"/>
 
             <ImageView
                 android:id="@+id/search_icon"
@@ -306,7 +341,7 @@
         android:id="@+id/splash_screen"
         android:background="@android:color/white"
         android:translationZ="999dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/logo"

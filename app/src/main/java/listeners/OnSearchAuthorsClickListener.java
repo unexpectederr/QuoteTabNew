@@ -11,13 +11,13 @@ import helpers.main.AppHelper;
  * Created by unexpected_err on 11/01/2017.
  */
 
-public class OnSearchIconClickListener implements View.OnClickListener {
+public class OnSearchAuthorsClickListener implements View.OnClickListener {
 
     private EditText mSearchEditText;
     private TextView mScreenTitle;
     private Context mContext;
 
-    public OnSearchIconClickListener(EditText searchEditText, TextView screenTitle, Context context) {
+    public OnSearchAuthorsClickListener(EditText searchEditText, TextView screenTitle, Context context) {
         mSearchEditText = searchEditText;
         mScreenTitle = screenTitle;
         mContext = context;

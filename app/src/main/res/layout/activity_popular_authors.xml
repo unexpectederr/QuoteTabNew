@@ -62,9 +62,13 @@
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@+id/search_icon"
                         android:ems="10"
+                        android:textCursorDrawable="@null"
+                        android:background="@android:color/transparent"
                         android:hint="Search author"
                         android:inputType="textPersonName"
-                        android:visibility="gone"/>
+                        android:visibility="gone"
+                        android:textColorHint="@color/edit_text_toolbar_underline"
+                        android:textColor="@android:color/white"/>
 
                     <ImageView
                         android:id="@+id/search_icon"

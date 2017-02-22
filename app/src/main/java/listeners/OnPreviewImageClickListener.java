@@ -32,10 +32,10 @@ public class OnPreviewImageClickListener implements View.OnClickListener {
     private QuoteImagesAdapter adapter;
     private int position;
 
+
     public OnPreviewImageClickListener(Context context, QuoteImageView image, String imageUrl,
                                        ArrayList<ImageSuggestion> mDataSet,
                                        QuoteImagesAdapter adapter, int position) {
-
         this.context = context;
         this.image = image;
         this.imageUrl = imageUrl;
