@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import adapters.AuthorsAdapter;
 import digitalbath.quotetab.R;
-import helpers.other.ReadAndWriteToFile;
+import helpers.main.ReadAndWriteToFile;
 import models.authors.AuthorDetails;
 
 /**

@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import helpers.main.AppHelper;
-import helpers.other.ReadAndWriteToFile;
+import helpers.main.ReadAndWriteToFile;
 
 /**
  * Created by Spaja on 15-Feb-17.

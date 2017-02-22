@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import digitalbath.quotetab.R;
 import adapters.QuotesAdapter;
 import helpers.main.AppHelper;
-import helpers.other.ReadAndWriteToFile;
+import helpers.main.ReadAndWriteToFile;
 import models.quotes.Quote;
 
 public class FavoriteQuotes extends AppCompatActivity {

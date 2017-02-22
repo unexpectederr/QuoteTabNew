@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import adapters.QuotesAdapter;
 import digitalbath.quotetab.R;
-import helpers.other.ReadAndWriteToFile;
+import helpers.main.ReadAndWriteToFile;
 import models.quotes.Quote;
 
 /**

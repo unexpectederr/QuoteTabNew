@@ -1,16 +1,13 @@
 package listeners;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+
+import digitalbath.quotetab.R;
 
 /**
  * Created by Spaja on 10-Jan-17.
@@ -37,27 +34,21 @@ public class OnShareClickListener implements View.OnClickListener {
     }
 
     private void dialogBox() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setMessage("Share Quote as:");
-        alertDialogBuilder.setPositiveButton("Image",
-                new ShareImageClickListener(context, relativeLayout));
 
-        alertDialogBuilder.setNegativeButton("Text",
-                new DialogInterface.OnClickListener() {
+        MaterialStyledDialog.Builder dialog = new MaterialStyledDialog.Builder(context);
 
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        Intent share = new Intent(Intent.ACTION_SEND);
-                        share.setType("text/plain");
-                        share.putExtra(Intent.EXTRA_SUBJECT, "QuoteActivity");
-                        share.putExtra(Intent.EXTRA_TEXT, "\"" + quoteText + "\""+ "\n\n" + "- "  + authorName +
-                                " -" + "\n\nwww.quotetab.com");
-                        context.startActivity(Intent.createChooser(share, "Share via:"));
-                    }
-                });
+        dialog.setTitle("Share Quote!");
+        dialog.setDescription("Please choose an option how to share a quote:");
 
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+        dialog.setIcon(R.drawable.logo_3);
+        dialog.setPositiveText("AS IMAGE");
+        dialog.onPositive(new ShareAsImageClickListener(context, relativeLayout));
+
+        dialog.setNeutralText("AS TEXT");
+        dialog.onNeutral(new ShareAsTextClickListener(context, quoteText, authorName));
+
+        dialog.show();
+
     }
 
 }

@@ -1,4 +1,4 @@
-package helpers.other;
+package helpers.main;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -27,6 +27,8 @@ import models.quotes.Quote;
  */
 
 public class ReadAndWriteToFile {
+
+    private static int imageIndex = 0;
 
     //region QUOTES
     public static void addQuoteToFavorites(Context context, Quote quote) {
@@ -77,6 +79,34 @@ public class ReadAndWriteToFile {
             e.printStackTrace();
         }
         return quotes;
+    }
+
+    public static void writeQuoteImageToCache(Context context, Bitmap bm) {
+
+        FileOutputStream stream = null;
+
+        try {
+
+            File cachePath = new File(context.getCacheDir(), "images");
+
+            if (!cachePath.exists()) {
+                cachePath.mkdirs();
+            }
+
+            // overwrites this image every time
+            stream = new FileOutputStream(cachePath + "/image" + imageIndex + ".jpg");
+            bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                stream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
     //endregion
 
@@ -172,4 +202,5 @@ public class ReadAndWriteToFile {
         cr.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
     }
+    //endregion
 }

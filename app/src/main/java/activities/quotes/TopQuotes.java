@@ -6,15 +6,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import digitalbath.quotetab.R;
 import adapters.QuotesAdapter;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
-import helpers.other.ReadAndWriteToFile;
+import helpers.main.ReadAndWriteToFile;
 import models.quotes.Quote;
 import networking.QuoteTabApi;
 import retrofit2.Call;

@@ -20,7 +20,7 @@ import digitalbath.quotetab.R;
 import adapters.PopularAuthorsAdapter;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
-import helpers.other.ReadAndWriteToFile;
+import helpers.main.ReadAndWriteToFile;
 import listeners.OnSearchAuthorsClickListener;
 import listeners.OnSearchAuthorWatcher;
 import models.authors.AuthorDetails;
