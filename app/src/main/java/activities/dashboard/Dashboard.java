@@ -10,10 +10,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -65,6 +68,24 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         initializeContent();
 
         FirebaseMessaging.getInstance().subscribeToTopic("quote-of-the-day");
+
+        RecyclerView searchRecycler = (RecyclerView) findViewById(R.id.search_recycler);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        searchRecycler.setLayoutManager(manager);
+
+        EditText search = (EditText) findViewById(R.id.)
+
+        getSearchResultAuthors();
+        getSearchResultQuotes();
+
+
+    }
+
+    private void getSearchResultQuotes(String query) {
+
+    }
+
+    private void getSearchResultAuthors(String query) {
 
     }
 

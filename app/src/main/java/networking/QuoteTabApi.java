@@ -4,6 +4,7 @@ import models.authors.AuthorsByLetter;
 import models.authors.PopularAuthors;
 import models.dashboard.DashboardData;
 import models.images.ImageSuggestion;
+import models.quotes.Quote;
 import models.quotes.Quotes;
 import models.quotes.TopQuotes;
 import models.topics.Topics;
@@ -14,6 +15,8 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+import static networking.QuoteTabApi.ENDPOINT;
+
 /**
  * Created by unexpected_err on 17/10/2016.
  */
@@ -22,6 +25,11 @@ public interface QuoteTabApi {
 
     String BASE_URL = "https://www.quotetab.com/";
     String ENDPOINT = "api/v1.0/";
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+    QuoteTabApi quoteTabApi = retrofit.create(QuoteTabApi.class);
 
     @GET("api/v1.0")
     Call<DashboardData> getDashboardData();
@@ -53,10 +61,9 @@ public interface QuoteTabApi {
     @GET("photo-quote/images/load")
     Call<ImageSuggestion> getImageSugguestions(@Query("query") String query);
 
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-
-    QuoteTabApi quoteTabApi = retrofit.create(QuoteTabApi.class);
+    @GET(ENDPOINT + "search")
+    Call<Quote> getSearchResultQuotes(@Query("authors") boolean authors,
+                                      @Query("quotes") boolean quotes,
+                                      @Query("topics") boolean topics,
+                                      @Query("q") String query);
 }
