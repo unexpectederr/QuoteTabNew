@@ -12,9 +12,10 @@ public class Quote implements Serializable {
     private int imageId;
     private boolean favorite;
 
-    public Quote() {
+    @SerializedName("fields")
+    private QuoteFields quoteDetails;
 
-    }
+
 
     public Quote(boolean favorite, int imageId, QuoteFields quoteDetails) {
         this.favorite = favorite;
@@ -29,9 +30,6 @@ public class Quote implements Serializable {
     public void setFavorite(boolean favorite) {
         this.favorite = favorite;
     }
-
-    @SerializedName("fields")
-    private QuoteFields quoteDetails;
 
     public QuoteFields getQuoteDetails() {
         return quoteDetails;

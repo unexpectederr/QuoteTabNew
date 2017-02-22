@@ -1,20 +1,16 @@
 package listeners;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
-import io.codetail.animation.ViewAnimationUtils;
-import io.codetail.widget.RevealFrameLayout;
 import models.authors.AuthorFieldsFromQuote;
 
 /**

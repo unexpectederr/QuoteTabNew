@@ -6,10 +6,10 @@
 
   <color name="main_color_dark">#515151</color>
   <color name="main_color_light">#ffffff</color>
-  <color name="light_gray_ultra">#d7d7d7</color>
   <color name="light_gray">#ababab</color>
+  <color name="light_gray_ultra">#d7d7d7</color>
+  <color name="light_gray_mega_ultra">#eaeaea</color>
   <color name="light_gray_with_tr">#a6ababab</color>
-
   <color name="edit_text_toolbar_underline">#80cce6</color>
 
   <array name="progress_bar_colors">

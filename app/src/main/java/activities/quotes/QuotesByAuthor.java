@@ -1,6 +1,5 @@
 package activities.quotes;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -21,7 +20,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import adapters.QuotesAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.Constants;
@@ -30,7 +29,6 @@ import listeners.OnShowAuthorInfoListener;
 import listeners.OnWikipediaButtonClickListener;
 import models.authors.AuthorDetails;
 import models.authors.AuthorDetailsFromQuote;
-import models.authors.AuthorFieldsFromQuote;
 import models.quotes.Quote;
 import models.quotes.Quotes;
 import networking.QuoteTabApi;

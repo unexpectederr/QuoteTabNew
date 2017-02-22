@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import adapters.AuthorsAdapter;
 import helpers.other.ReadAndWriteToFile;
 import models.authors.AuthorDetails;
@@ -43,10 +43,12 @@ public class Authors extends AppCompatActivity {
     }
 
     private void initializeToolbar() {
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
     }
 
     private void initializeContent() {
@@ -63,7 +65,7 @@ public class Authors extends AppCompatActivity {
 
         if (isByLetter) {
 
-            screenTitle.setText("All " + letter.toUpperCase() + " Authors...");
+            screenTitle.setText("All '" + letter.toUpperCase() + "' Authors");
             adapter = new AuthorsAdapter(this, new ArrayList<AuthorDetails>(), true);
             authorsRecyclerView.setAdapter(adapter);
 
@@ -97,6 +99,7 @@ public class Authors extends AppCompatActivity {
                     super.onScrollStateChanged(recyclerView, newState);
                 }
             });
+
         } else {
 
             screenTitle.setText("Favorite Authors");

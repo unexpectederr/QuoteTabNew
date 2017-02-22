@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import helpers.main.AppController;
 import helpers.main.Constants;
 import helpers.other.QuoteImageView;

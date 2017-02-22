@@ -13,7 +13,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import activities.dashboard.Dashboard;
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 
 /**
  * Created by unexpected_err on 19/01/2017.

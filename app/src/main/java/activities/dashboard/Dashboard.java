@@ -31,7 +31,7 @@ import activities.quote_maker.QuoteMaker;
 import activities.quotes.FavoriteQuotes;
 import activities.quotes.QuotesByTag;
 import activities.quotes.TopQuotes;
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import activities.topics.Topics;
 import adapters.DashboardPagerAdapter;
 import helpers.main.AppController;

@@ -1,6 +1,5 @@
 package listeners;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import activities.quote_maker.QuoteMaker;
 import helpers.main.AppHelper;
 import helpers.other.ReadAndWriteToFile;
 
@@ -35,7 +33,7 @@ public class SaveImageToFileClickListener implements View.OnClickListener {
         if (bm != null) {
 
             ReadAndWriteToFile.saveImage(bm, context);
-            Toast toast = Toast.makeText(context, "Quote saved",
+            Toast toast = Toast.makeText(context, "QuoteActivity saved",
                     Toast.LENGTH_LONG);
             toast.show();
             relativeLayout.setDrawingCacheEnabled(false);

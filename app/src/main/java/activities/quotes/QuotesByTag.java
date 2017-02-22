@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import adapters.QuotesAdapter;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
@@ -63,7 +63,7 @@ public class QuotesByTag extends AppCompatActivity {
                     if (!loading) {
                         if ((visibleItemCount + pastVisibleItems) >= (totalItemCount - 3)) {
                             loading = true;
-                            findViewById(R.id.progress_bar_quotes_by_tag).setVisibility(View.VISIBLE);
+                            findViewById(R.id.smooth_progress_bar).setVisibility(View.VISIBLE);
                             page++;
                             getQuotesByTag(tag, page);
                         }
@@ -113,7 +113,7 @@ public class QuotesByTag extends AppCompatActivity {
 
                 adapter.addQuotes(response.body().getQuotes());
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
-                findViewById(R.id.progress_bar_quotes_by_tag).setVisibility(View.GONE);
+                findViewById(R.id.smooth_progress_bar).setVisibility(View.GONE);
                 loading = false;
 
             }

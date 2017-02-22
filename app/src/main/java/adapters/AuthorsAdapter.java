@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,7 +14,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import activities.quotetabnew.R;
+import digitalbath.quotetab.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.Constants;
 import helpers.other.ReadAndWriteToFile;
@@ -26,14 +28,15 @@ import models.authors.AuthorDetails;
 
 public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHolder> {
 
-    private Context context;
+    private Context mContext;
     private ArrayList<AuthorDetails> mDataSet;
     private ArrayList<AuthorDetails> favoriteAuthors;
     private boolean isFromAllAuthors;
+    private int mLastPosition = -1;
 
     public AuthorsAdapter(Context context, ArrayList<AuthorDetails> Authors, boolean isFromAllAuthors) {
 
-        this.context = context;
+        this.mContext = context;
         this.mDataSet = Authors;
         favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(context);
         this.isFromAllAuthors = isFromAllAuthors;
@@ -101,15 +104,26 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
 
         if (isFromAllAuthors) {
 
-            holder.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(context,
+            holder.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(mContext,
                     mDataSet.get(position), mDataSet, holder.favoriteIcon, this, false));
         } else {
 
-            holder.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(context,
+            holder.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(mContext,
                     mDataSet.get(position), mDataSet, holder.favoriteIcon, this, true));
         }
 
-        holder.itemView.setOnClickListener(new OnAuthorClickListener(context, mDataSet.get(position).getId()));
+        holder.itemView.setOnClickListener(new OnAuthorClickListener(mContext, mDataSet.get(position).getId()));
+
+        setAnimation(holder.itemView, holder.getAdapterPosition());
+    }
+
+    private void setAnimation(View viewToAnimate, int position) {
+
+        if (position > mLastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.abc_slide_in_bottom);
+            viewToAnimate.startAnimation(animation);
+            mLastPosition = position;
+        }
     }
 
     @Override
