@@ -59,7 +59,7 @@ public class QuoteMaker extends AppCompatActivity {
         share.setOnClickListener(new ShareImageClickListener(this, relativeLayout));
 
         ImageView saveImage = (ImageView) findViewById(R.id.download_icon);
-        saveImage.setOnClickListener(new SaveImageToFileClickListener(QuoteMaker.this, relativeLayout));
+        saveImage.setOnClickListener(new SaveImageToFileClickListener(QuoteMaker.this, relativeLayout, null, null));
 
         EditText quoteText = (EditText) findViewById(R.id.quote_text);
         quoteText.setTypeface(AppHelper.getRalewayLight(this));

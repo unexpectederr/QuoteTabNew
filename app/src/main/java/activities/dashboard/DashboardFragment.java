@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -96,8 +97,9 @@ public class DashboardFragment extends Fragment {
         author.setOnClickListener(new OnAuthorClickListener(author.getContext(), quote.getSource().getAuthorId()));
 
         ImageView share = (ImageView) view.findViewById(R.id.dashboard_share);
+        RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.main_layout);
         share.setOnClickListener(new OnShareClickListener(share.getContext(), quote.getSource().getQuote(),
-                quote.getSource().getAuthorName()));
+                quote.getSource().getAuthorName(), relativeLayout));
 
         ImageView favoriteQuote = (ImageView) view.findViewById(R.id.dashboard_favorite);
         favoriteQuote.setImageResource(R.drawable.ic_favorite_empty);

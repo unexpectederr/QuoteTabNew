@@ -132,9 +132,10 @@ public class QuoteActivity extends AppCompatActivity {
 
         ImageView shareIcon = (ImageView) findViewById(R.id.share_quote_icon);
 
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.header);
         shareIcon.setOnClickListener(new OnShareClickListener(this,
                 mQuote.getQuoteDetails().getQuoteText(),
-                mQuote.getQuoteDetails().getAuthorName()));
+                mQuote.getQuoteDetails().getAuthorName(), relativeLayout));
 
         ImageView favoriteIcon = (ImageView) findViewById(R.id.favorite_icon);
 

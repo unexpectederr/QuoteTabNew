@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -61,6 +62,8 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         ImageView favoriteIcon;
         ImageView downloadIcon;
         RelativeLayout relativeLayout;
+        HorizontalScrollView tags;
+        LinearLayout actionButtons;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -73,6 +76,8 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
             favoriteIcon = (ImageView) itemView.findViewById(R.id.favorite_icon);
             downloadIcon = (ImageView) itemView.findViewById(R.id.download_icon);
             relativeLayout = (RelativeLayout) itemView.findViewById(R.id.save_image);
+            tags = (HorizontalScrollView) itemView.findViewById(R.id.tags_scroll_view);
+            actionButtons = (LinearLayout) itemView.findViewById(R.id.qwe);
         }
     }
 
@@ -87,7 +92,9 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        holder.downloadIcon.setOnClickListener(new SaveImageToFileClickListener(context, holder.relativeLayout));
+        holder.downloadIcon.setOnClickListener(new SaveImageToFileClickListener(context,
+                holder.relativeLayout, holder.tags, holder.actionButtons));
+
         if (mDataSet.get(position).getImageId() == 0)
             mDataSet.get(position).setImageId(AppController.getBitmapIndex());
 
@@ -128,7 +135,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
         holder.shareIcon.setOnClickListener(new OnShareClickListener(context,
                 holder.quoteText.getText().toString(),
-                mDataSet.get(position).getQuoteDetails().getAuthorName()));
+                mDataSet.get(position).getQuoteDetails().getAuthorName(), holder.relativeLayout));
 
         holder.favoriteIcon.setOnClickListener(new OnFavoriteQuoteClickListener(context, favoriteQuotes,
                 holder.favoriteIcon, mDataSet.get(position), this, isFavorites));
