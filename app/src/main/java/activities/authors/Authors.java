@@ -15,7 +15,6 @@ import digitalbath.quotetab.R;
 import adapters.AuthorsAdapter;
 import helpers.other.ReadAndWriteToFile;
 import models.authors.AuthorDetails;
-import models.authors.AuthorsByLetter;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -111,9 +110,9 @@ public class Authors extends AppCompatActivity {
 
     private void loadAuthors(String letter, int page) {
 
-        QuoteTabApi.quoteTabApi.getAuthorsByLetter(letter, page).enqueue(new Callback<AuthorsByLetter>() {
+        QuoteTabApi.quoteTabApi.getAuthorsByLetter(letter, page).enqueue(new Callback<models.authors.Authors>() {
             @Override
-            public void onResponse(Call<AuthorsByLetter> call, Response<AuthorsByLetter> response) {
+            public void onResponse(Call<models.authors.Authors> call, Response<models.authors.Authors> response) {
 
                 adapter.addAuthors(response.body().getAuthors());
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
@@ -123,7 +122,7 @@ public class Authors extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AuthorsByLetter> call, Throwable t) {
+            public void onFailure(Call<models.authors.Authors> call, Throwable t) {
 
             }
         });
@@ -136,7 +135,7 @@ public class Authors extends AppCompatActivity {
 
             Intent returnIntent = new Intent();
             returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteAuthors(this));
-            this.setResult(Authors.RESULT_OK, returnIntent);
+            this.setResult(activities.authors.Authors.RESULT_OK, returnIntent);
             onBackPressed();
             return true;
 
@@ -153,7 +152,7 @@ public class Authors extends AppCompatActivity {
 
             Intent returnIntent = new Intent();
             returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteAuthors(this));
-            this.setResult(Authors.RESULT_OK, returnIntent);
+            this.setResult(activities.authors.Authors.RESULT_OK, returnIntent);
             super.onBackPressed();
 
         } else {

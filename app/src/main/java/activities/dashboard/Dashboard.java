@@ -35,6 +35,7 @@ import activities.quote_maker.QuoteMaker;
 import activities.quotes.FavoriteQuotes;
 import activities.quotes.QuotesByTag;
 import activities.quotes.TopQuotes;
+import adapters.SearchAdapter;
 import digitalbath.quotetab.R;
 import activities.topics.Topics;
 import adapters.DashboardPagerAdapter;
@@ -48,6 +49,8 @@ import models.authors.AuthorDetails;
 import models.dashboard.DashboardData;
 import models.dashboard.TopPhotos;
 import models.quotes.Quote;
+import models.quotes.Quotes;
+import models.search.SearchResponse;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,6 +62,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     int rubberOldPosition;
     ViewPager mPager;
     ArrayList<TopPhotos> mItems;
+    RecyclerView searchRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,28 +74,39 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         FirebaseMessaging.getInstance().subscribeToTopic("quote-of-the-day");
 
-        RecyclerView searchRecycler = (RecyclerView) findViewById(R.id.search_recycler);
+
         LinearLayoutManager manager = new LinearLayoutManager(this);
         searchRecycler.setLayoutManager(manager);
 
-        EditText search = (EditText) findViewById(R.id.)
+        final EditText searchText = (EditText) findViewById(R.id.search_edit_text_dashboard);
+        ImageView search = (ImageView) findViewById(R.id.search_icon_dashboard);
 
-        getSearchResultAuthors();
-        getSearchResultQuotes();
-
-
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSearchResults(searchText.getText().toString());
+            }
+        });
     }
 
-    private void getSearchResultQuotes(String query) {
+    private void getSearchResults(String query) {
+        QuoteTabApi.quoteTabApi.getSearchResults(true, true, true, query).enqueue(new Callback<SearchResponse>() {
+            @Override
+            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                SearchAdapter adapter = new SearchAdapter(response.body(), Dashboard.this);
+                searchRecycler.setAdapter(adapter);
+            }
 
-    }
+            @Override
+            public void onFailure(Call<SearchResponse> call, Throwable t) {
 
-    private void getSearchResultAuthors(String query) {
-
+            }
+        });
     }
 
     private void initializeContent() {
 
+        searchRecycler = (RecyclerView) findViewById(R.id.search_recycler);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

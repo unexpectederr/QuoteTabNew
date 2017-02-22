@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetab.R;
 import helpers.main.AppHelper;
-import models.Comment;
+import models.quotes.Comment;
 
 /**
  * Created by unexpected_err on 19/02/2017.

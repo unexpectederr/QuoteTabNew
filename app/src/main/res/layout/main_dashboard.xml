@@ -57,11 +57,10 @@
             >
 
             <EditText
-                android:id="@+id/search_edit_text"
+                android:id="@+id/search_edit_text_dashboard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/search_icon"
                 android:ems="10"
                 android:textCursorDrawable="@null"
                 android:background="@android:color/transparent"
@@ -69,21 +68,19 @@
                 android:inputType="textPersonName"
                 android:visibility="visible"
                 android:textColor="@android:color/white"
+                android:layout_toLeftOf="@+id/search_icon_dashboard"
                 android:textColorHint="@color/edit_text_toolbar_underline"/>
 
             <ImageView
-                android:id="@+id/search_icon"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="7dp"
-                app:srcCompat="@drawable/ic_search"
+                android:id="@+id/search_icon_dashboard"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:alpha="0.7"/>
+                android:src="@drawable/ic_search"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:padding="7dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
 
         </RelativeLayout>
 
@@ -115,10 +112,37 @@
         android:alpha="0.8"
         android:layout_width="75dp"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/splash_screen"
+        android:background="@android:color/white"
+        android:translationZ="999dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_centerInParent="true"
+            android:paddingBottom="15dp"
+            android:layout_height="150dp"
+            android:layout_width="150dp"/>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_recycler"
+        android:layout_below="@+id/toolbar">
+
+    </android.support.v7.widget.RecyclerView>
+
     <io.codetail.widget.RevealFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/splash_screen">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -334,29 +358,5 @@
         </RelativeLayout>
 
     </io.codetail.widget.RevealFrameLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/splash_screen"
-        android:background="@android:color/white"
-        android:translationZ="999dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_centerInParent="true"
-            android:paddingBottom="15dp"
-            android:layout_height="150dp"
-            android:layout_width="150dp"/>
-
-    </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/search_recycler">
-
-    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
