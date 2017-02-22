@@ -139,7 +139,6 @@ public class ReadAndWriteToFile {
 
         File imagePath = new File(Environment.getExternalStoragePublicDirectory
                 (Environment.DIRECTORY_PICTURES) + File.separator + "QuoteTab" + File.separator);
-        imagePath.mkdir();
 
         OutputStream fOut = null;
         File file = new File(imagePath, "Quote_" + System.currentTimeMillis() + ".jpg");

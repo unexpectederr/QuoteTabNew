@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ import listeners.OnFavoriteQuoteClickListener;
 import listeners.OnQuoteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
+import listeners.SaveImageToFileClickListener;
 import models.quotes.Quote;
 
 /**
@@ -52,21 +55,29 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView quoteText;
-        ImageView shareText;
+        ImageView shareIcon;
         LinearLayout quoteTags;
         ImageView cardImage;
         TextView authorName;
         ImageView favoriteIcon;
+        ImageView downloadIcon;
+        RelativeLayout relativeLayout;
+        HorizontalScrollView tags;
+        LinearLayout actionButtons;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             quoteText = (TextView) itemView.findViewById(R.id.quoteText);
-            shareText = (ImageView) itemView.findViewById(R.id.share_icon);
+            shareIcon = (ImageView) itemView.findViewById(R.id.share_icon);
             quoteTags = (LinearLayout) itemView.findViewById(R.id.quote_tags);
             cardImage = (ImageView) itemView.findViewById(R.id.card_image);
             authorName = (TextView) itemView.findViewById(R.id.card_author_name);
             favoriteIcon = (ImageView) itemView.findViewById(R.id.favorite_icon);
+            downloadIcon = (ImageView) itemView.findViewById(R.id.download_icon);
+            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.save_image);
+            tags = (HorizontalScrollView) itemView.findViewById(R.id.tags_scroll_view);
+            actionButtons = (LinearLayout) itemView.findViewById(R.id.qwe);
         }
     }
 
@@ -80,6 +91,9 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
+        holder.downloadIcon.setOnClickListener(new SaveImageToFileClickListener(context,
+                holder.relativeLayout, holder.tags, holder.actionButtons));
 
         if (mDataSet.get(position).getImageId() == 0)
             mDataSet.get(position).setImageId(AppController.getBitmapIndex());
@@ -119,10 +133,9 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
                     .getQuoteDetails().getAuthorId()));
         }
 
-
-        holder.shareText.setOnClickListener(new OnShareClickListener(context,
+        holder.shareIcon.setOnClickListener(new OnShareClickListener(context,
                 holder.quoteText.getText().toString(),
-                mDataSet.get(position).getQuoteDetails().getAuthorName()));
+                mDataSet.get(position).getQuoteDetails().getAuthorName(), holder.relativeLayout));
 
         holder.favoriteIcon.setOnClickListener(new OnFavoriteQuoteClickListener(context, favoriteQuotes,
                 holder.favoriteIcon, mDataSet.get(position), this, isFavorites));

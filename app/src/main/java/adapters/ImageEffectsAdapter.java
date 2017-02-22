@@ -58,7 +58,7 @@ public class ImageEffectsAdapter extends RecyclerView.Adapter<ImageEffectsAdapte
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         holder.effectName.setText(mDataSet.get(position).getFilterName());
 
@@ -73,7 +73,13 @@ public class ImageEffectsAdapter extends RecyclerView.Adapter<ImageEffectsAdapte
             e.printStackTrace();
         }
 
-        holder.itemView.setOnClickListener(new OnEffectClickListener(context, imageLarge, position));
+        holder.itemView.setOnClickListener(new OnEffectClickListener(this, mDataSet.get(position).getFilterClass(),
+                context, imageLarge, mDataSet, position));
+
+        holder.effectImage.setBorderColor(mDataSet.get(position).isSelected() ?
+                context.getResources().getColor(R.color.colorPrimary) :
+                context.getResources().getColor(R.color.light_gray_ultra));
+
     }
 
     @Override

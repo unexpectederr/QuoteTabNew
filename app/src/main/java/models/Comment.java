@@ -9,10 +9,10 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Comment {
 
-    String username;
-    String text;
-    String date;
-    String avatar;
+    private String username;
+    private String text;
+    private String date;
+    private String avatar;
 
     public String getUsername() {
         return username;

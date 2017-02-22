@@ -40,12 +40,13 @@ public class QuoteImagesAdapter extends RecyclerView.Adapter<QuoteImagesAdapter.
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView quoteImage;
+        ImageView quoteImage, shader;
 
         MyViewHolder(View itemView) {
             super(itemView);
 
             quoteImage = (ImageView) itemView.findViewById(R.id.quote_background_image);
+            shader = (ImageView) itemView.findViewById(R.id.shader);
         }
     }
     @Override
@@ -82,11 +83,14 @@ public class QuoteImagesAdapter extends RecyclerView.Adapter<QuoteImagesAdapter.
         }
 
         holder.quoteImage.setOnClickListener(new OnPreviewImageClickListener
-                (context, largeImage, imageUrl));
+                (context, largeImage, imageUrl, mDataSet, this, position));
 
-
+        if (mDataSet.get(position).isSelected()) {
+            holder.shader.setVisibility(View.VISIBLE);
+        } else {
+            holder.shader.setVisibility(View.GONE);
+        }
     }
-
 
     @Override
     public int getItemCount() {

@@ -1,12 +1,14 @@
 package listeners;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.RelativeLayout;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,10 +17,11 @@ import java.io.IOException;
  * Created by Spaja on 16-Feb-17.
  */
 
-public class ShareImageClickListener implements View.OnClickListener {
+public class ShareImageClickListener implements View.OnClickListener, DialogInterface.OnClickListener{
 
     private Context context;
     private RelativeLayout relativeLayout;
+    private static int imageIndex = 0;
 
     public ShareImageClickListener(Context context, RelativeLayout relativeLayout) {
         this.context = context;
@@ -28,6 +31,10 @@ public class ShareImageClickListener implements View.OnClickListener {
     @Override
     public void onClick(View view) {
 
+        shareImage();
+    }
+
+    private void shareImage() {
         relativeLayout.setDrawingCacheEnabled(true);
         Bitmap bm = Bitmap.createBitmap(relativeLayout.getDrawingCache());
         relativeLayout.setDrawingCacheEnabled(false);
@@ -35,7 +42,8 @@ public class ShareImageClickListener implements View.OnClickListener {
         writeImageToCache(bm);
 
         File imagePath = new File(context.getCacheDir(), "images");
-        File newFile = new File(imagePath, "image.jpg");
+        File newFile = new File(imagePath, "image" + imageIndex + ".jpg");
+        imageIndex++;
         Uri contentUri = FileProvider.getUriForFile(context,
                 "com.digitalbath.quotetabnew.fileprovider", newFile);
 
@@ -56,7 +64,7 @@ public class ShareImageClickListener implements View.OnClickListener {
             if (!cachePath.exists()) {
                 cachePath.mkdirs();
             }
-            stream = new FileOutputStream(cachePath + "/image.jpg"); // overwrites this image every time
+            stream = new FileOutputStream(cachePath + "/image" + imageIndex + ".jpg"); // overwrites this image every time
             bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
             stream.close();
 
@@ -70,4 +78,11 @@ public class ShareImageClickListener implements View.OnClickListener {
             }
         }
     }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+
+        shareImage();
+    }
 }
+

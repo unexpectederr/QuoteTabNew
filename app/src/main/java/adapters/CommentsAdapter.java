@@ -120,11 +120,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView text;
-        public TextView username;
+        TextView username;
         public TextView time;
         CircleImageView avatar;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             text = (TextView) itemView.findViewById(R.id.text);
