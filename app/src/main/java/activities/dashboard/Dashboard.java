@@ -1,6 +1,7 @@
 package activities.dashboard;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -69,6 +70,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     }
 
     private void initializeContent() {
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

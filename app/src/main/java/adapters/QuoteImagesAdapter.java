@@ -15,7 +15,7 @@ import digitalbath.quotetab.R;
 import helpers.main.AppController;
 import helpers.main.Constants;
 import helpers.other.QuoteImageView;
-import listeners.OnImageClickListener;
+import listeners.OnPreviewImageClickListener;
 import models.images.ImageSuggestion;
 
 /**
@@ -81,7 +81,7 @@ public class QuoteImagesAdapter extends RecyclerView.Adapter<QuoteImagesAdapter.
             imageUrl = mDataSet.get(position).getPriviewImageUrl();
         }
 
-        holder.quoteImage.setOnClickListener(new OnImageClickListener
+        holder.quoteImage.setOnClickListener(new OnPreviewImageClickListener
                 (context, largeImage, imageUrl));
 
 

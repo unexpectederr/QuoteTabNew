@@ -19,13 +19,13 @@ import helpers.other.QuoteImageView;
  * Created by Spaja on 14-Feb-17.
  */
 
-public class OnImageClickListener implements View.OnClickListener {
+public class OnPreviewImageClickListener implements View.OnClickListener {
 
     private String imageUrl;
     private QuoteImageView image;
     private Context context;
 
-    public OnImageClickListener(Context context, QuoteImageView image, String imageUrl) {
+    public OnPreviewImageClickListener(Context context, QuoteImageView image, String imageUrl) {
 
         this.context = context;
         this.image = image;

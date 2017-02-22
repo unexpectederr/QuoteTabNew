@@ -21,8 +21,8 @@ import adapters.PopularAuthorsAdapter;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.ReadAndWriteToFile;
+import listeners.OnSearchAuthorsClickListener;
 import listeners.OnSearchAuthorWatcher;
-import listeners.OnSearchIconClickListener;
 import models.authors.AuthorDetails;
 import networking.QuoteTabApi;
 import retrofit2.Call;
@@ -67,7 +67,7 @@ public class PopularAuthors extends AppCompatActivity {
 
         searchIcon = (ImageView) findViewById(R.id.search_icon);
         searchIcon.setOnClickListener(
-                new OnSearchIconClickListener(searchEditText, screenTitle, this));
+                new OnSearchAuthorsClickListener(searchEditText, screenTitle, this));
 
     }
 

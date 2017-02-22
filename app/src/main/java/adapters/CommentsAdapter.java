@@ -28,11 +28,11 @@ import models.Comment;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHolder> {
 
-    ArrayList<Comment> mComments = new ArrayList<>();
-    RecyclerView mRecyclerView;
-    LinearLayout mEmptyListCont;
+    private ArrayList<Comment> mComments = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private LinearLayout mEmptyListCont;
     private Context mContext;
-    boolean isRecyclerInititlaized;
+    private boolean isRecyclerInitialized;
 
     public CommentsAdapter(Context context, DatabaseReference ref,
                            RecyclerView recycler, LinearLayout emptyListCont) {
@@ -69,10 +69,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                     @Override
                     public void run() {
 
-                        if (isRecyclerInititlaized)
+                        if (isRecyclerInitialized)
                             mRecyclerView.smoothScrollToPosition(mComments.size() - 1);
 
-                        isRecyclerInititlaized = true;
+                        isRecyclerInitialized = true;
                     }
                 }, 200);
             }
