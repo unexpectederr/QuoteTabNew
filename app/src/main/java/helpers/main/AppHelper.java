@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -169,27 +170,53 @@ public class AppHelper {
         return newsTimeStamp;
     }
 
-    public static void revealLayout(View authorInfo, View view, ImageView closeBtn) {
+    public static void revealLayout(View viewToReveal, View view, ImageView closeBtn, boolean unReveal) {
 
-        ((RevealFrameLayout) authorInfo.getParent()).setVisibility(View.VISIBLE);
+        ((RevealFrameLayout) viewToReveal.getParent()).setVisibility(View.VISIBLE);
 
         // get the center for the clipping circle
         final int cx = (view.getLeft() + view.getRight()) / 2;
         final int cy = (view.getTop() + view.getBottom()) / 2;
 
         // get the final radius for the clipping circle
-        int dx = Math.max(cx, authorInfo.getWidth() - cx);
-        int dy = Math.max(cy, authorInfo.getHeight() - cy);
+        int dx = Math.max(cx, viewToReveal.getWidth() - cx);
+        int dy = Math.max(cy, viewToReveal.getHeight() - cy);
         final float finalRadius = (float) Math.hypot(dx, dy);
+
+        if (unReveal) {
+            AppHelper.unRevealLayout(viewToReveal, cx, cy, finalRadius);
+            return;
+        }
 
         // Android native animator
         final Animator animator =
-                ViewAnimationUtils.createCircularReveal(authorInfo, cx, cy, 0, finalRadius);
+                ViewAnimationUtils.createCircularReveal(viewToReveal, cx, cy, 0, finalRadius);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.setDuration(600);
         animator.start();
 
-        closeBtn.setOnClickListener(new OnCloseRevealedLayoutListener(authorInfo, cx, cy, finalRadius));
+
+
+        if (closeBtn != null)
+            closeBtn.setOnClickListener(new OnCloseRevealedLayoutListener(viewToReveal,
+                    cx, cy, finalRadius));
+    }
+
+    public static void unRevealLayout(final View viewToUnReveal, int cx, int cy, float finalRadius) {
+
+        Animator animatorReverse = ViewAnimationUtils
+                .createCircularReveal(viewToUnReveal, cx, cy, finalRadius, 0);
+
+        animatorReverse.setInterpolator(new AccelerateDecelerateInterpolator());
+        animatorReverse.setDuration(600);
+        animatorReverse.start();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ((RevealFrameLayout) viewToUnReveal.getParent()).setVisibility(View.INVISIBLE);
+            }
+        }, 600);
     }
 
     public static Animation getAnimationUp(Context context) {

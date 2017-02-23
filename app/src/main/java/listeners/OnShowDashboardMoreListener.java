@@ -38,7 +38,7 @@ public class OnShowDashboardMoreListener implements View.OnClickListener {
         View dashboardMore = mActivity.findViewById(R.id.dashboard_more);
         ImageView closeBtn = (ImageView) dashboardMore.findViewById(R.id.close_info);
 
-        AppHelper.revealLayout(dashboardMore, view, closeBtn);
+        AppHelper.revealLayout(dashboardMore, view, closeBtn, false);
 
         bindDashboardMore();
 

@@ -33,7 +33,7 @@ public class OnShowAuthorInfoListener implements View.OnClickListener {
         View authorInfo = mActivity.findViewById(R.id.author_info);
         ImageView closeInfo = (ImageView) authorInfo.findViewById(R.id.close_info);
 
-        AppHelper.revealLayout(authorInfo, view, closeInfo);
+        AppHelper.revealLayout(authorInfo, view, closeInfo, false);
 
         bindAuthorInfo();
     }

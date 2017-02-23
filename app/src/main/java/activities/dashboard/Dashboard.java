@@ -43,6 +43,7 @@ import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.other.ParallaxPageTransformer;
 import helpers.main.ReadAndWriteToFile;
+import listeners.OnSearchGlobalClickListener;
 import listeners.OnShowDashboardMoreListener;
 import models.authors.AuthorDetails;
 import models.dashboard.DashboardData;
@@ -77,15 +78,15 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         LinearLayoutManager manager = new LinearLayoutManager(this);
         searchRecycler.setLayoutManager(manager);
 
-        final EditText searchText = (EditText) findViewById(R.id.search_edit_text_dashboard);
-        ImageView search = (ImageView) findViewById(R.id.search_icon_dashboard);
-
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getSearchResults(searchText.getText().toString());
-            }
-        });
+//        final EditText searchText = (EditText) findViewById(R.id.search_edit_text_dashboard);
+//        ImageView search = (ImageView) findViewById(R.id.search_icon_dashboard);
+//
+//        search.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getSearchResults(searchText.getText().toString());
+//            }
+//        });
     }
 
     private void getSearchResults(String query) {
@@ -122,6 +123,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        EditText searchQuotetab = (EditText) findViewById(R.id.search_edit_text_dashboard);
+
+        ImageView searchIcon = (ImageView) findViewById(R.id.search_icon_dashboard);
+        searchIcon.setOnClickListener(new OnSearchGlobalClickListener(searchQuotetab, this));
+
         RelativeLayout splashScreen = (RelativeLayout) findViewById(R.id.splash_screen);
         ImageView logo = (ImageView) findViewById(R.id.logo);
         Glide.with(Dashboard.this).load(R.drawable.splash).into(logo);
@@ -153,7 +159,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
         ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(this);
-        DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(), items, favoriteQuotes, favoriteAuthors);
+        DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(),
+                items, favoriteQuotes, favoriteAuthors);
         mPager.setAdapter(mPagerAdapter);
 
         final RubberIndicator mRubberIndicator = (RubberIndicator) findViewById(R.id.rubber);
@@ -258,6 +265,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
