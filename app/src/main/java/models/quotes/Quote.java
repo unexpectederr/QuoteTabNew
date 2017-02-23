@@ -15,6 +15,8 @@ public class Quote implements Serializable {
     @SerializedName("fields")
     private QuoteFields quoteDetails;
 
+    public Quote(){
+    }
 
 
     public Quote(boolean favorite, int imageId, QuoteFields quoteDetails) {
