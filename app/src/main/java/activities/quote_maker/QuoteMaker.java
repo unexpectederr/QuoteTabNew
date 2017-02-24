@@ -55,8 +55,6 @@ public class QuoteMaker extends AppCompatActivity {
 
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.top_layout);
 
-        ImageView share = (ImageView) findViewById(R.id.share_quote_icon);
-        share.setOnClickListener(new ShareAsImageClickListener(this, relativeLayout));
 
         ImageView saveImage = (ImageView) findViewById(R.id.download_icon);
         saveImage.setOnClickListener(new SaveImageToFileClickListener(QuoteMaker.this, relativeLayout, null, null));
@@ -66,6 +64,11 @@ public class QuoteMaker extends AppCompatActivity {
 
         EditText authorName = (EditText) findViewById(R.id.author_name);
         authorName.setTypeface(AppHelper.getRalewayLight(this));
+
+        ImageView share = (ImageView) findViewById(R.id.share_quote_icon);
+        share.setOnClickListener(new ShareAsImageClickListener(this, relativeLayout,
+                quoteText.getText().toString(),
+                authorName.getText().toString()));
     }
 
     private void initializeEffectsRecyclerView(QuoteImageView quoteImage) {

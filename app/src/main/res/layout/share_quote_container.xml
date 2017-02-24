@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/save_image"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/card_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/logo"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="-10dp"
+        android:scaleType="centerCrop"
+        />
+
+    <ImageView
+        android:id="@+id/hgc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/logo"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="-10dp"
+        android:alpha="0.6"
+        android:background="@android:color/black">
+
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/card_author_name"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="10dp"
+        android:alpha="0.3"
+        android:src="@mipmap/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/quoteText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tags_scroll_view"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:lineSpacingExtra="5sp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textColor="@color/main_color_light"
+        android:textSize="19sp"
+        android:textStyle="normal|bold"
+        android:text="nabijem te ja za taj smjeh!"/>
+
+    <TextView
+        android:id="@+id/card_author_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/quoteText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:textColor="@color/main_color_light"
+        android:textSize="12sp"
+        tools:text="Name"/>
+</RelativeLayout>
+
+

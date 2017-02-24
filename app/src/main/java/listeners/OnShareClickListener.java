@@ -43,7 +43,7 @@ public class OnShareClickListener implements View.OnClickListener {
         dialog.setIcon(R.drawable.logo_3);
 
         dialog.setPositiveText("AS IMAGE");
-        dialog.onPositive(new ShareAsImageClickListener(context, relativeLayout));
+        //dialog.onPositive(new ShareAsImageClickListener(context, relativeLayout));
 
         dialog.setNeutralText("AS TEXT");
         dialog.onNeutral(new ShareAsTextClickListener(context, quoteText, authorName));

@@ -5,20 +5,28 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.CardView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +44,31 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
  */
 
 public class AppHelper {
+
+    public static Bitmap createBitmapFromView(Context context, String quoteText, String authorName) {
+
+        View v;
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        v = inflater.inflate(R.layout.share_quote_container, null);
+
+//        int specWidth = View.MeasureSpec.makeMeasureSpec(300, View.MeasureSpec.EXACTLY);
+//        v.measure(specWidth, specWidth);
+//
+        TextView authorNameTextView = (TextView) v.findViewById(R.id.card_author_name);
+        authorNameTextView.setText(authorName);
+        TextView quoteTextTextView = (TextView) v.findViewById(R.id.quoteText);
+        quoteTextTextView.setText(quoteText);
+
+        int specWidth = View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.UNSPECIFIED);
+        v.measure(specWidth, specWidth);
+
+        Bitmap bitmap = Bitmap.createBitmap(v.getMeasuredWidth(), v.getMeasuredHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+        v.draw(canvas);
+        return bitmap;
+    }
 
     public static void showToast(String text, Context context) {
 

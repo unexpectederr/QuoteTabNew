@@ -5,9 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -29,37 +31,42 @@ public class ShareAsImageClickListener implements View.OnClickListener,
 
     private Context context;
     private RelativeLayout relativeLayout;
-    private static int imageIndex = 0;
+    private String quoteText, authorName;
 
-    public ShareAsImageClickListener(Context context, RelativeLayout relativeLayout) {
+    public ShareAsImageClickListener(Context context, RelativeLayout relativeLayout,
+                                     String quoteText, String authorName) {
         this.context = context;
         this.relativeLayout = relativeLayout;
+        this.authorName = authorName;
+        this.quoteText = quoteText;
+
     }
 
     @Override
     public void onClick(View view) {
 
-        shareImage();
-
+        final Bitmap bm = AppHelper.createBitmapFromView(context, quoteText, authorName);
+        shareImage(bm);
     }
 
     @Override
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 
-        shareImage();
+        final Bitmap bm = AppHelper.createBitmapFromView(context, quoteText, authorName);
+        shareImage(bm);
 
     }
 
-    private void shareImage() {
+    private void shareImage(Bitmap bitmap) {
 
-        relativeLayout.setDrawingCacheEnabled(true);
-        Bitmap bm = Bitmap.createBitmap(relativeLayout.getDrawingCache());
-        relativeLayout.setDrawingCacheEnabled(false);
+//        relativeLayout.setDrawingCacheEnabled(true);
+//        Bitmap bm = Bitmap.createBitmap(relativeLayout.getDrawingCache());
+//        relativeLayout.setDrawingCacheEnabled(false);
 
-        ReadAndWriteToFile.writeQuoteImageToCache(context, bm);
+        ReadAndWriteToFile.writeQuoteImageToCache(context, bitmap);
 
         File imagePath = new File(context.getCacheDir(), "images");
-        File newFile = new File(imagePath, "image" + imageIndex + ".jpg");
+        File newFile = new File(imagePath, "image.jpg");
 
         //imageIndex++;
 
