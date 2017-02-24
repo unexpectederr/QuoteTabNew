@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -51,16 +52,21 @@ public class AppHelper {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.share_quote_container, null);
 
-//        int specWidth = View.MeasureSpec.makeMeasureSpec(300, View.MeasureSpec.EXACTLY);
-//        v.measure(specWidth, specWidth);
-//
+       /* TextView quoteTextTextView = (TextView) v.findViewById(R.id.quoteText);
+        quoteTextTextView.setText(quoteText);
+        quoteTextTextView.setTextColor(Color.WHITE);
+
         TextView authorNameTextView = (TextView) v.findViewById(R.id.card_author_name);
         authorNameTextView.setText(authorName);
-        TextView quoteTextTextView = (TextView) v.findViewById(R.id.quoteText);
-        quoteTextTextView.setText(quoteText);
+        authorNameTextView.setTextColor(Color.WHITE);*/
 
-        int specWidth = View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.UNSPECIFIED);
-        v.measure(specWidth, specWidth);
+        //display width
+        int specWidth = View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY);
+
+        //height depending on number of lines of quote textview
+        int specHeight = View.MeasureSpec.makeMeasureSpec(1140 + (3 - 1) * 70 , View.MeasureSpec.EXACTLY);
+
+        v.measure(specWidth, specHeight);
 
         Bitmap bitmap = Bitmap.createBitmap(v.getMeasuredWidth(), v.getMeasuredHeight(),
                 Bitmap.Config.ARGB_8888);
