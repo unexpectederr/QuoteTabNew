@@ -2,6 +2,9 @@ package models.quotes;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Created by unexpected_err on 19/02/2017.
  */
@@ -9,10 +12,21 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Comment {
 
+    private String id;
     private String username;
+    private String userId;
     private String text;
     private String date;
     private String avatar;
+    private HashMap<String, String> likes = new HashMap<>();
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -20,6 +34,14 @@ public class Comment {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getText() {
@@ -44,5 +66,13 @@ public class Comment {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public HashMap<String, String> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(HashMap<String, String> likes) {
+        this.likes = likes;
     }
 }

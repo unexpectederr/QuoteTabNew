@@ -12,6 +12,40 @@
         >
     </android.support.v4.view.ViewPager>
 
+    <com.liangfeizc.RubberIndicator
+        android:id="@+id/rubber"
+        android:layout_alignParentBottom="true"
+        app:largeCircleColor="@color/main_color_light"
+        app:smallCircleColor="@color/light_gray_with_tr"
+        app:outerCircleColor="@android:color/transparent"
+        android:layout_height="22dp"
+        android:alpha="0.8"
+        android:layout_width="75dp"/>
+
+    <TextView
+        android:id="@+id/more_icon"
+        android:background="@mipmap/ic_launcher"
+        android:textColor="@color/main_color_light"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:alpha="0.5"
+        android:layout_height="30dp"
+        android:layout_width="30dp"
+        android:textSize="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_recycler"
+        android:layout_below="@+id/toolbar"
+        android:background="@color/main_color_light"
+        android:visibility="gone">
+
+    </android.support.v7.widget.RecyclerView>
+
     <io.codetail.widget.RevealFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,27 +53,61 @@
         android:layout_alignBottom="@+id/toolbar"
         android:layout_marginBottom="-5dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/search_bcg"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/reveal_point"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_centerVertical="false"
+                android:layout_alignParentRight="true"
+                android:padding="7dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"/>
+
+            <View
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorPrimary"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:layout_above="@+id/shadow"/>
 
-            </LinearLayout>
+            <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+                android:id="@+id/smooth_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-3dp"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:spb_colors="@array/progress_bar_colors"
+                app:spb_interpolator="spb_interpolator_accelerate"
+                app:spb_mirror_mode="true"
+                app:spb_progressiveStart_activated="true"
+                app:spb_progressiveStart_speed="1.5"
+                app:spb_progressiveStop_speed="3.5"
+                app:spb_reversed="true"
+                app:spb_sections_count="4"
+                app:spb_speed="1.5"
+                app:spb_stroke_separator_length="0dp"
+                app:spb_stroke_width="2dp"
+                android:layout_gravity="bottom|center"
+                android:layout_above="@+id/shadow"/>
 
-            <LinearLayout
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
-                android:background="@drawable/toolbar_dropshadow"/>
+                android:background="@drawable/toolbar_dropshadow"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/shadow"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </io.codetail.widget.RevealFrameLayout>
@@ -87,32 +155,6 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/more_icon"
-        android:background="@drawable/circle_bcg_outline_empty"
-        android:text="&#183;&#183;&#183;"
-        android:backgroundTint="@color/light_gray_ultra"
-        android:textColor="@color/main_color_light"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:alpha="0.9"
-        android:layout_height="30dp"
-        android:layout_width="30dp"
-        android:textSize="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="15dp"/>
-
-    <com.liangfeizc.RubberIndicator
-        android:id="@+id/rubber"
-        android:layout_alignParentBottom="true"
-        app:largeCircleColor="@color/main_color_light"
-        app:smallCircleColor="@color/light_gray_with_tr"
-        app:outerCircleColor="@android:color/transparent"
-        android:layout_height="22dp"
-        android:alpha="0.8"
-        android:layout_width="75dp"/>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -130,19 +172,10 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/search_recycler"
-        android:background="@color/colorPrimary"
-        android:layout_below="@+id/toolbar">
-
-    </android.support.v7.widget.RecyclerView>
-
     <io.codetail.widget.RevealFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/splash_screen">
 

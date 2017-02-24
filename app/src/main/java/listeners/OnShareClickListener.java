@@ -41,6 +41,7 @@ public class OnShareClickListener implements View.OnClickListener {
         dialog.setDescription("Please choose an option how to share a quote:");
 
         dialog.setIcon(R.drawable.logo_3);
+
         dialog.setPositiveText("AS IMAGE");
         dialog.onPositive(new ShareAsImageClickListener(context, relativeLayout));
 

@@ -110,6 +110,7 @@ public class QuoteActivity extends AppCompatActivity {
 
                 Comment comment = new Comment();
                 comment.setUsername(mUser.getDisplayName());
+                comment.setUserId(mUser.getUid());
                 comment.setText(commentInput.getText().toString());
                 comment.setDate(new Date().toString());
                 comment.setAvatar(mUser.getPhotoUrl().toString());

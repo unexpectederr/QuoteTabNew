@@ -195,8 +195,6 @@ public class AppHelper {
         animator.setDuration(600);
         animator.start();
 
-
-
         if (closeBtn != null)
             closeBtn.setOnClickListener(new OnCloseRevealedLayoutListener(viewToReveal,
                     cx, cy, finalRadius));

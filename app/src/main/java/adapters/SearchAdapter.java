@@ -1,5 +1,6 @@
 package adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,9 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetab.R;
+import helpers.main.Constants;
+import listeners.OnAuthorClickListener;
+import listeners.OnQuoteClickListener;
 import models.authors.AuthorDetails;
 import models.quotes.Quote;
 import models.search.SearchResponse;
@@ -27,38 +31,43 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int TYPE_ITEM_AUTHOR = 0;
     private static final int TYPE_HEADER = 1;
     private static final int TYPE_ITEM_QUOTE = 2;
-    private SearchResponse mDataSet;
-    private Context context;
-    private int responseSize;
-    private ArrayList<Object> allElements;
 
-    public SearchAdapter(SearchResponse mDataSet, Context context) {
+    private SearchResponse mSearchResults;
+    private Activity mContext;
+    private ArrayList<Object> mDataSet;
 
-        this.mDataSet = mDataSet;
-        this.context = context;
-        responseSize = mDataSet.getAuthors().size() + mDataSet.getQuotes().size();
-        allElements = new ArrayList<>();
-        allElements.add(new AuthorDetails()); //prva pozicija u list za header
-        for (int i = 0; i < mDataSet.getAuthors().size(); i++) {
-            allElements.add(mDataSet.getAuthors().get(i));
-        }
+    public SearchAdapter(SearchResponse searchResults, Activity context) {
 
-        allElements.add(mDataSet.getAuthors().size() + 1, new Quote()); //prva pozicija quota u list za header
-        for (int i = 0; i < mDataSet.getQuotes().size(); i++) {
-            allElements.add(mDataSet.getQuotes().get(i));
-        }
+        this.mSearchResults = searchResults;
+        this.mContext = context;
+
+        mDataSet = new ArrayList<>();
+
+        if (searchResults.getAuthors().size() > 0)
+            mDataSet.add(new AuthorDetails());
+
+        for (int i = 0; i < searchResults.getAuthors().size(); i++)
+            mDataSet.add(searchResults.getAuthors().get(i));
+
+        if (searchResults.getQuotes().size() > 0)
+            mDataSet.add(mDataSet.size(), new Quote());
+
+        for (int i = 0; i < searchResults.getQuotes().size(); i++)
+            mDataSet.add(searchResults.getQuotes().get(i));
+
     }
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         if (viewType == TYPE_ITEM_AUTHOR) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             View v = inflater.inflate(R.layout.fav_authors_list_item, parent, false);
             return new ViewHolderAuthor(v);
         } else if (viewType == TYPE_HEADER) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View v = inflater.inflate(R.layout.authors_list_header, parent, false);
+            View v = inflater.inflate(R.layout.search_header_item, parent, false);
             return new ViewHolderHeader(v);
         } else {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -70,35 +79,59 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
         if (holder instanceof ViewHolderAuthor) {
-            AuthorDetails author = (AuthorDetails) allElements.get(position);
+
+            AuthorDetails author = (AuthorDetails) mDataSet.get(position);
+
             ((ViewHolderAuthor) holder).authorName.setText(author.getAuthorFields().getName());
-            Glide.with(context).load(author.getAuthorFields().getImageUrl())
-                    .asBitmap().dontAnimate().into(((ViewHolderAuthor) holder).authorImage);
+
+            ((ViewHolderAuthor) holder).authorInfo.setText(author.getAuthorFields().getProfessionName() + " - "
+                    + author.getAuthorFields().getQuotesCount() + " quotes");
+
+            Glide.with(((ViewHolderAuthor) holder).authorImage.getContext())
+                    .load(Constants.IMAGES_URL + author.getAuthorFields()
+                            .getImageUrl()).dontAnimate()
+                    .placeholder(R.drawable.avatar)
+                    .error(R.drawable.avatar)
+                    .into(((ViewHolderAuthor) holder).authorImage);
+
+            holder.itemView.setOnClickListener(new OnAuthorClickListener(mContext, author.getId()));
+
         } else if (holder instanceof ViewHolderQuote) {
-            Quote quote = (Quote) allElements.get(position);
+
+            Quote quote = (Quote) mDataSet.get(position);
             ((ViewHolderQuote) holder).quoteText.setText(quote.getQuoteDetails().getQuoteText());
+
+            Glide.with(mContext).load(R.drawable.logo_2).into(((ViewHolderQuote) holder).logo);
+
+            holder.itemView.setOnClickListener(new OnQuoteClickListener(mContext, (Quote) mDataSet.get(position)));
+
         } else if (holder instanceof ViewHolderHeader) {
-            if (position == 0) {
-                ((ViewHolderHeader) holder).header.setText("Authors");
+
+            if (position == 0 && mDataSet.get(0) instanceof AuthorDetails) {
+                ((ViewHolderHeader) holder).header.setText("Authors matching query '"
+                        + mSearchResults.getQuery() + "'");
             } else {
-                ((ViewHolderHeader) holder).header.setText("Quotes");
+                ((ViewHolderHeader) holder).header.setText("Quotes matching query '"
+                        + mSearchResults.getQuery() + "'");
             }
         }
     }
 
     @Override
     public int getItemCount() {
-        return responseSize + 2; //+2 mjesta za header
+        return mDataSet.size();
     }
 
     @Override
     public int getItemViewType(int position) {
+
         if (position == 0) {
             return TYPE_HEADER;
-        } else if (position < mDataSet.getAuthors().size() + 1 && mDataSet.getAuthors().size() != 0) {
+        } else if (position < mSearchResults.getAuthors().size() + 1 && mSearchResults.getAuthors().size() != 0) {
             return TYPE_ITEM_AUTHOR;
-        } else if (position == mDataSet.getAuthors().size() + 1 && mDataSet.getAuthors().size() != 0) {
+        } else if (position == mSearchResults.getAuthors().size() + 1 && mSearchResults.getAuthors().size() != 0) {
             return TYPE_HEADER;
         } else
             return TYPE_ITEM_QUOTE;
@@ -109,7 +142,6 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView authorName;
         TextView authorInfo;
         CircleImageView authorImage;
-        ImageView favoriteIcon;
 
         ViewHolderAuthor(View itemView) {
             super(itemView);
@@ -117,17 +149,18 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             authorName = (TextView) itemView.findViewById(R.id.author_name);
             authorInfo = (TextView) itemView.findViewById(R.id.author_info);
             authorImage = (CircleImageView) itemView.findViewById(R.id.author_image);
-            favoriteIcon = (ImageView) itemView.findViewById(R.id.author_favorite);
         }
     }
 
     private class ViewHolderQuote extends RecyclerView.ViewHolder {
 
         TextView quoteText;
+        ImageView logo;
 
         ViewHolderQuote(View itemView) {
             super(itemView);
             quoteText = (TextView) itemView.findViewById(R.id.search_quote_text);
+            logo = (ImageView) itemView.findViewById(R.id.logo);
         }
     }
 
@@ -138,7 +171,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ViewHolderHeader(View itemView) {
             super(itemView);
 
-            header = (TextView) itemView.findViewById(R.id.header);
+            header = (TextView) itemView.findViewById(R.id.title);
         }
     }
 }

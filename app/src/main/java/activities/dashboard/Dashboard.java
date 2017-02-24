@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +16,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,6 +41,7 @@ import adapters.SearchAdapter;
 import digitalbath.quotetab.R;
 import activities.topics.Topics;
 import adapters.DashboardPagerAdapter;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
@@ -62,7 +66,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     int rubberOldPosition;
     ViewPager mPager;
     ArrayList<TopPhotos> mItems;
-    RecyclerView searchRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,43 +73,15 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        initializeContent();
+        initializeCommonContent();
+
+        initializeSearchContent();
 
         FirebaseMessaging.getInstance().subscribeToTopic("quote-of-the-day");
 
-
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        searchRecycler.setLayoutManager(manager);
-
-//        final EditText searchText = (EditText) findViewById(R.id.search_edit_text_dashboard);
-//        ImageView search = (ImageView) findViewById(R.id.search_icon_dashboard);
-//
-//        search.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getSearchResults(searchText.getText().toString());
-//            }
-//        });
     }
 
-    private void getSearchResults(String query) {
-        QuoteTabApi.quoteTabApi.getSearchResults(true, true, true, query).enqueue(new Callback<SearchResponse>() {
-            @Override
-            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                SearchAdapter adapter = new SearchAdapter(response.body(), Dashboard.this);
-                searchRecycler.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<SearchResponse> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void initializeContent() {
-
-        searchRecycler = (RecyclerView) findViewById(R.id.search_recycler);
+    private void initializeCommonContent() {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -123,11 +98,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        EditText searchQuotetab = (EditText) findViewById(R.id.search_edit_text_dashboard);
-
-        ImageView searchIcon = (ImageView) findViewById(R.id.search_icon_dashboard);
-        searchIcon.setOnClickListener(new OnSearchGlobalClickListener(searchQuotetab, this));
-
         RelativeLayout splashScreen = (RelativeLayout) findViewById(R.id.splash_screen);
         ImageView logo = (ImageView) findViewById(R.id.logo);
         Glide.with(Dashboard.this).load(R.drawable.splash).into(logo);
@@ -135,6 +105,24 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         getDashboardData(toolbar, splashScreen);
 
         preloadImages();
+
+    }
+
+    private void initializeSearchContent() {
+
+        EditText searchQuotetab = (EditText) findViewById(R.id.search_edit_text_dashboard);
+
+        SmoothProgressBar searchProgress = (SmoothProgressBar) findViewById(R.id.smooth_progress_bar);
+
+        ImageView revealPoint = (ImageView) findViewById(R.id.reveal_point);
+
+        RecyclerView searchRecycler = (RecyclerView) findViewById(R.id.search_recycler);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        searchRecycler.setLayoutManager(manager);
+
+        ImageView searchIcon = (ImageView) findViewById(R.id.search_icon_dashboard);
+        searchIcon.setOnClickListener(new OnSearchGlobalClickListener
+                (searchQuotetab, this, searchRecycler, searchProgress, revealPoint));
 
     }
 
@@ -266,7 +254,22 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public void onBackPressed() {
 
+        if (findViewById(R.id.search_edit_text_dashboard).getVisibility() == View.VISIBLE) {
+
+            ((EditText) findViewById(R.id.search_edit_text_dashboard)).setText("");
+            findViewById(R.id.search_icon_dashboard).performClick();
+
+            RecyclerView searchRecycler = (RecyclerView) findViewById(R.id.search_recycler);
+
+            if (searchRecycler.getVisibility() == View.VISIBLE) {
+                searchRecycler.setVisibility(View.GONE);
+                searchRecycler.startAnimation(AppHelper.getAnimationDown(this));
+            }
+            return;
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -325,4 +328,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             }
         }
     }
+
+
 }

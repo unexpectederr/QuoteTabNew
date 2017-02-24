@@ -33,15 +33,17 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     private LinearLayout mEmptyListCont;
     private Context mContext;
     private boolean isRecyclerInitialized;
+    private DatabaseReference mDataBaseRef;
 
-    public CommentsAdapter(Context context, DatabaseReference ref,
-                           RecyclerView recycler, LinearLayout emptyListCont) {
+    public CommentsAdapter(Context context, DatabaseReference ref, RecyclerView recycler,
+                           LinearLayout emptyListCont) {
 
         this.mRecyclerView = recycler;
         this.mEmptyListCont = emptyListCont;
         this.mContext = context;
+        this.mDataBaseRef = ref;
 
-        ref.addValueEventListener(new ValueEventListener() {
+        this.mDataBaseRef.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -50,6 +52,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Comment comment = postSnapshot.getValue(Comment.class);
+                    comment.setId(postSnapshot.getKey());
                     mComments.add(comment);
                 }
 
@@ -89,7 +92,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Comment comment = mComments.get(position);
+        final Comment comment = mComments.get(position);
 
         holder.text.setText(comment.getText());
         holder.username.setText(comment.getUsername());
@@ -101,6 +104,23 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                 .placeholder(R.drawable.avatar)
                 .error(R.drawable.avatar)
                 .into(holder.avatar);
+
+        holder.numberOfLikes.setText(Integer.toString(comment.getLikes().size()));
+
+        /*if (!comment.getLikes().get(comment.getUserId()).equals("")) {
+            holder.like.setText("Liked");
+            holder.like.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+        }*/
+
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mDataBaseRef.child(comment.getId())
+                        .child("likes").push().setValue(comment.getUserId());
+
+            }
+        });
     }
 
     @Override
@@ -120,9 +140,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView text;
-        TextView username;
+        public TextView username;
         public TextView time;
-        CircleImageView avatar;
+        public TextView numberOfLikes;
+        public CircleImageView avatar;
+        public TextView like;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -131,6 +153,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
             username = (TextView) itemView.findViewById(R.id.username);
             time = (TextView) itemView.findViewById(R.id.time_published);
             avatar = (CircleImageView) itemView.findViewById(R.id.avatar);
+            numberOfLikes = (TextView) itemView.findViewById(R.id.likes);
+            like = (TextView) itemView.findViewById(R.id.like);
         }
     }
 }

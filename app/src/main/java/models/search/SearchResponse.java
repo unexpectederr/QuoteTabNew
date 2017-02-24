@@ -19,6 +19,9 @@ public class SearchResponse {
     @SerializedName("quotes")
     private ArrayList<Quote> quotes;
 
+    @SerializedName("query")
+    private String query;
+
     public ArrayList<AuthorDetails> getAuthors() {
         return authors;
     }
@@ -33,5 +36,9 @@ public class SearchResponse {
 
     public void setQuotes(ArrayList<Quote> quotes) {
         this.quotes = quotes;
+    }
+
+    public String getQuery() {
+        return query;
     }
 }
