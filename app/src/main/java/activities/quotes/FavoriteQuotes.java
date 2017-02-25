@@ -3,9 +3,11 @@ package activities.quotes;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -31,6 +33,7 @@ public class FavoriteQuotes extends AppCompatActivity {
 
         initializeRecyclerView();
 
+
     }
 
     private void initializeRecyclerView() {
@@ -41,7 +44,8 @@ public class FavoriteQuotes extends AppCompatActivity {
 
         favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
 
-        adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false);
+        CardView cardView = (CardView) findViewById(R.id.empty_list);
+        adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false, favoritesRecycler, cardView);
 
         favoritesRecycler.setAdapter(adapter);
     }
@@ -61,7 +65,9 @@ public class FavoriteQuotes extends AppCompatActivity {
             if (resultCode == QuotesByTag.RESULT_OK) {
 
                 favoriteQuotes = (ArrayList<Quote>) data.getSerializableExtra("result");
-                adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false);
+
+                CardView cardView = (CardView) findViewById(R.id.empty_list);
+                adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false, favoritesRecycler, cardView);
                 favoritesRecycler.setAdapter(adapter);
 
             } else if (resultCode == QuotesByTag.RESULT_CANCELED) {

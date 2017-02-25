@@ -152,7 +152,7 @@ public class QuoteActivity extends AppCompatActivity {
                 .getFavoriteQuotes(this);
 
         favoriteIcon.setOnClickListener(new OnFavoriteQuoteClickListener(this, favoriteQuotes,
-                favoriteIcon, mQuote, null, false));
+                favoriteIcon, mQuote, null, false, null, null));
     }
 
     private void bindHeader() {

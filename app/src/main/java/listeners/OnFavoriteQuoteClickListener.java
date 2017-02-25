@@ -1,6 +1,8 @@
 package listeners;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -23,9 +25,12 @@ public class OnFavoriteQuoteClickListener implements View.OnClickListener {
     private QuotesAdapter adapter;
     private boolean isFavorites;
     private Quote quote;
+    private RecyclerView recyclerView;
+    private CardView cardView;
 
     public OnFavoriteQuoteClickListener(Context context, ArrayList<Quote> favoriteQuotes, ImageView favoriteIcon,
-                                        Quote quote, QuotesAdapter adapter, boolean isFavorites) {
+                                        Quote quote, QuotesAdapter adapter, boolean isFavorites,
+                                        RecyclerView recyclerView, CardView cardView) {
 
         this.context = context;
         this.favoriteQuotes = favoriteQuotes;
@@ -33,6 +38,8 @@ public class OnFavoriteQuoteClickListener implements View.OnClickListener {
         this.quote = quote;
         this.adapter = adapter;
         this.isFavorites = isFavorites;
+        this.recyclerView = recyclerView;
+        this.cardView = cardView;
     }
 
     @Override
@@ -60,6 +67,10 @@ public class OnFavoriteQuoteClickListener implements View.OnClickListener {
 
                 favoriteQuotes.remove(position);
                 adapter.notifyItemRemoved(position);
+                if (adapter.getItemCount() == 0) {
+                    recyclerView.setVisibility(View.GONE);
+                    cardView.setVisibility(View.VISIBLE);
+                }
 
             }
 

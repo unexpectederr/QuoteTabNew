@@ -72,7 +72,7 @@ public class QuotesByAuthor extends AppCompatActivity
                 .getFavoriteQuotes(QuotesByAuthor.this);
 
         adapter = new QuotesAdapter(QuotesByAuthor.this,
-                new ArrayList<Quote>(), favoriteQuotes, false, true);
+                new ArrayList<Quote>(), favoriteQuotes, false, true, null, null);
 
         RecyclerView quotesRecycler = (RecyclerView)
                 findViewById(R.id.author_details_recyclerView);

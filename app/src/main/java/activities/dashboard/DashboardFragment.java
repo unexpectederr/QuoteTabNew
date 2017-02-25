@@ -131,7 +131,7 @@ public class DashboardFragment extends Fragment {
         Quote quote1 = new Quote(quote.isFavorite(), new Random().nextInt(Constants.NUMBER_OF_COVERS), fields);
 
         favoriteQuote.setOnClickListener(new OnFavoriteQuoteClickListener(favoriteQuote.getContext(),
-                favoriteQuotes, favoriteQuote, quote1, null, false));
+                favoriteQuotes, favoriteQuote, quote1, null, false, null, null));
 
         return view;
     }

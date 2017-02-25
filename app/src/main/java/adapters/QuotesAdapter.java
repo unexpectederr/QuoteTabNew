@@ -1,6 +1,7 @@
 package adapters;
 
 import android.app.Activity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -40,44 +41,29 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     private int lastPosition = -1;
     private boolean isFavorites;
     private boolean isFromAuthors;
+    private RecyclerView recyclerView;
+    private CardView cardView;
 
     public QuotesAdapter(Activity context, ArrayList<Quote> mDataSet, ArrayList<Quote> favoriteQuotes,
-                         boolean isFavorites, boolean isFromAuthors) {
+                         boolean isFavorites, boolean isFromAuthors, RecyclerView recyclerView,
+                         CardView cardView) {
 
         this.context = context;
         this.mDataSet = mDataSet;
         this.favoriteQuotes = favoriteQuotes;
         this.isFavorites = isFavorites;
         this.isFromAuthors = isFromAuthors;
+        this.recyclerView = recyclerView;
+        this.cardView = cardView;
 
-    }
+        if (recyclerView != null && cardView != null && favoriteQuotes.size() != 0) {
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView quoteText;
-        ImageView shareIcon;
-        LinearLayout quoteTags;
-        ImageView cardImage;
-        TextView authorName;
-        ImageView favoriteIcon;
-        ImageView downloadIcon;
-        RelativeLayout relativeLayout;
-        HorizontalScrollView tags;
-        LinearLayout actionButtons;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-
-            quoteText = (TextView) itemView.findViewById(R.id.quoteText);
-            shareIcon = (ImageView) itemView.findViewById(R.id.share_icon);
-            quoteTags = (LinearLayout) itemView.findViewById(R.id.quote_tags);
-            cardImage = (ImageView) itemView.findViewById(R.id.card_image);
-            authorName = (TextView) itemView.findViewById(R.id.card_author_name);
-            favoriteIcon = (ImageView) itemView.findViewById(R.id.favorite_icon);
-            downloadIcon = (ImageView) itemView.findViewById(R.id.download_icon);
-            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.save_image);
-            tags = (HorizontalScrollView) itemView.findViewById(R.id.tags_scroll_view);
-            actionButtons = (LinearLayout) itemView.findViewById(R.id.qwe);
+            recyclerView.setVisibility(View.VISIBLE);
+            cardView.setVisibility(View.GONE);
+        } else if (recyclerView != null && cardView != null && favoriteQuotes.size() == 0) {
+            recyclerView.setVisibility(View.GONE);
+            cardView.setVisibility(View.VISIBLE);
+            cardView.startAnimation(AppHelper.getAnimationUp(context));
         }
     }
 
@@ -138,7 +124,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
                 mDataSet.get(position).getQuoteDetails().getAuthorName(), holder.relativeLayout));
 
         holder.favoriteIcon.setOnClickListener(new OnFavoriteQuoteClickListener(context, favoriteQuotes,
-                holder.favoriteIcon, mDataSet.get(position), this, isFavorites));
+                holder.favoriteIcon, mDataSet.get(position), this, isFavorites, recyclerView, cardView));
 
         String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 
@@ -193,5 +179,34 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     public void addQuotes(ArrayList<Quote> quotes) {
         mDataSet.addAll(quotes);
         notifyItemRangeInserted(mDataSet.size() - quotes.size(), quotes.size());
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView quoteText;
+        ImageView shareIcon;
+        LinearLayout quoteTags;
+        ImageView cardImage;
+        TextView authorName;
+        ImageView favoriteIcon;
+        ImageView downloadIcon;
+        RelativeLayout relativeLayout;
+        HorizontalScrollView tags;
+        LinearLayout actionButtons;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+
+            quoteText = (TextView) itemView.findViewById(R.id.quoteText);
+            shareIcon = (ImageView) itemView.findViewById(R.id.share_icon);
+            quoteTags = (LinearLayout) itemView.findViewById(R.id.quote_tags);
+            cardImage = (ImageView) itemView.findViewById(R.id.card_image);
+            authorName = (TextView) itemView.findViewById(R.id.card_author_name);
+            favoriteIcon = (ImageView) itemView.findViewById(R.id.favorite_icon);
+            downloadIcon = (ImageView) itemView.findViewById(R.id.download_icon);
+            relativeLayout = (RelativeLayout) itemView.findViewById(R.id.save_image);
+            tags = (HorizontalScrollView) itemView.findViewById(R.id.tags_scroll_view);
+            actionButtons = (LinearLayout) itemView.findViewById(R.id.qwe);
+        }
     }
 }

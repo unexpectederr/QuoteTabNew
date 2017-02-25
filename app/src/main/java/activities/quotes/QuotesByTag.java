@@ -42,7 +42,7 @@ public class QuotesByTag extends AppCompatActivity {
 
         initializeRecyclerView();
 
-        final String tag = getIntent().getStringExtra(Constants.QUOTE_TAG);
+        final String tag = getIntent().getStringExtra(Constants.QUOTE_TAG).toLowerCase();
 
         TextView screenTitle = (TextView) findViewById(R.id.screen_title);
         screenTitle.setText(Character.toUpperCase(tag.charAt(0)) + tag.substring(1) + " Quotes");
@@ -85,7 +85,7 @@ public class QuotesByTag extends AppCompatActivity {
         quotesByTagRecycler.setLayoutManager(manager);
 
         ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
-        adapter = new QuotesAdapter(this, new ArrayList<Quote>(), favoriteQuotes, false, false);
+        adapter = new QuotesAdapter(this, new ArrayList<Quote>(), favoriteQuotes, false, false, null, null);
 
         quotesByTagRecycler.setAdapter(adapter);
     }
