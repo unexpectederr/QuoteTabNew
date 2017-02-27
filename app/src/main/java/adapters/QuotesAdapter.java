@@ -1,7 +1,6 @@
 package adapters;
 
 import android.app.Activity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -42,11 +41,11 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     private boolean isFavorites;
     private boolean isFromAuthors;
     private RecyclerView recyclerView;
-    private CardView cardView;
+    private RelativeLayout emptyList;
 
     public QuotesAdapter(Activity context, ArrayList<Quote> mDataSet, ArrayList<Quote> favoriteQuotes,
                          boolean isFavorites, boolean isFromAuthors, RecyclerView recyclerView,
-                         CardView cardView) {
+                         RelativeLayout emptyList) {
 
         this.context = context;
         this.mDataSet = mDataSet;
@@ -54,16 +53,16 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         this.isFavorites = isFavorites;
         this.isFromAuthors = isFromAuthors;
         this.recyclerView = recyclerView;
-        this.cardView = cardView;
+        this.emptyList = emptyList;
 
-        if (recyclerView != null && cardView != null && favoriteQuotes.size() != 0) {
+        if (recyclerView != null && emptyList != null && favoriteQuotes.size() != 0) {
 
             recyclerView.setVisibility(View.VISIBLE);
-            cardView.setVisibility(View.GONE);
-        } else if (recyclerView != null && cardView != null && favoriteQuotes.size() == 0) {
+            emptyList.setVisibility(View.GONE);
+        } else if (recyclerView != null && emptyList != null && favoriteQuotes.size() == 0) {
             recyclerView.setVisibility(View.GONE);
-            cardView.setVisibility(View.VISIBLE);
-            cardView.startAnimation(AppHelper.getAnimationUp(context));
+            emptyList.setVisibility(View.VISIBLE);
+            emptyList.startAnimation(AppHelper.getAnimationUp(context));
         }
     }
 
@@ -124,7 +123,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
                 mDataSet.get(position).getQuoteDetails().getAuthorName(), holder.relativeLayout));
 
         holder.favoriteIcon.setOnClickListener(new OnFavoriteQuoteClickListener(context, favoriteQuotes,
-                holder.favoriteIcon, mDataSet.get(position), this, isFavorites, recyclerView, cardView));
+                holder.favoriteIcon, mDataSet.get(position), this, isFavorites, recyclerView, emptyList));
 
         String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
 

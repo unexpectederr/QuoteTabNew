@@ -3,11 +3,11 @@ package activities.quotes;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -44,8 +44,11 @@ public class FavoriteQuotes extends AppCompatActivity {
 
         favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
 
-        CardView cardView = (CardView) findViewById(R.id.empty_list);
-        adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false, favoritesRecycler, cardView);
+        TextView textView = (TextView) findViewById(R.id.favorites_text);
+        textView.setText("Quotes you add to favorites will appear here...");
+
+        RelativeLayout emptyList = (RelativeLayout) findViewById(R.id.empty_list_favorites);
+        adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false, favoritesRecycler, emptyList);
 
         favoritesRecycler.setAdapter(adapter);
     }
@@ -66,8 +69,8 @@ public class FavoriteQuotes extends AppCompatActivity {
 
                 favoriteQuotes = (ArrayList<Quote>) data.getSerializableExtra("result");
 
-                CardView cardView = (CardView) findViewById(R.id.empty_list);
-                adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false, favoritesRecycler, cardView);
+                RelativeLayout emptyList = (RelativeLayout) findViewById(R.id.empty_list_favorites);
+                adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false, favoritesRecycler, emptyList);
                 favoritesRecycler.setAdapter(adapter);
 
             } else if (resultCode == QuotesByTag.RESULT_CANCELED) {

@@ -4,7 +4,7 @@
   <group android:checkableBehavior="single">
     <item
         android:id="@+id/nav_authors"
-        android:title="Authors"/>
+        android:title="Popular Authors"/>
     <item
         android:id="@+id/nav_topics"
         android:title="Topics"/>

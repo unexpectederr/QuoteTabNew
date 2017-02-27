@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -33,14 +34,24 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
     private ArrayList<AuthorDetails> favoriteAuthors;
     private boolean isFromAllAuthors;
     private int mLastPosition = -1;
+    private RelativeLayout emptyList;
+    private RecyclerView recyclerView;
 
-    public AuthorsAdapter(Context context, ArrayList<AuthorDetails> Authors, boolean isFromAllAuthors) {
+    public AuthorsAdapter(Context context, ArrayList<AuthorDetails> authors, boolean isFromAllAuthors, RecyclerView recyclerView, RelativeLayout emptyList) {
 
         this.mContext = context;
-        this.mDataSet = Authors;
+        this.mDataSet = authors;
         favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(context);
         this.isFromAllAuthors = isFromAllAuthors;
+        this.emptyList = emptyList;
+        this.recyclerView = recyclerView;
 
+        if (recyclerView != null && emptyList != null && authors.size() != 0) {
+            emptyList.setVisibility(View.GONE);
+        } else if (recyclerView != null && emptyList != null && authors.size() == 0) {
+            recyclerView.setVisibility(View.GONE);
+            emptyList.setVisibility(View.VISIBLE);
+        }
     }
 
     public void addAuthors(ArrayList<AuthorDetails> authors) {
@@ -105,11 +116,11 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
         if (isFromAllAuthors) {
 
             holder.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(mContext,
-                    mDataSet.get(position), mDataSet, holder.favoriteIcon, this, false));
+                    mDataSet.get(position), mDataSet, holder.favoriteIcon, this, false, null, null));
         } else {
 
             holder.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(mContext,
-                    mDataSet.get(position), mDataSet, holder.favoriteIcon, this, true));
+                    mDataSet.get(position), mDataSet, holder.favoriteIcon, this, true, recyclerView, emptyList));
         }
 
         holder.itemView.setOnClickListener(new OnAuthorClickListener(mContext, mDataSet.get(position).getId()));

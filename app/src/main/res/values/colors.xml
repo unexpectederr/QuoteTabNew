@@ -12,6 +12,7 @@
   <color name="light_gray_mega_ultra">#eaeaea</color>
   <color name="light_gray_with_tr">#a6ababab</color>
   <color name="edit_text_toolbar_underline">#80cce6</color>
+  <color name="spaja_text_color">#FF5252</color>
 
   <array name="progress_bar_colors">
     <item name="color_1">#54d4ff</item>

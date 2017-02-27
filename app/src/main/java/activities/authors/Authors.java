@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class Authors extends AppCompatActivity {
         if (isByLetter) {
 
             screenTitle.setText("All '" + letter.toUpperCase() + "' Authors");
-            adapter = new AuthorsAdapter(this, new ArrayList<AuthorDetails>(), true);
+            adapter = new AuthorsAdapter(this, new ArrayList<AuthorDetails>(), true, null, null);
             authorsRecyclerView.setAdapter(adapter);
 
             loadAuthors(letter, page);
@@ -102,8 +103,11 @@ public class Authors extends AppCompatActivity {
         } else {
 
             screenTitle.setText("Favorite Authors");
-            AuthorsAdapter adapter = new AuthorsAdapter(this, authors, false);
+            RelativeLayout emptyList = (RelativeLayout) findViewById(R.id.empty_list_favorites);
+            AuthorsAdapter adapter = new AuthorsAdapter(this, authors, false, authorsRecyclerView, emptyList);
             authorsRecyclerView.setAdapter(adapter);
+            TextView textView = (TextView) findViewById(R.id.favorites_text);
+            textView.setText("Authors you add to favorites will appear here...");
             findViewById(R.id.progress_bar).setVisibility(View.GONE);
         }
     }
