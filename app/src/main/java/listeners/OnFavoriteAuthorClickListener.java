@@ -48,7 +48,7 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
 
         for (int i = 0; i < favoriteAuthors.size(); i++) {
 
-            if (author.getId().equals(favoriteAuthors.get(i).getId())) {
+            if (author.getAuthorFields().getAuthorId().equals(favoriteAuthors.get(i).getAuthorFields().getAuthorId())) {
 
                 position = i;
                 break;
@@ -71,7 +71,7 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
                 }
             }
 
-            ReadAndWriteToFile.removeAuthorFromFavorites(context, author.getId());
+            ReadAndWriteToFile.removeAuthorFromFavorites(context, author.getAuthorFields().getAuthorId());
 
         } else {
 

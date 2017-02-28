@@ -132,7 +132,7 @@ public class ReadAndWriteToFile {
 
         for (int i = 0; i < favoriteAuthors.size(); i++) {
 
-            if (favoriteAuthors.get(i).getId().equals(authorId))
+            if (favoriteAuthors.get(i).getAuthorFields().getAuthorId().equals(authorId))
                 favoriteAuthors.remove(i);
         }
 

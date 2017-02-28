@@ -3,6 +3,9 @@ package models.quotes;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import models.authors.AuthorDetailsFromQuote;
 
 /**
  * Created by Spaja on 05-Jan-17.
@@ -12,15 +15,38 @@ public class Quote implements Serializable {
     private int imageId;
     private boolean favorite;
 
+    @SerializedName("_id")
+    private String quoteId;
+
     @SerializedName("fields")
     private QuoteFields quoteDetails;
 
-    public Quote() {}
+    @SerializedName("_source")
+    private AuthorDetailsFromQuote author;
+
+    public void setAuthor(AuthorDetailsFromQuote author) {
+        this.author = author;
+    }
+
+    public void setQuoteId(String quoteId) {
+        this.quoteId = quoteId;
+    }
+
+    public Quote() {
+    }
 
     public Quote(boolean favorite, int imageId, QuoteFields quoteDetails) {
         this.favorite = favorite;
         this.imageId = imageId;
         this.quoteDetails = quoteDetails;
+    }
+
+    public AuthorDetailsFromQuote getAuthor() {
+        return author;
+    }
+
+    public String getQuoteId() {
+        return quoteId;
     }
 
     public boolean isFavorite() {

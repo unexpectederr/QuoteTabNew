@@ -106,7 +106,7 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
 
         for (int i = 0; i < favoriteAuthors.size(); i++) {
 
-            if (mDataSet.get(position).getId().equals(favoriteAuthors.get(i).getId())) {
+            if (mDataSet.get(position).getAuthorFields().getAuthorId().equals(favoriteAuthors.get(i).getAuthorFields().getAuthorId())) {
 
                 holder.favoriteIcon.setImageResource(R.drawable.ic_author);
                 mDataSet.get(position).setFavorite(true);

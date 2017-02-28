@@ -14,6 +14,8 @@ public class AuthorFields implements Serializable {
     private ArrayList<String> authorId;
     private ArrayList<Integer> quotesCount;
     private ArrayList<String> imageUrl;
+    @SerializedName("profession.name")
+    private ArrayList<String> professionName;
 
     public void setAuthorId(ArrayList<String> authorId) {
         this.authorId = authorId;
@@ -35,8 +37,6 @@ public class AuthorFields implements Serializable {
         this.quotesCount = quotesCount;
     }
 
-    @SerializedName("profession.name")
-    private ArrayList<String> professionName;
 
     public String getAuthorId() {
         return authorId.get(0);

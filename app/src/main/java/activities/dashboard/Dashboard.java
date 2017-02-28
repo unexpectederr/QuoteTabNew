@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.data.StreamAssetPathFetcher;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.liangfeizc.RubberIndicator;
 
@@ -50,6 +51,9 @@ import helpers.main.ReadAndWriteToFile;
 import listeners.OnSearchGlobalClickListener;
 import listeners.OnShowDashboardMoreListener;
 import models.authors.AuthorDetails;
+import models.authors.AuthorDetailsFromQuote;
+import models.authors.AuthorFields;
+import models.authors.AuthorFieldsFromQuote;
 import models.dashboard.DashboardData;
 import models.dashboard.Source;
 import models.dashboard.TopPhotos;
@@ -196,23 +200,32 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
                 mItems = new ArrayList<>();
 
-                for (int i = 0; response.body().getTopPhotos().size() > i; i++) {
+                for (int i = 0; i < response.body().getQuotesPartial().size(); i++) {
+                    AuthorDetailsFromQuote author = new AuthorDetailsFromQuote();
+                    AuthorFieldsFromQuote fields = new AuthorFieldsFromQuote();
 
-                    Source topPhotoSource = response.body().getTopPhotos().get(i).getSource();
+                    fields.setAuthorName(response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getAuthorName());
+                    fields.setAuthorId(response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getAuthorId());
+                    fields.setAuthorImageUrl(response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getAuthorImageUrl());
+                    fields.setQuotesCount(response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getQuotesCount());
+
+                    author.setAuthor(fields);
 
                     Quote quote = new Quote();
 
-                    QuoteFields fields = new QuoteFields();
+                    QuoteFields quoteFields = new QuoteFields();
 
-                    fields.setAuthorName(topPhotoSource.getAuthorName());
-                    fields.setAuthorId(topPhotoSource.getAuthorId());
-                    fields.setQuoteText(topPhotoSource.getQuote());
-                    fields.setQuoteId(topPhotoSource.getQuoteId());
+                    quoteFields.setAuthorName(response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getAuthorName());
+                    quoteFields.setAuthorId(response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getAuthorId());
+                    quoteFields.setQuoteText(response.body().getQuotesPartial().get(i).getAuthor().getQuoteText());
+                    quoteFields.setQuoteId(response.body().getQuotesPartial().get(i).getAuthor().getQuoteId());
 
-                    quote.setQuoteDetails(fields);
+                    quote.setQuoteDetails(quoteFields);
+                    quote.setAuthor(author);
                     quote.setImageId(new Random().nextInt(Constants.NUMBER_OF_COVERS));
 
                     mItems.add(quote);
+
                 }
 
                 initializeDashboard(mItems);
@@ -337,7 +350,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                         new DashboardPagerAdapter(getSupportFragmentManager(), mItems, favoriteQuotes, null);
                 mPager.setAdapter(mPagerAdapter);
 
-            } else if (resultCode == QuotesByTag.RESULT_CANCELED) {
+            } else if (resultCode == FavoriteQuotes.RESULT_CANCELED) {
 
                 AppHelper.showToast("Something went wrong", this);
 

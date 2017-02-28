@@ -15,7 +15,7 @@ import models.quotes.Quote;
 
 public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
-    private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+    private SparseArray<Fragment> registeredFragments = new SparseArray<>();
     private ArrayList<Quote> mItems;
     private ArrayList<Quote> favoriteQuotes;
     private ArrayList<AuthorDetails> favoriteAuthors;
@@ -35,7 +35,8 @@ public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return DashboardFragment.getNewInstance(position, mItems.get(position), favoriteQuotes, favoriteAuthors);
+        return DashboardFragment.getNewInstance(position, mItems.get(position), favoriteQuotes,
+                favoriteAuthors, mItems.get(position).getAuthor().getAuthor());
     }
 
     @Override

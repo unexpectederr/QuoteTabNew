@@ -13,9 +13,6 @@ public class DashboardData {
     @SerializedName("popularAuthorsList")
     private ArrayList<PopularAuthor> popularAuthors;
 
-    @SerializedName("topPhotos")
-    private ArrayList<TopPhotos> topPhotos;
-
     @SerializedName("quotesPartial")
     private ArrayList<Quote> quotesPartial;
 
@@ -43,9 +40,5 @@ public class DashboardData {
 
     public ArrayList<PopularAuthor> getPopularAuthors() {
         return popularAuthors;
-    }
-
-    public ArrayList<TopPhotos> getTopPhotos() {
-        return topPhotos;
     }
 }

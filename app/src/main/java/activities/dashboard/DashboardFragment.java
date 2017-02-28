@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.Auth;
+import com.google.firebase.auth.AuthResult;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,9 +23,12 @@ import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import listeners.OnAuthorClickListener;
+import listeners.OnFavoriteAuthorClickListener;
 import listeners.OnFavoriteQuoteClickListener;
 import listeners.OnShareClickListener;
 import models.authors.AuthorDetails;
+import models.authors.AuthorFields;
+import models.authors.AuthorFieldsFromQuote;
 import models.dashboard.TopPhotos;
 import models.quotes.Quote;
 import models.quotes.QuoteFields;
@@ -40,14 +45,16 @@ public class DashboardFragment extends Fragment {
     private int mPage;
     private ArrayList<Quote> favoriteQuotes;
     private ArrayList<AuthorDetails> favoriteAuthors;
+    private AuthorFieldsFromQuote author;
 
     public static DashboardFragment getNewInstance(int page, Quote quote, ArrayList<Quote> favoriteQuotes,
-                                                   ArrayList<AuthorDetails> favoriteAuthors) {
+                                                   ArrayList<AuthorDetails> favoriteAuthors, AuthorFieldsFromQuote author) {
 
         Bundle args = new Bundle();
         args.putSerializable(ARG_FAVORITE_AUTHORS, favoriteAuthors);
         args.putSerializable(ARG_FAVORITE_QUOTES, favoriteQuotes);
         args.putSerializable(ARG_QUOTE, quote);
+        args.putSerializable(ARG_AUTHOR, author);
         args.putInt(ARG_PAGE, page);
 
         DashboardFragment fragment = new DashboardFragment();
@@ -64,13 +71,36 @@ public class DashboardFragment extends Fragment {
         mPage = (int) getArguments().getSerializable(ARG_PAGE);
         favoriteQuotes = (ArrayList<Quote>) getArguments().getSerializable(ARG_FAVORITE_QUOTES);
         favoriteAuthors = (ArrayList<AuthorDetails>) getArguments().getSerializable(ARG_FAVORITE_AUTHORS);
-
+        author = (AuthorFieldsFromQuote) getArguments().getSerializable(ARG_AUTHOR);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        AuthorDetails authorDetails = new AuthorDetails();
+        AuthorFields fields = new AuthorFields();
+
+        ArrayList<String> name = new ArrayList<>();
+        name.add(author.getAuthorName());
+
+        ArrayList<String> authorId = new ArrayList<>();
+        authorId.add(author.getAuthorId());
+
+        ArrayList<String> imageUrl = new ArrayList<>();
+        imageUrl.add(author.getAuthorImageUrl());
+
+        ArrayList<Integer> quotesCount = new ArrayList<>();
+        quotesCount.add(author.getQuotesCount());
+
+        fields.setName(name);
+        fields.setAuthorId(authorId);
+        fields.setImageUrl(imageUrl);
+        fields.setQuotesCount(quotesCount);
+        authorDetails.setId(author.getAuthorId());
+
+        authorDetails.setAuthorFields(fields);
 
         View view = inflater.inflate(R.layout.dashboard_fragment, container, false);
 
@@ -93,9 +123,9 @@ public class DashboardFragment extends Fragment {
         quoteTextView.setTypeface(AppHelper.getRalewayLight(getContext()));
         quoteTextView.setText(quote.getQuoteDetails().getQuoteText());
 
-        TextView author = (TextView) view.findViewById(R.id.author);
-        author.setText("- " + quote.getQuoteDetails().getAuthorName() + "-");
-        author.setOnClickListener(new OnAuthorClickListener(author.getContext(),
+        TextView authorTextView = (TextView) view.findViewById(R.id.author);
+        authorTextView.setText("- " + quote.getQuoteDetails().getAuthorName() + "-");
+        authorTextView.setOnClickListener(new OnAuthorClickListener(authorTextView.getContext(),
                 quote.getQuoteDetails().getAuthorId()));
 
         ImageView share = (ImageView) view.findViewById(R.id.dashboard_share);
@@ -106,7 +136,19 @@ public class DashboardFragment extends Fragment {
                 quoteTextView));
 
         ImageView favoriteAuthor = (ImageView) view.findViewById(R.id.dashboard_author);
-        favoriteAuthor.setImageResource(R.drawable.ic_author_empty);
+
+        for (int i = 0; i < favoriteAuthors.size(); i++) {
+            if (authorDetails.getAuthorFields().getAuthorId().equals(favoriteAuthors.get(i).getAuthorFields().getAuthorId())) {
+                favoriteAuthor.setImageResource(R.drawable.ic_author);
+                authorDetails.setFavorite(true);
+            } else {
+                favoriteAuthor.setImageResource(R.drawable.ic_author_empty);
+                authorDetails.setFavorite(false);
+            }
+        }
+
+        favoriteAuthor.setOnClickListener(new OnFavoriteAuthorClickListener(favoriteAuthor.getContext(),
+                authorDetails, favoriteAuthors, favoriteAuthor, null, false, null, null));
 
         ImageView favoriteQuote = (ImageView) view.findViewById(R.id.dashboard_favorite);
 
