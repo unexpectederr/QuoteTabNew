@@ -83,5 +83,38 @@
         >
     </android.support.v7.widget.RecyclerView>
 
+    <RelativeLayout
+        android:id="@+id/empty_list_favorites"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/center_image"
+            android:layout_centerInParent="true"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:alpha="0.2"
+            android:src="@drawable/ic_favorite_gray"/>
+        <TextView
+            android:layout_marginTop="60dp"
+            android:layout_alignTop="@id/center_image"
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Favorites list is empty!"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:id="@+id/favorites_text"
+            android:layout_below="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quotes you add to favorites will appear here..."
+            android:textColor="@color/light_gray"
+            android:textAlignment="center"/>
+    </RelativeLayout>
+
 </android.support.design.widget.CoordinatorLayout>
 

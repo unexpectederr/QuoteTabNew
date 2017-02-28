@@ -108,7 +108,7 @@ public class TopQuotes extends AppCompatActivity {
                     }
                 }
 
-                adapter = new QuotesAdapter(TopQuotes.this, quotes, favoriteQuotes, false, false);
+                adapter = new QuotesAdapter(TopQuotes.this, quotes, favoriteQuotes, false, false, null, null);
                 topQuotesRecycler.setAdapter(adapter);
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
 

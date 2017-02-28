@@ -1,8 +1,11 @@
 package listeners;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
 import java.util.ArrayList;
 import adapters.AuthorsAdapter;
 import digitalbath.quotetab.R;
@@ -21,9 +24,12 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
     private AuthorsAdapter adapter;
     private ArrayList<AuthorDetails> favoriteAuthors;
     private boolean isFavorites;
+    private RecyclerView recyclerView;
+    private RelativeLayout emptyList;
 
     public OnFavoriteAuthorClickListener(Context context, AuthorDetails author, ArrayList<AuthorDetails>
-            favoriteAuthors, ImageView favoriteIcon, AuthorsAdapter adapter, boolean isFavorites) {
+            favoriteAuthors, ImageView favoriteIcon, AuthorsAdapter adapter, boolean isFavorites,
+                                         RecyclerView recyclerView, RelativeLayout emptyList) {
 
         this.context = context;
         this.author = author;
@@ -31,6 +37,8 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
         this.adapter = adapter;
         this.favoriteAuthors = favoriteAuthors;
         this.isFavorites = isFavorites;
+        this.recyclerView = recyclerView;
+        this.emptyList = emptyList;
     }
 
     @Override
@@ -57,6 +65,10 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
 
                 favoriteAuthors.remove(position);
                 adapter.notifyItemRemoved(position);
+                if (adapter.getItemCount() == 0) {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyList.setVisibility(View.VISIBLE);
+                }
             }
 
             ReadAndWriteToFile.removeAuthorFromFavorites(context, author.getId());

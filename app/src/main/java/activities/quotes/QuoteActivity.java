@@ -90,7 +90,7 @@ public class QuoteActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        LinearLayout emptyListCont = (LinearLayout) findViewById(R.id.empty_list);
+        LinearLayout emptyListCont = (LinearLayout) findViewById(R.id.empty_list_favorites);
 
         RecyclerView recycler = (RecyclerView) findViewById(R.id.comments_recycler);
         recycler.setLayoutManager(new LinearLayoutManager(this));
@@ -145,7 +145,7 @@ public class QuoteActivity extends AppCompatActivity {
                 .getFavoriteQuotes(this);
 
         favoriteIcon.setOnClickListener(new OnFavoriteQuoteClickListener(this, favoriteQuotes,
-                favoriteIcon, mQuote, null, false));
+                favoriteIcon, mQuote, null, false, null, null));
     }
 
     private void bindHeader() {

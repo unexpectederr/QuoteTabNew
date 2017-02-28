@@ -1,8 +1,10 @@
 package listeners;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
@@ -23,9 +25,12 @@ public class OnFavoriteQuoteClickListener implements View.OnClickListener {
     private QuotesAdapter adapter;
     private boolean isFavorites;
     private Quote quote;
+    private RecyclerView recyclerView;
+    private RelativeLayout emptyList;
 
     public OnFavoriteQuoteClickListener(Context context, ArrayList<Quote> favoriteQuotes, ImageView favoriteIcon,
-                                        Quote quote, QuotesAdapter adapter, boolean isFavorites) {
+                                        Quote quote, QuotesAdapter adapter, boolean isFavorites,
+                                        RecyclerView recyclerView, RelativeLayout emptyList) {
 
         this.context = context;
         this.favoriteQuotes = favoriteQuotes;
@@ -33,6 +38,8 @@ public class OnFavoriteQuoteClickListener implements View.OnClickListener {
         this.quote = quote;
         this.adapter = adapter;
         this.isFavorites = isFavorites;
+        this.recyclerView = recyclerView;
+        this.emptyList = emptyList;
     }
 
     @Override
@@ -60,7 +67,10 @@ public class OnFavoriteQuoteClickListener implements View.OnClickListener {
 
                 favoriteQuotes.remove(position);
                 adapter.notifyItemRemoved(position);
-
+                if (adapter.getItemCount() == 0) {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyList.setVisibility(View.VISIBLE);
+                }
             }
 
             ReadAndWriteToFile.removeQuoteFromFavorites(context, quote.getQuoteDetails().getQuoteId());

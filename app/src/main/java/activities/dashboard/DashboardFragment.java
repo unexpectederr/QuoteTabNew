@@ -122,7 +122,7 @@ public class DashboardFragment extends Fragment {
         }
 
         favoriteQuote.setOnClickListener(new OnFavoriteQuoteClickListener(favoriteQuote.getContext(),
-                favoriteQuotes, favoriteQuote, quote, null, false));
+                favoriteQuotes, favoriteQuote, quote, null, false, null, null));
 
         return view;
     }

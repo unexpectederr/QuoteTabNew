@@ -181,7 +181,7 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
 
             ivh.favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(mContext,
                     mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex),
-                    mFavoriteAuthors, ivh.favoriteIcon, null, false));
+                    mFavoriteAuthors, ivh.favoriteIcon, null, false, null, null));
 
             ivh.itemView.setOnClickListener(new OnAuthorClickListener(mContext, mDataSet.getAuthorGroup()
                     .get(sectionIndex).getAuthors().get(itemIndex).getId()));
