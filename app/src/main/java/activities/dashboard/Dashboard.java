@@ -51,8 +51,10 @@ import listeners.OnSearchGlobalClickListener;
 import listeners.OnShowDashboardMoreListener;
 import models.authors.AuthorDetails;
 import models.dashboard.DashboardData;
+import models.dashboard.Source;
 import models.dashboard.TopPhotos;
 import models.quotes.Quote;
+import models.quotes.QuoteFields;
 import models.quotes.Quotes;
 import models.search.SearchResponse;
 import networking.QuoteTabApi;
@@ -65,7 +67,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     int rubberOldPosition;
     ViewPager mPager;
-    ArrayList<TopPhotos> mItems;
+    ArrayList<Quote> mItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +128,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
-    private void initializeDashboard(ArrayList<TopPhotos> items) {
+    private void initializeDashboard(ArrayList<Quote> items) {
 
         mPager = (ViewPager) findViewById(R.id.view_pager);
         mPager.setOffscreenPageLimit(3);
@@ -196,12 +198,26 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
                 for (int i = 0; response.body().getTopPhotos().size() > i; i++) {
 
-                    mItems.add(response.body().getTopPhotos().get(i));
+                    Source topPhotoSource = response.body().getTopPhotos().get(i).getSource();
+
+                    Quote quote = new Quote();
+
+                    QuoteFields fields = new QuoteFields();
+
+                    fields.setAuthorName(topPhotoSource.getAuthorName());
+                    fields.setAuthorId(topPhotoSource.getAuthorId());
+                    fields.setQuoteText(topPhotoSource.getQuote());
+                    fields.setQuoteId(topPhotoSource.getQuoteId());
+
+                    quote.setQuoteDetails(fields);
+                    quote.setImageId(new Random().nextInt(Constants.NUMBER_OF_COVERS));
+
+                    mItems.add(quote);
                 }
 
                 initializeDashboard(mItems);
 
-                TextView moreIcon = (TextView) findViewById(R.id.more_icon);
+                ImageView moreIcon = (ImageView) findViewById(R.id.more_icon);
                 moreIcon.setOnClickListener(new OnShowDashboardMoreListener(Dashboard.this, response.body()));
             }
 

@@ -1,14 +1,18 @@
 package listeners;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
+import activities.authors.PopularAuthors;
+import activities.dashboard.Dashboard;
 import digitalbath.quotetab.R;
 
 import adapters.DashboardAuthorAdapter;
@@ -26,10 +30,14 @@ public class OnShowDashboardMoreListener implements View.OnClickListener {
 
     Activity mActivity;
     DashboardData mData;
+    int mExpandHeight;
 
     public OnShowDashboardMoreListener(Activity activity, DashboardData data) {
         this.mActivity = activity;
         this.mData = data;
+        this.mExpandHeight = (int) activity.getResources()
+                .getDimension(R.dimen.dashboard_more_list_height);
+
     }
 
     @Override
@@ -82,7 +90,7 @@ public class OnShowDashboardMoreListener implements View.OnClickListener {
                             AppHelper.collapse(mDashboardMoreMain.getChildAt(i), 600, 0);
                             ((ExpandableFrame) mDashboardMoreMain.getChildAt(i)).setExpanded(false);
                         } else {
-                            AppHelper.expand(mDashboardMoreMain.getChildAt(i), 600, 1300);
+                            AppHelper.expand(mDashboardMoreMain.getChildAt(i), 600, mExpandHeight);
                             ((ExpandableFrame) mDashboardMoreMain.getChildAt(i)).setExpanded(true);
                         }
 
@@ -157,5 +165,14 @@ public class OnShowDashboardMoreListener implements View.OnClickListener {
 
         DashboardAuthorAdapter adapter = new DashboardAuthorAdapter(trendingAuthors, mActivity);
         trendingAuthorsRecycler.setAdapter(adapter);
+
+        Button allAuthors = (Button) mActivity.findViewById(R.id.all_authors);
+        allAuthors.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(mActivity, PopularAuthors.class);
+                mActivity.startActivity(i);
+            }
+        });
     }
 }

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 public class QuoteImageView extends ImageView {
 
     private String imageUrl;
+    private String effectClassName;
 
     public QuoteImageView(Context context) {
         super(context);
@@ -30,5 +31,13 @@ public class QuoteImageView extends ImageView {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getEffectClassName() {
+        return effectClassName;
+    }
+
+    public void setEffectClassName(String effectClassName) {
+        this.effectClassName = effectClassName;
     }
 }

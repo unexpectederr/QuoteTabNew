@@ -125,6 +125,7 @@ public class QuotesByTag extends AppCompatActivity {
         });
     }
 
+    @Override
     public boolean onSupportNavigateUp() {
 
         Intent returnIntent = new Intent();

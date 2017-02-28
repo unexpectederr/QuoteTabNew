@@ -36,13 +36,12 @@ public class DashboardFragment extends Fragment {
     private static final String ARG_FAVORITE_AUTHORS = "ARG_FAVORITE_AUTHORS";
     private static final String ARG_AUTHOR = "ARG_AUTHOR";
 
-
-    private TopPhotos quote;
+    private Quote quote;
     private int mPage;
     private ArrayList<Quote> favoriteQuotes;
     private ArrayList<AuthorDetails> favoriteAuthors;
 
-    public static DashboardFragment getNewInstance(int page, TopPhotos quote, ArrayList<Quote> favoriteQuotes,
+    public static DashboardFragment getNewInstance(int page, Quote quote, ArrayList<Quote> favoriteQuotes,
                                                    ArrayList<AuthorDetails> favoriteAuthors) {
 
         Bundle args = new Bundle();
@@ -61,7 +60,7 @@ public class DashboardFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        quote = (TopPhotos) getArguments().getSerializable(ARG_QUOTE);
+        quote = (Quote) getArguments().getSerializable(ARG_QUOTE);
         mPage = (int) getArguments().getSerializable(ARG_PAGE);
         favoriteQuotes = (ArrayList<Quote>) getArguments().getSerializable(ARG_FAVORITE_QUOTES);
         favoriteAuthors = (ArrayList<AuthorDetails>) getArguments().getSerializable(ARG_FAVORITE_AUTHORS);
@@ -70,68 +69,60 @@ public class DashboardFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.dashboard_fragment, container, false);
 
         ImageView cardImage = (android.widget.ImageView) view.findViewById(R.id.backdrop);
 
-        AppController.loadImageIntoView(getContext(), new Random()
-                .nextInt(Constants.NUMBER_OF_COVERS), cardImage, true, true);
+        AppController.loadImageIntoView(getContext(), quote.getImageId(), cardImage, true, true);
 
         CircleImageView authorImage = (CircleImageView) view.findViewById(R.id.author_image);
         Glide.with(getContext())
-                .load(Constants.IMAGES_URL + quote.getSource().getAuthorId() + ".jpg")
+                .load(Constants.IMAGES_URL + quote.getQuoteDetails().getAuthorId() + ".jpg")
                 .dontAnimate()
                 .placeholder(R.drawable.avatar)
                 .error(R.drawable.avatar)
                 .into(authorImage);
-        authorImage.setOnClickListener(new OnAuthorClickListener(authorImage.getContext(), quote.getSource().getAuthorId()));
+
+        authorImage.setOnClickListener(new OnAuthorClickListener(authorImage.getContext(),
+                quote.getQuoteDetails().getAuthorId()));
 
         TextView quoteTextView = (TextView) view.findViewById(R.id.quote_text);
         quoteTextView.setTypeface(AppHelper.getRalewayLight(getContext()));
-        quoteTextView.setText(quote.getSource().getQuote());
+        quoteTextView.setText(quote.getQuoteDetails().getQuoteText());
 
         TextView author = (TextView) view.findViewById(R.id.author);
-        author.setText("- " + quote.getSource().getAuthorName() + "-");
-        author.setOnClickListener(new OnAuthorClickListener(author.getContext(), quote.getSource().getAuthorId()));
+        author.setText("- " + quote.getQuoteDetails().getAuthorName() + "-");
+        author.setOnClickListener(new OnAuthorClickListener(author.getContext(),
+                quote.getQuoteDetails().getAuthorId()));
 
         ImageView share = (ImageView) view.findViewById(R.id.dashboard_share);
-        RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.main_layout);
-        share.setOnClickListener(new OnShareClickListener(share.getContext(), quote.getSource().getQuote(),
-                quote.getSource().getAuthorName(), relativeLayout));
 
-        ImageView favoriteQuote = (ImageView) view.findViewById(R.id.dashboard_favorite);
-        favoriteQuote.setImageResource(R.drawable.ic_favorite_empty);
+        share.setOnClickListener(new OnShareClickListener(getActivity(),
+                quote.getQuoteDetails().getQuoteText(), quote.getQuoteDetails().getAuthorName(),
+                Constants.COVER_IMAGES_URL + quote.getImageId() + ".jpg",
+                quoteTextView));
 
         ImageView favoriteAuthor = (ImageView) view.findViewById(R.id.dashboard_author);
         favoriteAuthor.setImageResource(R.drawable.ic_author_empty);
 
-//        for (int i = 0; i < favoriteAuthors.size(); i++) {
-//            if (quote.getSource().getAuthorId().equals(favoriteAuthors.get(i).getId())){
-//                favoriteAuthor.setImageResource(R.drawable.ic_author);
-//            }
-//        }
+        ImageView favoriteQuote = (ImageView) view.findViewById(R.id.dashboard_favorite);
 
         for (int i = 0; i < favoriteQuotes.size(); i++) {
-            if (quote.getSource().getQuoteId().equals(favoriteQuotes.get(i).getQuoteDetails().getQuoteId())) {
+            if (quote.getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i)
+                    .getQuoteDetails().getQuoteId())) {
                 favoriteQuote.setImageResource(R.drawable.ic_favorite);
                 quote.setFavorite(true);
             } else {
+                favoriteQuote.setImageResource(R.drawable.ic_favorite_empty);
                 quote.setFavorite(false);
             }
         }
 
-        QuoteFields fields = new QuoteFields();
-        fields.setAuthorName(quote.getSource().getAuthorName());
-        fields.setAuthorId(quote.getSource().getAuthorId());
-        fields.setQuoteText(quote.getSource().getQuote());
-        fields.setQuoteId(quote.getSource().getQuoteId());
-
-        Quote quote1 = new Quote(quote.isFavorite(), new Random().nextInt(Constants.NUMBER_OF_COVERS), fields);
-
         favoriteQuote.setOnClickListener(new OnFavoriteQuoteClickListener(favoriteQuote.getContext(),
-                favoriteQuotes, favoriteQuote, quote1, null, false));
+                favoriteQuotes, favoriteQuote, quote, null, false));
 
         return view;
     }

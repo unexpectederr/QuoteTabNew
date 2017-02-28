@@ -72,6 +72,7 @@ public class FavoriteQuotes extends AppCompatActivity {
         }
     }
 
+    @Override
     public boolean onSupportNavigateUp() {
 
         Intent returnIntent = new Intent();

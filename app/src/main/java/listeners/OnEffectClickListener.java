@@ -50,14 +50,27 @@ public class OnEffectClickListener implements View.OnClickListener {
                 adapter.notifyItemChanged(i);
             }
         }
+
         mDataSet.get(position).setSelected(true);
         adapter.notifyItemChanged(position);
 
+        imageView.setEffectClassName(className);
+
+        if (position == 0) {
+            Glide.with(context).load(imageView.getImageUrl())
+                    .asBitmap().into(imageView);
+            return;
+        }
+
         try {
+
             Class<?> clazz = Class.forName(className);
-            Constructor<?> ctor = clazz.getConstructor(Context.class);
-            Glide.with(context).load(imageView.getImageUrl()).bitmapTransform((Transformation<Bitmap>)
-                    ctor.newInstance(context)).into(imageView);
+            Constructor<?> cons = clazz.getConstructor(Context.class);
+
+            Glide.with(context)
+                    .load(imageView.getImageUrl())
+                    .bitmapTransform((Transformation<Bitmap>) cons.newInstance(context)).into(imageView);
+
         } catch (InstantiationException | InvocationTargetException | NoSuchMethodException
                 | ClassNotFoundException | IllegalAccessException e) {
             e.printStackTrace();

@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import adapters.ImageEffectsAdapter;
-import adapters.QuoteImagesAdapter;
+import adapters.PreviewImagesAdapter;
 import digitalbath.quotetab.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
@@ -36,11 +36,9 @@ public class QuoteMaker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quote_maker);
 
-        initializeCommonContent();
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         QuoteImageView quoteImage = (QuoteImageView) findViewById(R.id.quote_image);
+
+        initializeCommonContent(quoteImage);
 
         initializeImagesRecyclerView(quoteImage);
 
@@ -48,13 +46,14 @@ public class QuoteMaker extends AppCompatActivity {
 
     }
 
-    private void initializeCommonContent() {
+    private void initializeCommonContent(QuoteImageView quoteImage) {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.top_layout);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.top_layout);
 
         ImageView saveImage = (ImageView) findViewById(R.id.download_icon);
         saveImage.setOnClickListener(new SaveImageToFileClickListener(QuoteMaker.this, relativeLayout, null, null));
@@ -66,9 +65,8 @@ public class QuoteMaker extends AppCompatActivity {
         authorName.setTypeface(AppHelper.getRalewayLight(this));
 
         ImageView share = (ImageView) findViewById(R.id.share_quote_icon);
-        share.setOnClickListener(new ShareAsImageClickListener(this, relativeLayout,
-                quoteText.getText().toString(),
-                authorName.getText().toString()));
+        share.setOnClickListener(new ShareAsImageClickListener(this, quoteText,
+                authorName, quoteImage, quoteText.getLineCount()));
     }
 
     private void initializeEffectsRecyclerView(QuoteImageView quoteImage) {
@@ -110,14 +108,15 @@ public class QuoteMaker extends AppCompatActivity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        QuoteImagesAdapter adapter = new QuoteImagesAdapter(this, imageSuggestions,
+        PreviewImagesAdapter adapter = new PreviewImagesAdapter(this, imageSuggestions,
                 quoteImage, metrics.widthPixels);
         imagesRecycler.setAdapter(adapter);
 
-
-
-        Glide.with(this).load(Constants.COVER_IMAGES_URL + imageSuggestions.get(0).getImageId() + ".jpg")
+        Glide.with(this)
+                .load(Constants.COVER_IMAGES_URL + imageSuggestions.get(0).getImageId() + ".jpg")
+                .asBitmap()
                 .into(quoteImage);
+
         quoteImage.setImageUrl(Constants.COVER_IMAGES_URL + imageSuggestions.get(0).getImageId() + ".jpg");
     }
 

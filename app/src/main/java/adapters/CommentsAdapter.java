@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetab.R;
@@ -107,17 +109,32 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
         holder.numberOfLikes.setText(Integer.toString(comment.getLikes().size()));
 
-        /*if (!comment.getLikes().get(comment.getUserId()).equals("")) {
-            holder.like.setText("Liked");
+        if (comment.getLikes().get(comment.getUserId()) != null &&
+                comment.getLikes().get(comment.getUserId()) == true) {
+            holder.like.setText("Unlike");
             holder.like.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
-        }*/
+        } else {
+            holder.like.setText("Like");
+            holder.like.setTextColor(mContext.getResources().getColor(R.color.main_color_dark));
+        }
 
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                mDataBaseRef.child(comment.getId())
-                        .child("likes").push().setValue(comment.getUserId());
+                if (comment.getLikes().get(comment.getUserId()) == null) {
+
+                    Map<String, Object> taskMap = new HashMap<>();
+                    taskMap.put(comment.getUserId(), true);
+
+                    mDataBaseRef.child(comment.getId())
+                            .child("likes").updateChildren(taskMap);
+
+                } else {
+
+                    mDataBaseRef.child(comment.getId())
+                            .child("likes").child(comment.getUserId()).removeValue();
+                }
 
             }
         });

@@ -22,19 +22,20 @@
         android:alpha="0.8"
         android:layout_width="75dp"/>
 
-    <TextView
+    <ImageView
         android:id="@+id/more_icon"
-        android:background="@mipmap/ic_launcher"
+        android:src="@drawable/logo_4"
         android:textColor="@color/main_color_light"
         android:textStyle="bold"
         android:gravity="center"
         android:alpha="0.5"
         android:layout_height="30dp"
         android:layout_width="30dp"
+        android:padding="3dp"
         android:textSize="20dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="15dp"/>
+        android:layout_margin="10dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -161,7 +162,7 @@
         android:id="@+id/splash_screen"
         android:background="@android:color/white"
         android:translationZ="999dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/logo"
@@ -175,7 +176,7 @@
     <io.codetail.widget.RevealFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/splash_screen">
 
@@ -228,7 +229,8 @@
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/ic_star_full"
                         android:id="@+id/imageView2"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:alpha="0.7"/>
 
                     <TextView
                         android:id="@+id/info_text_name"
@@ -245,17 +247,18 @@
 
                 <helpers.other.ExpandableFrame
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
                     android:animateLayoutChanges="true"
                     android:id="@+id/popular_authors_expandable"
-                    android:tag="popular">
+                    android:tag="popular"
+                    android:layout_height="0dp">
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/popular_authors"
                         android:paddingLeft="8dp"
-                        android:clipToPadding="false"/>
+                        android:clipToPadding="false"
+                        android:layout_marginTop="10dp"/>
 
                     <Button
                         android:id="@+id/aaa"
@@ -265,7 +268,8 @@
                         android:textSize="16sp"
                         android:layout_below="@+id/popular_authors"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"/>
+                        android:layout_margin="10dp"
+                        android:visibility="gone"/>
 
                 </helpers.other.ExpandableFrame>
 
@@ -286,7 +290,8 @@
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/ic_today"
                         android:id="@+id/imageView23"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:alpha="0.7"/>
 
                     <TextView
                         android:id="@+id/info_text_name3"
@@ -313,7 +318,8 @@
                         android:id="@+id/today_birthdays"
                         android:clipToPadding="false"
                         android:layout_height="wrap_content"
-                        android:paddingTop="10dp"/>
+                        android:paddingTop="10dp"
+                        android:layout_marginTop="10dp"/>
 
                     <Button
                         android:id="@+id/bbb"
@@ -323,7 +329,8 @@
                         android:textSize="16sp"
                         android:layout_below="@+id/today_birthdays"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"/>
+                        android:layout_margin="10dp"
+                        android:visibility="gone"/>
 
                 </helpers.other.ExpandableFrame>
 
@@ -344,7 +351,8 @@
                         android:layout_height="50dp"
                         app:srcCompat="@drawable/ic_trending"
                         android:id="@+id/imageView233"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:alpha="0.7"/>
 
                     <TextView
                         android:id="@+id/info_text_name5"
@@ -374,10 +382,10 @@
                         android:id="@+id/trending_authors"
                         android:paddingLeft="8dp"
                         android:clipToPadding="false"
-                        />
+                        android:layout_marginTop="10dp"/>
 
                     <Button
-                        android:id="@+id/ccc"
+                        android:id="@+id/all_authors"
                         android:layout_width="match_parent"
                         android:background="@drawable/background_outline_w"
                         android:text="All authors"

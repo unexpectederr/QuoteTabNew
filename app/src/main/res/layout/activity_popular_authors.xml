@@ -47,7 +47,7 @@
                     >
 
                     <TextView
-                        android:text="Authors"
+                        android:text="Popular authors"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/screen_title"

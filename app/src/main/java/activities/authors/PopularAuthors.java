@@ -117,6 +117,7 @@ public class PopularAuthors extends AppCompatActivity {
         );
     }
 
+    @Override
     public boolean onSupportNavigateUp() {
 
         if (searchEditText.getVisibility() == View.VISIBLE) {

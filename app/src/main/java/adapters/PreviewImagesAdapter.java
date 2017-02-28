@@ -22,15 +22,15 @@ import models.images.ImageSuggestion;
  * Created by Spaja on 14-Feb-17.
  */
 
-public class QuoteImagesAdapter extends RecyclerView.Adapter<QuoteImagesAdapter.MyViewHolder> {
+public class PreviewImagesAdapter extends RecyclerView.Adapter<PreviewImagesAdapter.MyViewHolder> {
 
     private Context context;
     private ArrayList<ImageSuggestion> mDataSet;
     private QuoteImageView largeImage;
     private int screenWidth;
 
-    public QuoteImagesAdapter(Context context, ArrayList<ImageSuggestion> mDataSet,
-                              QuoteImageView largeImage, int screenWidth) {
+    public PreviewImagesAdapter(Context context, ArrayList<ImageSuggestion> mDataSet,
+                                QuoteImageView largeImage, int screenWidth) {
 
         this.context = context;
         this.mDataSet = mDataSet;
@@ -58,7 +58,7 @@ public class QuoteImagesAdapter extends RecyclerView.Adapter<QuoteImagesAdapter.
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(screenWidth/4, screenWidth/4);
         v.setLayoutParams(lp);
 
-        return new QuoteImagesAdapter.MyViewHolder(v);
+        return new PreviewImagesAdapter.MyViewHolder(v);
     }
 
     @Override

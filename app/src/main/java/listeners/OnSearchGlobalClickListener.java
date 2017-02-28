@@ -1,10 +1,12 @@
 package listeners;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -68,22 +70,17 @@ public class OnSearchGlobalClickListener implements View.OnClickListener {
                     mSearchEditText.setVisibility(View.VISIBLE);
                     mSearchEditText.startAnimation(AppHelper.getAnimationUp(mActivity));
 
+                    InputMethodManager inputMethodManager =
+                            (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.toggleSoftInputFromWindow(
+                            mSearchEditText.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+
                 }
             }, 600);
 
             AppHelper.revealLayout(dashboardMore, mRevealPoint, null, false);
 
         }
-
-        /*if (mSearchEditText.getText().length() == 0) {
-            mSearchEditText.setVisibility(View.VISIBLE);
-            mSearchEditText.requestFocus();
-            mSearchEditText.startAnimation(AppHelper.getAnimationUp(mContext));
-        } else {
-            mSearchEditText.setText("");
-        }*/
-
-
     }
 
     private void getSearchResults(String query) {

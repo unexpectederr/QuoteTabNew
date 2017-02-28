@@ -15,7 +15,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 
-import adapters.QuoteImagesAdapter;
+import adapters.PreviewImagesAdapter;
 import helpers.other.QuoteImageView;
 import models.images.ImageSuggestion;
 
@@ -29,13 +29,13 @@ public class OnPreviewImageClickListener implements View.OnClickListener {
     private QuoteImageView image;
     private Context context;
     private ArrayList<ImageSuggestion> mDataSet;
-    private QuoteImagesAdapter adapter;
+    private PreviewImagesAdapter adapter;
     private int position;
 
 
     public OnPreviewImageClickListener(Context context, QuoteImageView image, String imageUrl,
                                        ArrayList<ImageSuggestion> mDataSet,
-                                       QuoteImagesAdapter adapter, int position) {
+                                       PreviewImagesAdapter adapter, int position) {
         this.context = context;
         this.image = image;
         this.imageUrl = imageUrl;
@@ -53,6 +53,7 @@ public class OnPreviewImageClickListener implements View.OnClickListener {
                 adapter.notifyItemChanged(i);
             }
         }
+
         mDataSet.get(position).setSelected(true);
         adapter.notifyItemChanged(position);
 
@@ -83,5 +84,6 @@ public class OnPreviewImageClickListener implements View.OnClickListener {
                 .into(target);
 
         image.setImageUrl(imageUrl);
+        image.setEffectClassName("normal");
     }
 }

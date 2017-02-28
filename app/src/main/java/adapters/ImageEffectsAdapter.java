@@ -62,15 +62,23 @@ public class ImageEffectsAdapter extends RecyclerView.Adapter<ImageEffectsAdapte
 
         holder.effectName.setText(mDataSet.get(position).getFilterName());
 
-        try {
-            Class<?> clazz = Class.forName(mDataSet.get(position).getFilterClass());
-            Constructor<?> ctor = clazz.getConstructor(Context.class);
-            int imageId = R.drawable.filter_image;
-            Glide.with(context).load(imageId).bitmapTransform((Transformation<Bitmap>)
-                    ctor.newInstance(context)).into(holder.effectImage);
-        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException
-                | ClassNotFoundException | IllegalAccessException e) {
-            e.printStackTrace();
+        int imageId = R.drawable.filter_image;
+
+        if (position == 0) {
+
+            Glide.with(context).load(imageId).into(holder.effectImage);
+
+        } else {
+
+            try {
+                Class<?> clazz = Class.forName(mDataSet.get(position).getFilterClass());
+                Constructor<?> cons = clazz.getConstructor(Context.class);
+                Glide.with(context).load(imageId).bitmapTransform((Transformation<Bitmap>)
+                        cons.newInstance(context)).into(holder.effectImage);
+            } catch (InstantiationException | InvocationTargetException | NoSuchMethodException
+                    | ClassNotFoundException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
 
         holder.itemView.setOnClickListener(new OnEffectClickListener(this, mDataSet.get(position).getFilterClass(),

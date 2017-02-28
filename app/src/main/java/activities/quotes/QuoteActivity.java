@@ -130,13 +130,6 @@ public class QuoteActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        ImageView shareIcon = (ImageView) findViewById(R.id.share_quote_icon);
-
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.header);
-        shareIcon.setOnClickListener(new OnShareClickListener(this,
-                mQuote.getQuoteDetails().getQuoteText(),
-                mQuote.getQuoteDetails().getAuthorName(), relativeLayout));
-
         ImageView favoriteIcon = (ImageView) findViewById(R.id.favorite_icon);
 
         if (mQuote.isFavorite()) {
@@ -171,6 +164,12 @@ public class QuoteActivity extends AppCompatActivity {
         authorName.setText("- " + mQuote.getQuoteDetails().getAuthorName() + " -");
         authorName.setOnClickListener(new OnAuthorClickListener(this, mQuote
                     .getQuoteDetails().getAuthorId()));
+
+        ImageView shareIcon = (ImageView) findViewById(R.id.share_quote_icon);
+
+        shareIcon.setOnClickListener(new OnShareClickListener(this,
+                mQuote.getQuoteDetails().getQuoteText(), mQuote.getQuoteDetails().getAuthorName(),
+                Constants.COVER_IMAGES_URL + mQuote.getImageId() + ".jpg", quoteText));
 
         String[] tags = mQuote.getQuoteDetails().getCategories().split(" ");
 

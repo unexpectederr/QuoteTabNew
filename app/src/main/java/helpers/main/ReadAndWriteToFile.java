@@ -95,7 +95,7 @@ public class ReadAndWriteToFile {
 
             // overwrites this image every time
             stream = new FileOutputStream(cachePath + "/image.jpg");
-            bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            bm.compress(Bitmap.CompressFormat.JPEG, 50, stream);
             stream.close();
 
         } catch (IOException e) {

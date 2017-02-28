@@ -48,7 +48,6 @@ public class Topics extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        searchIcon = (ImageView) findViewById(R.id.search_icon);
 
        /* searchEditText = (EditText) toolbar.findViewById(R.id.search_edit_text);
         searchEditText.getBackground().setColorFilter(getResources().getColor(
@@ -104,11 +103,6 @@ public class Topics extends AppCompatActivity {
 
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
 
-                if (!PreferenceManager.getDefaultSharedPreferences(Topics.this)
-                        .getBoolean(Constants.SEARCH_TOPICS_TIP, false))
-                    AppHelper.showMaterialTip(searchIcon, Topics.this, "Search topics",
-                            "You can search topics here and find easily what you are looking for",
-                            Constants.SEARCH_TOPICS_TIP, R.drawable.ic_search);
             }
 
             @Override
@@ -135,17 +129,9 @@ public class Topics extends AppCompatActivity {
         });
     }
 
+    @Override
     public boolean onSupportNavigateUp() {
-
-        /*if (searchEditText.getVisibility() == View.VISIBLE) {
-            searchEditText.setVisibility(View.GONE);
-            searchEditText.setAnimation(AppHelper.getAnimationDown(PopularAuthors.this));
-            searchEditText.setText("");
-            return true;
-        }*/
-
         onBackPressed();
-
         return true;
     }
 

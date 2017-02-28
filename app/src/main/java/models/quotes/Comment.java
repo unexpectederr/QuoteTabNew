@@ -18,7 +18,7 @@ public class Comment {
     private String text;
     private String date;
     private String avatar;
-    private HashMap<String, String> likes = new HashMap<>();
+    private HashMap<String, Boolean> likes = new HashMap<>();
 
     public String getId() {
         return id;
@@ -68,11 +68,11 @@ public class Comment {
         this.avatar = avatar;
     }
 
-    public HashMap<String, String> getLikes() {
+    public HashMap<String, Boolean> getLikes() {
         return likes;
     }
 
-    public void setLikes(HashMap<String, String> likes) {
+    public void setLikes(HashMap<String, Boolean> likes) {
         this.likes = likes;
     }
 }

@@ -102,7 +102,7 @@ public class AppController extends Application {
 
     }
 
-    private static boolean contextExists(Context ctx) {
+    public static boolean contextExists(Context ctx) {
         return !(ctx == null || ((ctx instanceof Activity)
                 && ((Activity) ctx).isDestroyed()));
     }

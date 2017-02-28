@@ -33,9 +33,10 @@
 
     <ImageView
         android:id="@+id/imageView"
-        app:srcCompat="@drawable/logo_2"
+        app:srcCompat="@drawable/logo_4"
         android:layout_height="50dp"
-        android:layout_width="40dp"/>
+        android:layout_width="40dp"
+        android:alpha="0.7"/>
 
     <TextView
         android:layout_width="match_parent"

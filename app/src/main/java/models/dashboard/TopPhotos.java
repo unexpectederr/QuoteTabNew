@@ -13,16 +13,6 @@ public class TopPhotos implements Serializable {
     @SerializedName("_source")
     private Source source;
 
-    private boolean favorite;
-
-    public boolean isFavorite() {
-        return favorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
-    }
-
     public Source getSource() {
         return source;
     }

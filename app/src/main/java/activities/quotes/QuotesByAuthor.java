@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import digitalbath.quotetab.R;
 import adapters.QuotesAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
+import helpers.main.AppController;
 import helpers.main.Constants;
 import helpers.main.ReadAndWriteToFile;
 import listeners.OnShowAuthorInfoListener;
@@ -172,6 +173,9 @@ public class QuotesByAuthor extends AppCompatActivity
     }
 
     private void bindAuthorHeader(AuthorDetailsFromQuote authorFromQuote) {
+
+        if (!AppController.contextExists(this))
+            return;
 
         ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile
                 .getFavoriteAuthors(QuotesByAuthor.this);

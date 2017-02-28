@@ -1,6 +1,5 @@
 package adapters;
 
-
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,18 +11,16 @@ import java.util.ArrayList;
 
 import activities.dashboard.DashboardFragment;
 import models.authors.AuthorDetails;
-import models.dashboard.TopPhotos;
 import models.quotes.Quote;
-
 
 public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
     private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
-    private ArrayList<TopPhotos> mItems;
+    private ArrayList<Quote> mItems;
     private ArrayList<Quote> favoriteQuotes;
     private ArrayList<AuthorDetails> favoriteAuthors;
 
-    public DashboardPagerAdapter(FragmentManager fm, ArrayList<TopPhotos> items, ArrayList<Quote> favoriteQuotes,
+    public DashboardPagerAdapter(FragmentManager fm, ArrayList<Quote> items, ArrayList<Quote> favoriteQuotes,
                                  ArrayList<AuthorDetails> favoriteAuthors) {
         super(fm);
         mItems = items;
@@ -43,7 +40,7 @@ public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mItems.get(position).getSource().getAuthorName();
+        return mItems.get(position).getQuoteDetails().getAuthorName();
     }
 
     @Override

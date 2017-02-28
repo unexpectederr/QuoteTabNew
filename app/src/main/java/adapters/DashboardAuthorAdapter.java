@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import digitalbath.quotetab.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.Constants;
+import listeners.OnAuthorClickListener;
 import models.dashboard.PopularAuthor;
 
 /**
@@ -23,12 +24,12 @@ import models.dashboard.PopularAuthor;
 public class DashboardAuthorAdapter extends RecyclerView.Adapter<DashboardAuthorAdapter.MyViewHolder> {
 
     private ArrayList<PopularAuthor> mDataSet;
-    private Context context;
+    private Context mContext;
 
     public DashboardAuthorAdapter(ArrayList<PopularAuthor> mDataSet, Context context) {
 
         this.mDataSet = mDataSet;
-        this.context = context;
+        this.mContext = context;
 
     }
 
@@ -56,13 +57,16 @@ public class DashboardAuthorAdapter extends RecyclerView.Adapter<DashboardAuthor
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        Glide.with(context).load(Constants.IMAGES_URL + mDataSet.get(position).getImageUrl())
+        Glide.with(mContext).load(Constants.IMAGES_URL + mDataSet.get(position).getImageUrl())
                 .dontAnimate()
                 .error(R.drawable.avatar)
                 .placeholder(R.drawable.avatar)
                 .into(holder.authorImage);
 
         holder.authorName.setText(mDataSet.get(position).getName());
+
+        holder.itemView.setOnClickListener(new OnAuthorClickListener(mContext,
+                mDataSet.get(position).getAuthorId()));
     }
 
     @Override

@@ -120,7 +120,6 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         if (!mDataSet.get(position).isFavorite())
             holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_empty);
 
-
         AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
                 holder.cardImage, false, false);
 
@@ -134,8 +133,9 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         }
 
         holder.shareIcon.setOnClickListener(new OnShareClickListener(context,
-                holder.quoteText.getText().toString(),
-                mDataSet.get(position).getQuoteDetails().getAuthorName(), holder.relativeLayout));
+                holder.quoteText.getText().toString(), mDataSet.get(position).getQuoteDetails()
+                .getAuthorName(), Constants.COVER_IMAGES_URL + mDataSet.get(position).getImageId()
+                + ".jpg", holder.quoteText));
 
         holder.favoriteIcon.setOnClickListener(new OnFavoriteQuoteClickListener(context, favoriteQuotes,
                 holder.favoriteIcon, mDataSet.get(position), this, isFavorites));

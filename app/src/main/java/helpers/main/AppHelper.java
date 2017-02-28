@@ -10,9 +10,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -46,25 +49,30 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class AppHelper {
 
-    public static Bitmap createBitmapFromView(Context context, String quoteText, String authorName) {
+    public static Bitmap createBitmapFromView(Activity context, String quoteText, String authorName,
+                                              Bitmap quoteImage, int quoteLines) {
 
         View v;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.share_quote_container, null);
 
-       /* TextView quoteTextTextView = (TextView) v.findViewById(R.id.quoteText);
+        TextView quoteTextTextView = (TextView) v.findViewById(R.id.quote_text);
         quoteTextTextView.setText(quoteText);
-        quoteTextTextView.setTextColor(Color.WHITE);
 
-        TextView authorNameTextView = (TextView) v.findViewById(R.id.card_author_name);
-        authorNameTextView.setText(authorName);
-        authorNameTextView.setTextColor(Color.WHITE);*/
+        TextView authorNameTextView = (TextView) v.findViewById(R.id.quote_author);
+        authorNameTextView.setText("- " + authorName + " -");
 
-        //display width
-        int specWidth = View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY);
+        ImageView image = (ImageView) v.findViewById(R.id.card_image);
+        image.setImageBitmap(quoteImage);
 
-        //height depending on number of lines of quote textview
-        int specHeight = View.MeasureSpec.makeMeasureSpec(1140 + (3 - 1) * 70 , View.MeasureSpec.EXACTLY);
+        DisplayMetrics metrics = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int specWidth = View.MeasureSpec.makeMeasureSpec(metrics.widthPixels, View.MeasureSpec.EXACTLY);
+
+        int specHeight = View.MeasureSpec.makeMeasureSpec((int) (context.getResources()
+                .getDimension(R.dimen.share_layout_height) + (quoteLines - 1) * context.getResources()
+                .getDimension(R.dimen.share_layout_quote_line_height)), View.MeasureSpec.EXACTLY);
 
         v.measure(specWidth, specHeight);
 
