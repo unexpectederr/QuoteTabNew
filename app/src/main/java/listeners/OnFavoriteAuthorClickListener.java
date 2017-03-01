@@ -53,7 +53,6 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
                 position = i;
                 break;
             }
-
         }
 
         if (author.isFavorite()) {

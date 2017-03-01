@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.data.StreamAssetPathFetcher;
+import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.liangfeizc.RubberIndicator;
 
@@ -54,6 +55,7 @@ import models.authors.AuthorDetails;
 import models.authors.AuthorDetailsFromQuote;
 import models.authors.AuthorFields;
 import models.authors.AuthorFieldsFromQuote;
+import models.authors.Profession;
 import models.dashboard.DashboardData;
 import models.dashboard.Source;
 import models.dashboard.TopPhotos;
@@ -203,11 +205,21 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 for (int i = 0; i < response.body().getQuotesPartial().size(); i++) {
                     AuthorDetailsFromQuote author = new AuthorDetailsFromQuote();
                     AuthorFieldsFromQuote fields = new AuthorFieldsFromQuote();
+                    Profession profession = new Profession();
 
-                    fields.setAuthorName(response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getAuthorName());
-                    fields.setAuthorId(response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getAuthorId());
-                    fields.setAuthorImageUrl(response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getAuthorImageUrl());
-                    fields.setQuotesCount(response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getQuotesCount());
+                    fields.setAuthorName(response.body().getQuotesPartial().get(i).getAuthor()
+                            .getAuthor().getAuthorName());
+                    fields.setAuthorId(response.body().getQuotesPartial().get(i).getAuthor()
+                            .getAuthor().getAuthorId());
+                    fields.setAuthorImageUrl(response.body().getQuotesPartial().get(i).getAuthor()
+                            .getAuthor().getAuthorImageUrl());
+                    fields.setQuotesCount(response.body().getQuotesPartial().get(i).getAuthor()
+                            .getAuthor().getQuotesCount());
+
+                    profession.setProfessionName(response.body().getQuotesPartial().get(i)
+                            .getAuthor().getAuthor().getProfession().getProfessionName());
+
+                    fields.setProfession(profession);
 
                     author.setAuthor(fields);
 
@@ -327,7 +339,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             startActivityForResult(i, 1);
         } else if (id == R.id.menu_favorite_authors) {
             Intent i = new Intent(Dashboard.this, Authors.class);
-            startActivity(i);
+            startActivityForResult(i, 1);
         } else if (id == R.id.menu_quote_maker) {
             Intent i = new Intent(Dashboard.this, QuoteMaker.class);
             startActivity(i);
@@ -341,13 +353,28 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        int i = 9;
         if (requestCode == 1) {
 
             if (resultCode == FavoriteQuotes.RESULT_OK) {
 
-                ArrayList<Quote> favoriteQuotes = (ArrayList<Quote>) data.getSerializableExtra("result");
+                boolean isFromAuthors = data.getBooleanExtra("isFromAuthors", false);
+                ArrayList<AuthorDetails> favoriteAuthors;
+                ArrayList<Quote> favoriteQuotes;
+
+                if (isFromAuthors) {
+
+                    favoriteAuthors = (ArrayList<AuthorDetails>) data.getSerializableExtra("result");
+                    favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
+
+                } else {
+
+                    favoriteQuotes = (ArrayList<Quote>) data.getSerializableExtra("result");
+                    favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(this);
+                }
+
                 DashboardPagerAdapter mPagerAdapter =
-                        new DashboardPagerAdapter(getSupportFragmentManager(), mItems, favoriteQuotes, null);
+                        new DashboardPagerAdapter(getSupportFragmentManager(), mItems, favoriteQuotes, favoriteAuthors);
                 mPager.setAdapter(mPagerAdapter);
 
             } else if (resultCode == FavoriteQuotes.RESULT_CANCELED) {
@@ -357,6 +384,4 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
             }
         }
     }
-
-
 }

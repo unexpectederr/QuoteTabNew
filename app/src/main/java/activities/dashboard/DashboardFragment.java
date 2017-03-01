@@ -29,6 +29,7 @@ import listeners.OnShareClickListener;
 import models.authors.AuthorDetails;
 import models.authors.AuthorFields;
 import models.authors.AuthorFieldsFromQuote;
+import models.authors.Profession;
 import models.dashboard.TopPhotos;
 import models.quotes.Quote;
 import models.quotes.QuoteFields;
@@ -47,7 +48,7 @@ public class DashboardFragment extends Fragment {
     private ArrayList<AuthorDetails> favoriteAuthors;
     private AuthorFieldsFromQuote author;
 
-    public static DashboardFragment getNewInstance(int page, Quote quote, ArrayList<Quote> favoriteQuotes,
+    public static DashboardFragment  getNewInstance(int page, Quote quote, ArrayList<Quote> favoriteQuotes,
                                                    ArrayList<AuthorDetails> favoriteAuthors, AuthorFieldsFromQuote author) {
 
         Bundle args = new Bundle();
@@ -94,10 +95,14 @@ public class DashboardFragment extends Fragment {
         ArrayList<Integer> quotesCount = new ArrayList<>();
         quotesCount.add(author.getQuotesCount());
 
+        ArrayList<String> professionName = new ArrayList<>();
+        professionName.add(author.getProfession().getProfessionName());
+
         fields.setName(name);
         fields.setAuthorId(authorId);
         fields.setImageUrl(imageUrl);
         fields.setQuotesCount(quotesCount);
+        fields.setProfessionName(professionName);
         authorDetails.setId(author.getAuthorId());
 
         authorDetails.setAuthorFields(fields);

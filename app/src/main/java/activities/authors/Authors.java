@@ -24,11 +24,11 @@ import retrofit2.Response;
 
 public class Authors extends AppCompatActivity {
 
-    private boolean isByLetter;
     RecyclerView authorsRecyclerView;
     int page = 1, visibleItemCount, totalItemCount, pastVisibleItems;
-    private AuthorsAdapter adapter;
     TextView screenTitle;
+    private boolean isByLetter;
+    private AuthorsAdapter adapter;
     private boolean loading = false;
 
     @Override
@@ -135,32 +135,21 @@ public class Authors extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
 
-        if (isByLetter) {
-
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteAuthors(this));
-            this.setResult(activities.authors.Authors.RESULT_OK, returnIntent);
-            onBackPressed();
-            return true;
-
-        } else {
-            onBackPressed();
-            return true;
-        }
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteAuthors(this));
+        returnIntent.putExtra("isFromAuthors", true);
+        this.setResult(activities.authors.Authors.RESULT_OK, returnIntent);
+        onBackPressed();
+        return true;
     }
 
     @Override
     public void onBackPressed() {
 
-        if (isByLetter) {
-
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteAuthors(this));
-            this.setResult(activities.authors.Authors.RESULT_OK, returnIntent);
-            super.onBackPressed();
-
-        } else {
-            super.onBackPressed();
-        }
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteAuthors(this));
+        returnIntent.putExtra("isFromAuthors", true);
+        this.setResult(activities.authors.Authors.RESULT_OK, returnIntent);
+        super.onBackPressed();
     }
 }
