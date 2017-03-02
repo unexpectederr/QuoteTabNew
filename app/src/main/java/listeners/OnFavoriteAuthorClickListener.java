@@ -78,6 +78,5 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
             author.setFavorite(true);
             ReadAndWriteToFile.addAuthorToFavorites(context, author);
         }
-
     }
 }

@@ -1,5 +1,6 @@
 package activities.quotes;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -25,7 +26,9 @@ import adapters.QuotesAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.AppController;
 import helpers.main.Constants;
+import helpers.main.Mapper;
 import helpers.main.ReadAndWriteToFile;
+import listeners.OnFavoriteAuthorClickListener;
 import listeners.OnShowAuthorInfoListener;
 import listeners.OnWikipediaButtonClickListener;
 import models.authors.AuthorDetails;
@@ -180,6 +183,7 @@ public class QuotesByAuthor extends AppCompatActivity
         ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile
                 .getFavoriteAuthors(QuotesByAuthor.this);
 
+        favoriteIcon.setImageResource(R.drawable.ic_author_empty);
         for (int i = 0; i < favoriteAuthors.size(); i++) {
 
             if (authorFromQuote.getAuthorFieldsFromQuote()
@@ -190,6 +194,10 @@ public class QuotesByAuthor extends AppCompatActivity
 
             }
         }
+
+        AuthorDetails author = Mapper.getAuthorFromQuote(authorFromQuote);
+        favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener(QuotesByAuthor.this,
+                author, favoriteAuthors, favoriteIcon, null, false, null, null));
 
         TextView authorTitle = (TextView) findViewById(R.id.author_name);
         TextView authorTagLine = (TextView) findViewById(R.id.author_tagline);
@@ -298,5 +306,26 @@ public class QuotesByAuthor extends AppCompatActivity
         alphaAnimation.setDuration(duration);
         alphaAnimation.setFillAfter(true);
         v.startAnimation(alphaAnimation);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteAuthors(this));
+        returnIntent.putExtra("isFromAuthors", true);
+        this.setResult(FavoriteQuotes.RESULT_OK, returnIntent);
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteAuthors(this));
+        returnIntent.putExtra("isFromAuthors", true);
+        this.setResult(FavoriteQuotes.RESULT_OK, returnIntent);
+        super.onBackPressed();
     }
 }

@@ -142,35 +142,73 @@ public class DashboardFragment extends Fragment {
 
         ImageView favoriteAuthor = (ImageView) view.findViewById(R.id.dashboard_author);
 
+        favoriteAuthor.setImageResource(R.drawable.ic_author_empty);
+
         for (int i = 0; i < favoriteAuthors.size(); i++) {
-            if (authorDetails.getAuthorFields().getAuthorId().equals(favoriteAuthors.get(i).getAuthorFields().getAuthorId())) {
+            if (authorDetails.getAuthorFields().getAuthorId().equals(favoriteAuthors.get(i).getId())) {
                 favoriteAuthor.setImageResource(R.drawable.ic_author);
                 authorDetails.setFavorite(true);
-            } else {
-                favoriteAuthor.setImageResource(R.drawable.ic_author_empty);
-                authorDetails.setFavorite(false);
             }
         }
+
+//        for (int i = 0; i < favoriteAuthors.size(); i++) {
+//            if (authorDetails.getAuthorFields().getAuthorId().equals(favoriteAuthors.get(i)
+//                    .getAuthorFields().getAuthorId())) {
+//                favoriteAuthor.setImageResource(R.drawable.ic_author);
+//                authorDetails.setFavorite(true);
+//            } else {
+//                favoriteAuthor.setImageResource(R.drawable.ic_author_empty);
+//                authorDetails.setFavorite(false);
+//            }
+//        }
 
         favoriteAuthor.setOnClickListener(new OnFavoriteAuthorClickListener(favoriteAuthor.getContext(),
                 authorDetails, favoriteAuthors, favoriteAuthor, null, false, null, null));
 
         ImageView favoriteQuote = (ImageView) view.findViewById(R.id.dashboard_favorite);
 
+        favoriteQuote.setImageResource(R.drawable.ic_favorite_empty);
+
         for (int i = 0; i < favoriteQuotes.size(); i++) {
-            if (quote.getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i)
-                    .getQuoteDetails().getQuoteId())) {
+            if (quote.getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).getQuoteDetails().getQuoteId())) {
                 favoriteQuote.setImageResource(R.drawable.ic_favorite);
                 quote.setFavorite(true);
-            } else {
-                favoriteQuote.setImageResource(R.drawable.ic_favorite_empty);
-                quote.setFavorite(false);
             }
         }
+
+//        for (int i = 0; i < favoriteQuotes.size(); i++) {
+//            if (quote.getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i)
+//                    .getQuoteDetails().getQuoteId())) {
+//                favoriteQuote.setImageResource(R.drawable.ic_favorite);
+//                quote.setFavorite(true);
+//            } else {
+//                favoriteQuote.setImageResource(R.drawable.ic_favorite_empty);
+//                quote.setFavorite(false);
+//            }
+//        }
 
         favoriteQuote.setOnClickListener(new OnFavoriteQuoteClickListener(favoriteQuote.getContext(),
                 favoriteQuotes, favoriteQuote, quote, null, false, null, null));
 
         return view;
+    }
+
+    public void refreshData(ArrayList<AuthorDetails> favoriteAuthors, ArrayList<Quote> favoriteQuotes) {
+
+        boolean isQuoteFavorite = false;
+        for (int i = 0; i <  favoriteQuotes.size(); i++) {
+            if (quote.getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).getQuoteDetails().getQuoteId())) {
+                isQuoteFavorite = true;
+            }
+        }
+        quote.setFavorite(isQuoteFavorite);
+
+        boolean isAuthorFavorite = false;
+        for (int i = 0; i <  favoriteAuthors.size(); i++) {
+            if (.getAuthorId().equals(favoriteAuthors.get(i).getAuthorFields().getAuthorId())) {
+                isAuthorFavorite = true;
+            }
+        }
+        author
     }
 }

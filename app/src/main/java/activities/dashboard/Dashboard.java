@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -74,6 +76,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     int rubberOldPosition;
     ViewPager mPager;
     ArrayList<Quote> mItems;
+    RubberIndicator mRubberIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +140,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     private void initializeDashboard(ArrayList<Quote> items) {
 
         mPager = (ViewPager) findViewById(R.id.view_pager);
-        mPager.setOffscreenPageLimit(3);
+        mPager.setOffscreenPageLimit(items.size());
 
         ParallaxPageTransformer pageTransformer = new ParallaxPageTransformer()
                 .addViewToParallax(new ParallaxPageTransformer
@@ -159,7 +162,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 items, favoriteQuotes, favoriteAuthors);
         mPager.setAdapter(mPagerAdapter);
 
-        final RubberIndicator mRubberIndicator = (RubberIndicator) findViewById(R.id.rubber);
+        mRubberIndicator = (RubberIndicator) findViewById(R.id.rubber);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) getResources().getDimension(
                 R.dimen.rubber_dot_width) * items.size(), (int) getResources().getDimension(R.dimen.rubber_dot_height));
         lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -216,8 +219,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                     fields.setQuotesCount(response.body().getQuotesPartial().get(i).getAuthor()
                             .getAuthor().getQuotesCount());
 
-                    profession.setProfessionName(response.body().getQuotesPartial().get(i)
-                            .getAuthor().getAuthor().getProfession().getProfessionName());
+                    if (response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getProfession() != null) {
+
+                        profession.setProfessionName(response.body().getQuotesPartial().get(i)
+                                .getAuthor().getAuthor().getProfession().getProfessionName());
+                    }
 
                     fields.setProfession(profession);
 
@@ -330,7 +336,6 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         } else if (id == R.id.nav_topics) {
             Intent i = new Intent(Dashboard.this, Topics.class);
             startActivity(i);
-
         } else if (id == R.id.nav_topQuotes) {
             Intent i = new Intent(Dashboard.this, TopQuotes.class);
             startActivity(i);
@@ -373,9 +378,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                     favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(this);
                 }
 
-                DashboardPagerAdapter mPagerAdapter =
-                        new DashboardPagerAdapter(getSupportFragmentManager(), mItems, favoriteQuotes, favoriteAuthors);
-                mPager.setAdapter(mPagerAdapter);
+                SparseArray<Fragment> fragments = ((DashboardPagerAdapter) mPager.getAdapter()).getRegisteredFragments();
+
+                for (int j = 0; j < fragments.size(); j++) {
+
+                }
 
             } else if (resultCode == FavoriteQuotes.RESULT_CANCELED) {
 

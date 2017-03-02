@@ -87,7 +87,6 @@ public class ShareAsImageClickListener implements View.OnClickListener,
                 final Bitmap bm = AppHelper.createBitmapFromView(mContext, mQuoteText, mAuthorName,
                         bitmap, mQuoteLines);
                 shareImage(bm);
-
             }
 
             @Override
