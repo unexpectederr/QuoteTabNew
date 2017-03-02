@@ -314,7 +314,7 @@ public class QuotesByAuthor extends AppCompatActivity
         Intent returnIntent = new Intent();
         returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteAuthors(this));
         returnIntent.putExtra("isFromAuthors", true);
-        this.setResult(FavoriteQuotes.RESULT_OK, returnIntent);
+        this.setResult(QuotesByAuthor.RESULT_OK, returnIntent);
         onBackPressed();
         return true;
     }
@@ -325,7 +325,7 @@ public class QuotesByAuthor extends AppCompatActivity
         Intent returnIntent = new Intent();
         returnIntent.putExtra("result", ReadAndWriteToFile.getFavoriteAuthors(this));
         returnIntent.putExtra("isFromAuthors", true);
-        this.setResult(FavoriteQuotes.RESULT_OK, returnIntent);
+        this.setResult(QuotesByAuthor.RESULT_OK, returnIntent);
         super.onBackPressed();
     }
 }

@@ -378,6 +378,10 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                     favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(this);
                 }
 
+//                DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(),
+//                        mItems, favoriteQuotes, favoriteAuthors);
+//                mPager.setAdapter(mPagerAdapter);
+
                 SparseArray<Fragment> fragments = ((DashboardPagerAdapter) mPager.getAdapter()).getRegisteredFragments();
 
                 for (int j = 0; j < fragments.size(); j++) {

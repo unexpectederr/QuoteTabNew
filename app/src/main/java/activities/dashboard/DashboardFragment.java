@@ -1,5 +1,6 @@
 package activities.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import java.util.ArrayList;
 import java.util.Random;
 
+import activities.quotes.QuotesByAuthor;
 import digitalbath.quotetab.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.AppController;
@@ -47,7 +49,7 @@ public class DashboardFragment extends Fragment {
     private ArrayList<Quote> favoriteQuotes;
     private ArrayList<AuthorDetails> favoriteAuthors;
     private AuthorFieldsFromQuote author;
-
+    private AuthorDetails authorDetails;
     public static DashboardFragment  getNewInstance(int page, Quote quote, ArrayList<Quote> favoriteQuotes,
                                                    ArrayList<AuthorDetails> favoriteAuthors, AuthorFieldsFromQuote author) {
 
@@ -77,10 +79,10 @@ public class DashboardFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        AuthorDetails authorDetails = new AuthorDetails();
+        authorDetails = new AuthorDetails();
         AuthorFields fields = new AuthorFields();
 
         ArrayList<String> name = new ArrayList<>();
@@ -113,7 +115,7 @@ public class DashboardFragment extends Fragment {
 
         AppController.loadImageIntoView(getContext(), quote.getImageId(), cardImage, true, true);
 
-        CircleImageView authorImage = (CircleImageView) view.findViewById(R.id.author_image);
+        final CircleImageView authorImage = (CircleImageView) view.findViewById(R.id.author_image);
         Glide.with(getContext())
                 .load(Constants.IMAGES_URL + quote.getQuoteDetails().getAuthorId() + ".jpg")
                 .dontAnimate()
@@ -121,17 +123,29 @@ public class DashboardFragment extends Fragment {
                 .error(R.drawable.avatar)
                 .into(authorImage);
 
-        authorImage.setOnClickListener(new OnAuthorClickListener(authorImage.getContext(),
-                quote.getQuoteDetails().getAuthorId()));
+        authorImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(authorImage.getContext(), QuotesByAuthor.class);
+                i.putExtra(Constants.AUTHOR_ID, quote.getQuoteDetails().getAuthorId());
+                getActivity().startActivityForResult(i, 1);
+            }
+        });
 
         TextView quoteTextView = (TextView) view.findViewById(R.id.quote_text);
         quoteTextView.setTypeface(AppHelper.getRalewayLight(getContext()));
         quoteTextView.setText(quote.getQuoteDetails().getQuoteText());
 
-        TextView authorTextView = (TextView) view.findViewById(R.id.author);
+        final TextView authorTextView = (TextView) view.findViewById(R.id.author);
         authorTextView.setText("- " + quote.getQuoteDetails().getAuthorName() + "-");
-        authorTextView.setOnClickListener(new OnAuthorClickListener(authorTextView.getContext(),
-                quote.getQuoteDetails().getAuthorId()));
+        authorTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(authorTextView.getContext(), QuotesByAuthor.class);
+                i.putExtra(Constants.AUTHOR_ID, quote.getQuoteDetails().getAuthorId());
+                getActivity().startActivityForResult(i, 1);
+            }
+        });
 
         ImageView share = (ImageView) view.findViewById(R.id.dashboard_share);
 
@@ -205,10 +219,10 @@ public class DashboardFragment extends Fragment {
 
         boolean isAuthorFavorite = false;
         for (int i = 0; i <  favoriteAuthors.size(); i++) {
-            if (.getAuthorId().equals(favoriteAuthors.get(i).getAuthorFields().getAuthorId())) {
+            if (authorDetails.getAuthorFields().getAuthorId().equals(favoriteAuthors.get(i).getAuthorFields().getAuthorId())) {
                 isAuthorFavorite = true;
             }
         }
-        author
+        authorDetails.setFavorite(true);
     }
 }
