@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 import models.authors.AuthorDetails;
-import models.quotes.Quote;
+import models.quotes.QuoteReference;
 
 
 public class DashboardData {
@@ -14,7 +14,7 @@ public class DashboardData {
     private ArrayList<PopularAuthor> popularAuthors;
 
     @SerializedName("quotesPartial")
-    private ArrayList<Quote> quotesPartial;
+    private ArrayList<QuoteReference> quotesPartial;
 
     @SerializedName("todaysBirthdays")
     private ArrayList<AuthorDetails> todaysBirthdays;
@@ -30,11 +30,11 @@ public class DashboardData {
         return todaysBirthdays;
     }
 
-    public ArrayList<Quote> getQuotesPartial() {
+    public ArrayList<QuoteReference> getQuotesPartial() {
         return quotesPartial;
     }
 
-    public void setQuotesPartial(ArrayList<Quote> quotesPartial) {
+    public void setQuotesPartial(ArrayList<QuoteReference> quotesPartial) {
         this.quotesPartial = quotesPartial;
     }
 

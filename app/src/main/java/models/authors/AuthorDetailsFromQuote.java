@@ -33,13 +33,6 @@ public class AuthorDetailsFromQuote implements Serializable {
         this.author = author;
     }
 
-    public void setAuthorFieldsFromQuote(AuthorFieldsFromQuote authorFieldsFromQuote) {
-        this.authorFieldsFromQuote = authorFieldsFromQuote;
-    }
-
-    public AuthorDetailsFromQuote() {
-    }
-
     public AuthorFieldsFromQuote getAuthor() {
         return author;
     }
@@ -48,13 +41,4 @@ public class AuthorDetailsFromQuote implements Serializable {
         return authorFieldsFromQuote;
     }
 
-    private boolean favorite;
-
-    public boolean isFavorite() {
-        return favorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
-    }
 }

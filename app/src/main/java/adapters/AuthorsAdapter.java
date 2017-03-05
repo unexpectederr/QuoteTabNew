@@ -21,6 +21,7 @@ import helpers.main.Constants;
 import helpers.main.ReadAndWriteToFile;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteAuthorClickListener;
+import models.authors.Author;
 import models.authors.AuthorDetails;
 
 /**
@@ -30,21 +31,23 @@ import models.authors.AuthorDetails;
 public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHolder> {
 
     private Context mContext;
-    private ArrayList<AuthorDetails> mDataSet;
-    private ArrayList<AuthorDetails> favoriteAuthors;
+    private ArrayList<Author> mDataSet;
+    private ArrayList<Author> favoriteAuthors;
     private boolean isFromAllAuthors;
     private int mLastPosition = -1;
     private RelativeLayout emptyList;
     private RecyclerView recyclerView;
 
-    public AuthorsAdapter(Context context, ArrayList<AuthorDetails> authors, boolean isFromAllAuthors, RecyclerView recyclerView, RelativeLayout emptyList) {
+    public AuthorsAdapter(Context context, ArrayList<Author> authors, boolean isFromAllAuthors,
+                          RecyclerView recyclerView, RelativeLayout emptyList) {
 
         this.mContext = context;
         this.mDataSet = authors;
-        favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(context);
         this.isFromAllAuthors = isFromAllAuthors;
         this.emptyList = emptyList;
         this.recyclerView = recyclerView;
+
+        favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(context);
 
         if (recyclerView != null && emptyList != null && authors.size() != 0) {
             emptyList.setVisibility(View.GONE);
@@ -54,7 +57,7 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
         }
     }
 
-    public void addAuthors(ArrayList<AuthorDetails> authors) {
+    public void addAuthors(ArrayList<Author> authors) {
 
         mDataSet.addAll(authors);
         notifyItemRangeInserted(mDataSet.size() - authors.size(), authors.size());
@@ -90,14 +93,14 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        holder.authorName.setText(mDataSet.get(position).getAuthorFields().getName());
+        holder.authorName.setText(mDataSet.get(position).getAuthorName());
 
-        holder.authorInfo.setText(mDataSet.get(position).getAuthorFields().getProfessionName() + " - "
-                + mDataSet.get(position).getAuthorFields().getQuotesCount() + " quotes");
+        holder.authorInfo.setText(mDataSet.get(position).getProfession() + " - "
+                + mDataSet.get(position).getQuotesCount() + " quotes");
 
         Glide.with(holder.authorImage.getContext())
-                .load(Constants.IMAGES_URL + mDataSet.get(position).getAuthorFields()
-                        .getImageUrl()).dontAnimate()
+                .load(Constants.IMAGES_URL + mDataSet.get(position).getAuthorId() + ".jpg")
+                .dontAnimate()
                 .placeholder(R.drawable.avatar)
                 .error(R.drawable.avatar)
                 .into(holder.authorImage);
@@ -106,7 +109,8 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
 
         for (int i = 0; i < favoriteAuthors.size(); i++) {
 
-            if (mDataSet.get(position).getAuthorFields().getAuthorId().equals(favoriteAuthors.get(i).getAuthorFields().getAuthorId())) {
+            if (mDataSet.get(position).getAuthorId()
+                    .equals(favoriteAuthors.get(i).getAuthorId())) {
 
                 holder.favoriteIcon.setImageResource(R.drawable.ic_author);
                 mDataSet.get(position).setFavorite(true);
@@ -123,7 +127,8 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
                     mDataSet.get(position), mDataSet, holder.favoriteIcon, this, true, recyclerView, emptyList));
         }
 
-        holder.itemView.setOnClickListener(new OnAuthorClickListener(mContext, mDataSet.get(position).getId()));
+        holder.itemView.setOnClickListener(new OnAuthorClickListener(mContext,
+                mDataSet.get(position).getAuthorId()));
 
         setAnimation(holder.itemView, holder.getAdapterPosition());
     }

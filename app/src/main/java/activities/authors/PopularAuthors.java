@@ -23,6 +23,7 @@ import helpers.main.Constants;
 import helpers.main.ReadAndWriteToFile;
 import listeners.OnSearchAuthorsClickListener;
 import listeners.OnSearchAuthorWatcher;
+import models.authors.Author;
 import models.authors.AuthorDetails;
 import networking.QuoteTabApi;
 import retrofit2.Call;
@@ -81,9 +82,9 @@ public class PopularAuthors extends AppCompatActivity {
             @Override
             public void onResponse(Call<models.authors.PopularAuthors> call, Response<models.authors.PopularAuthors> response) {
 
-                ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(PopularAuthors.this);
+                ArrayList<Author> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(PopularAuthors.this);
 
-                AuthorDetails author = new AuthorDetails();
+                Author author = new Author();
                 author.setLast(true);
 
                 authors = response.body();
@@ -92,9 +93,9 @@ public class PopularAuthors extends AppCompatActivity {
                     authors.getAuthorGroup().get(i).getAuthors().add(author);
                 }
 
-
                 PopularAuthorsAdapter adapter = new PopularAuthorsAdapter(authors, PopularAuthors.this,
                         favoriteAuthors);
+
                 authorsRecyclerView.setAdapter(adapter);
 
                 searchEditText.addTextChangedListener(new OnSearchAuthorWatcher(authors,
@@ -140,7 +141,7 @@ public class PopularAuthors extends AppCompatActivity {
 
             if (resultCode == Authors.RESULT_OK) {
 
-                ArrayList<AuthorDetails> favoriteAuthors = (ArrayList<AuthorDetails>) data.getSerializableExtra("result");
+                ArrayList<Author> favoriteAuthors = (ArrayList<Author>) data.getSerializableExtra("result");
                 PopularAuthorsAdapter adapter = new PopularAuthorsAdapter(authors, this, favoriteAuthors);
                 authorsRecyclerView.setAdapter(adapter);
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);

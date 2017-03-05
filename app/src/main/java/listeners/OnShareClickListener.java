@@ -42,7 +42,7 @@ public class OnShareClickListener implements View.OnClickListener {
 
         MaterialStyledDialog.Builder dialog = new MaterialStyledDialog.Builder(mContext);
 
-        dialog.setTitle("Share Quote!");
+        dialog.setTitle("Share QuoteReference!");
         dialog.setDescription("Please choose an option how to share a quote:");
 
         dialog.setIcon(R.drawable.logo_4);

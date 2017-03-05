@@ -11,16 +11,9 @@ import java.util.ArrayList;
 public class TopQuotes {
 
     @SerializedName("quotes")
-    private ArrayList<Quote> quotes;
+    private ArrayList<QuoteReference> quotes;
 
-    @SerializedName("popularAuthorsList")
-    private ArrayList<TopAuthor> popularAuthors;
-
-    public ArrayList<TopAuthor> getPopularAuthors() {
-        return popularAuthors;
-    }
-
-    public ArrayList<Quote> getQuotes() {
+    public ArrayList<QuoteReference> getQuotes() {
         return quotes;
     }
 }

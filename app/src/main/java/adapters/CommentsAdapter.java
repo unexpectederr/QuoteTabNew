@@ -22,7 +22,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import digitalbath.quotetab.R;
 import helpers.main.AppHelper;
-import models.quotes.Comment;
+import models.comments.Comment;
 
 /**
  * Created by unexpected_err on 19/02/2017.

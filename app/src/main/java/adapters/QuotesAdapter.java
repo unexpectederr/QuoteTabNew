@@ -27,6 +27,7 @@ import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
 import listeners.SaveImageToFileClickListener;
 import models.quotes.Quote;
+import models.quotes.QuoteReference;
 
 /**
  * Created by Spaja on 10-Jan-17.
@@ -91,8 +92,8 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
             for (int i = 0; i < favoriteQuotes.size(); i++) {
 
-                if (mDataSet.get(position).getQuoteDetails().getQuoteId().equals(favoriteQuotes.get(i).
-                        getQuoteDetails().getQuoteId())) {
+                if (mDataSet.get(position).getQuoteId()
+                        .equals(favoriteQuotes.get(i).getQuoteId())) {
 
                     mDataSet.get(position).setFavorite(true);
                     holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
@@ -108,50 +109,54 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         AppController.loadImageIntoView(context, mDataSet.get(position).getImageId(),
                 holder.cardImage, false, false);
 
-        holder.quoteText.setText(mDataSet.get(position).getQuoteDetails().getQuoteText());
+        holder.quoteText.setText(mDataSet.get(position).getQuoteText());
         holder.quoteText.setTypeface(AppHelper.getRalewayLight(holder.quoteText.getContext()));
 
         if (!isFromAuthors) {
-            holder.authorName.setText("- " + mDataSet.get(position).getQuoteDetails().getAuthorName() + " -");
+            holder.authorName.setText("- " + mDataSet.get(position).getAuthor().getAuthorName() + " -");
             holder.authorName.setOnClickListener(new OnAuthorClickListener(context, mDataSet.get(position)
-                    .getQuoteDetails().getAuthorId()));
+                    .getAuthor().getAuthorId()));
         }
 
         holder.shareIcon.setOnClickListener(new OnShareClickListener(context,
-                holder.quoteText.getText().toString(), mDataSet.get(position).getQuoteDetails()
+                holder.quoteText.getText().toString(), mDataSet.get(position).getAuthor()
                 .getAuthorName(), Constants.COVER_IMAGES_URL + mDataSet.get(position).getImageId()
                 + ".jpg", holder.quoteText));
 
         holder.favoriteIcon.setOnClickListener(new OnFavoriteQuoteClickListener(context, favoriteQuotes,
                 holder.favoriteIcon, mDataSet.get(position), this, isFavorites, recyclerView, emptyList));
 
-        String[] tags = mDataSet.get(position).getQuoteDetails().getCategories().split(" ");
+        if (mDataSet.get(position).getCategories() != null) {
 
-        holder.quoteTags.removeAllViews();
+            String[] tags = mDataSet.get(position).getCategories().split(" ");
 
-        if (tags[0].trim().length() != 0) {
-            for (int i = 0; i < tags.length; i++) {
+            holder.quoteTags.removeAllViews();
 
-                if (i < Constants.MAX_NUMBER_OF_QUOTES) {
+            if (tags[0].trim().length() != 0) {
 
-                    TextView quoteTag = new TextView(context);
-                    quoteTag.setBackgroundResource(R.drawable.background_outline_g);
-                    quoteTag.setText(tags[i]);
-                    quoteTag.setPadding(30, 15, 30, 15);
+                for (int i = 0; i < tags.length; i++) {
 
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                    ViewGroup.LayoutParams.WRAP_CONTENT));
+                    if (i < Constants.MAX_NUMBER_OF_QUOTES) {
 
-                    params.setMarginStart(12);
+                        TextView quoteTag = new TextView(context);
+                        quoteTag.setBackgroundResource(R.drawable.background_outline_g);
+                        quoteTag.setText(tags[i]);
+                        quoteTag.setPadding(30, 15, 30, 15);
 
-                    quoteTag.setLayoutParams(params);
-                    quoteTag.setGravity(Gravity.CENTER);
-                    quoteTag.setTextColor(context.getResources().getColor(R.color.light_gray));
-                    quoteTag.setTypeface(AppHelper.getRalewayLight(context));
-                    quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i], isFavorites));
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                        ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                    holder.quoteTags.addView(quoteTag);
+                        params.setMarginStart(12);
+
+                        quoteTag.setLayoutParams(params);
+                        quoteTag.setGravity(Gravity.CENTER);
+                        quoteTag.setTextColor(context.getResources().getColor(R.color.light_gray));
+                        quoteTag.setTypeface(AppHelper.getRalewayLight(context));
+                        quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i], isFavorites));
+
+                        holder.quoteTags.addView(quoteTag);
+                    }
                 }
             }
         }
@@ -176,8 +181,10 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     }
 
     public void addQuotes(ArrayList<Quote> quotes) {
+
         mDataSet.addAll(quotes);
         notifyItemRangeInserted(mDataSet.size() - quotes.size(), quotes.size());
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

@@ -7,6 +7,7 @@ import android.view.View;
 
 import activities.quotes.QuoteActivity;
 import models.quotes.Quote;
+import models.quotes.QuoteReference;
 
 /**
  * Created by unexpected_err on 18/02/2017.

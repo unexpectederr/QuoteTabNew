@@ -13,7 +13,7 @@ import models.authors.AuthorDetailsFromQuote;
 public class Quotes {
 
     @SerializedName("quotes")
-    private ArrayList<Quote> quotes;
+    private ArrayList<QuoteReference> quotes;
 
     @SerializedName("authorDetails")
     private AuthorDetailsFromQuote authorDetailsFromQuote;
@@ -22,7 +22,7 @@ public class Quotes {
         return authorDetailsFromQuote;
     }
 
-    public ArrayList<Quote> getQuotes() {
+    public ArrayList<QuoteReference> getQuotes() {
         return quotes;
     }
 }

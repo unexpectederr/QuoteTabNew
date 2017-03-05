@@ -14,7 +14,9 @@ import java.util.ArrayList;
 
 import digitalbath.quotetab.R;
 import adapters.AuthorsAdapter;
+import helpers.main.Mapper;
 import helpers.main.ReadAndWriteToFile;
+import models.authors.Author;
 import models.authors.AuthorDetails;
 import networking.QuoteTabApi;
 import retrofit2.Call;
@@ -58,7 +60,7 @@ public class Authors extends AppCompatActivity {
         authorsRecyclerView.setLayoutManager(manager);
 
         screenTitle = (TextView) findViewById(R.id.screen_title);
-        ArrayList<AuthorDetails> authors = ReadAndWriteToFile.getFavoriteAuthors(this);
+        ArrayList<Author> authors = ReadAndWriteToFile.getFavoriteAuthors(this);
 
         isByLetter = getIntent().getBooleanExtra("IS_BY_LETTER", false);
         final String letter = getIntent().getStringExtra("LETTER");
@@ -66,7 +68,7 @@ public class Authors extends AppCompatActivity {
         if (isByLetter) {
 
             screenTitle.setText("All '" + letter.toUpperCase() + "' Authors");
-            adapter = new AuthorsAdapter(this, new ArrayList<AuthorDetails>(), true, null, null);
+            adapter = new AuthorsAdapter(this, new ArrayList<Author>(), true, null, null);
             authorsRecyclerView.setAdapter(adapter);
 
             loadAuthors(letter, page);
@@ -118,7 +120,7 @@ public class Authors extends AppCompatActivity {
             @Override
             public void onResponse(Call<models.authors.Authors> call, Response<models.authors.Authors> response) {
 
-                adapter.addAuthors(response.body().getAuthors());
+                adapter.addAuthors(Mapper.mapAuthors(response.body().getAuthors()));
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
                 loading = false;
                 findViewById(R.id.smooth_progress_bar).setVisibility(View.GONE);

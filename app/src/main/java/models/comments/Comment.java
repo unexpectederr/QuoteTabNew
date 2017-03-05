@@ -1,4 +1,4 @@
-package models.quotes;
+package models.comments;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

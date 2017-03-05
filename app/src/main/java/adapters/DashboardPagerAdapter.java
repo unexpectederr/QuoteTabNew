@@ -4,24 +4,26 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
 import activities.dashboard.DashboardFragment;
+import models.authors.Author;
 import models.authors.AuthorDetails;
 import models.quotes.Quote;
+import models.quotes.QuoteReference;
 
 public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
-    private SparseArray<Fragment> registeredFragments = new SparseArray<>();
+    private ArrayList<Fragment> registeredFragments = new ArrayList<>();
     private ArrayList<Quote> mItems;
     private ArrayList<Quote> favoriteQuotes;
-    private ArrayList<AuthorDetails> favoriteAuthors;
+    private ArrayList<Author> favoriteAuthors;
 
-    public DashboardPagerAdapter(FragmentManager fm, ArrayList<Quote> items, ArrayList<Quote> favoriteQuotes,
-                                 ArrayList<AuthorDetails> favoriteAuthors) {
+    public DashboardPagerAdapter(FragmentManager fm, ArrayList<Quote> items,
+                                 ArrayList<Quote> favoriteQuotes,
+                                 ArrayList<Author> favoriteAuthors) {
         super(fm);
         mItems = items;
         this.favoriteQuotes = favoriteQuotes;
@@ -35,19 +37,19 @@ public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return DashboardFragment.getNewInstance(position, mItems.get(position), favoriteQuotes,
-                favoriteAuthors, mItems.get(position).getAuthor().getAuthor());
+        return DashboardFragment.getNewInstance(position, mItems.get(position),
+                favoriteQuotes, favoriteAuthors);
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mItems.get(position).getQuoteDetails().getAuthorName();
+        return mItems.get(position).getAuthor().getAuthorName();
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        registeredFragments.put(position, fragment);
+        registeredFragments.add(fragment);
         return fragment;
     }
 
@@ -61,7 +63,7 @@ public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
         return registeredFragments.get(position);
     }
 
-    public SparseArray<Fragment> getRegisteredFragments() {
+    public ArrayList<Fragment> getRegisteredFragments() {
         return registeredFragments;
     }
 

@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -15,20 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.data.StreamAssetPathFetcher;
-import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.liangfeizc.RubberIndicator;
 
@@ -39,9 +32,7 @@ import activities.authors.Authors;
 import activities.authors.PopularAuthors;
 import activities.quote_maker.QuoteMaker;
 import activities.quotes.FavoriteQuotes;
-import activities.quotes.QuotesByTag;
 import activities.quotes.TopQuotes;
-import adapters.SearchAdapter;
 import digitalbath.quotetab.R;
 import activities.topics.Topics;
 import adapters.DashboardPagerAdapter;
@@ -49,22 +40,15 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
+import helpers.main.Mapper;
 import helpers.other.ParallaxPageTransformer;
 import helpers.main.ReadAndWriteToFile;
 import listeners.OnSearchGlobalClickListener;
 import listeners.OnShowDashboardMoreListener;
+import models.authors.Author;
 import models.authors.AuthorDetails;
-import models.authors.AuthorDetailsFromQuote;
-import models.authors.AuthorFields;
-import models.authors.AuthorFieldsFromQuote;
-import models.authors.Profession;
 import models.dashboard.DashboardData;
-import models.dashboard.Source;
-import models.dashboard.TopPhotos;
 import models.quotes.Quote;
-import models.quotes.QuoteFields;
-import models.quotes.Quotes;
-import models.search.SearchResponse;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -157,7 +141,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         mPager.setPageTransformer(true, pageTransformer);
 
         ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
-        ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(this);
+        ArrayList<Author> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(this);
         DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(),
                 items, favoriteQuotes, favoriteAuthors);
         mPager.setAdapter(mPagerAdapter);
@@ -203,48 +187,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
                 hideSplashScreen(splashScreen, toolbar);
 
-                mItems = new ArrayList<>();
-
-                for (int i = 0; i < response.body().getQuotesPartial().size(); i++) {
-                    AuthorDetailsFromQuote author = new AuthorDetailsFromQuote();
-                    AuthorFieldsFromQuote fields = new AuthorFieldsFromQuote();
-                    Profession profession = new Profession();
-
-                    fields.setAuthorName(response.body().getQuotesPartial().get(i).getAuthor()
-                            .getAuthor().getAuthorName());
-                    fields.setAuthorId(response.body().getQuotesPartial().get(i).getAuthor()
-                            .getAuthor().getAuthorId());
-                    fields.setAuthorImageUrl(response.body().getQuotesPartial().get(i).getAuthor()
-                            .getAuthor().getAuthorImageUrl());
-                    fields.setQuotesCount(response.body().getQuotesPartial().get(i).getAuthor()
-                            .getAuthor().getQuotesCount());
-
-                    if (response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getProfession() != null) {
-
-                        profession.setProfessionName(response.body().getQuotesPartial().get(i)
-                                .getAuthor().getAuthor().getProfession().getProfessionName());
-                    }
-
-                    fields.setProfession(profession);
-
-                    author.setAuthor(fields);
-
-                    Quote quote = new Quote();
-
-                    QuoteFields quoteFields = new QuoteFields();
-
-                    quoteFields.setAuthorName(response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getAuthorName());
-                    quoteFields.setAuthorId(response.body().getQuotesPartial().get(i).getAuthor().getAuthor().getAuthorId());
-                    quoteFields.setQuoteText(response.body().getQuotesPartial().get(i).getAuthor().getQuoteText());
-                    quoteFields.setQuoteId(response.body().getQuotesPartial().get(i).getAuthor().getQuoteId());
-
-                    quote.setQuoteDetails(quoteFields);
-                    quote.setAuthor(author);
-                    quote.setImageId(new Random().nextInt(Constants.NUMBER_OF_COVERS));
-
-                    mItems.add(quote);
-
-                }
+                mItems = Mapper.mapQuotesFromDashboardData(response.body().getQuotesPartial());
 
                 initializeDashboard(mItems);
 
@@ -356,20 +299,25 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        int i = 9;
         if (requestCode == 1) {
 
             if (resultCode == FavoriteQuotes.RESULT_OK) {
 
                 boolean isFromAuthors = data.getBooleanExtra("isFromAuthors", false);
-                ArrayList<AuthorDetails> favoriteAuthors;
+                ArrayList<Author> favoriteAuthors;
                 ArrayList<Quote> favoriteQuotes;
 
                 if (isFromAuthors) {
 
-                    favoriteAuthors = (ArrayList<AuthorDetails>) data.getSerializableExtra("result");
+                    favoriteAuthors = (ArrayList<Author>) data.getSerializableExtra("result");
                     favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
 
                 } else {
@@ -378,13 +326,14 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                     favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(this);
                 }
 
-//                DashboardPagerAdapter mPagerAdapter = new DashboardPagerAdapter(getSupportFragmentManager(),
-//                        mItems, favoriteQuotes, favoriteAuthors);
-//                mPager.setAdapter(mPagerAdapter);
-
-                SparseArray<Fragment> fragments = ((DashboardPagerAdapter) mPager.getAdapter()).getRegisteredFragments();
+                ArrayList<Fragment> fragments = ((DashboardPagerAdapter)
+                        mPager.getAdapter()).getRegisteredFragments();
 
                 for (int j = 0; j < fragments.size(); j++) {
+
+                    if (fragments.get(j) != null)
+                        ((DashboardFragment) fragments.get(j))
+                                .refreshData(favoriteAuthors, favoriteQuotes);
 
                 }
 

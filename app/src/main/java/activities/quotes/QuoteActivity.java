@@ -47,7 +47,7 @@ import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteQuoteClickListener;
 import listeners.OnShareClickListener;
 import listeners.OnTagClickListener;
-import models.quotes.Comment;
+import models.comments.Comment;
 import models.quotes.Quote;
 
 /**
@@ -76,7 +76,7 @@ public class QuoteActivity extends AppCompatActivity {
         mQuote = (Quote) getIntent()
                 .getExtras().getSerializable("quote");
 
-        primary_key = mQuote.getQuoteDetails().getQuoteId();
+        primary_key = mQuote.getQuoteId();
 
         initializeToolbar();
 
@@ -158,20 +158,20 @@ public class QuoteActivity extends AppCompatActivity {
         AppController.loadImageIntoView(this, mQuote.getImageId(),
                 cardImage, false, false);
 
-        quoteText.setText(mQuote.getQuoteDetails().getQuoteText());
+        quoteText.setText(mQuote.getQuoteText());
         quoteText.setTypeface(AppHelper.getRalewayLight(quoteText.getContext()));
 
-        authorName.setText("- " + mQuote.getQuoteDetails().getAuthorName() + " -");
+        authorName.setText("- " + mQuote.getAuthor().getAuthorName() + " -");
         authorName.setOnClickListener(new OnAuthorClickListener(this, mQuote
-                    .getQuoteDetails().getAuthorId()));
+                    .getAuthor().getAuthorId()));
 
         ImageView shareIcon = (ImageView) findViewById(R.id.share_quote_icon);
 
         shareIcon.setOnClickListener(new OnShareClickListener(this,
-                mQuote.getQuoteDetails().getQuoteText(), mQuote.getQuoteDetails().getAuthorName(),
+                mQuote.getQuoteText(), mQuote.getAuthor().getAuthorName(),
                 Constants.COVER_IMAGES_URL + mQuote.getImageId() + ".jpg", quoteText));
 
-        String[] tags = mQuote.getQuoteDetails().getCategories().split(" ");
+        String[] tags = mQuote.getCategories().split(" ");
 
         quoteTags.removeAllViews();
 

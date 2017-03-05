@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import adapters.PopularAuthorsAdapter;
 import helpers.main.ReadAndWriteToFile;
 import digitalbath.quotetab.R;
+import models.authors.Author;
 import models.authors.AuthorDetails;
 import models.authors.AuthorGroup;
 import models.authors.PopularAuthors;
@@ -58,13 +59,13 @@ public class OnSearchAuthorWatcher implements TextWatcher {
             newAuthorGroup.setAuthors(new ArrayList<AuthorDetails>());
 
             for (int j = 0; j < author.getAuthors().size() - 1; j++) {
-                if (author.getAuthors().get(j).getId().contains(query.toString().toLowerCase()))
+                if (author.getAuthors().get(j).getAuthorId().contains(query.toString().toLowerCase()))
                     newAuthorGroup.getAuthors().add(author.getAuthors().get(j));
             }
 
             if (newAuthorGroup.getAuthors().size() != 0) {
 
-                AuthorDetails authorLast = new AuthorDetails();
+                Author authorLast = new Author();
                 authorLast.setLast(true);
                 newAuthorGroup.getAuthors().add(authorLast);
                 authorGroup.add(newAuthorGroup);
@@ -74,7 +75,7 @@ public class OnSearchAuthorWatcher implements TextWatcher {
         PopularAuthors popularAuthors = new PopularAuthors();
         popularAuthors.setAuthorGroup(authorGroup);
 
-        ArrayList<AuthorDetails> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(mContext);
+        ArrayList<Author> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(mContext);
         PopularAuthorsAdapter adapter = new PopularAuthorsAdapter(popularAuthors, mContext, favoriteAuthors);
         mRecyclerView.setAdapter(adapter);
     }

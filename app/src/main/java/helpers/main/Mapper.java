@@ -3,10 +3,14 @@ package helpers.main;
 import com.google.android.gms.auth.api.Auth;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import models.authors.Author;
 import models.authors.AuthorDetails;
 import models.authors.AuthorDetailsFromQuote;
 import models.authors.AuthorFields;
+import models.quotes.Quote;
+import models.quotes.QuoteReference;
 
 /**
  * Created by Spaja on 02-Mar-17.
@@ -14,44 +18,105 @@ import models.authors.AuthorFields;
 
 public class Mapper {
 
-    public static AuthorDetails getAuthorFromQuote(AuthorDetailsFromQuote authorDetailsFromQuote) {
+    public static ArrayList<Quote> mapQuotes(ArrayList<QuoteReference> quoteReferences) {
 
-        AuthorDetails author = new AuthorDetails();
-        AuthorFields fields = new AuthorFields();
+        ArrayList<Quote> quotes = new ArrayList<>();
 
-        ArrayList<String> name = new ArrayList<>();
-        ArrayList<String> authorId = new ArrayList<>();
-        ArrayList<String> imageUrl = new ArrayList<>();
-        ArrayList<Integer> quotesCount = new ArrayList<>();
-        ArrayList<String> professionName = new ArrayList<>();
+        for (int i = 0; i < quoteReferences.size(); i++) {
+
+            if (quoteReferences.get(i).getQuoteDetails() != null) {
+
+                Quote quote = new Quote();
+
+                QuoteReference qr = quoteReferences.get(i);
+
+                quote.setQuoteId(qr.getQuoteId());
+                quote.setQuoteText(qr.getQuoteDetails().getQuoteText());
+                quote.setCategories(qr.getQuoteDetails().getCategories());
+
+                Author author = new Author();
+                author.setAuthorId(qr.getQuoteDetails().getAuthorId());
+                author.setAuthorName(qr.getQuoteDetails().getAuthorName());
+
+                quote.setAuthor(author);
+
+                quotes.add(quote);
+            }
+        }
+
+        return quotes;
+    }
+
+    public static ArrayList<Quote> mapQuotesFromDashboardData(ArrayList<QuoteReference> quoteReferences) {
+
+        ArrayList<Quote> quotes = new ArrayList<>();
+
+        for (int i = 0; i < quoteReferences.size(); i++) {
+
+            Quote quote = new Quote();
+
+            QuoteReference qr = quoteReferences.get(i);
+
+            quote.setQuoteId(qr.getAuthor().getQuoteId());
+            quote.setQuoteText(qr.getAuthor().getQuoteText());
+            quote.setImageId(new Random().nextInt(Constants.NUMBER_OF_COVERS));
+
+            Author author = new Author();
+            author.setAuthorId(qr.getAuthor().getAuthor().getAuthorId());
+            author.setAuthorName(qr.getAuthor().getAuthor().getAuthorName());
+            author.setQuotesCount(qr.getAuthor().getAuthor().getQuotesCount());
+
+            if (qr.getAuthor().getAuthor().getProfession() != null)
+                author.setProfession(qr.getAuthor().getAuthor().getProfession().getProfessionName());
+
+            quote.setAuthor(author);
+
+            quotes.add(quote);
+        }
+
+        return quotes;
+    }
+
+    public static ArrayList<Author> mapAuthors(ArrayList<AuthorDetails> authorDetails) {
+
+        ArrayList<Author> authors = new ArrayList<>();
+
+        for (int i = 0; i < authorDetails.size(); i++) {
+
+            Author author = new Author();
+
+            AuthorFields ad = authorDetails.get(i).getAuthorFields();
+
+            author.setAuthorId(ad.getAuthorId());
+            author.setAuthorName(ad.getName());
+            author.setQuotesCount(ad.getQuotesCount());
+            author.setProfession(ad.getProfessionName());
+
+            authors.add(author);
+        }
+
+        return authors;
+    }
+
+    public static Author mapAuthor(AuthorDetailsFromQuote authorDetailsFromQuote) {
+
+        Author author = new Author();
 
         if (authorDetailsFromQuote.getAuthor() != null) {
 
-            name.add(authorDetailsFromQuote.getAuthor().getAuthorName());
-            authorId.add(authorDetailsFromQuote.getAuthor().getAuthorId());
-            imageUrl.add(authorDetailsFromQuote.getAuthor().getAuthorImageUrl());
-            quotesCount.add(authorDetailsFromQuote.getAuthor().getQuotesCount());
-            professionName.add(authorDetailsFromQuote.getAuthor().getProfession().getProfessionName());
-            author.setId(authorDetailsFromQuote.getAuthor().getAuthorId());
+            author.setAuthorName(authorDetailsFromQuote.getAuthor().getAuthorName());
+            author.setAuthorId(authorDetailsFromQuote.getAuthor().getAuthorId());
+            author.setQuotesCount(authorDetailsFromQuote.getAuthor().getQuotesCount());
+            author.setProfession(authorDetailsFromQuote.getAuthor().getProfession().getProfessionName());
 
         } else {
 
-            name.add(authorDetailsFromQuote.getAuthorFieldsFromQuote().getAuthorName());
-            authorId.add(authorDetailsFromQuote.getAuthorFieldsFromQuote().getAuthorId());
-            imageUrl.add(authorDetailsFromQuote.getAuthorFieldsFromQuote().getAuthorImageUrl());
-            quotesCount.add(authorDetailsFromQuote.getAuthorFieldsFromQuote().getQuotesCount());
-            professionName.add(authorDetailsFromQuote.getAuthorFieldsFromQuote().getProfession().getProfessionName());
-            author.setId(authorDetailsFromQuote.getAuthorFieldsFromQuote().getAuthorId());
+            author.setAuthorName(authorDetailsFromQuote.getAuthorFieldsFromQuote().getAuthorName());
+            author.setAuthorId(authorDetailsFromQuote.getAuthorFieldsFromQuote().getAuthorId());
+            author.setQuotesCount(authorDetailsFromQuote.getAuthorFieldsFromQuote().getQuotesCount());
+            author.setProfession(authorDetailsFromQuote.getAuthorFieldsFromQuote().getProfession().getProfessionName());
+
         }
-
-        fields.setName(name);
-        fields.setAuthorId(authorId);
-        fields.setImageUrl(imageUrl);
-        fields.setQuotesCount(quotesCount);
-        fields.setProfessionName(professionName);
-
-        author.setFavorite(authorDetailsFromQuote.isFavorite());
-        author.setAuthorFields(fields);
 
         return author;
     }

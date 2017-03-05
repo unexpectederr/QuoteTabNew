@@ -1,7 +1,6 @@
 package adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ import digitalbath.quotetab.R;
 import helpers.main.Constants;
 import listeners.OnAuthorClickListener;
 import listeners.OnQuoteClickListener;
-import models.authors.AuthorDetails;
+import models.authors.Author;
 import models.quotes.Quote;
 import models.search.SearchResponse;
 
@@ -44,7 +43,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         mDataSet = new ArrayList<>();
 
         if (searchResults.getAuthors().size() > 0)
-            mDataSet.add(new AuthorDetails());
+            mDataSet.add(new Author());
 
         for (int i = 0; i < searchResults.getAuthors().size(); i++)
             mDataSet.add(searchResults.getAuthors().get(i));
@@ -82,26 +81,26 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (holder instanceof ViewHolderAuthor) {
 
-            AuthorDetails author = (AuthorDetails) mDataSet.get(position);
+            Author author = (Author) mDataSet.get(position);
 
-            ((ViewHolderAuthor) holder).authorName.setText(author.getAuthorFields().getName());
+            ((ViewHolderAuthor) holder).authorName.setText(author.getAuthorName());
 
-            ((ViewHolderAuthor) holder).authorInfo.setText(author.getAuthorFields().getProfessionName() + " - "
-                    + author.getAuthorFields().getQuotesCount() + " quotes");
+            ((ViewHolderAuthor) holder).authorInfo.setText(author.getProfession() + " - "
+                    + author.getQuotesCount() + " quotes");
 
             Glide.with(((ViewHolderAuthor) holder).authorImage.getContext())
-                    .load(Constants.IMAGES_URL + author.getAuthorFields()
-                            .getImageUrl()).dontAnimate()
+                    .load(Constants.IMAGES_URL + author.getAuthorId() + ".jpg")
+                    .dontAnimate()
                     .placeholder(R.drawable.avatar)
                     .error(R.drawable.avatar)
                     .into(((ViewHolderAuthor) holder).authorImage);
 
-            holder.itemView.setOnClickListener(new OnAuthorClickListener(mContext, author.getId()));
+            holder.itemView.setOnClickListener(new OnAuthorClickListener(mContext, author.getAuthorId()));
 
         } else if (holder instanceof ViewHolderQuote) {
 
             Quote quote = (Quote) mDataSet.get(position);
-            ((ViewHolderQuote) holder).quoteText.setText(quote.getQuoteDetails().getQuoteText());
+            ((ViewHolderQuote) holder).quoteText.setText(quote.getQuoteText());
 
             Glide.with(mContext).load(R.drawable.logo_2).into(((ViewHolderQuote) holder).logo);
 
@@ -109,7 +108,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         } else if (holder instanceof ViewHolderHeader) {
 
-            if (position == 0 && mDataSet.get(0) instanceof AuthorDetails) {
+            if (position == 0 && mDataSet.get(0) instanceof Author) {
                 ((ViewHolderHeader) holder).header.setText("Authors matching query '"
                         + mSearchResults.getQuery() + "'");
             } else {

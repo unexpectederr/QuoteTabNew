@@ -22,6 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.Constants;
 import listeners.OnAuthorClickListener;
 import listeners.OnFavoriteAuthorClickListener;
+import models.authors.Author;
 import models.authors.AuthorDetails;
 import models.authors.AuthorFields;
 import models.authors.PopularAuthors;
@@ -36,11 +37,11 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
     private int mNumberOfSections;
     private Context mContext;
     private int mLastPosition = -1;
-    private ArrayList<AuthorDetails> mFavoriteAuthors;
+    private ArrayList<Author> mFavoriteAuthors;
     private static final int TYPE_ITEM_LAST = 4;
 
     public PopularAuthorsAdapter(PopularAuthors dataSet, Context context,
-                                 ArrayList<AuthorDetails> favoriteAuthors) {
+                                 ArrayList<Author> favoriteAuthors) {
 
         this.mContext = context;
         this.mDataSet = dataSet;
@@ -138,10 +139,11 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
                                      int itemIndex, int itemType) {
 
         ItemViewHolder ivh = (ItemViewHolder) viewHolder;
-        AuthorFields authorFields = mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
-                .get(itemIndex).getAuthorFields();
 
         if (itemType == TYPE_ITEM) {
+
+            Author author = mDataSet.getAuthorGroup()
+                    .get(sectionIndex).getAuthors().get(itemIndex);
 
             if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
                     .get(itemIndex).isFavorite()) {
@@ -152,8 +154,8 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
 
                 for (int i = 0; i < mFavoriteAuthors.size(); i++) {
 
-                    if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex).getId()
-                            .equals(mFavoriteAuthors.get(i).getId())) {
+                    if (mDataSet.getAuthorGroup().get(sectionIndex).getAuthors().get(itemIndex).getAuthorId()
+                            .equals(mFavoriteAuthors.get(i).getAuthorId())) {
 
                         mDataSet.getAuthorGroup().get(sectionIndex).getAuthors()
                                 .get(itemIndex).setFavorite(true);
@@ -168,13 +170,14 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
                     .get(itemIndex).isFavorite())
                 ivh.favoriteIcon.setImageResource(R.drawable.ic_author_empty);
 
-            ivh.authorName.setText(authorFields.getName());
+            ivh.authorName.setText(author.getAuthorName());
 
-            ivh.authorInfo.setText(authorFields.getProfessionName() + " - "
-                    + authorFields.getQuotesCount() + " quotes");
+            ivh.authorInfo.setText(author.getProfession() + " - "
+                    + author.getQuotesCount() + " quotes");
 
             Glide.with(((ItemViewHolder) viewHolder).authorImage.getContext())
-                    .load(Constants.IMAGES_URL + authorFields.getImageUrl()).dontAnimate()
+                    .load(Constants.IMAGES_URL + author.getAuthorId() + ".jpg")
+                    .dontAnimate()
                     .placeholder(R.drawable.avatar)
                     .error(R.drawable.avatar)
                     .into(((ItemViewHolder) viewHolder).authorImage);
@@ -184,7 +187,7 @@ public class PopularAuthorsAdapter extends SectioningAdapter {
                     mFavoriteAuthors, ivh.favoriteIcon, null, false, null, null));
 
             ivh.itemView.setOnClickListener(new OnAuthorClickListener(mContext, mDataSet.getAuthorGroup()
-                    .get(sectionIndex).getAuthors().get(itemIndex).getId()));
+                    .get(sectionIndex).getAuthors().get(itemIndex).getAuthorId()));
 
             setAnimation(ivh.itemView, viewHolder.getAdapterPosition());
 

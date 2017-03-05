@@ -1,68 +1,44 @@
 package models.quotes;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 
-import models.authors.AuthorDetailsFromQuote;
+import models.authors.Author;
 
 /**
- * Created by Spaja on 05-Jan-17.
+ * Created by unexpected_err on 03/03/2017.
  */
+
 public class Quote implements Serializable {
 
+    private String quoteId;
+    private String quoteText;
+    private String categories;
     private int imageId;
     private boolean favorite;
+    private Author author;
 
-    @SerializedName("_id")
-    private String quoteId;
-
-    @SerializedName("fields")
-    private QuoteFields quoteDetails;
-
-    @SerializedName("_source")
-    private AuthorDetailsFromQuote author;
-
-    public void setAuthor(AuthorDetailsFromQuote author) {
-        this.author = author;
+    public String getQuoteId() {
+        return quoteId;
     }
 
     public void setQuoteId(String quoteId) {
         this.quoteId = quoteId;
     }
 
-    public Quote() {
+    public String getQuoteText() {
+        return quoteText;
     }
 
-    public Quote(boolean favorite, int imageId, QuoteFields quoteDetails) {
-        this.favorite = favorite;
-        this.imageId = imageId;
-        this.quoteDetails = quoteDetails;
+    public void setQuoteText(String quoteText) {
+        this.quoteText = quoteText;
     }
 
-    public AuthorDetailsFromQuote getAuthor() {
-        return author;
+    public String getCategories() {
+        return categories;
     }
 
-    public String getQuoteId() {
-        return quoteId;
-    }
-
-    public boolean isFavorite() {
-        return favorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
-    }
-
-    public QuoteFields getQuoteDetails() {
-        return quoteDetails;
-    }
-
-    public void setQuoteDetails(QuoteFields quoteDetails) {
-        this.quoteDetails = quoteDetails;
+    public void setCategories(String categories) {
+        this.categories = categories;
     }
 
     public int getImageId() {
@@ -73,24 +49,19 @@ public class Quote implements Serializable {
         this.imageId = imageId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Quote quote = (Quote) o;
-
-        if (imageId != quote.imageId) return false;
-        if (favorite != quote.favorite) return false;
-        return quoteDetails.equals(quote.quoteDetails);
-
+    public boolean isFavorite() {
+        return favorite;
     }
 
-    @Override
-    public int hashCode() {
-        int result = imageId;
-        result = 31 * result + (favorite ? 1 : 0);
-        result = 31 * result + quoteDetails.hashCode();
-        return result;
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 }

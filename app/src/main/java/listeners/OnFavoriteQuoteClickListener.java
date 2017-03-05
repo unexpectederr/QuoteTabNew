@@ -12,6 +12,7 @@ import adapters.QuotesAdapter;
 import digitalbath.quotetab.R;
 import helpers.main.ReadAndWriteToFile;
 import models.quotes.Quote;
+import models.quotes.QuoteReference;
 
 /**
  * Created by Spaja on 10-Jan-17.
@@ -49,8 +50,8 @@ public class OnFavoriteQuoteClickListener implements View.OnClickListener {
 
         for (int i = 0; favoriteQuotes.size() > i; i++) {
 
-            if (favoriteQuotes.get(i).getQuoteDetails() != null &&
-                    favoriteQuotes.get(i).getQuoteDetails().getQuoteId().equals(quote.getQuoteDetails().getQuoteId())) {
+            if (favoriteQuotes.get(i) != null && favoriteQuotes.get(i).getQuoteId()
+                    .equals(quote.getQuoteId())) {
 
                 position = i;
                 break;
@@ -73,7 +74,7 @@ public class OnFavoriteQuoteClickListener implements View.OnClickListener {
                 }
             }
 
-            ReadAndWriteToFile.removeQuoteFromFavorites(context, quote.getQuoteDetails().getQuoteId());
+            ReadAndWriteToFile.removeQuoteFromFavorites(context, quote.getQuoteId());
 
         } else {
 

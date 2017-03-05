@@ -11,7 +11,7 @@ import digitalbath.quotetab.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
-import models.authors.AuthorFieldsFromQuote;
+import models.authors.Author;
 
 /**
  * Created by unexpected_err on 02/02/2017.
@@ -20,11 +20,11 @@ import models.authors.AuthorFieldsFromQuote;
 public class OnShowAuthorInfoListener implements View.OnClickListener {
 
     Activity mActivity;
-    AuthorFieldsFromQuote mDetailsFromQuote;
+    Author mAuthor;
 
-    public OnShowAuthorInfoListener(Activity activity, AuthorFieldsFromQuote detailsFromQuote) {
+    public OnShowAuthorInfoListener(Activity activity, Author author) {
         this.mActivity = activity;
-        this.mDetailsFromQuote = detailsFromQuote;
+        this.mAuthor = author;
     }
 
     @Override
@@ -46,16 +46,16 @@ public class OnShowAuthorInfoListener implements View.OnClickListener {
         TextView infoTextBirthplace = (TextView) mActivity.findViewById(R.id.info_text_birthplace);
         CircleImageView infoAuthorImage = (CircleImageView) mActivity.findViewById(R.id.info_author_image);
 
-        infoText.setText(mDetailsFromQuote.getDescription());
-        infoTextName.setText(mDetailsFromQuote.getAuthorName());
-        infoTextBirthplace.setText(mDetailsFromQuote.getBirthplace());
-        infoTextBirthday.setText("Born on " + mDetailsFromQuote.getBornDay() + "."
-                + mDetailsFromQuote.getBornMonth()
+        infoText.setText(mAuthor.getDescription());
+        infoTextName.setText(mAuthor.getAuthorName());
+        infoTextBirthplace.setText(mAuthor.getBirthPlace());
+        infoTextBirthday.setText("Born on " + mAuthor.getBornDay() + "."
+                + mAuthor.getBornMonth()
                 + "."
-                + mDetailsFromQuote.getBornYear());
+                + mAuthor.getBornYear());
 
         Glide.with(mActivity)
-                .load(Constants.IMAGES_URL + mDetailsFromQuote.getAuthorImageUrl())
+                .load(Constants.IMAGES_URL + mAuthor.getAuthorId() + ".jpg")
                 .dontAnimate()
                 .placeholder(R.drawable.avatar)
                 .error(R.drawable.avatar)

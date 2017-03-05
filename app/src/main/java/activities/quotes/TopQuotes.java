@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import digitalbath.quotetab.R;
 import adapters.QuotesAdapter;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+import helpers.main.Mapper;
 import helpers.main.ReadAndWriteToFile;
 import models.quotes.Quote;
+import models.quotes.QuoteReference;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -97,16 +99,7 @@ public class TopQuotes extends AppCompatActivity {
             @Override
             public void onResponse(Call<models.quotes.TopQuotes> call, Response<models.quotes.TopQuotes> response) {
 
-                ArrayList<Quote> quotes = response.body().getQuotes();
-
-                for (int i = 0; i < quotes.size(); i++) {
-
-                    if (quotes.get(i).getQuoteDetails() == null) {
-
-                        quotes.remove(i);
-
-                    }
-                }
+                ArrayList<Quote> quotes = Mapper.mapQuotes(response.body().getQuotes());
 
                 adapter = new QuotesAdapter(TopQuotes.this, quotes, favoriteQuotes, false, false, null, null);
                 topQuotesRecycler.setAdapter(adapter);
@@ -115,8 +108,7 @@ public class TopQuotes extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {
-            }
+            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {}
 
         });
     }
@@ -127,16 +119,8 @@ public class TopQuotes extends AppCompatActivity {
             @Override
             public void onResponse(Call<models.quotes.TopQuotes> call, Response<models.quotes.TopQuotes> response) {
 
-                ArrayList<Quote> quotes = response.body().getQuotes();
+                ArrayList<Quote> quotes = Mapper.mapQuotes(response.body().getQuotes());
 
-                for (int i = 0; i < quotes.size(); i++) {
-
-                    if (quotes.get(i).getQuoteDetails() == null) {
-
-                        quotes.remove(i);
-
-                    }
-                }
                 adapter.addQuotes(quotes);
                 loading = false;
                 progressBar.setVisibility(View.GONE);
@@ -144,8 +128,7 @@ public class TopQuotes extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {
-            }
+            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {}
         });
     }
 

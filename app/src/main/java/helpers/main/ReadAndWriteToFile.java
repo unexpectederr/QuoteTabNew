@@ -18,9 +18,10 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import helpers.main.Constants;
+import models.authors.Author;
 import models.authors.AuthorDetails;
 import models.quotes.Quote;
+import models.quotes.QuoteReference;
 
 /**
  * Created by Spaja on 23-Jan-17.
@@ -51,7 +52,7 @@ public class ReadAndWriteToFile {
         ArrayList<Quote> quotes = getFavoriteQuotes(context);
 
         for (int i = 0; quotes.size() > i; i++) {
-            if (quotes.get(i).getQuoteDetails().getQuoteId().equals(quoteId))
+            if (quotes.get(i).getQuoteId().equals(quoteId))
                 quotes.remove(i);
         }
 
@@ -68,6 +69,7 @@ public class ReadAndWriteToFile {
     public static ArrayList<Quote> getFavoriteQuotes(Context context) {
 
         FileInputStream fis;
+
         ArrayList<Quote> quotes = new ArrayList<>();
 
         try {
@@ -78,6 +80,7 @@ public class ReadAndWriteToFile {
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
+
         return quotes;
     }
 
@@ -93,7 +96,6 @@ public class ReadAndWriteToFile {
                 cachePath.mkdirs();
             }
 
-            // overwrites this image every time
             stream = new FileOutputStream(cachePath + "/image.jpg");
             bm.compress(Bitmap.CompressFormat.JPEG, 50, stream);
             stream.close();
@@ -111,9 +113,9 @@ public class ReadAndWriteToFile {
     //endregion
 
     //region AUTHORS
-    public static void addAuthorToFavorites(Context context, AuthorDetails author) {
+    public static void addAuthorToFavorites(Context context, Author author) {
 
-        ArrayList<AuthorDetails> favoriteAuthors = getFavoriteAuthors(context);
+        ArrayList<Author> favoriteAuthors = getFavoriteAuthors(context);
         favoriteAuthors.add(0, author);
 
         try {
@@ -128,11 +130,11 @@ public class ReadAndWriteToFile {
 
     public static void removeAuthorFromFavorites(Context context, String authorId) {
 
-        ArrayList<AuthorDetails> favoriteAuthors = getFavoriteAuthors(context);
+        ArrayList<Author> favoriteAuthors = getFavoriteAuthors(context);
 
         for (int i = 0; i < favoriteAuthors.size(); i++) {
 
-            if (favoriteAuthors.get(i).getAuthorFields().getAuthorId().equals(authorId))
+            if (favoriteAuthors.get(i).getAuthorId().equals(authorId))
                 favoriteAuthors.remove(i);
         }
 
@@ -146,15 +148,15 @@ public class ReadAndWriteToFile {
         }
     }
 
-    public static ArrayList<AuthorDetails> getFavoriteAuthors(Context context) {
+    public static ArrayList<Author> getFavoriteAuthors(Context context) {
 
         FileInputStream fis;
-        ArrayList<AuthorDetails> authors = new ArrayList<>();
+        ArrayList<Author> authors = new ArrayList<>();
 
         try {
             fis = context.openFileInput(Constants.FILE_NAME_AUTHORS);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            authors = (ArrayList<AuthorDetails>) ois.readObject();
+            authors = (ArrayList<Author>) ois.readObject();
             ois.close();
 
         } catch (IOException | ClassNotFoundException e) {

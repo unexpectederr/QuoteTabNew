@@ -16,6 +16,7 @@ import adapters.QuotesAdapter;
 import helpers.main.AppHelper;
 import helpers.main.ReadAndWriteToFile;
 import models.quotes.Quote;
+import models.quotes.QuoteReference;
 
 public class FavoriteQuotes extends AppCompatActivity {
 
@@ -33,7 +34,6 @@ public class FavoriteQuotes extends AppCompatActivity {
 
         initializeRecyclerView();
 
-
     }
 
     private void initializeRecyclerView() {
@@ -48,7 +48,8 @@ public class FavoriteQuotes extends AppCompatActivity {
         textView.setText("Quotes you add to favorites will appear here...");
 
         RelativeLayout emptyList = (RelativeLayout) findViewById(R.id.empty_list_favorites);
-        adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false, favoritesRecycler, emptyList);
+        adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes,
+                true, false, favoritesRecycler, emptyList);
 
         favoritesRecycler.setAdapter(adapter);
     }
@@ -71,6 +72,7 @@ public class FavoriteQuotes extends AppCompatActivity {
 
                 RelativeLayout emptyList = (RelativeLayout) findViewById(R.id.empty_list_favorites);
                 adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false, favoritesRecycler, emptyList);
+
                 favoritesRecycler.setAdapter(adapter);
 
             } else if (resultCode == QuotesByTag.RESULT_CANCELED) {

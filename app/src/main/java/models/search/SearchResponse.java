@@ -4,8 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import helpers.main.Mapper;
+import models.authors.Author;
 import models.authors.AuthorDetails;
 import models.quotes.Quote;
+import models.quotes.QuoteReference;
 
 /**
  * Created by Spaja on 22-Feb-17.
@@ -17,25 +20,17 @@ public class SearchResponse {
     private ArrayList<AuthorDetails> authors;
 
     @SerializedName("quotes")
-    private ArrayList<Quote> quotes;
+    private ArrayList<QuoteReference> quotes;
 
     @SerializedName("query")
     private String query;
 
-    public ArrayList<AuthorDetails> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(ArrayList<AuthorDetails> authors) {
-        this.authors = authors;
+    public ArrayList<Author> getAuthors() {
+        return Mapper.mapAuthors(authors);
     }
 
     public ArrayList<Quote> getQuotes() {
-        return quotes;
-    }
-
-    public void setQuotes(ArrayList<Quote> quotes) {
-        this.quotes = quotes;
+        return Mapper.mapQuotes(quotes);
     }
 
     public String getQuery() {

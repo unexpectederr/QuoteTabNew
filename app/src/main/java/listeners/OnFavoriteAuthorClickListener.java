@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import adapters.AuthorsAdapter;
 import digitalbath.quotetab.R;
 import helpers.main.ReadAndWriteToFile;
+import models.authors.Author;
 import models.authors.AuthorDetails;
 
 /**
@@ -19,16 +20,16 @@ import models.authors.AuthorDetails;
 public class OnFavoriteAuthorClickListener implements View.OnClickListener {
 
     private Context context;
-    private AuthorDetails author;
+    private Author author;
     private ImageView favoriteIcon;
     private AuthorsAdapter adapter;
-    private ArrayList<AuthorDetails> favoriteAuthors;
+    private ArrayList<Author> favoriteAuthors;
     private boolean isFavorites;
     private RecyclerView recyclerView;
     private RelativeLayout emptyList;
 
-    public OnFavoriteAuthorClickListener(Context context, AuthorDetails author, ArrayList<AuthorDetails>
-            favoriteAuthors, ImageView favoriteIcon, AuthorsAdapter adapter, boolean isFavorites,
+    public OnFavoriteAuthorClickListener(Context context, Author author, ArrayList<Author> favoriteAuthors,
+                                         ImageView favoriteIcon, AuthorsAdapter adapter, boolean isFavorites,
                                          RecyclerView recyclerView, RelativeLayout emptyList) {
 
         this.context = context;
@@ -48,7 +49,7 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
 
         for (int i = 0; i < favoriteAuthors.size(); i++) {
 
-            if (author.getAuthorFields().getAuthorId().equals(favoriteAuthors.get(i).getAuthorFields().getAuthorId())) {
+            if (author.getAuthorId().equals(favoriteAuthors.get(i).getAuthorId())) {
 
                 position = i;
                 break;
@@ -70,7 +71,7 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
                 }
             }
 
-            ReadAndWriteToFile.removeAuthorFromFavorites(context, author.getAuthorFields().getAuthorId());
+            ReadAndWriteToFile.removeAuthorFromFavorites(context, author.getAuthorId());
 
         } else {
 
