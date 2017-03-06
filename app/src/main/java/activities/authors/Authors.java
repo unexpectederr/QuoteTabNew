@@ -29,7 +29,6 @@ public class Authors extends AppCompatActivity {
     RecyclerView authorsRecyclerView;
     int page = 1, visibleItemCount, totalItemCount, pastVisibleItems;
     TextView screenTitle;
-    private boolean isByLetter;
     private AuthorsAdapter adapter;
     private boolean loading = false;
 
@@ -62,7 +61,7 @@ public class Authors extends AppCompatActivity {
         screenTitle = (TextView) findViewById(R.id.screen_title);
         ArrayList<Author> authors = ReadAndWriteToFile.getFavoriteAuthors(this);
 
-        isByLetter = getIntent().getBooleanExtra("IS_BY_LETTER", false);
+        boolean isByLetter = getIntent().getBooleanExtra("IS_BY_LETTER", false);
         final String letter = getIntent().getStringExtra("LETTER");
 
         if (isByLetter) {

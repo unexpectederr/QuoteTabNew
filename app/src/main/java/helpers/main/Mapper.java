@@ -115,7 +115,11 @@ public class Mapper {
             author.setAuthorId(authorDetailsFromQuote.getAuthorFieldsFromQuote().getAuthorId());
             author.setQuotesCount(authorDetailsFromQuote.getAuthorFieldsFromQuote().getQuotesCount());
             author.setProfession(authorDetailsFromQuote.getAuthorFieldsFromQuote().getProfession().getProfessionName());
-
+            author.setWikipediaUrl(authorDetailsFromQuote.getAuthorFieldsFromQuote().getWikipediaUrl());
+            author.setBornDay(authorDetailsFromQuote.getAuthorFieldsFromQuote().getBornDay());
+            author.setBornMonth(authorDetailsFromQuote.getAuthorFieldsFromQuote().getBornMonth());
+            author.setBornYear(authorDetailsFromQuote.getAuthorFieldsFromQuote().getBornYear());
+            author.setDescription(authorDetailsFromQuote.getAuthorFieldsFromQuote().getDescription());
         }
 
         return author;

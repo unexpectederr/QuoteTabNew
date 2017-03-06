@@ -22,6 +22,10 @@ public class AuthorGroup {
         return references;
     }
 
+    public ArrayList<AuthorDetails> getAuthorDetailsList() {
+        return authors;
+    }
+
     public ArrayList<Author> getAuthors() {
         return Mapper.mapAuthors(authors);
     }

@@ -43,7 +43,7 @@ public class SaveImageToFileClickListener implements View.OnClickListener {
         if (bm != null) {
 
             ReadAndWriteToFile.saveImage(bm, context);
-            Toast toast = Toast.makeText(context, "QuoteReference saved to Gallery",
+            Toast toast = Toast.makeText(context, "Quote saved to Gallery",
                     Toast.LENGTH_LONG);
             toast.show();
             relativeLayout.setDrawingCacheEnabled(false);
