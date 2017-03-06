@@ -87,10 +87,14 @@ public class Mapper {
 
             AuthorFields ad = authorDetails.get(i).getAuthorFields();
 
-            author.setAuthorId(ad.getAuthorId());
-            author.setAuthorName(ad.getName());
-            author.setQuotesCount(ad.getQuotesCount());
-            author.setProfession(ad.getProfessionName());
+            if (ad != null) {
+                author.setAuthorId(ad.getAuthorId());
+                author.setAuthorName(ad.getName());
+                author.setQuotesCount(ad.getQuotesCount());
+                author.setProfession(ad.getProfessionName());
+            }
+
+            author.setLast(authorDetails.get(i).isLast());
 
             authors.add(author);
         }
