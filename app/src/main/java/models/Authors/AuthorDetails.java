@@ -16,6 +16,16 @@ public class AuthorDetails implements Serializable {
     @SerializedName("fields")
     private AuthorFields authorFields;
 
+    private boolean isLast;
+
+    public boolean isLast() {
+        return isLast;
+    }
+
+    public void setLast(boolean last) {
+        isLast = last;
+    }
+
     public void setId(String id) {
         this.id = id;
     }

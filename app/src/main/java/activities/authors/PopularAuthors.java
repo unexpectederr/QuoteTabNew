@@ -20,6 +20,7 @@ import digitalbath.quotetab.R;
 import adapters.PopularAuthorsAdapter;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
+import helpers.main.Mapper;
 import helpers.main.ReadAndWriteToFile;
 import listeners.OnSearchAuthorsClickListener;
 import listeners.OnSearchAuthorWatcher;
@@ -84,13 +85,13 @@ public class PopularAuthors extends AppCompatActivity {
 
                 ArrayList<Author> favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(PopularAuthors.this);
 
-                Author author = new Author();
+                AuthorDetails author = new AuthorDetails();
                 author.setLast(true);
 
                 authors = response.body();
 
                 for (int i = 0; i < response.body().getAuthorGroup().size(); i++) {
-                    authors.getAuthorGroup().get(i).getAuthors().add(author);
+                    authors.getAuthorGroup().get(i).getAuthorDetailsList().add(author);
                 }
 
                 PopularAuthorsAdapter adapter = new PopularAuthorsAdapter(authors, PopularAuthors.this,
