@@ -1,6 +1,8 @@
 package activities.quotes;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +14,10 @@ import java.util.ArrayList;
 import digitalbath.quotetab.R;
 import adapters.QuotesAdapter;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+import helpers.main.AppHelper;
 import helpers.main.Mapper;
 import helpers.main.ReadAndWriteToFile;
+import listeners.SaveImageToFileClickListener;
 import models.quotes.Quote;
 import models.quotes.QuoteReference;
 import networking.QuoteTabApi;
@@ -108,7 +112,8 @@ public class TopQuotes extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {}
+            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {
+            }
 
         });
     }
@@ -128,7 +133,8 @@ public class TopQuotes extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {}
+            public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {
+            }
         });
     }
 
@@ -136,5 +142,13 @@ public class TopQuotes extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            int i = 0;
+        }
     }
 }
