@@ -172,19 +172,20 @@ public class ReadAndWriteToFile {
         File imagePath = new File(Environment.getExternalStoragePublicDirectory
                 (Environment.DIRECTORY_PICTURES) + File.separator + "QuoteTab" + File.separator);
 
+        if (!imagePath.exists())
+            imagePath.mkdir();
+
         OutputStream fOut = null;
         File file = new File(imagePath, "Quote_" + System.currentTimeMillis() + ".jpg");
 
         try {
             fOut = new FileOutputStream(file);
-            if (!imagePath.exists()) {
-                imagePath.mkdir();
-            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fOut);
+
         try {
             fOut.flush();
             fOut.close();

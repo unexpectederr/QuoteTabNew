@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +45,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     private boolean isFromAuthors;
     private RecyclerView recyclerView;
     private RelativeLayout emptyList;
+    private ImageView mActiveDownloadIcon;
 
     public QuotesAdapter(Activity context, ArrayList<Quote> mDataSet, ArrayList<Quote> favoriteQuotes,
                          boolean isFavorites, boolean isFromAuthors, RecyclerView recyclerView,
@@ -80,7 +82,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.downloadIcon.setOnClickListener(new SaveImageToFileClickListener(context,
-                holder.relativeLayout, holder.tags, holder.actionButtons));
+                holder.relativeLayout, holder.tags, holder.actionButtons, this));
 
         if (mDataSet.get(position).getImageId() == 0)
             mDataSet.get(position).setImageId(AppController.getBitmapIndex());
@@ -186,6 +188,14 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         mDataSet.addAll(quotes);
         notifyItemRangeInserted(mDataSet.size() - quotes.size(), quotes.size());
 
+    }
+
+    public void setActiveDownloadButton(ImageView activeDownloadIcon) {
+        this.mActiveDownloadIcon = activeDownloadIcon;
+    }
+
+    public ImageView getActiveDownloadIcon() {
+        return mActiveDownloadIcon;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

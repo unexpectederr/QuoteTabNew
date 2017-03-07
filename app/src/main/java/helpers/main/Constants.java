@@ -28,4 +28,6 @@ public class Constants {
     public static final String FILE_NAME_QUOTES = "FAVORITE_QUOTES";
     public static final String FILE_NAME_AUTHORS = "FAVORITE_AUTHORS";
 
+    public static final int SAVE_IMAGE_PERMISSION = 99;
+
 }
