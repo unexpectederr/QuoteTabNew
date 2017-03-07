@@ -25,8 +25,10 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -282,5 +284,33 @@ public class AppHelper {
 
     public static Typeface getRalewayBold(Context context) {
         return Typeface.createFromAsset(context.getAssets(), "raleway_bold.ttf");
+    }
+
+    public static void createAndSaveImage(Context context, RelativeLayout relativeLayout,
+                                          HorizontalScrollView tags, LinearLayout actionButtons) {
+
+        if (tags != null && actionButtons != null) {
+            tags.setVisibility(View.GONE);
+            actionButtons.setVisibility(View.GONE);
+        }
+        relativeLayout.setDrawingCacheEnabled(true);
+        Bitmap bm = Bitmap.createBitmap(relativeLayout.getDrawingCache());
+
+        if (bm != null) {
+
+            ReadAndWriteToFile.saveImage(bm, context);
+
+            Toast toast = Toast.makeText(context, "Quote saved to Gallery",
+                    Toast.LENGTH_LONG);
+            toast.show();
+            relativeLayout.setDrawingCacheEnabled(false);
+            if (tags != null && actionButtons != null) {
+                tags.setVisibility(View.VISIBLE);
+                actionButtons.setVisibility(View.VISIBLE);
+            }
+
+        } else {
+            AppHelper.showToast("Something went wrong!", context);
+        }
     }
 }
