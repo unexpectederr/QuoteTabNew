@@ -64,10 +64,12 @@ public class Authors extends AppCompatActivity {
         boolean isByLetter = getIntent().getBooleanExtra("IS_BY_LETTER", false);
         final String letter = getIntent().getStringExtra("LETTER");
 
+        RelativeLayout emptyList = (RelativeLayout) findViewById(R.id.empty_list_favorites);
+
         if (isByLetter) {
 
             screenTitle.setText("All '" + letter.toUpperCase() + "' Authors");
-            adapter = new AuthorsAdapter(this, new ArrayList<Author>(), true, null, null);
+            adapter = new AuthorsAdapter(this, new ArrayList<Author>(), true, null, emptyList);
             authorsRecyclerView.setAdapter(adapter);
 
             loadAuthors(letter, page);
@@ -104,7 +106,6 @@ public class Authors extends AppCompatActivity {
         } else {
 
             screenTitle.setText("Favorite Authors");
-            RelativeLayout emptyList = (RelativeLayout) findViewById(R.id.empty_list_favorites);
             AuthorsAdapter adapter = new AuthorsAdapter(this, authors, false, authorsRecyclerView, emptyList);
             authorsRecyclerView.setAdapter(adapter);
             TextView textView = (TextView) findViewById(R.id.favorites_text);

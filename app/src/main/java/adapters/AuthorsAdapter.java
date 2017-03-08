@@ -49,11 +49,20 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
 
         favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(context);
 
-        if (recyclerView != null && emptyList != null && authors.size() != 0) {
+        if (isFromAllAuthors) {
+
             emptyList.setVisibility(View.GONE);
+        }
+
+        if (recyclerView != null && emptyList != null && authors.size() != 0) {
+
+            emptyList.setVisibility(View.GONE);
+
         } else if (recyclerView != null && emptyList != null && authors.size() == 0) {
+
             recyclerView.setVisibility(View.GONE);
             emptyList.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -62,24 +71,6 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
         mDataSet.addAll(authors);
         notifyItemRangeInserted(mDataSet.size() - authors.size(), authors.size());
 
-    }
-
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-
-        TextView authorName;
-        TextView authorInfo;
-        CircleImageView authorImage;
-        ImageView favoriteIcon;
-
-        MyViewHolder(View itemView) {
-
-            super(itemView);
-            authorName = (TextView) itemView.findViewById(R.id.author_name);
-            authorInfo = (TextView) itemView.findViewById(R.id.author_info);
-            authorImage = (CircleImageView) itemView.findViewById(R.id.author_image);
-            favoriteIcon = (ImageView) itemView.findViewById(R.id.author_favorite);
-        }
     }
 
     @Override
@@ -145,6 +136,24 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
     @Override
     public int getItemCount() {
         return mDataSet.size();
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+
+        TextView authorName;
+        TextView authorInfo;
+        CircleImageView authorImage;
+        ImageView favoriteIcon;
+
+        MyViewHolder(View itemView) {
+
+            super(itemView);
+            authorName = (TextView) itemView.findViewById(R.id.author_name);
+            authorInfo = (TextView) itemView.findViewById(R.id.author_info);
+            authorImage = (CircleImageView) itemView.findViewById(R.id.author_image);
+            favoriteIcon = (ImageView) itemView.findViewById(R.id.author_favorite);
+        }
     }
 
 }

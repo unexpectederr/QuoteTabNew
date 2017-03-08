@@ -286,15 +286,15 @@ public class AppHelper {
         return Typeface.createFromAsset(context.getAssets(), "raleway_bold.ttf");
     }
 
-    public static void createAndSaveImage(Context context, RelativeLayout relativeLayout,
-                                          HorizontalScrollView tags, LinearLayout actionButtons) {
+    public static void createAndSaveImage(Activity context, String quoteText,
+                                          String authroName, Bitmap quoteImage, int quoteLines) {
 
-        if (tags != null && actionButtons != null) {
-            tags.setVisibility(View.GONE);
-            actionButtons.setVisibility(View.GONE);
-        }
-        relativeLayout.setDrawingCacheEnabled(true);
-        Bitmap bm = Bitmap.createBitmap(relativeLayout.getDrawingCache());
+       // if (tags != null && actionButtons != null) {
+//            tags.setVisibility(View.GONE);
+//            actionButtons.setVisibility(View.GONE);
+     //   }
+        //relativeLayout.setDrawingCacheEnabled(true);
+        Bitmap bm = AppHelper.createBitmapFromView(context, quoteText, authroName, quoteImage, quoteLines);
 
         if (bm != null) {
 
@@ -303,11 +303,11 @@ public class AppHelper {
             Toast toast = Toast.makeText(context, "Quote saved to Gallery",
                     Toast.LENGTH_LONG);
             toast.show();
-            relativeLayout.setDrawingCacheEnabled(false);
-            if (tags != null && actionButtons != null) {
-                tags.setVisibility(View.VISIBLE);
-                actionButtons.setVisibility(View.VISIBLE);
-            }
+//            relativeLayout.setDrawingCacheEnabled(false);
+//            if (tags != null && actionButtons != null) {
+//                tags.setVisibility(View.VISIBLE);
+//                actionButtons.setVisibility(View.VISIBLE);
+//            }
 
         } else {
             AppHelper.showToast("Something went wrong!", context);

@@ -1,6 +1,5 @@
 package helpers.main;
 
-import com.google.android.gms.auth.api.Auth;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -32,6 +31,7 @@ public class Mapper {
 
                 quote.setQuoteId(qr.getQuoteId());
                 quote.setQuoteText(qr.getQuoteDetails().getQuoteText());
+
                 quote.setCategories(qr.getQuoteDetails().getCategories());
 
                 Author author = new Author();
@@ -60,6 +60,12 @@ public class Mapper {
             quote.setQuoteId(qr.getAuthor().getQuoteId());
             quote.setQuoteText(qr.getAuthor().getQuoteText());
             quote.setImageId(new Random().nextInt(Constants.NUMBER_OF_COVERS));
+
+            if (qr.getQuoteDetails() != null) {
+                quote.setCategories(qr.getQuoteDetails().getCategories());
+            } else {
+                quote.setCategories("Inspirational");
+            }
 
             Author author = new Author();
             author.setAuthorId(qr.getAuthor().getAuthor().getAuthorId());
@@ -112,6 +118,8 @@ public class Mapper {
             author.setAuthorId(authorDetailsFromQuote.getAuthor().getAuthorId());
             author.setQuotesCount(authorDetailsFromQuote.getAuthor().getQuotesCount());
             author.setProfession(authorDetailsFromQuote.getAuthor().getProfession().getProfessionName());
+            author.setBirthPlace(authorDetailsFromQuote.getAuthor().getBirthplace());
+            author.setWikipediaUrl(authorDetailsFromQuote.getAuthor().getWikipediaUrl());
 
         } else {
 
@@ -124,6 +132,7 @@ public class Mapper {
             author.setBornMonth(authorDetailsFromQuote.getAuthorFieldsFromQuote().getBornMonth());
             author.setBornYear(authorDetailsFromQuote.getAuthorFieldsFromQuote().getBornYear());
             author.setDescription(authorDetailsFromQuote.getAuthorFieldsFromQuote().getDescription());
+            author.setBirthPlace(authorDetailsFromQuote.getAuthorFieldsFromQuote().getBirthplace());
         }
 
         return author;

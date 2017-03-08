@@ -186,6 +186,7 @@ public class ReadAndWriteToFile {
         }
 
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fOut);
+
         try {
             fOut.flush();
             fOut.close();

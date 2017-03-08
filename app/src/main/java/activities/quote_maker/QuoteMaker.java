@@ -1,6 +1,8 @@
 package activities.quote_maker;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +32,7 @@ import models.images.ImageSuggestion;
 
 public class QuoteMaker extends AppCompatActivity {
 
+    private ImageView mSaveImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +58,16 @@ public class QuoteMaker extends AppCompatActivity {
 
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.top_layout);
 
-        ImageView saveImage = (ImageView) findViewById(R.id.download_icon);
-        saveImage.setOnClickListener(new SaveImageToFileClickListener(QuoteMaker.this, relativeLayout, null, null));
 
         EditText quoteText = (EditText) findViewById(R.id.quote_text);
         quoteText.setTypeface(AppHelper.getRalewayLight(this));
 
         EditText authorName = (EditText) findViewById(R.id.author_name);
         authorName.setTypeface(AppHelper.getRalewayLight(this));
+
+        mSaveImage = (ImageView) findViewById(R.id.download_icon);
+        mSaveImage.setOnClickListener(new SaveImageToFileClickListener(QuoteMaker.this,
+                quoteText, authorName, quoteImage, quoteText.getLineCount()));
 
         ImageView share = (ImageView) findViewById(R.id.share_quote_icon);
         share.setOnClickListener(new ShareAsImageClickListener(this, quoteText,
@@ -124,5 +129,15 @@ public class QuoteMaker extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+
+        if (requestCode == Constants.SAVE_IMAGE_PERMISSION && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            mSaveImage.performClick();
+        }
     }
 }

@@ -14,12 +14,10 @@ import java.util.ArrayList;
 import digitalbath.quotetab.R;
 import adapters.QuotesAdapter;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
-import helpers.main.AppHelper;
+import helpers.main.Constants;
 import helpers.main.Mapper;
 import helpers.main.ReadAndWriteToFile;
-import listeners.SaveImageToFileClickListener;
 import models.quotes.Quote;
-import models.quotes.QuoteReference;
 import networking.QuoteTabApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -145,10 +143,12 @@ public class TopQuotes extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
 
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            int i = 0;
+        if (requestCode == Constants.SAVE_IMAGE_PERMISSION && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            adapter.getActiveDownloadIcon().performClick();
         }
     }
 }

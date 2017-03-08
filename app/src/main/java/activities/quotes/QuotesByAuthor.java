@@ -47,16 +47,14 @@ public class QuotesByAuthor extends AppCompatActivity
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
     private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f;
     private static final int ALPHA_ANIMATIONS_DURATION = 200;
-
     private boolean mIsTheTitleVisible = false;
     private boolean mIsTheTitleContainerVisible = true;
-
     private RelativeLayout mTitleContainer;
     private TextView mTitle;
     private AppBarLayout mAppBarLayout;
     private Toolbar mToolbar;
     private LinearLayoutManager manager;
-    private int visibleItemCount, totalItemCount, pastVisibleItems, page = 1;
+    private int page = 1;
     private boolean loading = false;
     private QuotesAdapter adapter;
     private ImageView favoriteIcon;
@@ -175,10 +173,17 @@ public class QuotesByAuthor extends AppCompatActivity
 
         authorTitle.setText(author.getAuthorName());
 
+        String birthplace;
+
+        if (author.getBirthPlace() != null) {
+            birthplace = " - " + author.getBirthPlace();
+        } else {
+            birthplace = "";
+        }
+
         if (author.getProfession() != null) {
             authorTagLine.setText(author
-                    .getProfession() + " - "
-                    + author.getBirthPlace());
+                    .getProfession() + birthplace);
         } else {
             authorTagLine.setText("Unknown");
         }
@@ -215,9 +220,9 @@ public class QuotesByAuthor extends AppCompatActivity
 
             if (dy > 0) {
 
-                visibleItemCount = manager.getChildCount();
-                totalItemCount = manager.getItemCount();
-                pastVisibleItems = manager.findFirstVisibleItemPosition();
+                int visibleItemCount = manager.getChildCount();
+                int totalItemCount = manager.getItemCount();
+                int pastVisibleItems = manager.findFirstVisibleItemPosition();
 
                 if (!loading) {
                     if ((visibleItemCount + pastVisibleItems) >= (totalItemCount - 3)) {

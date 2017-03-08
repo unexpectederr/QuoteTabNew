@@ -60,7 +60,7 @@ public class OnSearchAuthorWatcher implements TextWatcher {
 
             for (int j = 0; j < author.getAuthors().size() - 1; j++) {
                 if (author.getAuthors().get(j).getAuthorId().contains(query.toString().toLowerCase()))
-                    newAuthorGroup.getAuthors().add(author.getAuthors().get(j));
+                    newAuthorGroup.getAuthorDetailsList().add(author.getAuthorDetailsList().get(j));
             }
 
             if (newAuthorGroup.getAuthors().size() != 0) {
