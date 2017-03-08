@@ -85,11 +85,6 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         if (mDataSet.get(position).getImageId() == 0)
             mDataSet.get(position).setImageId(AppController.getBitmapIndex());
 
-        holder.downloadIcon.setOnClickListener(new SaveImageToFileClickListener(context,
-                holder.quoteText.getText().toString(),
-                holder.authorName.getText().toString(),
-                Constants.COVER_IMAGES_URL + mDataSet.get(position).getImageId() + ".jpg",
-                holder.quoteText.getLineCount(), this));
         if (mDataSet.get(position).isFavorite()) {
 
             holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
@@ -168,6 +163,12 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         }
 
         holder.itemView.setOnClickListener(new OnQuoteClickListener(context, mDataSet.get(position)));
+
+        holder.downloadIcon.setOnClickListener(new SaveImageToFileClickListener(context,
+                holder.quoteText.getText().toString(),
+                mDataSet.get(position).getAuthor().getAuthorName(),
+                Constants.COVER_IMAGES_URL + mDataSet.get(position).getImageId() + ".jpg",
+                holder.quoteText.getLineCount(), this));
 
         setAnimation(holder.itemView, holder.getAdapterPosition());
     }
