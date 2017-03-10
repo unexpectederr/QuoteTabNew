@@ -28,14 +28,16 @@ public class PreviewImagesAdapter extends RecyclerView.Adapter<PreviewImagesAdap
     private ArrayList<ImageSuggestion> mDataSet;
     private QuoteImageView largeImage;
     private int screenWidth;
+    private ImageEffectsAdapter effectsAdapter;
 
     public PreviewImagesAdapter(Context context, ArrayList<ImageSuggestion> mDataSet,
-                                QuoteImageView largeImage, int screenWidth) {
+                                QuoteImageView largeImage, int screenWidth, ImageEffectsAdapter effectsAdapter) {
 
         this.context = context;
         this.mDataSet = mDataSet;
         this.largeImage = largeImage;
         this.screenWidth = screenWidth;
+        this.effectsAdapter = effectsAdapter;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -83,7 +85,7 @@ public class PreviewImagesAdapter extends RecyclerView.Adapter<PreviewImagesAdap
         }
 
         holder.quoteImage.setOnClickListener(new OnPreviewImageClickListener
-                (context, largeImage, imageUrl, mDataSet, this, position));
+                (context, largeImage, imageUrl, mDataSet, this, position, effectsAdapter));
 
         if (mDataSet.get(position).isSelected()) {
             holder.shader.setVisibility(View.VISIBLE);

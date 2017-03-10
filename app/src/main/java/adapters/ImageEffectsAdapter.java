@@ -84,6 +84,8 @@ public class ImageEffectsAdapter extends RecyclerView.Adapter<ImageEffectsAdapte
         holder.itemView.setOnClickListener(new OnEffectClickListener(this, mDataSet.get(position).getFilterClass(),
                 context, imageLarge, mDataSet, position));
 
+        holder.itemView.setTag(position);
+
         holder.effectImage.setBorderColor(mDataSet.get(position).isSelected() ?
                 context.getResources().getColor(R.color.colorPrimary) :
                 context.getResources().getColor(R.color.light_gray_ultra));
@@ -93,6 +95,18 @@ public class ImageEffectsAdapter extends RecyclerView.Adapter<ImageEffectsAdapte
     @Override
     public int getItemCount() {
         return mDataSet.size();
+    }
+
+    public void setAdapterToFirstPosition(int position) {
+
+        for (int i = 0; i < mDataSet.size(); i++) {
+            if (mDataSet.get(i).isSelected()) {
+                mDataSet.get(i).setSelected(false);
+                notifyItemChanged(i);
+            }
+        }
+        this.mDataSet.get(0).setSelected(true);
+        notifyItemChanged(0);
     }
 
 }
