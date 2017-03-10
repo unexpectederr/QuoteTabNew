@@ -75,6 +75,7 @@ public class SaveImageToFileClickListener implements View.OnClickListener {
     }
 
     private void saveImage(Bitmap quoteImage) {
+
         int permissionCheck = ContextCompat.checkSelfPermission(mContext,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
