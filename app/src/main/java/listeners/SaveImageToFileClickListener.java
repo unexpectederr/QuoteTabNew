@@ -2,7 +2,6 @@ package listeners;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -11,16 +10,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
-import activities.quotes.TopQuotes;
 import adapters.QuotesAdapter;
 import digitalbath.quotetab.R;
 import helpers.main.AppHelper;
@@ -33,8 +28,8 @@ import helpers.other.QuoteImageView;
 
 public class SaveImageToFileClickListener implements View.OnClickListener {
 
-    private Activity context;
-    private String quoteText, authorName;
+    private Activity mContext;
+    private String mQuoteText, mAuthorName;
     private String quoteImage;
     private int quoteLines;
     private RecyclerView.Adapter mAdapter;
@@ -45,18 +40,18 @@ public class SaveImageToFileClickListener implements View.OnClickListener {
     public SaveImageToFileClickListener(Activity context, String quoteText,
                                         String authorName, String quoteImage, int quoteLines,
                                         RecyclerView.Adapter adapter) {
-        this.context = context;
+        this.mContext = context;
         this.mAdapter = adapter;
-        this.quoteText = quoteText;
+        this.mQuoteText = quoteText;
         this.quoteImage = quoteImage;
         this.quoteLines = quoteLines;
-        this.authorName = authorName;
+        this.mAuthorName = authorName;
+
     }
 
     public SaveImageToFileClickListener(Activity context, EditText quoteText, EditText authorName,
                                         QuoteImageView quoteImage, int lineCount) {
-
-        this.context = context;
+        this.mContext = context;
         this.mAuthorNameTxt = authorName;
         this.mQuoteTxt = quoteText;
         this.mQuoteImage = quoteImage;
@@ -66,32 +61,37 @@ public class SaveImageToFileClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-//
-//        this.authorName = mAuthorNameTxt.getText().toString();
-//        this.quoteText = mQuoteTxt.getText().toString();
-//        this.quoteImage = mQuoteImage.getImageUrl();
+
+        //TODO ne kontam sto ne može ista logika kao u shareAsImageClickListener
+        if (mAuthorNameTxt != null && mQuoteTxt != null) {
+
+            this.mAuthorName = mAuthorNameTxt.getText().toString();
+            this.mQuoteText = mQuoteTxt.getText().toString();
+            this.quoteImage = mQuoteImage.getImageUrl();
+        }
 
         loadImage();
+
     }
 
     private void saveImage(Bitmap quoteImage) {
-        int permissionCheck = ContextCompat.checkSelfPermission(context,
+        int permissionCheck = ContextCompat.checkSelfPermission(mContext,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
 
             if (mAdapter != null) {
 
-                ((QuotesAdapter) mAdapter).setActiveDownloadButton((ImageView) context.findViewById(R.id.download_icon));
+                ((QuotesAdapter) mAdapter).setActiveDownloadButton((ImageView) mContext.findViewById(R.id.download_icon));
             }
 
-            ActivityCompat.requestPermissions(context,
+            ActivityCompat.requestPermissions(mContext,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     Constants.SAVE_IMAGE_PERMISSION);
 
         } else {
 
-            AppHelper.createAndSaveImage(context, quoteText, authorName, quoteImage, quoteLines);
+            AppHelper.createAndSaveImage(mContext, mQuoteText, mAuthorName, quoteImage, quoteLines);
 
         }
     }
@@ -103,7 +103,7 @@ public class SaveImageToFileClickListener implements View.OnClickListener {
             @Override
             public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
 
-                final Bitmap bm = AppHelper.createBitmapFromView(context, quoteText, authorName,
+                final Bitmap bm = AppHelper.createBitmapFromView(mContext, mQuoteText, mAuthorName,
                         bitmap, quoteLines);
                 saveImage(bm);
             }
@@ -114,7 +114,7 @@ public class SaveImageToFileClickListener implements View.OnClickListener {
             }
         };
 
-        Glide.with(context)
+        Glide.with(mContext)
                 .load(quoteImage)
                 .asBitmap()
                 .into(target);

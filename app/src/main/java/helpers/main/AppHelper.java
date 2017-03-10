@@ -59,9 +59,18 @@ public class AppHelper {
         v = inflater.inflate(R.layout.share_quote_container, null);
 
         TextView quoteTextTextView = (TextView) v.findViewById(R.id.quote_text);
+        if (quoteText.equals("")) {
+            quoteText = "Enter quote text here...";
+        }
+
         quoteTextTextView.setText(quoteText);
 
         TextView authorNameTextView = (TextView) v.findViewById(R.id.quote_author);
+
+        if (authorName.equals("")) {
+            authorName = "Enter author here";
+        }
+
         authorNameTextView.setText("- " + authorName + " -");
 
         ImageView image = (ImageView) v.findViewById(R.id.card_image);
@@ -274,6 +283,10 @@ public class AppHelper {
         return AnimationUtils.loadAnimation(context, R.anim.abc_shrink_fade_out_from_bottom);
     }
 
+    public static Animation getRotateAnimation (Context context) {
+        return AnimationUtils.loadAnimation(context, R.anim.rotate);
+    }
+
     public static Typeface getRalewayLight(Context context) {
         return Typeface.createFromAsset(context.getAssets(), "raleway_light.ttf");
     }
@@ -289,11 +302,6 @@ public class AppHelper {
     public static void createAndSaveImage(Activity context, String quoteText,
                                           String authroName, Bitmap quoteImage, int quoteLines) {
 
-       // if (tags != null && actionButtons != null) {
-//            tags.setVisibility(View.GONE);
-//            actionButtons.setVisibility(View.GONE);
-     //   }
-        //relativeLayout.setDrawingCacheEnabled(true);
         Bitmap bm = AppHelper.createBitmapFromView(context, quoteText, authroName, quoteImage, quoteLines);
 
         if (bm != null) {
@@ -302,12 +310,8 @@ public class AppHelper {
 
             Toast toast = Toast.makeText(context, "Quote saved to Gallery",
                     Toast.LENGTH_LONG);
+
             toast.show();
-//            relativeLayout.setDrawingCacheEnabled(false);
-//            if (tags != null && actionButtons != null) {
-//                tags.setVisibility(View.VISIBLE);
-//                actionButtons.setVisibility(View.VISIBLE);
-//            }
 
         } else {
             AppHelper.showToast("Something went wrong!", context);

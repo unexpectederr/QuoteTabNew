@@ -7,10 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import activities.authors.Authors;
 import digitalbath.quotetab.R;
 import adapters.QuotesAdapter;
 import helpers.main.AppHelper;
@@ -27,7 +30,7 @@ import retrofit2.Response;
 
 public class QuotesByTag extends AppCompatActivity {
 
-    private int visibleItemCount, totalItemCount, pastVisibleItems, page = 1;
+    private int page = 1;
     private boolean loading = false;
     private QuotesAdapter adapter;
     private LinearLayoutManager manager;
@@ -64,14 +67,14 @@ public class QuotesByTag extends AppCompatActivity {
         ArrayList<Quote> favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
 
         adapter = new QuotesAdapter(this, new ArrayList<Quote>(),
-                favoriteQuotes, false, false, null, null);
+                favoriteQuotes, false, false, null, null, null);
 
         quotesByTagRecycler.setAdapter(adapter);
 
         quotesByTagRecycler.addOnScrollListener(new OnScrollListener(tag));
     }
 
-    private void getQuotesByTag(String tag, int page) {
+    private void getQuotesByTag(final String tag, final int page) {
 
         QuoteTabApi.quoteTabApi.getQuotesByTag(tag, page).enqueue(new Callback<Quotes>() {
             @Override
@@ -88,7 +91,27 @@ public class QuotesByTag extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Quotes> call, Throwable t) {
+
                 AppHelper.showToast(getResources().getString(R.string.toast_error_message), QuotesByTag.this);
+
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
+                findViewById(R.id.smooth_progress_bar).setVisibility(View.GONE);
+
+                final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
+                fail.setVisibility(View.VISIBLE);
+
+                final Button reload = (Button) findViewById(R.id.reload);
+                reload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        reload.startAnimation(AppHelper.getRotateAnimation(QuotesByTag.this));
+                        findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+                        initializeContent(tag);
+                        getQuotesByTag(tag, page);
+                        fail.setVisibility(View.GONE);
+                    }
+                });
             }
         });
     }
@@ -96,7 +119,7 @@ public class QuotesByTag extends AppCompatActivity {
     private class OnScrollListener extends RecyclerView.OnScrollListener {
 
         String mTag;
-        public OnScrollListener(String tag) {
+        OnScrollListener(String tag) {
             mTag = tag;
         }
 
@@ -106,9 +129,9 @@ public class QuotesByTag extends AppCompatActivity {
 
             if (dy > 0) {
 
-                visibleItemCount = manager.getChildCount();
-                totalItemCount = manager.getItemCount();
-                pastVisibleItems = manager.findFirstVisibleItemPosition();
+                int visibleItemCount = manager.getChildCount();
+                int totalItemCount = manager.getItemCount();
+                int pastVisibleItems = manager.findFirstVisibleItemPosition();
 
                 if (!loading) {
                     if ((visibleItemCount + pastVisibleItems) >= (totalItemCount - 3)) {

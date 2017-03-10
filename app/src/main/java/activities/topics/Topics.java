@@ -7,10 +7,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView;
 
+import activities.quotes.QuotesByTag;
+import activities.quotes.TopQuotes;
 import digitalbath.quotetab.R;
 import adapters.TopicsAdapter;
 import helpers.main.AppHelper;
@@ -108,6 +112,25 @@ public class Topics extends AppCompatActivity {
             @Override
             public void onFailure(Call<models.topics.Topics> call, Throwable t) {
 
+                AppHelper.showToast(getResources().getString(R.string.toast_error_message), Topics.this);
+
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
+                final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
+                fail.setVisibility(View.VISIBLE);
+
+                final Button reload = (Button) findViewById(R.id.reload);
+                reload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        reload.startAnimation(AppHelper.getRotateAnimation(Topics.this));
+                        findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+                        initializeContent();
+                        loadTopics(topicsRecycler);
+                        fail.setVisibility(View.GONE);
+                    }
+                });
             }
         });
     }
@@ -124,7 +147,7 @@ public class Topics extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<models.topics.Topics> call, Throwable t) {
-
+                AppHelper.showToast(getResources().getString(R.string.toast_error_message), Topics.this);
             }
         });
     }

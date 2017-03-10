@@ -32,6 +32,7 @@ import activities.authors.Authors;
 import activities.authors.PopularAuthors;
 import activities.quote_maker.QuoteMaker;
 import activities.quotes.FavoriteQuotes;
+import activities.quotes.QuotesByTag;
 import activities.quotes.TopQuotes;
 import digitalbath.quotetab.R;
 import activities.topics.Topics;
@@ -197,7 +198,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
             @Override
             public void onFailure(Call<DashboardData> call, Throwable t) {
-                int ad = 9;
+                AppHelper.showToast(getResources().getString(R.string.toast_error_message), Dashboard.this);
             }
         });
     }

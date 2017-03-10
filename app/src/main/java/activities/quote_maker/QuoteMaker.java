@@ -56,9 +56,6 @@ public class QuoteMaker extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.top_layout);
-
-
         EditText quoteText = (EditText) findViewById(R.id.quote_text);
         quoteText.setTypeface(AppHelper.getRalewayLight(this));
 

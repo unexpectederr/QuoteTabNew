@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,15 +38,17 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
     private int mLastPosition = -1;
     private RelativeLayout emptyList;
     private RecyclerView recyclerView;
+    private AppBarLayout appBarLayout;
 
     public AuthorsAdapter(Context context, ArrayList<Author> authors, boolean isFromAllAuthors,
-                          RecyclerView recyclerView, RelativeLayout emptyList) {
+                          RecyclerView recyclerView, RelativeLayout emptyList, AppBarLayout appBarLayout) {
 
         this.mContext = context;
         this.mDataSet = authors;
         this.isFromAllAuthors = isFromAllAuthors;
         this.emptyList = emptyList;
         this.recyclerView = recyclerView;
+        this.appBarLayout = appBarLayout;
 
         favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(context);
 
@@ -135,7 +138,13 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
+
         return mDataSet.size();
+    }
+
+    public void expandToolbar() {
+
+        appBarLayout.setExpanded(true,true);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

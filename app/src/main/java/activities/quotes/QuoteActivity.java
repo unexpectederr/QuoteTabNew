@@ -1,6 +1,7 @@
 package activities.quotes;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -67,6 +68,7 @@ public class QuoteActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseUser mUser;
+    ImageView saveIcon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -172,6 +174,13 @@ public class QuoteActivity extends AppCompatActivity {
         shareIcon.setOnClickListener(new OnShareClickListener(this,
                 mQuote.getQuoteText(), mQuote.getAuthor().getAuthorName(),
                 Constants.COVER_IMAGES_URL + mQuote.getImageId() + ".jpg", quoteText));
+
+        saveIcon = (ImageView) findViewById(R.id.download_icon);
+
+        saveIcon.setOnClickListener(new SaveImageToFileClickListener(this, mQuote.getQuoteText(),
+                mQuote.getAuthor().getAuthorName(),
+                Constants.COVER_IMAGES_URL + mQuote.getImageId() + ".jpg", quoteText.getLineCount(),
+                null));
 
         String[] tags = mQuote.getCategories().split(" ");
 
@@ -312,6 +321,16 @@ public class QuoteActivity extends AppCompatActivity {
         super.onStop();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+
+        if (requestCode == Constants.SAVE_IMAGE_PERMISSION && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            saveIcon.performClick();
         }
     }
 }

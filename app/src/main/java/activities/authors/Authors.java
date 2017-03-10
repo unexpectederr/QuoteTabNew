@@ -2,18 +2,22 @@ package activities.authors;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import activities.quotes.QuotesByTag;
 import digitalbath.quotetab.R;
 import adapters.AuthorsAdapter;
+import helpers.main.AppHelper;
 import helpers.main.Mapper;
 import helpers.main.ReadAndWriteToFile;
 import models.authors.Author;
@@ -69,7 +73,7 @@ public class Authors extends AppCompatActivity {
         if (isByLetter) {
 
             screenTitle.setText("All '" + letter.toUpperCase() + "' Authors");
-            adapter = new AuthorsAdapter(this, new ArrayList<Author>(), true, null, emptyList);
+            adapter = new AuthorsAdapter(this, new ArrayList<Author>(), true, null, emptyList, null);
             authorsRecyclerView.setAdapter(adapter);
 
             loadAuthors(letter, page);
@@ -106,7 +110,8 @@ public class Authors extends AppCompatActivity {
         } else {
 
             screenTitle.setText("Favorite Authors");
-            AuthorsAdapter adapter = new AuthorsAdapter(this, authors, false, authorsRecyclerView, emptyList);
+            AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
+            AuthorsAdapter adapter = new AuthorsAdapter(this, authors, false, authorsRecyclerView, emptyList, appBarLayout);
             authorsRecyclerView.setAdapter(adapter);
             TextView textView = (TextView) findViewById(R.id.favorites_text);
             textView.setText("Authors you add to favorites will appear here...");
@@ -129,7 +134,24 @@ public class Authors extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<models.authors.Authors> call, Throwable t) {
+                AppHelper.showToast(getResources().getString(R.string.toast_error_message), Authors.this);
 
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
+                final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
+                fail.setVisibility(View.VISIBLE);
+
+                final Button reload = (Button) findViewById(R.id.reload);
+                reload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        reload.startAnimation(AppHelper.getRotateAnimation(Authors.this));
+                        findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+                        initializeContent();
+                        fail.setVisibility(View.GONE);
+                    }
+                });
             }
         });
     }

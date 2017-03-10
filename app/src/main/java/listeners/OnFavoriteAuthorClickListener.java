@@ -66,6 +66,7 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
                 favoriteAuthors.remove(position);
                 adapter.notifyItemRemoved(position);
                 if (adapter.getItemCount() == 0) {
+                    adapter.expandToolbar();
                     recyclerView.setVisibility(View.GONE);
                     emptyList.setVisibility(View.VISIBLE);
                 }
