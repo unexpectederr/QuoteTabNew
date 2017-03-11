@@ -1,6 +1,7 @@
 package adapters;
 
 import android.app.Activity;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -46,10 +47,11 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     private RecyclerView recyclerView;
     private RelativeLayout emptyList;
     private ImageView mActiveDownloadIcon;
+    private AppBarLayout appBarLayout;
 
     public QuotesAdapter(Activity context, ArrayList<Quote> mDataSet, ArrayList<Quote> favoriteQuotes,
                          boolean isFavorites, boolean isFromAuthors, RecyclerView recyclerView,
-                         RelativeLayout emptyList) {
+                         RelativeLayout emptyList, AppBarLayout appBarLayout) {
 
         this.context = context;
         this.mDataSet = mDataSet;
@@ -58,6 +60,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         this.isFromAuthors = isFromAuthors;
         this.recyclerView = recyclerView;
         this.emptyList = emptyList;
+        this.appBarLayout = appBarLayout;
 
         if (recyclerView != null && emptyList != null && favoriteQuotes.size() != 0) {
 
@@ -81,8 +84,6 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        holder.downloadIcon.setOnClickListener(new SaveImageToFileClickListener(context,
-                holder.relativeLayout, holder.tags, holder.actionButtons, this));
 
         if (mDataSet.get(position).getImageId() == 0)
             mDataSet.get(position).setImageId(AppController.getBitmapIndex());
@@ -166,6 +167,12 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
         holder.itemView.setOnClickListener(new OnQuoteClickListener(context, mDataSet.get(position)));
 
+        holder.downloadIcon.setOnClickListener(new SaveImageToFileClickListener(context,
+                holder.quoteText.getText().toString(),
+                mDataSet.get(position).getAuthor().getAuthorName(),
+                Constants.COVER_IMAGES_URL + mDataSet.get(position).getImageId() + ".jpg",
+                holder.quoteText.getLineCount(), this));
+
         setAnimation(holder.itemView, holder.getAdapterPosition());
     }
 
@@ -196,6 +203,10 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
     public ImageView getActiveDownloadIcon() {
         return mActiveDownloadIcon;
+    }
+
+    public void expandToolbar() {
+        appBarLayout.setExpanded(true,true);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

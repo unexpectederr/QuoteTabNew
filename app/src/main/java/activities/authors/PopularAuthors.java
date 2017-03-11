@@ -8,14 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
 
 import java.util.ArrayList;
 
+import activities.topics.Topics;
 import digitalbath.quotetab.R;
 import adapters.PopularAuthorsAdapter;
 import helpers.main.AppHelper;
@@ -113,6 +116,23 @@ public class PopularAuthors extends AppCompatActivity {
             @Override
             public void onFailure(Call<models.authors.PopularAuthors> call, Throwable t) {
                 AppHelper.showToast(getResources().getString(R.string.toast_error_message), PopularAuthors.this);
+
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
+                final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
+                fail.setVisibility(View.VISIBLE);
+
+                final Button reload = (Button) findViewById(R.id.reload);
+                reload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        reload.startAnimation(AppHelper.getRotateAnimation(PopularAuthors.this));
+                        findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+                        initializeAuthorsList();
+                        fail.setVisibility(View.GONE);
+                    }
+                });
             }
         }
 

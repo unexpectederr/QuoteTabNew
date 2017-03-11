@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,23 +38,34 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
     private int mLastPosition = -1;
     private RelativeLayout emptyList;
     private RecyclerView recyclerView;
+    private AppBarLayout appBarLayout;
 
     public AuthorsAdapter(Context context, ArrayList<Author> authors, boolean isFromAllAuthors,
-                          RecyclerView recyclerView, RelativeLayout emptyList) {
+                          RecyclerView recyclerView, RelativeLayout emptyList, AppBarLayout appBarLayout) {
 
         this.mContext = context;
         this.mDataSet = authors;
         this.isFromAllAuthors = isFromAllAuthors;
         this.emptyList = emptyList;
         this.recyclerView = recyclerView;
+        this.appBarLayout = appBarLayout;
 
         favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(context);
 
-        if (recyclerView != null && emptyList != null && authors.size() != 0) {
+        if (isFromAllAuthors) {
+
             emptyList.setVisibility(View.GONE);
+        }
+
+        if (recyclerView != null && emptyList != null && authors.size() != 0) {
+
+            emptyList.setVisibility(View.GONE);
+
         } else if (recyclerView != null && emptyList != null && authors.size() == 0) {
+
             recyclerView.setVisibility(View.GONE);
             emptyList.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -62,24 +74,6 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
         mDataSet.addAll(authors);
         notifyItemRangeInserted(mDataSet.size() - authors.size(), authors.size());
 
-    }
-
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-
-        TextView authorName;
-        TextView authorInfo;
-        CircleImageView authorImage;
-        ImageView favoriteIcon;
-
-        MyViewHolder(View itemView) {
-
-            super(itemView);
-            authorName = (TextView) itemView.findViewById(R.id.author_name);
-            authorInfo = (TextView) itemView.findViewById(R.id.author_info);
-            authorImage = (CircleImageView) itemView.findViewById(R.id.author_image);
-            favoriteIcon = (ImageView) itemView.findViewById(R.id.author_favorite);
-        }
     }
 
     @Override
@@ -144,7 +138,31 @@ public class AuthorsAdapter extends RecyclerView.Adapter<AuthorsAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
+
         return mDataSet.size();
+    }
+
+    public void expandToolbar() {
+
+        appBarLayout.setExpanded(true,true);
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+
+        TextView authorName;
+        TextView authorInfo;
+        CircleImageView authorImage;
+        ImageView favoriteIcon;
+
+        MyViewHolder(View itemView) {
+
+            super(itemView);
+            authorName = (TextView) itemView.findViewById(R.id.author_name);
+            authorInfo = (TextView) itemView.findViewById(R.id.author_info);
+            authorImage = (CircleImageView) itemView.findViewById(R.id.author_image);
+            favoriteIcon = (ImageView) itemView.findViewById(R.id.author_favorite);
+        }
     }
 
 }

@@ -19,6 +19,11 @@ public class AuthorWikipedia extends AppCompatActivity {
 
         String wikipediaUrl = getIntent().getStringExtra("URL");
         String authorName = getIntent().getStringExtra("AUTHOR_NAME");
+
+        initializeContent(wikipediaUrl, authorName);
+    }
+
+    private void initializeContent(String wikipediaUrl, String authorName) {
         WebView webView = (WebView) findViewById(R.id.web_view);
 
         TextView screenTitle = (TextView) findViewById(R.id.screen_title);

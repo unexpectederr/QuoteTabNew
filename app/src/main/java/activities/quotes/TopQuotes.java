@@ -8,12 +8,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
 import digitalbath.quotetab.R;
 import adapters.QuotesAdapter;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.main.Mapper;
 import helpers.main.ReadAndWriteToFile;
@@ -103,7 +106,7 @@ public class TopQuotes extends AppCompatActivity {
 
                 ArrayList<Quote> quotes = Mapper.mapQuotes(response.body().getQuotes());
 
-                adapter = new QuotesAdapter(TopQuotes.this, quotes, favoriteQuotes, false, false, null, null);
+                adapter = new QuotesAdapter(TopQuotes.this, quotes, favoriteQuotes, false, false, null, null, null);
                 topQuotesRecycler.setAdapter(adapter);
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
 
@@ -111,6 +114,27 @@ public class TopQuotes extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<models.quotes.TopQuotes> call, Throwable t) {
+
+                AppHelper.showToast(getResources().getString(R.string.toast_error_message), TopQuotes.this);
+
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
+                final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
+                fail.setVisibility(View.VISIBLE);
+
+                final Button reload = (Button) findViewById(R.id.reload);
+                reload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        reload.startAnimation(AppHelper.getRotateAnimation(TopQuotes.this));
+                        findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+                        initializeRecyclerView();
+                        loadTopQuotes(topQuotesRecycler);
+                        fail.setVisibility(View.GONE);
+                    }
+                });
+
             }
 
         });

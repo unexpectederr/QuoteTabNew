@@ -33,6 +33,7 @@ import models.images.ImageSuggestion;
 public class QuoteMaker extends AppCompatActivity {
 
     private ImageView mSaveImage;
+    private ImageEffectsAdapter effectsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +44,10 @@ public class QuoteMaker extends AppCompatActivity {
 
         initializeCommonContent(quoteImage);
 
+        initializeEffectsRecyclerView(quoteImage);
+
         initializeImagesRecyclerView(quoteImage);
 
-        initializeEffectsRecyclerView(quoteImage);
 
     }
 
@@ -56,16 +58,15 @@ public class QuoteMaker extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.top_layout);
-
-        mSaveImage = (ImageView) findViewById(R.id.download_icon);
-        mSaveImage.setOnClickListener(new SaveImageToFileClickListener(QuoteMaker.this, relativeLayout, null, null, null));
-
         EditText quoteText = (EditText) findViewById(R.id.quote_text);
         quoteText.setTypeface(AppHelper.getRalewayLight(this));
 
         EditText authorName = (EditText) findViewById(R.id.author_name);
         authorName.setTypeface(AppHelper.getRalewayLight(this));
+
+        mSaveImage = (ImageView) findViewById(R.id.download_icon);
+        mSaveImage.setOnClickListener(new SaveImageToFileClickListener(QuoteMaker.this,
+                quoteText, authorName, quoteImage, quoteText.getLineCount()));
 
         ImageView share = (ImageView) findViewById(R.id.share_quote_icon);
         share.setOnClickListener(new ShareAsImageClickListener(this, quoteText,
@@ -91,7 +92,11 @@ public class QuoteMaker extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.effects_recycler);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new ImageEffectsAdapter(effects, this, quoteImage));
+
+        effects.get(0).setSelected(true);
+
+        effectsAdapter = new ImageEffectsAdapter(effects, this, quoteImage);
+        recyclerView.setAdapter(effectsAdapter);
     }
 
     private void initializeImagesRecyclerView(QuoteImageView quoteImage) {
@@ -112,7 +117,7 @@ public class QuoteMaker extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         PreviewImagesAdapter adapter = new PreviewImagesAdapter(this, imageSuggestions,
-                quoteImage, metrics.widthPixels);
+                quoteImage, metrics.widthPixels, effectsAdapter);
         imagesRecycler.setAdapter(adapter);
 
         Glide.with(this)

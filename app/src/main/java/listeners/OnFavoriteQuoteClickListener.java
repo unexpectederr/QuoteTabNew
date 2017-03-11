@@ -1,6 +1,7 @@
 package listeners;
 
 import android.content.Context;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -69,6 +70,7 @@ public class OnFavoriteQuoteClickListener implements View.OnClickListener {
                 favoriteQuotes.remove(position);
                 adapter.notifyItemRemoved(position);
                 if (adapter.getItemCount() == 0) {
+                    adapter.expandToolbar();
                     recyclerView.setVisibility(View.GONE);
                     emptyList.setVisibility(View.VISIBLE);
                 }

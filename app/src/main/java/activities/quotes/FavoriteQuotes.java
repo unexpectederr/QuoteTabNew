@@ -2,6 +2,7 @@ package activities.quotes;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ public class FavoriteQuotes extends AppCompatActivity {
     public ArrayList<Quote> favoriteQuotes;
     public RecyclerView favoritesRecycler;
     private QuotesAdapter adapter;
+    private AppBarLayout appBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +50,10 @@ public class FavoriteQuotes extends AppCompatActivity {
         textView.setText("Quotes you add to favorites will appear here...");
 
         RelativeLayout emptyList = (RelativeLayout) findViewById(R.id.empty_list_favorites);
+        appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
+
         adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes,
-                true, false, favoritesRecycler, emptyList);
+                true, false, favoritesRecycler, emptyList, appBarLayout);
 
         favoritesRecycler.setAdapter(adapter);
     }
@@ -59,6 +63,7 @@ public class FavoriteQuotes extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
     }
 
     @Override
@@ -71,7 +76,8 @@ public class FavoriteQuotes extends AppCompatActivity {
                 favoriteQuotes = (ArrayList<Quote>) data.getSerializableExtra("result");
 
                 RelativeLayout emptyList = (RelativeLayout) findViewById(R.id.empty_list_favorites);
-                adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false, favoritesRecycler, emptyList);
+                adapter = new QuotesAdapter(this, favoriteQuotes, favoriteQuotes, true, false,
+                        favoritesRecycler, emptyList, appBarLayout);
 
                 favoritesRecycler.setAdapter(adapter);
 

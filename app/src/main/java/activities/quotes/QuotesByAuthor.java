@@ -21,10 +21,12 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import activities.authors.Authors;
 import digitalbath.quotetab.R;
 import adapters.QuotesAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 import helpers.main.AppController;
+import helpers.main.AppHelper;
 import helpers.main.Constants;
 import helpers.main.Mapper;
 import helpers.main.ReadAndWriteToFile;
@@ -47,20 +49,28 @@ public class QuotesByAuthor extends AppCompatActivity
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
     private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f;
     private static final int ALPHA_ANIMATIONS_DURATION = 200;
-
     private boolean mIsTheTitleVisible = false;
     private boolean mIsTheTitleContainerVisible = true;
-
     private RelativeLayout mTitleContainer;
     private TextView mTitle;
     private AppBarLayout mAppBarLayout;
     private Toolbar mToolbar;
     private LinearLayoutManager manager;
-    private int visibleItemCount, totalItemCount, pastVisibleItems, page = 1;
+    private int page = 1;
     private boolean loading = false;
     private QuotesAdapter adapter;
     private ImageView favoriteIcon;
 
+    public static void startAlphaAnimation(View v, long duration, int visibility) {
+
+        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
+                ? new AlphaAnimation(0f, 1f)
+                : new AlphaAnimation(1f, 0f);
+
+        alphaAnimation.setDuration(duration);
+        alphaAnimation.setFillAfter(true);
+        v.startAnimation(alphaAnimation);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +102,7 @@ public class QuotesByAuthor extends AppCompatActivity
                 .getFavoriteQuotes(QuotesByAuthor.this);
 
         adapter = new QuotesAdapter(QuotesByAuthor.this,
-                new ArrayList<Quote>(), favoriteQuotes, false, true, null, null);
+                new ArrayList<Quote>(), favoriteQuotes, false, true, null, null, null);
 
         RecyclerView quotesRecycler = (RecyclerView)
                 findViewById(R.id.author_details_recyclerView);
@@ -104,14 +114,12 @@ public class QuotesByAuthor extends AppCompatActivity
 
     }
 
-    private void getQuotesByAuthor(String authorId, final int page) {
+    private void getQuotesByAuthor(final String authorId, final int page) {
 
         QuoteTabApi.quoteTabApi.getQuotes(authorId, page).enqueue(new Callback<Quotes>() {
 
             @Override
             public void onResponse(Call<Quotes> call, Response<Quotes> response) {
-
-                //favoriteIcon.setOnClickListener(new OnFavoriteAuthorClickListener());
 
                 adapter.addQuotes(Mapper.mapQuotes(response.body().getQuotes()));
                 loading = false;
@@ -134,6 +142,26 @@ public class QuotesByAuthor extends AppCompatActivity
             @Override
             public void onFailure(Call<Quotes> call, Throwable t) {
                 findViewById(R.id.progress_bar_quotes_by_author).setVisibility(View.GONE);
+                AppHelper.showToast(getResources().getString(R.string.toast_error_message), QuotesByAuthor.this);
+
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
+                findViewById(R.id.progress_bar_quotes_by_author).setVisibility(View.GONE);
+
+                final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
+                fail.setVisibility(View.VISIBLE);
+
+                final Button reload = (Button) findViewById(R.id.reload);
+                reload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        reload.startAnimation(AppHelper.getRotateAnimation(QuotesByAuthor.this));
+                        findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+                        initializeContent(authorId);
+                        getQuotesByAuthor(authorId, page);
+                        fail.setVisibility(View.GONE);
+                    }
+                });
             }
         });
 
@@ -175,10 +203,17 @@ public class QuotesByAuthor extends AppCompatActivity
 
         authorTitle.setText(author.getAuthorName());
 
+        String birthplace;
+
+        if (author.getBirthPlace() != null) {
+            birthplace = " - " + author.getBirthPlace();
+        } else {
+            birthplace = "";
+        }
+
         if (author.getProfession() != null) {
             authorTagLine.setText(author
-                    .getProfession() + " - "
-                    + author.getBirthPlace());
+                    .getProfession() + birthplace);
         } else {
             authorTagLine.setText("Unknown");
         }
@@ -199,41 +234,6 @@ public class QuotesByAuthor extends AppCompatActivity
         Animation animOne = AnimationUtils.loadAnimation(QuotesByAuthor.this, R.anim.pop_up_one);
         mAuthorImage.startAnimation(animOne);
 
-    }
-
-    private class OnScrollListener extends RecyclerView.OnScrollListener {
-
-        String mAuthorId;
-
-        public OnScrollListener(String authorId) {
-            mAuthorId = authorId;
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-
-            if (dy > 0) {
-
-                visibleItemCount = manager.getChildCount();
-                totalItemCount = manager.getItemCount();
-                pastVisibleItems = manager.findFirstVisibleItemPosition();
-
-                if (!loading) {
-                    if ((visibleItemCount + pastVisibleItems) >= (totalItemCount - 3)) {
-                        loading = true;
-                        findViewById(R.id.progress_bar_quotes_by_author).setVisibility(View.VISIBLE);
-                        page++;
-                        getQuotesByAuthor(mAuthorId, page);
-                    }
-                }
-            }
-        }
-
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
     }
 
     private void handleToolbarTitleVisibility(float percentage) {
@@ -275,17 +275,6 @@ public class QuotesByAuthor extends AppCompatActivity
         }
     }
 
-    public static void startAlphaAnimation(View v, long duration, int visibility) {
-
-        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
-                ? new AlphaAnimation(0f, 1f)
-                : new AlphaAnimation(1f, 0f);
-
-        alphaAnimation.setDuration(duration);
-        alphaAnimation.setFillAfter(true);
-        v.startAnimation(alphaAnimation);
-    }
-
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {
 
@@ -315,5 +304,40 @@ public class QuotesByAuthor extends AppCompatActivity
         returnIntent.putExtra("isFromAuthors", true);
         this.setResult(QuotesByAuthor.RESULT_OK, returnIntent);
         super.onBackPressed();
+    }
+
+    private class OnScrollListener extends RecyclerView.OnScrollListener {
+
+        String mAuthorId;
+
+        public OnScrollListener(String authorId) {
+            mAuthorId = authorId;
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            if (dy > 0) {
+
+                int visibleItemCount = manager.getChildCount();
+                int totalItemCount = manager.getItemCount();
+                int pastVisibleItems = manager.findFirstVisibleItemPosition();
+
+                if (!loading) {
+                    if ((visibleItemCount + pastVisibleItems) >= (totalItemCount - 3)) {
+                        loading = true;
+                        findViewById(R.id.progress_bar_quotes_by_author).setVisibility(View.VISIBLE);
+                        page++;
+                        getQuotesByAuthor(mAuthorId, page);
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
     }
 }

@@ -39,8 +39,8 @@ public class ShareAsImageClickListener implements View.OnClickListener,
     private EditText mAuthorNameTxt;
     private QuoteImageView mQuoteImage;
 
-    public ShareAsImageClickListener(Activity context, String quoteText, String authorName,
-                                     String quoteImage, int lineCount) {
+    ShareAsImageClickListener(Activity context, String quoteText, String authorName,
+                              String quoteImage, int lineCount) {
         this.mContext = context;
         this.mAuthorName = authorName;
         this.mQuoteText = quoteText;

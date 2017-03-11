@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import activities.dashboard.Dashboard;
+import activities.quotes.QuotesByTag;
 import adapters.SearchAdapter;
 import digitalbath.quotetab.R;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
@@ -102,8 +103,7 @@ public class OnSearchGlobalClickListener implements View.OnClickListener {
                     @Override
                     public void onFailure(Call<SearchResponse> call, Throwable t) {
                         mSearchProgress.setVisibility(View.GONE);
-                        AppHelper.showToast("Oops! Something went wrong", mActivity);
-                    }
+                        AppHelper.showToast(mActivity.getResources().getString(R.string.toast_error_message), mActivity);                    }
                 });
     }
 }
