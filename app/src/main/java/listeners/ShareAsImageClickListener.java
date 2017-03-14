@@ -109,8 +109,6 @@ public class ShareAsImageClickListener implements View.OnClickListener,
         File imagePath = new File(mContext.getCacheDir(), "images");
         File newFile = new File(imagePath, "image.jpg");
 
-        //imageIndex++;
-
         Uri contentUri = FileProvider.getUriForFile(mContext,
                 "com.digitalbath.quotetabnew.fileprovider", newFile);
 

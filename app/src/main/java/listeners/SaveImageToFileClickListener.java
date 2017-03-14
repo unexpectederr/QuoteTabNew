@@ -62,7 +62,6 @@ public class SaveImageToFileClickListener implements View.OnClickListener {
     @Override
     public void onClick(View view) {
 
-        //TODO ne kontam sto ne može ista logika kao u shareAsImageClickListener
         if (mAuthorNameTxt != null && mQuoteTxt != null) {
 
             this.mAuthorName = mAuthorNameTxt.getText().toString();

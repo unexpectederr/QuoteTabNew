@@ -34,7 +34,15 @@ public class Quote implements Serializable {
     }
 
     public String getCategories() {
-        return categories;
+        if (categories != null) {
+            if (!categories.equals("")) {
+                return categories;
+            } else {
+                return "inspirational";
+            }
+        } else {
+            return "inspirational";
+        }
     }
 
     public void setCategories(String categories) {

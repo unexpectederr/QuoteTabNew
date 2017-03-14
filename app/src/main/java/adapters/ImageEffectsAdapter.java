@@ -97,7 +97,7 @@ public class ImageEffectsAdapter extends RecyclerView.Adapter<ImageEffectsAdapte
         return mDataSet.size();
     }
 
-    public void setAdapterToFirstPosition(int position) {
+    public void setAdapterToFirstPosition() {
 
         for (int i = 0; i < mDataSet.size(); i++) {
             if (mDataSet.get(i).isSelected()) {
