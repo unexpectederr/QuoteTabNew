@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import adapters.AuthorsAdapter;
 import digitalbath.quotetab.R;
+import helpers.main.AppHelper;
 import helpers.main.ReadAndWriteToFile;
 import models.authors.Author;
 import models.authors.AuthorDetails;
@@ -65,10 +66,13 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
 
                 favoriteAuthors.remove(position);
                 adapter.notifyItemRemoved(position);
+
                 if (adapter.getItemCount() == 0) {
                     adapter.expandToolbar();
                     recyclerView.setVisibility(View.GONE);
                     emptyList.setVisibility(View.VISIBLE);
+                    emptyList.startAnimation(AppHelper.getAnimationUp(context));
+
                 }
             }
 

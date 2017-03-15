@@ -113,8 +113,6 @@ public class Authors extends AppCompatActivity {
             AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
             AuthorsAdapter adapter = new AuthorsAdapter(this, authors, false, authorsRecyclerView, emptyList, appBarLayout);
             authorsRecyclerView.setAdapter(adapter);
-            TextView textView = (TextView) findViewById(R.id.favorites_text);
-            textView.setText("Authors you add to favorites will appear here...");
             findViewById(R.id.progress_bar).setVisibility(View.GONE);
         }
     }

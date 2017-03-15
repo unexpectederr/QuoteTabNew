@@ -136,73 +136,22 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
             String[] tags = mDataSet.get(position).getCategories().split(" ");
 
-            int numberOfTags = tags.length;
-            int tag = 0;
-            if (numberOfTags > 4) {
-                numberOfTags = 4;
-            }
+            for (int i = 0; i < 4; i++) {
 
-            for (int i = 1; i <= numberOfTags; i++) {
-                tag = i;
-            }
+                TextView tag = (TextView) holder.quoteTags.getChildAt(i);
 
-            switch (tag) {
+                if (tags.length > i && tags[i] != null) {
 
-                case 1:
+                    tag.setVisibility(View.VISIBLE);
+                    tag.setText(tags[i]);
+                    tag.setOnClickListener(new OnTagClickListener
+                            (context, tags[i], isFavorites));
 
-                    holder.tag1.setVisibility(View.VISIBLE);
-                    holder.tag1.setText(tags [0]);
-                    holder.tag1.setOnClickListener(new OnTagClickListener(context, tags[0], isFavorites));
-                    holder.tag2.setVisibility(View.GONE);
-                    holder.tag3.setVisibility(View.GONE);
-                    holder.tag4.setVisibility(View.GONE);
+                } else {
 
-                    break;
+                    tag.setVisibility(View.GONE);
 
-                case 2:
-
-                    holder.tag1.setVisibility(View.VISIBLE);
-                    holder.tag1.setText(tags [0]);
-                    holder.tag1.setOnClickListener(new OnTagClickListener(context, tags[0], isFavorites));
-                    holder.tag2.setVisibility(View.VISIBLE);
-                    holder.tag2.setText(tags[1]);
-                    holder.tag2.setOnClickListener(new OnTagClickListener(context, tags[1], isFavorites));
-                    holder.tag3.setVisibility(View.GONE);
-                    holder.tag4.setVisibility(View.GONE);
-
-                    break;
-
-                case 3:
-
-                    holder.tag1.setVisibility(View.VISIBLE);
-                    holder.tag1.setText(tags [0]);
-                    holder.tag1.setOnClickListener(new OnTagClickListener(context, tags[0], isFavorites));
-                    holder.tag2.setVisibility(View.VISIBLE);
-                    holder.tag2.setText(tags[1]);
-                    holder.tag2.setOnClickListener(new OnTagClickListener(context, tags[1], isFavorites));
-                    holder.tag3.setVisibility(View.VISIBLE);
-                    holder.tag3.setText(tags[2]);
-                    holder.tag3.setOnClickListener(new OnTagClickListener(context, tags[2], isFavorites));
-                    holder.tag4.setVisibility(View.GONE);
-
-                    break;
-
-                case 4:
-
-                    holder.tag1.setVisibility(View.VISIBLE);
-                    holder.tag1.setText(tags [0]);
-                    holder.tag1.setOnClickListener(new OnTagClickListener(context, tags[0], isFavorites));
-                    holder.tag2.setVisibility(View.VISIBLE);
-                    holder.tag2.setText(tags[1]);
-                    holder.tag2.setOnClickListener(new OnTagClickListener(context, tags[1], isFavorites));
-                    holder.tag3.setVisibility(View.VISIBLE);
-                    holder.tag3.setText(tags[2]);
-                    holder.tag3.setOnClickListener(new OnTagClickListener(context, tags[2], isFavorites));
-                    holder.tag4.setVisibility(View.VISIBLE);
-                    holder.tag4.setText(tags[3]);
-                    holder.tag4.setOnClickListener(new OnTagClickListener(context, tags[3], isFavorites));
-
-                    break;
+                }
             }
         }
 
@@ -260,26 +209,20 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         ImageView favoriteIcon;
         ImageView downloadIcon;
         RelativeLayout relativeLayout;
-        HorizontalScrollView tags;
         LinearLayout actionButtons;
-        TextView tag1, tag2, tag3, tag4;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             quoteText = (TextView) itemView.findViewById(R.id.quoteText);
             shareIcon = (ImageView) itemView.findViewById(R.id.share_icon);
-            quoteTags = (LinearLayout) itemView.findViewById(R.id.quote_tags);
+            quoteTags = (LinearLayout) itemView.findViewById(R.id.tags);
             cardImage = (ImageView) itemView.findViewById(R.id.card_image);
             authorName = (TextView) itemView.findViewById(R.id.card_author_name);
             favoriteIcon = (ImageView) itemView.findViewById(R.id.favorite_icon);
             downloadIcon = (ImageView) itemView.findViewById(R.id.download_icon);
             relativeLayout = (RelativeLayout) itemView.findViewById(R.id.save_image);
             actionButtons = (LinearLayout) itemView.findViewById(R.id.qwe);
-            tag1 = (TextView) itemView.findViewById(R.id.tag1);
-            tag2 = (TextView) itemView.findViewById(R.id.tag2);
-            tag3 = (TextView) itemView.findViewById(R.id.tag3);
-            tag4 = (TextView) itemView.findViewById(R.id.tag4);
 
         }
     }

@@ -77,7 +77,8 @@ public class Mapper {
 
             quote.setAuthor(author);
 
-            quotes.add(quote);
+            if (quote.getQuoteText().length() < 160)
+                quotes.add(quote);
         }
 
         return quotes;

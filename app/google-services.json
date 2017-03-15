@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
+          "client_id": "126083422463-go7j1fc4gd83emld0cu7ujcu6ad7f0uj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "digitalbath.quotetabnew",
+            "certificate_hash": "4ff35172180d9627c1e25fe269a4ce4629ce8be9"
+          }
+        },
+        {
           "client_id": "126083422463-ajrbtmiu870u5p2pg69g953adjj45ghc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "digitalbath.quotetabnew",
-            "certificate_hash": "FD4BF3754F8513AB928F647E4E2813507C4A0AC8"
+            "certificate_hash": "fd4bf3754f8513ab928f647e4e2813507c4a0ac8"
           }
         },
         {
