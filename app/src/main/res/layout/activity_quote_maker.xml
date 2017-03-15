@@ -13,8 +13,7 @@
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:elevation="0dp">
+        android:layout_weight="1">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -133,8 +132,8 @@
         android:id="@+id/effects_recycler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp">
 
     </android.support.v7.widget.RecyclerView>
 
@@ -167,6 +166,5 @@
             android:layout_weight="1"
             android:layout_marginTop="-3dp"/>
     </LinearLayout>
-
 
 </LinearLayout>

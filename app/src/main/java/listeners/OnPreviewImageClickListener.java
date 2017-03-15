@@ -57,7 +57,7 @@ public class OnPreviewImageClickListener implements View.OnClickListener {
             }
         }
 
-        effectsAdapter.setAdapterToFirstPosition(position);
+        effectsAdapter.setAdapterToFirstPosition();
 
         mDataSet.get(position).setSelected(true);
         adapter.notifyItemChanged(position);

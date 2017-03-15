@@ -36,30 +36,85 @@
 
         </ImageView>
 
-        <HorizontalScrollView
+        <LinearLayout
+            android:id="@+id/tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="always"
-            android:scrollbars="none"
-            android:id="@+id/tags_scroll_view"
-            android:layout_marginTop="10dp"
+            android:gravity="center"
             android:layout_marginBottom="12dp"
+            android:layout_marginTop="25dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            >
+            android:layout_marginRight="20dp">
 
-            <LinearLayout
+            <TextView
+                android:gravity="center"
+                android:id="@+id/tag1"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="12dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/quote_tags"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_horizontal">
+                android:background="@drawable/background_outline_g"
+                android:textColor="@color/light_gray"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:maxLines="1"
+                android:visibility="gone"
+                />
 
-            </LinearLayout>
+            <TextView
+                android:gravity="center"
+                android:id="@+id/tag2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_outline_g"
+                android:textColor="@color/light_gray"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:maxLines="1"
+                android:visibility="gone"
+                />
 
-        </HorizontalScrollView>
+            <TextView
+                android:id="@+id/tag3"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_outline_g"
+                android:textColor="@color/light_gray"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:maxLines="1"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:id="@+id/tag4"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_outline_g"
+                android:textColor="@color/light_gray"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:maxLines="1"
+                android:visibility="gone"
+                />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/quoteText"
@@ -68,7 +123,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="@color/main_color_light"
-            android:layout_below="@+id/tags_scroll_view"
+            android:layout_below="@+id/tags"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:textSize="19sp"

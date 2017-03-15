@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import digitalbath.quotetab.R;
@@ -134,34 +136,73 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
             String[] tags = mDataSet.get(position).getCategories().split(" ");
 
-            holder.quoteTags.removeAllViews();
+            int numberOfTags = tags.length;
+            int tag = 0;
+            if (numberOfTags > 4) {
+                numberOfTags = 4;
+            }
 
-            if (tags[0].trim().length() != 0) {
+            for (int i = 1; i <= numberOfTags; i++) {
+                tag = i;
+            }
 
-                for (int i = 0; i < tags.length; i++) {
+            switch (tag) {
 
-                    if (i < Constants.MAX_NUMBER_OF_QUOTES) {
+                case 1:
 
-                        TextView quoteTag = new TextView(context);
-                        quoteTag.setBackgroundResource(R.drawable.background_outline_g);
-                        quoteTag.setText(tags[i]);
-                        quoteTag.setPadding(30, 15, 30, 15);
+                    holder.tag1.setVisibility(View.VISIBLE);
+                    holder.tag1.setText(tags [0]);
+                    holder.tag1.setOnClickListener(new OnTagClickListener(context, tags[0], isFavorites));
+                    holder.tag2.setVisibility(View.GONE);
+                    holder.tag3.setVisibility(View.GONE);
+                    holder.tag4.setVisibility(View.GONE);
 
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                        ViewGroup.LayoutParams.WRAP_CONTENT));
+                    break;
 
-                        params.setMarginStart(12);
+                case 2:
 
-                        quoteTag.setLayoutParams(params);
-                        quoteTag.setGravity(Gravity.CENTER);
-                        quoteTag.setTextColor(context.getResources().getColor(R.color.light_gray));
-                        quoteTag.setTypeface(AppHelper.getRalewayLight(context));
-                        quoteTag.setOnClickListener(new OnTagClickListener(context, tags[i], isFavorites));
+                    holder.tag1.setVisibility(View.VISIBLE);
+                    holder.tag1.setText(tags [0]);
+                    holder.tag1.setOnClickListener(new OnTagClickListener(context, tags[0], isFavorites));
+                    holder.tag2.setVisibility(View.VISIBLE);
+                    holder.tag2.setText(tags[1]);
+                    holder.tag2.setOnClickListener(new OnTagClickListener(context, tags[1], isFavorites));
+                    holder.tag3.setVisibility(View.GONE);
+                    holder.tag4.setVisibility(View.GONE);
 
-                        holder.quoteTags.addView(quoteTag);
-                    }
-                }
+                    break;
+
+                case 3:
+
+                    holder.tag1.setVisibility(View.VISIBLE);
+                    holder.tag1.setText(tags [0]);
+                    holder.tag1.setOnClickListener(new OnTagClickListener(context, tags[0], isFavorites));
+                    holder.tag2.setVisibility(View.VISIBLE);
+                    holder.tag2.setText(tags[1]);
+                    holder.tag2.setOnClickListener(new OnTagClickListener(context, tags[1], isFavorites));
+                    holder.tag3.setVisibility(View.VISIBLE);
+                    holder.tag3.setText(tags[2]);
+                    holder.tag3.setOnClickListener(new OnTagClickListener(context, tags[2], isFavorites));
+                    holder.tag4.setVisibility(View.GONE);
+
+                    break;
+
+                case 4:
+
+                    holder.tag1.setVisibility(View.VISIBLE);
+                    holder.tag1.setText(tags [0]);
+                    holder.tag1.setOnClickListener(new OnTagClickListener(context, tags[0], isFavorites));
+                    holder.tag2.setVisibility(View.VISIBLE);
+                    holder.tag2.setText(tags[1]);
+                    holder.tag2.setOnClickListener(new OnTagClickListener(context, tags[1], isFavorites));
+                    holder.tag3.setVisibility(View.VISIBLE);
+                    holder.tag3.setText(tags[2]);
+                    holder.tag3.setOnClickListener(new OnTagClickListener(context, tags[2], isFavorites));
+                    holder.tag4.setVisibility(View.VISIBLE);
+                    holder.tag4.setText(tags[3]);
+                    holder.tag4.setOnClickListener(new OnTagClickListener(context, tags[3], isFavorites));
+
+                    break;
             }
         }
 
@@ -221,6 +262,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         RelativeLayout relativeLayout;
         HorizontalScrollView tags;
         LinearLayout actionButtons;
+        TextView tag1, tag2, tag3, tag4;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -233,8 +275,12 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
             favoriteIcon = (ImageView) itemView.findViewById(R.id.favorite_icon);
             downloadIcon = (ImageView) itemView.findViewById(R.id.download_icon);
             relativeLayout = (RelativeLayout) itemView.findViewById(R.id.save_image);
-            tags = (HorizontalScrollView) itemView.findViewById(R.id.tags_scroll_view);
             actionButtons = (LinearLayout) itemView.findViewById(R.id.qwe);
+            tag1 = (TextView) itemView.findViewById(R.id.tag1);
+            tag2 = (TextView) itemView.findViewById(R.id.tag2);
+            tag3 = (TextView) itemView.findViewById(R.id.tag3);
+            tag4 = (TextView) itemView.findViewById(R.id.tag4);
+
         }
     }
 }
