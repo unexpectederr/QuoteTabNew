@@ -22,9 +22,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.liangfeizc.RubberIndicator;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -67,6 +69,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_dashboard);
 
         initializeCommonContent();
