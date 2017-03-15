@@ -34,16 +34,18 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     private RecyclerView mRecyclerView;
     private LinearLayout mEmptyListCont;
     private Context mContext;
-    private boolean isRecyclerInitialized;
     private DatabaseReference mDataBaseRef;
+    private boolean isRecyclerInitialized;
+    private String mUserId;
 
     public CommentsAdapter(Context context, DatabaseReference ref, RecyclerView recycler,
-                           LinearLayout emptyListCont) {
+                           LinearLayout emptyListCont, String userId) {
 
         this.mRecyclerView = recycler;
         this.mEmptyListCont = emptyListCont;
         this.mContext = context;
         this.mDataBaseRef = ref;
+        this.mUserId = userId;
 
         this.mDataBaseRef.addValueEventListener(new ValueEventListener() {
 
@@ -109,23 +111,27 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
         holder.numberOfLikes.setText(Integer.toString(comment.getLikes().size()));
 
-        if (comment.getLikes().get(comment.getUserId()) != null &&
-                comment.getLikes().get(comment.getUserId()) == true) {
+        if (comment.getLikes().get(mUserId) != null &&
+                comment.getLikes().get(mUserId) == true) {
+
             holder.like.setText("Unlike");
             holder.like.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+
         } else {
+
             holder.like.setText("Like");
             holder.like.setTextColor(mContext.getResources().getColor(R.color.main_color_dark));
+
         }
 
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (comment.getLikes().get(comment.getUserId()) == null) {
+                if (comment.getLikes().get(mUserId) == null) {
 
                     Map<String, Object> taskMap = new HashMap<>();
-                    taskMap.put(comment.getUserId(), true);
+                    taskMap.put(mUserId, true);
 
                     mDataBaseRef.child(comment.getId())
                             .child("likes").updateChildren(taskMap);
@@ -133,7 +139,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                 } else {
 
                     mDataBaseRef.child(comment.getId())
-                            .child("likes").child(comment.getUserId()).removeValue();
+                            .child("likes").child(mUserId).removeValue();
                 }
 
             }
@@ -174,4 +180,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
             like = (TextView) itemView.findViewById(R.id.like);
         }
     }
+
+
 }
