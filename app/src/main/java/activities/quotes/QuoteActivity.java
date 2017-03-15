@@ -3,6 +3,7 @@ package activities.quotes;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -68,7 +68,7 @@ public class QuoteActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseUser mUser;
-    ImageView saveIcon;
+    ImageView mSaveIcon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,16 +93,6 @@ public class QuoteActivity extends AppCompatActivity {
     private void initializeComments() {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        LinearLayout emptyListCont = (LinearLayout) findViewById(R.id.empty_list_favorites);
-
-        RecyclerView recycler = (RecyclerView) findViewById(R.id.comments_recycler);
-        recycler.setLayoutManager(new LinearLayoutManager(this));
-
-        CommentsAdapter adapter = new CommentsAdapter(this, mDatabase
-                .child("quotes").child(primary_key), recycler, emptyListCont);
-
-        recycler.setAdapter(adapter);
 
         final EditText commentInput = (EditText) findViewById(R.id.comment_input);
 
@@ -175,9 +165,9 @@ public class QuoteActivity extends AppCompatActivity {
                 mQuote.getQuoteText(), mQuote.getAuthor().getAuthorName(),
                 Constants.COVER_IMAGES_URL + mQuote.getImageId() + ".jpg", quoteText));
 
-        saveIcon = (ImageView) findViewById(R.id.download_icon);
+        mSaveIcon = (ImageView) findViewById(R.id.download_icon);
 
-        saveIcon.setOnClickListener(new SaveImageToFileClickListener(this, mQuote.getQuoteText(),
+        mSaveIcon.setOnClickListener(new SaveImageToFileClickListener(this, mQuote.getQuoteText(),
                 mQuote.getAuthor().getAuthorName(),
                 Constants.COVER_IMAGES_URL + mQuote.getImageId() + ".jpg", quoteText.getLineCount(),
                 null));
@@ -253,6 +243,8 @@ public class QuoteActivity extends AppCompatActivity {
                 RelativeLayout signInCont = (RelativeLayout) findViewById(R.id.sign_in_cont);
                 RelativeLayout postCommentCont = (RelativeLayout) findViewById(R.id.post_comment_cont);
 
+                String userId = "";
+
                 if (mUser == null) {
 
                     signInCont.setVisibility(View.VISIBLE);
@@ -263,7 +255,17 @@ public class QuoteActivity extends AppCompatActivity {
                     signInCont.setVisibility(View.GONE);
                     postCommentCont.setVisibility(View.VISIBLE);
 
+                    userId = mUser.getUid();
                 }
+
+                LinearLayout emptyListCont = (LinearLayout) findViewById(R.id.empty_list_favorites);
+                RecyclerView recycler = (RecyclerView) findViewById(R.id.comments_recycler);
+                recycler.setLayoutManager(new LinearLayoutManager(QuoteActivity.this));
+
+                CommentsAdapter adapter = new CommentsAdapter(QuoteActivity.this, mDatabase
+                        .child("quotes").child(primary_key), recycler, emptyListCont, userId);
+
+                recycler.setAdapter(adapter);
             }
         };
     }
@@ -330,7 +332,7 @@ public class QuoteActivity extends AppCompatActivity {
 
         if (requestCode == Constants.SAVE_IMAGE_PERMISSION && grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            saveIcon.performClick();
+            mSaveIcon.performClick();
         }
     }
 }

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "126083422463-98bhatq3bko2ac17i1hcsoadraumuq93.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "digitalbath.quotetabnew",
+            "certificate_hash": "f340f197017b90f50b87b7c485bb7b2a3655e30f"
+          }
+        },
+        {
           "client_id": "126083422463-go7j1fc4gd83emld0cu7ujcu6ad7f0uj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
