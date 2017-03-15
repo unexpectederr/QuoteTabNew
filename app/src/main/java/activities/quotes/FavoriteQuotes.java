@@ -46,9 +46,6 @@ public class FavoriteQuotes extends AppCompatActivity {
 
         favoriteQuotes = ReadAndWriteToFile.getFavoriteQuotes(this);
 
-        TextView textView = (TextView) findViewById(R.id.favorites_text);
-        textView.setText("Quotes you add to favorites will appear here...");
-
         RelativeLayout emptyList = (RelativeLayout) findViewById(R.id.empty_list_favorites);
         appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
 
@@ -59,6 +56,7 @@ public class FavoriteQuotes extends AppCompatActivity {
     }
 
     private void initializeToolbar() {
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_favorite_quotes);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

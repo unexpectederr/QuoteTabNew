@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import adapters.QuotesAdapter;
 import digitalbath.quotetab.R;
+import helpers.main.AppHelper;
 import helpers.main.ReadAndWriteToFile;
 import models.quotes.Quote;
 import models.quotes.QuoteReference;
@@ -69,10 +70,12 @@ public class OnFavoriteQuoteClickListener implements View.OnClickListener {
 
                 favoriteQuotes.remove(position);
                 adapter.notifyItemRemoved(position);
+
                 if (adapter.getItemCount() == 0) {
                     adapter.expandToolbar();
                     recyclerView.setVisibility(View.GONE);
                     emptyList.setVisibility(View.VISIBLE);
+                    emptyList.startAnimation(AppHelper.getAnimationUp(context));
                 }
             }
 
