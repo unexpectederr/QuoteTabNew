@@ -102,7 +102,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         holder.username.setText(comment.getUsername());
         holder.time.setText(AppHelper.getTimeDifference(comment.getDate()));
 
-        Glide.with(holder.avatar.getContext())
+        Glide.with(mContext)
                 .load(comment.getAvatar())
                 .dontAnimate()
                 .placeholder(R.drawable.avatar)
