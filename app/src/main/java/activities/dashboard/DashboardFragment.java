@@ -22,6 +22,7 @@ import helpers.main.AppHelper;
 import helpers.main.Constants;
 import listeners.OnFavoriteAuthorClickListener;
 import listeners.OnFavoriteQuoteClickListener;
+import listeners.OnQuoteClickListener;
 import listeners.OnShareClickListener;
 import models.authors.Author;
 import models.authors.AuthorDetails;
@@ -100,9 +101,10 @@ public class DashboardFragment extends Fragment {
         TextView quoteTextView = (TextView) view.findViewById(R.id.quote_text);
         quoteTextView.setTypeface(AppHelper.getRalewayLight(getContext()));
         quoteTextView.setText(mQuote.getQuoteText());
+        //quoteTextView.setOnClickListener(new OnQuoteClickListener(, mQuote));
 
         final TextView authorTextView = (TextView) view.findViewById(R.id.author);
-        authorTextView.setText("- " + mQuote.getAuthor().getAuthorName() + "-");
+        authorTextView.setText("- " + mQuote.getAuthor().getAuthorName() + " -");
         authorTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
