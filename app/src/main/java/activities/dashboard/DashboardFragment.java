@@ -49,7 +49,7 @@ public class DashboardFragment extends Fragment implements Serializable {
         args.putSerializable(ARG_FAVORITE_QUOTES, favoriteQuotes);
         args.putSerializable(ARG_QUOTE, quote);
         args.putInt(ARG_PAGE, page);
-        //args.putSerializable(ARG_PAGER_ADAPTER, adapter);
+//        args.putSerializable(ARG_PAGER_ADAPTER, adapter);
 
         DashboardFragment fragment = new DashboardFragment();
         fragment.setArguments(args);
@@ -64,7 +64,7 @@ public class DashboardFragment extends Fragment implements Serializable {
         mQuote = (Quote) getArguments().getSerializable(ARG_QUOTE);
         mFavoriteQuotes = (ArrayList<Quote>) getArguments().getSerializable(ARG_FAVORITE_QUOTES);
         mFavoriteAuthors = (ArrayList<Author>) getArguments().getSerializable(ARG_FAVORITE_AUTHORS);
-        //adapter = (DashboardPagerAdapter) getArguments().getSerializable(ARG_PAGER_ADAPTER);
+//        adapter = (DashboardPagerAdapter) getArguments().getSerializable(ARG_PAGER_ADAPTER);
     }
 
     @Nullable
@@ -132,7 +132,7 @@ public class DashboardFragment extends Fragment implements Serializable {
         mFavoriteAuthor.setImageResource(mQuote.getAuthor().isFavorite() ?
                 R.drawable.ic_author : R.drawable.ic_author_empty);
 
-        mFavoriteAuthor.setOnClickListener(new OnFavoriteAuthorClickListener(mFavoriteAuthor.getContext(),
+        mFavoriteAuthor.setOnClickListener(new OnFavoriteAuthorClickListener(getActivity(),
                 mQuote.getAuthor(), mFavoriteAuthors, mFavoriteAuthor, null, false, null, null));
 
         mFavoriteQuote = (ImageView) view.findViewById(R.id.dashboard_favorite);

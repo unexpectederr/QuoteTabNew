@@ -40,7 +40,7 @@ public class DashboardPagerAdapter extends FragmentStatePagerAdapter implements 
     @Override
     public Fragment getItem(int position) {
         return DashboardFragment.getNewInstance(position, mItems.get(position),
-                favoriteQuotes, favoriteAuthors, this.getRegisteredFragments());
+                favoriteQuotes, favoriteAuthors, this);
     }
 
     @Override

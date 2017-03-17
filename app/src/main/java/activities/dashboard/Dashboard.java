@@ -330,22 +330,26 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                     favoriteAuthors = ReadAndWriteToFile.getFavoriteAuthors(this);
                 }
 
-                ArrayList<Fragment> fragments = ((DashboardPagerAdapter)
-                        mPager.getAdapter()).getRegisteredFragments();
-
-                for (int j = 0; j < fragments.size(); j++) {
-
-                    if (fragments.get(j) != null)
-                        ((DashboardFragment) fragments.get(j))
-                                .refreshData(favoriteAuthors, favoriteQuotes);
-
-                }
+                refreshFragmentData(favoriteAuthors, favoriteQuotes);
 
             } else if (resultCode == FavoriteQuotes.RESULT_CANCELED) {
 
                 AppHelper.showToast("Something went wrong", this);
 
             }
+        }
+    }
+
+    public void refreshFragmentData(ArrayList<Author> favoriteAuthors, ArrayList<Quote> favoriteQuotes) {
+        ArrayList<Fragment> fragments = ((DashboardPagerAdapter)
+                mPager.getAdapter()).getRegisteredFragments();
+
+        for (int j = 0; j < fragments.size(); j++) {
+
+            if (fragments.get(j) != null)
+                ((DashboardFragment) fragments.get(j))
+                        .refreshData(favoriteAuthors, favoriteQuotes);
+
         }
     }
 

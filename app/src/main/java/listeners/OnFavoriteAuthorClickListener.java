@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
+import activities.dashboard.Dashboard;
 import activities.dashboard.DashboardFragment;
 import adapters.AuthorsAdapter;
 import adapters.DashboardPagerAdapter;
@@ -32,7 +33,7 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
     private boolean isFavorites;
     private RecyclerView recyclerView;
     private RelativeLayout emptyList;
-    private DashboardPagerAdapter pagerAdapter;
+//    private DashboardPagerAdapter pagerAdapter;
 
     public OnFavoriteAuthorClickListener(Context context, Author author, ArrayList<Author> favoriteAuthors,
                                          ImageView favoriteIcon, AuthorsAdapter adapter, boolean isFavorites,
@@ -83,15 +84,12 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
             }
 
             ReadAndWriteToFile.removeAuthorFromFavorites(context, author.getAuthorId());
-//
-//            if (pagerAdapter != null) {
-//                ArrayList<Fragment> fragments = pagerAdapter.getRegisteredFragments();
-//                for (int i = 0; i < fragments.size(); i++) {
-//                    ((DashboardFragment) fragments.get(i))
-//                            .refreshData(ReadAndWriteToFile.getFavoriteAuthors(context),
-//                                    ReadAndWriteToFile.getFavoriteQuotes(context));
-//                }
-//            }
+
+            if (context instanceof Dashboard) {
+
+                ((Dashboard) context).refreshFragmentData(ReadAndWriteToFile.getFavoriteAuthors(context),
+                        ReadAndWriteToFile.getFavoriteQuotes(context));
+            }
 
         } else {
 
@@ -99,14 +97,11 @@ public class OnFavoriteAuthorClickListener implements View.OnClickListener {
             author.setFavorite(true);
             ReadAndWriteToFile.addAuthorToFavorites(context, author);
 
-//            if (pagerAdapter != null) {
-//                ArrayList<Fragment> fragments = pagerAdapter.getRegisteredFragments();
-//                for (int i = 0; i < fragments.size(); i++) {
-//                    ((DashboardFragment) fragments.get(i))
-//                            .refreshData(ReadAndWriteToFile.getFavoriteAuthors(context),
-//                                    ReadAndWriteToFile.getFavoriteQuotes(context));
-//                }
-//            }
+            if (context instanceof Dashboard) {
+
+                ((Dashboard) context).refreshFragmentData(ReadAndWriteToFile.getFavoriteAuthors(context),
+                        ReadAndWriteToFile.getFavoriteQuotes(context));
+            }
         }
     }
 }
