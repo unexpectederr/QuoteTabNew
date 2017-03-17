@@ -9,50 +9,47 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-
+import java.io.Serializable;
 import java.util.ArrayList;
-
 import activities.quotes.QuotesByAuthor;
-import digitalbath.quotetab.R;
+import adapters.DashboardPagerAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
+import digitalbath.quotetab.R;
 import helpers.main.AppController;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import listeners.OnFavoriteAuthorClickListener;
 import listeners.OnFavoriteQuoteClickListener;
-import listeners.OnQuoteClickListener;
 import listeners.OnShareClickListener;
 import models.authors.Author;
-import models.authors.AuthorDetails;
-import models.authors.AuthorFields;
 import models.quotes.Quote;
-import models.quotes.QuoteReference;
 
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends Fragment implements Serializable {
 
     private static final String ARG_QUOTE = "ARG_QUOTE";
     private static final String ARG_PAGE = "ARG_PAGE";
     private static final String ARG_FAVORITE_QUOTES = "ARG_FAVORITE_QUOTES";
     private static final String ARG_FAVORITE_AUTHORS = "ARG_FAVORITE_AUTHORS";
+    private static final String ARG_PAGER_ADAPTER = "ARG_PAGER_ADAPTER";
 
     private Quote mQuote;
 
     private ArrayList<Quote> mFavoriteQuotes;
     private ArrayList<Author> mFavoriteAuthors;
-
     private ImageView mFavoriteAuthor, mFavoriteQuote;
+    private DashboardPagerAdapter adapter;
 
     public static DashboardFragment getNewInstance(int page, Quote quote,
                                                    ArrayList<Quote> favoriteQuotes,
-                                                   ArrayList<Author> favoriteAuthors) {
+                                                   ArrayList<Author> favoriteAuthors, DashboardPagerAdapter adapter) {
 
         Bundle args = new Bundle();
         args.putSerializable(ARG_FAVORITE_AUTHORS, favoriteAuthors);
         args.putSerializable(ARG_FAVORITE_QUOTES, favoriteQuotes);
         args.putSerializable(ARG_QUOTE, quote);
         args.putInt(ARG_PAGE, page);
+        //args.putSerializable(ARG_PAGER_ADAPTER, adapter);
 
         DashboardFragment fragment = new DashboardFragment();
         fragment.setArguments(args);
@@ -67,6 +64,7 @@ public class DashboardFragment extends Fragment {
         mQuote = (Quote) getArguments().getSerializable(ARG_QUOTE);
         mFavoriteQuotes = (ArrayList<Quote>) getArguments().getSerializable(ARG_FAVORITE_QUOTES);
         mFavoriteAuthors = (ArrayList<Author>) getArguments().getSerializable(ARG_FAVORITE_AUTHORS);
+        //adapter = (DashboardPagerAdapter) getArguments().getSerializable(ARG_PAGER_ADAPTER);
     }
 
     @Nullable
@@ -76,7 +74,7 @@ public class DashboardFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.dashboard_fragment, container, false);
 
-        ImageView cardImage = (android.widget.ImageView) view.findViewById(R.id.backdrop);
+        ImageView cardImage = (ImageView) view.findViewById(R.id.backdrop);
 
         AppController.loadImageIntoView(getContext(), mQuote.getImageId(), cardImage, true, true);
 
@@ -101,7 +99,6 @@ public class DashboardFragment extends Fragment {
         TextView quoteTextView = (TextView) view.findViewById(R.id.quote_text);
         quoteTextView.setTypeface(AppHelper.getRalewayLight(getContext()));
         quoteTextView.setText(mQuote.getQuoteText());
-        //quoteTextView.setOnClickListener(new OnQuoteClickListener(, mQuote));
 
         final TextView authorTextView = (TextView) view.findViewById(R.id.author);
         authorTextView.setText("- " + mQuote.getAuthor().getAuthorName() + " -");
@@ -133,13 +130,12 @@ public class DashboardFragment extends Fragment {
         mQuote.getAuthor().setFavorite(mQuote.getAuthor().isFavorite());
 
         mFavoriteAuthor.setImageResource(mQuote.getAuthor().isFavorite() ?
-                R.drawable.ic_author : R.drawable.ic_author_empty );
+                R.drawable.ic_author : R.drawable.ic_author_empty);
 
         mFavoriteAuthor.setOnClickListener(new OnFavoriteAuthorClickListener(mFavoriteAuthor.getContext(),
                 mQuote.getAuthor(), mFavoriteAuthors, mFavoriteAuthor, null, false, null, null));
 
         mFavoriteQuote = (ImageView) view.findViewById(R.id.dashboard_favorite);
-
 
         for (int i = 0; i < mFavoriteQuotes.size(); i++) {
             if (mQuote.getQuoteId().equals(mFavoriteQuotes.get(i).getQuoteId())) {
@@ -162,7 +158,7 @@ public class DashboardFragment extends Fragment {
         mQuote.setFavorite(false);
         mFavoriteAuthors = favoriteAuthors;
 
-        for (int i = 0; i <  favoriteQuotes.size(); i++) {
+        for (int i = 0; i < favoriteQuotes.size(); i++) {
             if (mQuote.getQuoteId()
                     .equals(favoriteQuotes.get(i).getQuoteId())) {
                 mQuote.setFavorite(true);
@@ -175,13 +171,14 @@ public class DashboardFragment extends Fragment {
         mQuote.getAuthor().setFavorite(false);
         mFavoriteQuotes = favoriteQuotes;
 
-        for (int i = 0; i <  favoriteAuthors.size(); i++) {
+        for (int i = 0; i < favoriteAuthors.size(); i++) {
             if (mQuote.getAuthor().getAuthorId()
                     .equals(favoriteAuthors.get(i).getAuthorId())) {
-                mQuote.getAuthor().setFavorite(true);            }
+                mQuote.getAuthor().setFavorite(true);
+            }
         }
 
         mFavoriteAuthor.setImageResource(mQuote.getAuthor().isFavorite() ?
-                R.drawable.ic_author : R.drawable.ic_author_empty );
+                R.drawable.ic_author : R.drawable.ic_author_empty);
     }
 }

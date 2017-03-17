@@ -82,6 +82,7 @@ public class Topics extends AppCompatActivity {
 
                         if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                             loading = true;
+                            findViewById(R.id.smooth_progress_bar).setVisibility(View.VISIBLE);
                             loadMoreTopics(page);
                             page++;
                         }
@@ -106,7 +107,7 @@ public class Topics extends AppCompatActivity {
                 topicsRecycler.setAdapter(adapter);
 
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
-
+                findViewById(R.id.smooth_progress_bar).setVisibility(View.GONE);
             }
 
             @Override
@@ -115,22 +116,25 @@ public class Topics extends AppCompatActivity {
                 AppHelper.showToast(getResources().getString(R.string.toast_error_message), Topics.this);
 
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
+//                findViewById(R.id.smooth_progress_bar).setVisibility(View.GONE);
 
-                final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
-                fail.setVisibility(View.VISIBLE);
+                if (page == 1) {
+                    final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
+                    fail.setVisibility(View.VISIBLE);
 
-                final Button reload = (Button) findViewById(R.id.reload);
-                reload.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    final Button reload = (Button) findViewById(R.id.reload);
+                    reload.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                        reload.startAnimation(AppHelper.getRotateAnimation(Topics.this));
-                        findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
-                        initializeContent();
-                        loadTopics(topicsRecycler);
-                        fail.setVisibility(View.GONE);
-                    }
-                });
+                            reload.startAnimation(AppHelper.getRotateAnimation(Topics.this));
+                            findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+                            initializeContent();
+                            loadTopics(topicsRecycler);
+                            fail.setVisibility(View.GONE);
+                        }
+                    });
+                }
             }
         });
     }

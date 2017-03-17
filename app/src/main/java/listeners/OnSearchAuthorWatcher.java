@@ -65,9 +65,9 @@ public class OnSearchAuthorWatcher implements TextWatcher {
 
             if (newAuthorGroup.getAuthors().size() != 0) {
 
-                Author authorLast = new Author();
+                AuthorDetails authorLast = new AuthorDetails();
                 authorLast.setLast(true);
-                newAuthorGroup.getAuthors().add(authorLast);
+                newAuthorGroup.getAuthorDetailsList().add(authorLast);
                 authorGroup.add(newAuthorGroup);
             }
         }

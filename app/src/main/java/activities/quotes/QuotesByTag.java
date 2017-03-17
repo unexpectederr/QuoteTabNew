@@ -95,23 +95,25 @@ public class QuotesByTag extends AppCompatActivity {
                 AppHelper.showToast(getResources().getString(R.string.toast_error_message), QuotesByTag.this);
 
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
-                findViewById(R.id.smooth_progress_bar).setVisibility(View.GONE);
+                //findViewById(R.id.smooth_progress_bar).setVisibility(View.GONE);
 
-                final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
-                fail.setVisibility(View.VISIBLE);
+                if (page == 1) {
+                    final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
+                    fail.setVisibility(View.VISIBLE);
 
-                final Button reload = (Button) findViewById(R.id.reload);
-                reload.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    final Button reload = (Button) findViewById(R.id.reload);
+                    reload.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                        reload.startAnimation(AppHelper.getRotateAnimation(QuotesByTag.this));
-                        findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
-                        initializeContent(tag);
-                        getQuotesByTag(tag, page);
-                        fail.setVisibility(View.GONE);
-                    }
-                });
+                            reload.startAnimation(AppHelper.getRotateAnimation(QuotesByTag.this));
+                            findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+                            initializeContent(tag);
+                            getQuotesByTag(tag, page);
+                            fail.setVisibility(View.GONE);
+                        }
+                    });
+                }
             }
         });
     }

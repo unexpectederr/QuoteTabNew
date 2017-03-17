@@ -119,24 +119,24 @@ public class TopQuotes extends AppCompatActivity {
 
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
 
-                final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
-                fail.setVisibility(View.VISIBLE);
+                if (page == 1) {
+                    final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
+                    fail.setVisibility(View.VISIBLE);
 
-                final Button reload = (Button) findViewById(R.id.reload);
-                reload.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    final Button reload = (Button) findViewById(R.id.reload);
+                    reload.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                        reload.startAnimation(AppHelper.getRotateAnimation(TopQuotes.this));
-                        findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
-                        initializeRecyclerView();
-                        loadTopQuotes(topQuotesRecycler);
-                        fail.setVisibility(View.GONE);
-                    }
-                });
-
+                            reload.startAnimation(AppHelper.getRotateAnimation(TopQuotes.this));
+                            findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+                            initializeRecyclerView();
+                            loadTopQuotes(topQuotesRecycler);
+                            fail.setVisibility(View.GONE);
+                        }
+                    });
+                }
             }
-
         });
     }
 

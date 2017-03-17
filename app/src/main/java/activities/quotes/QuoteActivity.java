@@ -145,7 +145,6 @@ public class QuoteActivity extends AppCompatActivity {
     private void bindHeader() {
 
         TextView quoteText = (TextView) findViewById(R.id.quoteText);
-        LinearLayout quoteTags = (LinearLayout) findViewById(R.id.quote_tags);
         ImageView cardImage = (ImageView) findViewById(R.id.card_image);
         TextView authorName = (TextView) findViewById(R.id.card_author_name);
 
@@ -157,7 +156,7 @@ public class QuoteActivity extends AppCompatActivity {
 
         authorName.setText("- " + mQuote.getAuthor().getAuthorName() + " -");
         authorName.setOnClickListener(new OnAuthorClickListener(this, mQuote
-                    .getAuthor().getAuthorId()));
+                .getAuthor().getAuthorId()));
 
         ImageView shareIcon = (ImageView) findViewById(R.id.share_quote_icon);
 
@@ -173,35 +172,55 @@ public class QuoteActivity extends AppCompatActivity {
                 null));
 
         String[] tags = mQuote.getCategories().split(" ");
-
-        quoteTags.removeAllViews();
+        LinearLayout quoteTags = (LinearLayout) findViewById(R.id.tags);
 
         if (tags[0].trim().length() != 0) {
-            for (int i = 0; i < tags.length; i++) {
 
-                if (i < Constants.MAX_NUMBER_OF_QUOTES) {
+            for (int i = 0; i < 4; i++) {
 
-                    TextView quoteTag = new TextView(this);
-                    quoteTag.setBackgroundResource(R.drawable.background_outline_g);
-                    quoteTag.setText(tags[i]);
-                    quoteTag.setPadding(30, 15, 30, 15);
+                TextView tag = (TextView) quoteTags.getChildAt(i);
 
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                    ViewGroup.LayoutParams.WRAP_CONTENT));
+                if (tags.length > i && tags[i] != null) {
 
-                    params.setMarginStart(12);
+                    tag.setVisibility(View.VISIBLE);
+                    tag.setText(tags[i]);
+                    tag.setOnClickListener(new OnTagClickListener
+                            (this, tags[i], false));
 
-                    quoteTag.setLayoutParams(params);
-                    quoteTag.setGravity(Gravity.CENTER);
-                    quoteTag.setTextColor(this.getResources().getColor(R.color.light_gray));
-                    quoteTag.setTypeface(AppHelper.getRalewayLight(this));
-                    quoteTag.setOnClickListener(new OnTagClickListener(this, tags[i], false));
+                } else {
 
-                    quoteTags.addView(quoteTag);
+                    tag.setVisibility(View.GONE);
+
                 }
             }
         }
+
+//        if (tags[0].trim().length() != 0) {
+//            for (int i = 0; i < tags.length; i++) {
+//
+//                if (i < Constants.MAX_NUMBER_OF_QUOTES) {
+//
+//                    TextView quoteTag = new TextView(this);
+//                    quoteTag.setBackgroundResource(R.drawable.background_outline_g);
+//                    quoteTag.setText(tags[i]);
+//                    quoteTag.setPadding(30, 15, 30, 15);
+//
+//                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//                            new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+//                                    ViewGroup.LayoutParams.WRAP_CONTENT));
+//
+//                    params.setMarginStart(12);
+//
+//                    quoteTag.setLayoutParams(params);
+//                    quoteTag.setGravity(Gravity.CENTER);
+//                    quoteTag.setTextColor(this.getResources().getColor(R.color.light_gray));
+//                    quoteTag.setTypeface(AppHelper.getRalewayLight(this));
+//                    quoteTag.setOnClickListener(new OnTagClickListener(this, tags[i], false));
+//
+//                    quoteTags.addView(quoteTag);
+//                }
+//            }
+//        }
     }
 
     //region FIREBASE_AUTH
@@ -279,7 +298,8 @@ public class QuoteActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        if (!task.isSuccessful()) {}
+                        if (!task.isSuccessful()) {
+                        }
 
                     }
                 });

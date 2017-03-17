@@ -4,8 +4,10 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.ViewGroup;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import activities.dashboard.DashboardFragment;
@@ -14,7 +16,7 @@ import models.authors.AuthorDetails;
 import models.quotes.Quote;
 import models.quotes.QuoteReference;
 
-public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
+public class DashboardPagerAdapter extends FragmentStatePagerAdapter implements Serializable {
 
     private ArrayList<Fragment> registeredFragments = new ArrayList<>();
     private ArrayList<Quote> mItems;
@@ -38,7 +40,7 @@ public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return DashboardFragment.getNewInstance(position, mItems.get(position),
-                favoriteQuotes, favoriteAuthors);
+                favoriteQuotes, favoriteAuthors, this.getRegisteredFragments());
     }
 
     @Override

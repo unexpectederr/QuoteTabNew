@@ -4,11 +4,13 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import java.io.Serializable;
+
 /**
  * Created by Spaja on 14-Feb-17.
  */
 
-public class QuoteImageView extends ImageView {
+public class QuoteImageView extends ImageView implements Serializable {
 
     private String imageUrl;
     private String effectClassName;

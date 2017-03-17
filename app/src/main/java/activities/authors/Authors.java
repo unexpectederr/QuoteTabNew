@@ -117,7 +117,7 @@ public class Authors extends AppCompatActivity {
         }
     }
 
-    private void loadAuthors(String letter, int page) {
+    private void loadAuthors(String letter, final int page) {
 
         QuoteTabApi.quoteTabApi.getAuthorsByLetter(letter, page).enqueue(new Callback<models.authors.Authors>() {
             @Override
@@ -132,24 +132,27 @@ public class Authors extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<models.authors.Authors> call, Throwable t) {
+
                 AppHelper.showToast(getResources().getString(R.string.toast_error_message), Authors.this);
 
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
 
-                final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
-                fail.setVisibility(View.VISIBLE);
+                if (page == 1) {
+                    final RelativeLayout fail = (RelativeLayout) findViewById(R.id.fail_layout);
+                    fail.setVisibility(View.VISIBLE);
 
-                final Button reload = (Button) findViewById(R.id.reload);
-                reload.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    final Button reload = (Button) findViewById(R.id.reload);
+                    reload.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                        reload.startAnimation(AppHelper.getRotateAnimation(Authors.this));
-                        findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
-                        initializeContent();
-                        fail.setVisibility(View.GONE);
-                    }
-                });
+                            reload.startAnimation(AppHelper.getRotateAnimation(Authors.this));
+                            findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+                            initializeContent();
+                            fail.setVisibility(View.GONE);
+                        }
+                    });
+                }
             }
         });
     }
