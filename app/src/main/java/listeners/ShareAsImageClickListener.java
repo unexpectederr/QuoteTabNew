@@ -77,37 +77,52 @@ public class ShareAsImageClickListener implements View.OnClickListener,
 
     }
 
+
     private void loadImage() {
 
-        SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>() {
+        if (mQuoteImage != null) {
 
-            @Override
-            public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+            mQuoteImage.setDrawingCacheEnabled(true);
+            Bitmap bm = Bitmap.createBitmap(mQuoteImage.getDrawingCache());
+            mQuoteImage.setDrawingCacheEnabled(false);
+            Bitmap bitmap = AppHelper.createBitmapFromView(mContext, mQuoteText, mAuthorName, bm, mQuoteLines);
+            shareImage(bitmap);
 
-                final Bitmap bm = AppHelper.createBitmapFromView(mContext, mQuoteText, mAuthorName,
-                        bitmap, mQuoteLines);
-                shareImage(bm);
-            }
+        } else {
 
-            @Override
-            public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                super.onLoadFailed(e, errorDrawable);
-            }
-        };
+            SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>() {
 
-        Glide.with(mContext)
-                .load(mQuoteImageUrl)
-                .asBitmap()
-                .into(target);
+                @Override
+                public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
 
+                    final Bitmap bm = AppHelper.createBitmapFromView(mContext, mQuoteText, mAuthorName,
+                            bitmap, mQuoteLines);
+                    shareImage(bm);
+                }
+
+                @Override
+                public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                    super.onLoadFailed(e, errorDrawable);
+                }
+            };
+
+            Glide.with(mContext)
+                    .load(mQuoteImageUrl)
+                    .asBitmap()
+                    .into(target);
+
+        }
     }
 
     private void shareImage(Bitmap bitmap) {
 
+
         ReadAndWriteToFile.writeQuoteImageToCache(mContext, bitmap);
 
         File imagePath = new File(mContext.getCacheDir(), "images");
-        File newFile = new File(imagePath, "image.jpg");
+
+        File newFile;
+        newFile = new File(imagePath, "image.jpg");
 
         Uri contentUri = FileProvider.getUriForFile(mContext,
                 "com.digitalbath.quotetabnew.fileprovider", newFile);

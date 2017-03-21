@@ -19,8 +19,6 @@ public class Constants {
     public static final String QUOTE_TAG = "QUOTE_TAG";
     public static final String AUTHOR_ID = "AUTHOR_ID";
 
-    public static final int MAX_NUMBER_OF_QUOTES = 4;
-
     public static final String NAVIGATION_TIP = "NAVIGATION_TIP";
     public static final String SEARCH_AUTHORS_TIP = "SEARCH_AUTHORS_TIP";
     public static final String SEARCH_TOPICS_TIP = "SEARCH_TOPICS_TIP";
