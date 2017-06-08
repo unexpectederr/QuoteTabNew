@@ -22,7 +22,7 @@ import retrofit2.http.Query;
 
 public interface QuoteTabApi {
 
-    String BASE_URL = "https://www.quotetab.com/";
+    String BASE_URL = "http://www.quotetab.com/";
     String ENDPOINT = "api/v1.0/";
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)

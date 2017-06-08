@@ -39,17 +39,6 @@
                         android:textStyle="bold"
                         android:textSize="19dp"/>
 
-                    <EditText
-                        android:id="@+id/search_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/search_icon"
-                        android:ems="10"
-                        android:hint="Search author"
-                        android:inputType="textPersonName"
-                        android:visibility="gone"/>
-
                 </RelativeLayout>
 
             </android.support.v7.widget.Toolbar>

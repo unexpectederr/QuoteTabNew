@@ -203,7 +203,7 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
         TextView quoteText;
         ImageView shareIcon;
-        LinearLayout quoteTags;
+        LinearLayout    quoteTags;
         ImageView cardImage;
         TextView authorName;
         ImageView favoriteIcon;

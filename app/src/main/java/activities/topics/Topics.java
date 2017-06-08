@@ -20,6 +20,7 @@ import adapters.TopicsAdapter;
 import helpers.main.AppHelper;
 import helpers.main.Constants;
 import networking.QuoteTabApi;
+import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -105,7 +106,6 @@ public class Topics extends AppCompatActivity {
 
                 adapter = new TopicsAdapter(Topics.this, response.body().getTopics());
                 topicsRecycler.setAdapter(adapter);
-
                 findViewById(R.id.progress_bar).setVisibility(View.GONE);
                 findViewById(R.id.smooth_progress_bar).setVisibility(View.GONE);
             }
@@ -147,6 +147,7 @@ public class Topics extends AppCompatActivity {
 
                 adapter.addTopics(response.body().getTopics());
                 loading = false;
+                findViewById(R.id.smooth_progress_bar).setVisibility(View.GONE);
             }
 
             @Override
