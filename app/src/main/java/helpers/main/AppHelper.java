@@ -300,9 +300,9 @@ public class AppHelper {
     }
 
     public static void createAndSaveImage(Activity context, String quoteText,
-                                          String authroName, Bitmap quoteImage, int quoteLines) {
+                                          String authorName, Bitmap quoteImage, int quoteLines) {
 
-        Bitmap bm = AppHelper.createBitmapFromView(context, quoteText, authroName, quoteImage, quoteLines);
+        Bitmap bm = AppHelper.createBitmapFromView(context, quoteText, authorName, quoteImage, quoteLines);
 
         if (bm != null) {
 
