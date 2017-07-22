@@ -194,33 +194,6 @@ public class QuoteActivity extends AppCompatActivity {
                 }
             }
         }
-
-//        if (tags[0].trim().length() != 0) {
-//            for (int i = 0; i < tags.length; i++) {
-//
-//                if (i < Constants.MAX_NUMBER_OF_QUOTES) {
-//
-//                    TextView quoteTag = new TextView(this);
-//                    quoteTag.setBackgroundResource(R.drawable.background_outline_g);
-//                    quoteTag.setText(tags[i]);
-//                    quoteTag.setPadding(30, 15, 30, 15);
-//
-//                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//                            new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-//                                    ViewGroup.LayoutParams.WRAP_CONTENT));
-//
-//                    params.setMarginStart(12);
-//
-//                    quoteTag.setLayoutParams(params);
-//                    quoteTag.setGravity(Gravity.CENTER);
-//                    quoteTag.setTextColor(this.getResources().getColor(R.color.light_gray));
-//                    quoteTag.setTypeface(AppHelper.getRalewayLight(this));
-//                    quoteTag.setOnClickListener(new OnTagClickListener(this, tags[i], false));
-//
-//                    quoteTags.addView(quoteTag);
-//                }
-//            }
-//        }
     }
 
     //region FIREBASE_AUTH
