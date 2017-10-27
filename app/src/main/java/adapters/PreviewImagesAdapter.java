@@ -1,6 +1,7 @@
 package adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,24 +41,20 @@ public class PreviewImagesAdapter extends RecyclerView.Adapter<PreviewImagesAdap
         this.effectsAdapter = effectsAdapter;
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView quoteImage, shader;
-
-        MyViewHolder(View itemView) {
-            super(itemView);
-
-            quoteImage = (ImageView) itemView.findViewById(R.id.quote_background_image);
-            shader = (ImageView) itemView.findViewById(R.id.shader);
-        }
-    }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.preview_image_list_item, parent, false);
 
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(screenWidth/4, screenWidth/4);
+        ViewGroup.LayoutParams lp;
+
+        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            lp = new ViewGroup.LayoutParams(screenWidth / 4, screenWidth / 5);
+        } else {
+            lp = new ViewGroup.LayoutParams(screenWidth / 4, screenWidth / 4);
+        }
+
         v.setLayoutParams(lp);
 
         return new PreviewImagesAdapter.MyViewHolder(v);
@@ -97,6 +94,18 @@ public class PreviewImagesAdapter extends RecyclerView.Adapter<PreviewImagesAdap
     @Override
     public int getItemCount() {
         return mDataSet.size();
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView quoteImage, shader;
+
+        MyViewHolder(View itemView) {
+            super(itemView);
+
+            quoteImage = (ImageView) itemView.findViewById(R.id.quote_background_image);
+            shader = (ImageView) itemView.findViewById(R.id.shader);
+        }
     }
 
 }

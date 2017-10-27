@@ -1,6 +1,7 @@
 package activities.quote_maker;
 
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 
@@ -105,13 +107,18 @@ public class QuoteMaker extends AppCompatActivity {
             imageSuggestion.setImageId(AppController.getBitmapIndex());
             imageSuggestions.add(imageSuggestion);
         }
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         RecyclerView imagesRecycler = (RecyclerView) findViewById(R.id.background_images_recycler);
         GridLayoutManager manager = new GridLayoutManager(this, 2, LinearLayoutManager.HORIZONTAL, false);
         imagesRecycler.setLayoutManager(manager);
 
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            RelativeLayout topLayout = (RelativeLayout) findViewById(R.id.top_layout);
+            topLayout.getLayoutParams().height = metrics.heightPixels / 2 + metrics.heightPixels / 7;
+        }
+
 
         PreviewImagesAdapter adapter = new PreviewImagesAdapter(this, imageSuggestions,
                 quoteImage, metrics.widthPixels, effectsAdapter);
