@@ -15,7 +15,7 @@ public class ImageSuggestion {
     private String largeImageUrl;
 
     @SerializedName("previewUrl")
-    private String priviewImageUrl;
+    private String previewImageUrl;
 
     public void setImageId(int imageId) {
         this.imageId = imageId;
@@ -29,8 +29,8 @@ public class ImageSuggestion {
         return largeImageUrl;
     }
 
-    public String getPriviewImageUrl() {
-        return priviewImageUrl;
+    public String getPreviewImageUrl() {
+        return previewImageUrl;
     }
 
     public boolean isSelected() {

@@ -75,10 +75,10 @@ public class PreviewImagesAdapter extends RecyclerView.Adapter<PreviewImagesAdap
         } else {
 
             Glide.with(context)
-                    .load(mDataSet.get(position).getPriviewImageUrl())
+                    .load(mDataSet.get(position).getPreviewImageUrl())
                     .into(holder.quoteImage);
 
-            imageUrl = mDataSet.get(position).getPriviewImageUrl();
+            imageUrl = mDataSet.get(position).getPreviewImageUrl();
         }
 
         holder.quoteImage.setOnClickListener(new OnPreviewImageClickListener
